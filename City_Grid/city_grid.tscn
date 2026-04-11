@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://qa0jokklwoos"]
+
+[ext_resource type="Texture2D" uid="uid://v8bc35tkx416" path="res://assets/48 48 grid.png" id="1_5veu3"]
+[ext_resource type="Texture2D" uid="uid://r7mlhuig5t6u" path="res://icon.svg" id="2_pjegq"]
+
+[node name="City_Grid" type="Node2D" unique_id=81070115]
+
+[node name="4848Grid" type="Sprite2D" parent="." unique_id=1875270451]
+texture = ExtResource("1_5veu3")
+centered = false
+
+[node name="Van" type="Sprite2D" parent="." unique_id=886823964]
+position = Vector2(456.00003, 410)
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("2_pjegq")
+
+[node name="Storm" type="Sprite2D" parent="." unique_id=2133752693]
+modulate = Color(1, 0, 0.047058824, 1)
+position = Vector2(217, 167)
+texture = ExtResource("2_pjegq")
