@@ -19,12 +19,14 @@ config/icon="res://icon.svg"
 
 buses/default_bus_layout="uid://igd5p1vdrhcv"
 
+[autoload]
+
+GlobalSignals="*uid://do68a770j1li7"
+
 [display]
 
 window/size/viewport_width=640
 window/size/viewport_height=480
-window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
 
 [physics]
 
