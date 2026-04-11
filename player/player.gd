@@ -2,8 +2,10 @@ extends CharacterBody3D
 
 @onready var sub_viewport: SubViewport = $"../MeshInstance3D/SubViewport"
 @onready var camera_pivot: Node3D = $CameraPivot
-var mouse_motion := Vector2.ZERO
 @onready var mesh_instance_3d: MeshInstance3D = $"../MeshInstance3D"
+@onready var city_grid: Node2D = $"../Screen Box/CSGBox3D6/Node3D/SubViewport/City_Grid"
+
+var mouse_motion := Vector2.ZERO
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -23,6 +25,10 @@ func _input(event: InputEvent) -> void:
 			
 	if event.is_action_pressed("ui_cancel"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
+	if event is InputEventMouseButton:
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			GlobalSignals.clicked.emit()
 
 func handle_camera_rotation() -> void:
 	rotate_y(mouse_motion.x)

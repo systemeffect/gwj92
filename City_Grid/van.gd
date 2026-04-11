@@ -4,6 +4,9 @@ extends Sprite2D
 var target_loc_x: float = 0
 var target_loc_y: float = 0
 
+func _ready() -> void:
+	GlobalSignals.clicked.connect(_on_clicked)
+
 func _process(delta):
 	var pos = position
 	
@@ -33,3 +36,6 @@ func _input(event: InputEvent) -> void:
 		move("up")
 	if event.is_action_pressed("ui_down"):
 		move("down")
+
+func _on_clicked() -> void:
+	move("left")

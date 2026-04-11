@@ -16,6 +16,7 @@ position = Vector2(455.99997, 408)
 scale = Vector2(0.35, 0.35)
 texture = ExtResource("2_pjegq")
 script = ExtResource("3_pjegq")
+VAN_SPEED = null
 
 [node name="Storm" type="Sprite2D" parent="." unique_id=2133752693]
 modulate = Color(1, 0, 0.047058824, 1)
