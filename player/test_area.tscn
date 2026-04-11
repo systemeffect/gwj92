@@ -41,7 +41,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.675358, 0, -1.5627699)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8845929, 1.1920929e-07, 0.78914165)
 
 [node name="Screen Box" type="CSGBox3D" parent="." unique_id=926379620]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.004855573, 2.3841858e-07, 1.5269425)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.004855573, 2.3841858e-07, 1.1241202)
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="Screen Box" unique_id=1792538192]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0011029243, 0.8227751, -0.0020189285)
@@ -51,7 +51,7 @@ transform = Transform3D(-0.08, 0, -1.20796635e-08, 0, 0.08, 0, 1.20796635e-08, 0
 
 [node name="SubViewport" type="SubViewport" parent="Screen Box/CSGBox3D6/Node3D" unique_id=1217609497]
 handle_input_locally = false
-size = Vector2i(1152, 648)
+size = Vector2i(640, 480)
 render_target_update_mode = 4
 
 [node name="City_Grid" parent="Screen Box/CSGBox3D6/Node3D/SubViewport" unique_id=81070115 instance=ExtResource("2_t2wcy")]

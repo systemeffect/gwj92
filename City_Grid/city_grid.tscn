@@ -5,18 +5,20 @@
 [ext_resource type="Script" uid="uid://6geatq1krddx" path="res://City_Grid/van.gd" id="3_pjegq"]
 
 [node name="City_Grid" type="Node2D" unique_id=81070115]
+scale = Vector2(1.0022026, 0.9975787)
 
 [node name="4848Grid" type="Sprite2D" parent="." unique_id=1875270451]
 texture = ExtResource("1_5veu3")
 centered = false
 
 [node name="Van" type="Sprite2D" parent="." unique_id=886823964]
-position = Vector2(793, 599)
+position = Vector2(455.99997, 408)
 scale = Vector2(0.35, 0.35)
 texture = ExtResource("2_pjegq")
 script = ExtResource("3_pjegq")
 
 [node name="Storm" type="Sprite2D" parent="." unique_id=2133752693]
 modulate = Color(1, 0, 0.047058824, 1)
-position = Vector2(217, 167)
+position = Vector2(215.99998, 167.99998)
+scale = Vector2(1.0732685, 1.0703458)
 texture = ExtResource("2_pjegq")
