@@ -1,11 +1,16 @@
 extends CharacterBody3D
 
+@onready var sub_viewport: SubViewport = $"../MeshInstance3D/SubViewport"
 @onready var camera_pivot: Node3D = $CameraPivot
 var mouse_motion := Vector2.ZERO
+@onready var mesh_instance_3d: MeshInstance3D = $"../MeshInstance3D"
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-
+	#var scene = load("res://City_Grid/city_grid.tscn")
+	#var instance = scene.instantiate()
+	#sub_viewport.add_child(instance)
+	
 func _physics_process(delta: float) -> void:
 	
 	# Handle camera rotation.

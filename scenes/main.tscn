@@ -9,7 +9,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tbgi4"]
 shader = ExtResource("1_jyhfs")
 shader_parameter/smearing = 0.2800000133
-shader_parameter/color_offset = 0.005000001867439999
+shader_parameter/color_offset = 0.00500000186743999
 shader_parameter/sharpening = 0.4
 shader_parameter/static_noise = 0.2670000126825
 shader_parameter/crack_center = Vector2(0.15, 0.85)

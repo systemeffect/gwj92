@@ -16,16 +16,8 @@ sky = SubResource("Sky_t2wcy")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_t2wcy"]
-viewport_path = NodePath("MeshInstance3D/SubViewport")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vh4w"]
-resource_local_to_scene = true
-albedo_texture = SubResource("ViewportTexture_t2wcy")
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_bpgcd"]
-material = SubResource("StandardMaterial3D_5vh4w")
-size = Vector2(1, 3)
+[sub_resource type="ViewportTexture" id="ViewportTexture_5vh4w"]
+viewport_path = NodePath("Screen Box/CSGBox3D6/Node3D/SubViewport")
 
 [node name="Test_Area" type="Node3D" unique_id=715697939]
 
@@ -48,19 +40,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.675358, 0, -1.5627699)
 [node name="CSGBox3D4" type="CSGBox3D" parent="." unique_id=46196135]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8845929, 1.1920929e-07, 0.78914165)
 
-[node name="CSGBox3D5" type="CSGBox3D" parent="." unique_id=926379620]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.004855573, 2.3841858e-07, 1.0894251)
+[node name="Screen Box" type="CSGBox3D" parent="." unique_id=926379620]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.004855573, 2.3841858e-07, 1.5269425)
 
-[node name="CSGBox3D6" type="CSGBox3D" parent="." unique_id=1792538192]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0059584975, 0.82277536, 1.0874062)
+[node name="CSGBox3D6" type="CSGBox3D" parent="Screen Box" unique_id=1792538192]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0011029243, 0.8227751, -0.0020189285)
+
+[node name="Node3D" type="Node3D" parent="Screen Box/CSGBox3D6" unique_id=1312974713]
+transform = Transform3D(-0.08, 0, -1.20796635e-08, 0, 0.08, 0, 1.20796635e-08, 0, -0.08, 0.0059584975, 0.10126555, -0.5538614)
+
+[node name="SubViewport" type="SubViewport" parent="Screen Box/CSGBox3D6/Node3D" unique_id=1217609497]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="City_Grid" parent="Screen Box/CSGBox3D6/Node3D/SubViewport" unique_id=81070115 instance=ExtResource("2_t2wcy")]
+
+[node name="Sprite3D" type="Sprite3D" parent="Screen Box/CSGBox3D6/Node3D" unique_id=1292669091]
+transform = Transform3D(1, 4.5102815e-15, -1.1110615e-09, 1.0495077e-14, 1, 0, -1.0717258e-09, -5.551114e-15, 1.0000001, 5.820766e-09, 0, 0)
+texture = SubResource("ViewportTexture_5vh4w")
 
 [node name="Player" parent="." unique_id=63880466 instance=ExtResource("1_77di5")]
 transform = Transform3D(-0.99991226, 0, 0.013246745, 0, 1, 0, -0.013246745, 0, -0.99991226, 0, 1.0408742, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1375631216]
-transform = Transform3D(-0.92034954, 0, 0.0022161957, -0.009348991, -4.3711385e-08, -0.21817061, 4.0865733e-10, -0.9999999, 9.536539e-09, 0, 0.8964397, 0.58585775)
-mesh = SubResource("PlaneMesh_bpgcd")
-
-[node name="SubViewport" type="SubViewport" parent="MeshInstance3D" unique_id=235804499]
-
-[node name="City_Grid" parent="MeshInstance3D/SubViewport" unique_id=81070115 instance=ExtResource("2_t2wcy")]
