@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://eiyf1po3apii"]
+
+[ext_resource type="Shader" uid="uid://36rw4b0v4k5g" path="res://shaders/vhs.gdshader" id="1_2q6dc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w7c3h"]
+shader = ExtResource("1_2q6dc")
+shader_parameter/smearing = 0.5
+shader_parameter/color_offset = 0.005
+shader_parameter/sharpening = 0.4
+shader_parameter/static_noise = 0.08
+shader_parameter/crack_center = Vector2(0.15, 0.85)
+shader_parameter/crack_intensity = 0.4
+shader_parameter/crack_size = 0.35
+shader_parameter/vertical_jitter = 0.002
+shader_parameter/scanline_opacity = 0.1
+shader_parameter/vignette_intensity = 0.3
+
+[node name="Level" type="Node3D" unique_id=824859054]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=1337284146]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1285535899]
+transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 1, 2)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=27209454]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=780138220]
+material = SubResource("ShaderMaterial_w7c3h")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

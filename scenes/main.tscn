@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://bc8j3h6wl5122"]
+
+[ext_resource type="Shader" uid="uid://36rw4b0v4k5g" path="res://shaders/vhs.gdshader" id="1_jyhfs"]
+[ext_resource type="Script" uid="uid://nk1lc0xe1yne" path="res://scripts/main_menu.gd" id="1_o5qli"]
+[ext_resource type="Texture2D" uid="uid://b4bd1ae7x47et" path="res://assets/station.jpg" id="1_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://bq0h2lblalaia" path="res://scenes/settings_menu.tscn" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://eiyf1po3apii" path="res://scenes/level.tscn" id="2_sugp2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tbgi4"]
+shader = ExtResource("1_jyhfs")
+shader_parameter/smearing = 0.2800000133
+shader_parameter/color_offset = 0.005000001867439999
+shader_parameter/sharpening = 0.4
+shader_parameter/static_noise = 0.2670000126825
+shader_parameter/crack_center = Vector2(0.15, 0.85)
+shader_parameter/crack_intensity = 0.4
+shader_parameter/crack_size = 0.35
+shader_parameter/vertical_jitter = 0.002
+shader_parameter/scanline_opacity = 0.1
+shader_parameter/vignette_intensity = 0.2010000095475
+
+[node name="Main" type="Node2D" unique_id=1910522349]
+
+[node name="Menus" type="CanvasLayer" parent="." unique_id=1111475584]
+
+[node name="Control" type="Control" parent="Menus" unique_id=1197766366]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Menus/Control" unique_id=1186302834]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -24.0
+offset_right = 24.0
+offset_bottom = 952.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_tbgi4")
+
+[node name="Margin" type="MarginContainer" parent="Menus/Control" unique_id=26397259]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainMenu" type="CenterContainer" parent="Menus/Control/Margin" unique_id=2103248834]
+layout_mode = 2
+script = ExtResource("1_o5qli")
+first_level = ExtResource("2_sugp2")
+
+[node name="Panel" type="PanelContainer" parent="Menus/Control/Margin/MainMenu" unique_id=1890262896]
+layout_mode = 2
+
+[node name="Menu" type="VBoxContainer" parent="Menus/Control/Margin/MainMenu/Panel" unique_id=1214402149]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Menus/Control/Margin/MainMenu/Panel/Menu" unique_id=777629739]
+layout_mode = 2
+text = "TEMPEST BREWING"
+horizontal_alignment = 1
+
+[node name="StartButton" type="Button" parent="Menus/Control/Margin/MainMenu/Panel/Menu" unique_id=441924467]
+layout_mode = 2
+text = "START"
+
+[node name="SettingsButton" type="Button" parent="Menus/Control/Margin/MainMenu/Panel/Menu" unique_id=1963921958]
+layout_mode = 2
+text = "SETTINGS"
+
+[node name="QuitButton" type="Button" parent="Menus/Control/Margin/MainMenu/Panel/Menu" unique_id=1721969528]
+layout_mode = 2
+text = "QUIT"
+
+[node name="SettingsMenu" parent="Menus/Control/Margin" unique_id=2061315302 instance=ExtResource("2_0wfyh")]
+visible = false
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="Menus/Control" unique_id=774928820]
+material = SubResource("ShaderMaterial_tbgi4")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[connection signal="pressed" from="Menus/Control/Margin/MainMenu/Panel/Menu/StartButton" to="Menus/Control/Margin/MainMenu" method="_on_start_button_pressed"]
+[connection signal="pressed" from="Menus/Control/Margin/MainMenu/Panel/Menu/SettingsButton" to="Menus/Control/Margin/MainMenu" method="_on_settings_button_pressed"]
+[connection signal="pressed" from="Menus/Control/Margin/MainMenu/Panel/Menu/QuitButton" to="Menus/Control/Margin/MainMenu" method="_on_quit_button_pressed"]

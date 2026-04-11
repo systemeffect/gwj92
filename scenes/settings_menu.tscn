@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://bq0h2lblalaia"]
+
+[ext_resource type="Script" uid="uid://baecquldtrbd" path="res://scripts/settings_menu.gd" id="1_05p07"]
+
+[node name="SettingsMenu" type="CenterContainer" unique_id=2061315302]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_05p07")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=762262608]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Panel" unique_id=1871955024]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/Margin" unique_id=417324062]
+layout_mode = 2
+theme_override_constants/separation = 23
+
+[node name="SettingsLabel" type="Label" parent="Panel/Margin/VBoxContainer" unique_id=107501575]
+layout_mode = 2
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="MasterVolSlider" type="HSlider" parent="Panel/Margin/VBoxContainer" unique_id=1382697964]
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+
+[node name="MasterVolLabel" type="Label" parent="Panel/Margin/VBoxContainer/MasterVolSlider" unique_id=947852674]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -59.0
+offset_top = -36.0
+offset_right = 59.0
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Master Volume"
+horizontal_alignment = 1
+
+[node name="MusicVolSlider" type="HSlider" parent="Panel/Margin/VBoxContainer" unique_id=844482258]
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+
+[node name="MusicVolLabel" type="Label" parent="Panel/Margin/VBoxContainer/MusicVolSlider" unique_id=834015859]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -54.5
+offset_top = -36.0
+offset_right = 54.5
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Music Volume"
+horizontal_alignment = 1
+
+[node name="SFXVolSlider" type="HSlider" parent="Panel/Margin/VBoxContainer" unique_id=968380951]
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+
+[node name="SFXVolLabel" type="Label" parent="Panel/Margin/VBoxContainer/SFXVolSlider" unique_id=1954919111]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -45.5
+offset_top = -36.0
+offset_right = 45.5
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "SFX Volume"
+horizontal_alignment = 1
+
+[node name="BackButton" type="Button" parent="Panel/Margin/VBoxContainer" unique_id=777925082]
+layout_mode = 2
+text = "Back"
+
+[connection signal="value_changed" from="Panel/Margin/VBoxContainer/MasterVolSlider" to="." method="_on_master_vol_slider_value_changed"]
+[connection signal="value_changed" from="Panel/Margin/VBoxContainer/MusicVolSlider" to="." method="_on_music_vol_slider_value_changed"]
+[connection signal="value_changed" from="Panel/Margin/VBoxContainer/SFXVolSlider" to="." method="_on_sfx_vol_slider_value_changed"]
+[connection signal="pressed" from="Panel/Margin/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
