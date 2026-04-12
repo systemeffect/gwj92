@@ -3,7 +3,6 @@ extends CharacterBody3D
 @onready var sub_viewport: SubViewport = $"../MeshInstance3D/SubViewport"
 @onready var camera_pivot: Node3D = $CameraPivot
 @onready var mesh_instance_3d: MeshInstance3D = $"../MeshInstance3D"
-@onready var city_grid: Node2D = $"../Screen Box/CSGBox3D6/Node3D/SubViewport/City_Grid"
 
 var mouse_motion := Vector2.ZERO
 

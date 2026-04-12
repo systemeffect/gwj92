@@ -27,6 +27,7 @@ GlobalSignals="*uid://do68a770j1li7"
 
 window/size/viewport_width=640
 window/size/viewport_height=480
+window/stretch/mode="viewport"
 
 [physics]
 

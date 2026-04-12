@@ -27,15 +27,15 @@ func move (dir: String) -> void:
 	if dir == "down":
 		target_loc_y = position.y + 48.0
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_left"):
-		move("left")
-	if event.is_action_pressed("ui_right"):
-		move("right")
-	if event.is_action_pressed("ui_up"):
-		move("up")
-	if event.is_action_pressed("ui_down"):
-		move("down")
+#func _input(event: InputEvent) -> void:
+	#if event.is_action_pressed("ui_left"):
+		#move("left")
+	#if event.is_action_pressed("ui_right"):
+		#move("right")
+	#if event.is_action_pressed("ui_up"):
+		#move("up")
+	#if event.is_action_pressed("ui_down"):
+		#move("down")
 
 func _on_clicked() -> void:
 	move("left")

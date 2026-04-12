@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cqjhipkguarh2"]
 
 [ext_resource type="PackedScene" uid="uid://dqwwbfrdyaewv" path="res://player/player.tscn" id="1_77di5"]
-[ext_resource type="PackedScene" uid="uid://qa0jokklwoos" path="res://City_Grid/city_grid.tscn" id="2_t2wcy"]
+[ext_resource type="PackedScene" uid="uid://t4arc7lls1t4" path="res://City_Grid/grid_screen.tscn" id="1_t2wcy"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_77di5"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -15,9 +15,6 @@ background_mode = 2
 sky = SubResource("Sky_t2wcy")
 tonemap_mode = 2
 glow_enabled = true
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_5vh4w"]
-viewport_path = NodePath("Screen Box/CSGBox3D6/Node3D/SubViewport")
 
 [node name="Test_Area" type="Node3D" unique_id=715697939]
 
@@ -46,19 +43,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.004855573, 2.3841858e-07, 
 [node name="CSGBox3D6" type="CSGBox3D" parent="Screen Box" unique_id=1792538192]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0011029243, 0.8227751, -0.0020189285)
 
-[node name="Node3D" type="Node3D" parent="Screen Box/CSGBox3D6" unique_id=1312974713]
+[node name="GridScreen" parent="Screen Box/CSGBox3D6" unique_id=1878672563 instance=ExtResource("1_t2wcy")]
 transform = Transform3D(-0.08, 0, -1.20796635e-08, 0, 0.08, 0, 1.20796635e-08, 0, -0.08, 0.0059584975, 0.10126555, -0.5538614)
-
-[node name="SubViewport" type="SubViewport" parent="Screen Box/CSGBox3D6/Node3D" unique_id=1217609497]
-handle_input_locally = false
-size = Vector2i(640, 480)
-render_target_update_mode = 4
-
-[node name="City_Grid" parent="Screen Box/CSGBox3D6/Node3D/SubViewport" unique_id=81070115 instance=ExtResource("2_t2wcy")]
-
-[node name="Sprite3D" type="Sprite3D" parent="Screen Box/CSGBox3D6/Node3D" unique_id=1292669091]
-transform = Transform3D(1, 4.5102815e-15, -1.1110615e-09, 1.0495077e-14, 1, 0, -1.0717258e-09, -5.551114e-15, 1.0000001, 5.820766e-09, 0, 0)
-texture = SubResource("ViewportTexture_5vh4w")
 
 [node name="Player" parent="." unique_id=63880466 instance=ExtResource("1_77di5")]
 transform = Transform3D(-0.99991226, 0, 0.013246745, 0, 1, 0, -0.013246745, 0, -0.99991226, 0, 1.0408742, 0)
