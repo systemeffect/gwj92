@@ -36,7 +36,7 @@ func _on_move_initiated(moves : Array):
 			var move_amt = card.get("MOVE_AMOUNT")
 			print("move direction: " + move_dir + " and move amt: " + str(move_amt))
 			van.move(move_dir, move_amt)
-			await get_tree().create_timer(2.4).timeout
+			await get_tree().create_timer(2.0).timeout
 			print("timer timeout!")
 		else:
 			print("card is null")

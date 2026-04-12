@@ -34,7 +34,7 @@ var all_cards = {}
 var current_deck : Array[String]
 # Card IDs for all cards currently available to use as actions
 var available_cards : Array[String]
-var test_hand : Array[String]= ["3", "7", "15", "17"]
+var test_hand : Array[String]= ["3", "7", "15", "21"]
 
 
 

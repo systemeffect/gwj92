@@ -18,18 +18,19 @@ func _ready() -> void:
 func _physics_process(delta: float):
 	
 	var pos = position
-	if pos.x == target_loc_x:
-		target_loc_x = 0
-	if target_loc_x != 0:
+
+	if target_loc_x != 0 and !is_equal_approx(pos.x, target_loc_x):
 		pos.x = lerp(pos.x, target_loc_x, VAN_SPEED * delta)
 		is_moving.emit()
 
-	elif target_loc_y != 0:
+	elif target_loc_y != 0 and !is_equal_approx(pos.y, target_loc_y):
 		pos.y = lerp(pos.y, target_loc_y, VAN_SPEED * delta)
 		is_moving.emit()
 	else:
 		# for some reason this doesnt trigger when the van isnt moving
 		#print("not moving")
+		target_loc_x = 0
+		target_loc_y = 0
 		is_not_moving.emit()
 	position = pos
 	
