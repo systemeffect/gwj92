@@ -50,11 +50,21 @@ text = "Remove Action"
 layout_mode = 2
 text = "Reset Queue"
 
+[node name="Move" type="Button" parent="VBoxContainer" unique_id=170235260]
+layout_mode = 2
+text = "Move"
+
+[node name="MoveTest" type="Button" parent="VBoxContainer" unique_id=129270989]
+layout_mode = 2
+text = "Move Test - R3"
+
 [node name="ActionQueue" parent="." unique_id=509091489 instance=ExtResource("2_m8tt6")]
 layout_mode = 1
 
 [connection signal="pressed" from="VBoxContainer/AddActionButton" to="." method="_on_add_action_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/RemoveActionButton" to="." method="_on_remove_action_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/ResetQueue" to="." method="_on_reset_queue_pressed"]
+[connection signal="pressed" from="VBoxContainer/Move" to="." method="_on_move_pressed"]
+[connection signal="pressed" from="VBoxContainer/MoveTest" to="." method="_on_move_test_pressed"]
 
 [editable path="ActionQueue"]

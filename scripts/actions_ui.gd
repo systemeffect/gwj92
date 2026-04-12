@@ -1,7 +1,7 @@
 extends Control
 
-signal action_queued
-signal action_removed
+signal move_initiated
+signal move_test
 
 @onready var grid_container: GridContainer = $PanelContainer/GridContainer
 @onready var queue_grid_container: GridContainer = $ActionQueue/GridContainer
@@ -22,7 +22,6 @@ var queue_item_1 : Dictionary
 var queue_item_2 : Dictionary
 var queue_item_3 : Dictionary
 var queue_item_4 : Dictionary
-
 
 var cur_deck_size : int = 0
 var selected_card : String
@@ -111,7 +110,7 @@ func load_cards():
 				slot.set_empty()
 
 
-
+# Deselect functions for each gridcontainer
 func deselect_avail():
 	var avail_grid = grid_container.get_children()
 	for slot in avail_grid:
@@ -133,71 +132,6 @@ func clear_grid_container():
 func _on_deck_updated():
 	clear_grid_container()
 	load_cards()
-
-func _on_pressed(card_id: String):
-	# Checks to seeif the selected card is in the action queue
-	if current_queue.has(card_id):
-		# If so, deselect available cards
-		if selected_action != card_id:
-			selected_action = card_id
-			selected_card = ""
-			deselect_avail()
-		else:
-			selected_action = ""
-	else:
-		if selected_card != card_id:
-			#if the selected card is in the available grid, deselect action queue
-			selected_card = card_id
-			selected_action = ""
-			deselect_queue()
-		else:
-			selected_card = ""
-
-
-func _on_add_action_button_pressed() -> void:
-	#action_queued.emit(selected_card)
-	#
-	if queue_size < max_queue_size:
-		current_queue.append(selected_card)
-		queue_size += 1
-		var card_index = available_cards.find(selected_card, 0)
-		available_cards.remove_at(card_index)
-		#Util remove script
-		_on_deck_updated()
-	else:
-		print("Action Queue Full")
-	clear_queue_window()
-	update_queue()
-	
-	
-
-
-
-func _on_remove_action_button_pressed() -> void:
-	#action_removed.emit(selected_card)
-	current_queue.erase(selected_action)
-	queue_size -= 1
-	available_cards.append(selected_action)
-	_on_deck_updated()
-	clear_queue_window()
-	update_queue()
-	
-	
-#func _on_action_queued(card_id : String):
-	#if queue_size < max_queue_size:
-		#current_queue.append(card_id)
-		#queue_size += 1
-	#else:
-		#print("Action Queue Full")
-	#clear_queue_window()
-	#update_queue()
-	
-#func _on_action_removed(card_id : String):
-	#current_queue.erase(selected_card)
-	#queue_size -= 1
-	#clear_queue_window()
-	#update_queue()
-	#action_removed.emit(card_id)
 
 # Action Queue functions
 func clear_queue_window():
@@ -250,4 +184,61 @@ func _on_reset_queue_pressed() -> void:
 	current_queue = []
 	queue_size = 0
 	clear_queue_window()
-	pass # Replace with function body.
+
+func _on_pressed(card_id: String):
+	# Checks to seeif the selected card is in the action queue
+	if current_queue.has(card_id):
+		# If so, deselect available cards
+		if selected_action != card_id:
+			selected_action = card_id
+			selected_card = ""
+			deselect_avail()
+		else:
+			selected_action = ""
+	else:
+		if selected_card != card_id:
+			#if the selected card is in the available grid, deselect action queue
+			selected_card = card_id
+			selected_action = ""
+			deselect_queue()
+		else:
+			selected_card = ""
+
+func _on_add_action_button_pressed() -> void:
+	#action_queued.emit(selected_card)
+	#
+	if queue_size < max_queue_size:
+		current_queue.append(selected_card)
+		queue_size += 1
+		var card_index = available_cards.find(selected_card, 0)
+		available_cards.remove_at(card_index)
+		#Util remove script
+		_on_deck_updated()
+	else:
+		print("Action Queue Full")
+	clear_queue_window()
+	update_queue()
+
+func _on_remove_action_button_pressed() -> void:
+	#action_removed.emit(selected_card)
+	current_queue.erase(selected_action)
+	queue_size -= 1
+	available_cards.append(selected_action)
+	_on_deck_updated()
+	clear_queue_window()
+	update_queue()
+
+
+func _on_move_pressed() -> void:
+	# Packages the current queue dictionaries and sends it to the game manager
+	#var queue_dict_array : Array[Dictionary]
+	#queue_dict_array.append(queue_item_1)
+	#queue_dict_array.append(queue_item_2)
+	#queue_dict_array.append(queue_item_3)
+	#queue_dict_array.append(queue_item_4)
+	if queue_size > 0:
+		move_initiated.emit(current_queue)
+
+
+func _on_move_test_pressed() -> void:
+	move_test.emit()
