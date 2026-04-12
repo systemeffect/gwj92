@@ -1,5 +1,7 @@
 extends Sprite2D
 
+const TILE_SIZE: Vector2 = Vector2(32, 32)
+
 @export var VAN_SPEED: float = 45
 var target_loc_x: float = 0
 var target_loc_y: float = 0
@@ -7,7 +9,8 @@ var target_loc_y: float = 0
 func _ready() -> void:
 	GlobalSignals.clicked.connect(_on_clicked)
 
-func _process(delta):
+func _physics_process(delta: float):
+	
 	var pos = position
 	
 	if target_loc_x != 0:

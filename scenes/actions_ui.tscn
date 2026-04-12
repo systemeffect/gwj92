@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://h5j3p5m3g7dy"]
+
+[ext_resource type="PackedScene" uid="uid://kd3dcv0ib57v" path="res://scenes/card_slot.tscn" id="1_ng4ad"]
+[ext_resource type="Texture2D" uid="uid://cgbv5m2a88ogh" path="res://assets/gwj92cards.png" id="2_m8tt6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cou15"]
+atlas = ExtResource("2_m8tt6")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m8tt6"]
+atlas = ExtResource("2_m8tt6")
+region = Rect2(64, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wna1w"]
+atlas = ExtResource("2_m8tt6")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p22f0"]
+atlas = ExtResource("2_m8tt6")
+region = Rect2(160, 96, 32, 32)
+
+[node name="ActionsUI" type="Control" unique_id=24908026]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="GridContainer" type="GridContainer" parent="." unique_id=303527280]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -88.0
+offset_right = 300.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/h_separation = 84
+columns = 6
+
+[node name="Card_Slot" parent="GridContainer" unique_id=1543295380 instance=ExtResource("1_ng4ad")]
+layout_mode = 2
+card_type = "MOVEMENT"
+move_direction = "UP"
+move_amount = 4
+card_image = SubResource("AtlasTexture_cou15")
+
+[node name="Card_Slot2" parent="GridContainer" unique_id=485190858 instance=ExtResource("1_ng4ad")]
+layout_mode = 2
+card_type = "MOVEMENT"
+move_direction = "RIGHT"
+move_amount = 2
+card_image = SubResource("AtlasTexture_m8tt6")
+
+[node name="Card_Slot3" parent="GridContainer" unique_id=2077673534 instance=ExtResource("1_ng4ad")]
+layout_mode = 2
+card_type = "MOVEMENT"
+move_direction = "DOWN"
+move_amount = 3
+card_image = SubResource("AtlasTexture_wna1w")
+
+[node name="Card_Slot4" parent="GridContainer" unique_id=1982187636 instance=ExtResource("1_ng4ad")]
+layout_mode = 2
+card_type = "MOVEMENT"
+move_direction = "RIGHT"
+move_amount = 5
+card_image = SubResource("AtlasTexture_p22f0")
