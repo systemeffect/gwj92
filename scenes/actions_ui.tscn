@@ -1,15 +1,15 @@
 [gd_scene format=3 uid="uid://h5j3p5m3g7dy"]
 
 [ext_resource type="Script" uid="uid://1mhyyd4h6qh" path="res://scripts/actions_ui.gd" id="1_cou15"]
+[ext_resource type="PackedScene" uid="uid://34hboxtiso3n" path="res://scenes/action_queue.tscn" id="2_m8tt6"]
 
 [node name="ActionsUI" type="Control" unique_id=24908026]
 layout_mode = 3
-anchors_preset = 12
-anchor_top = 1.0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 script = ExtResource("1_cou15")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=53496304]
@@ -27,35 +27,34 @@ layout_mode = 2
 theme_override_constants/h_separation = 84
 columns = 6
 
-[node name="AddActionButton" type="Button" parent="." unique_id=1445214600]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1097832441]
 layout_mode = 1
-anchors_preset = 3
+anchors_preset = 1
 anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -192.0
-offset_top = -148.0
-offset_right = -100.0
-offset_bottom = -117.0
+offset_left = -204.0
+offset_top = 20.0
+offset_right = -80.0
+offset_bottom = 86.0
 grow_horizontal = 0
-grow_vertical = 0
+
+[node name="AddActionButton" type="Button" parent="VBoxContainer" unique_id=1445214600]
+layout_mode = 2
 text = "Add Action"
 
-[node name="RemoveActionButton" type="Button" parent="." unique_id=1187820135]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -192.0
-offset_top = -114.0
-offset_right = -100.0
-offset_bottom = -83.0
-grow_horizontal = 0
-grow_vertical = 0
+[node name="RemoveActionButton" type="Button" parent="VBoxContainer" unique_id=1187820135]
+layout_mode = 2
 text = "Remove Action"
 
-[connection signal="pressed" from="AddActionButton" to="." method="_on_add_action_button_pressed"]
-[connection signal="pressed" from="RemoveActionButton" to="." method="_on_remove_action_button_pressed"]
+[node name="ResetQueue" type="Button" parent="VBoxContainer" unique_id=845560267]
+layout_mode = 2
+text = "Reset Queue"
+
+[node name="ActionQueue" parent="." unique_id=509091489 instance=ExtResource("2_m8tt6")]
+layout_mode = 1
+
+[connection signal="pressed" from="VBoxContainer/AddActionButton" to="." method="_on_add_action_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/RemoveActionButton" to="." method="_on_remove_action_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ResetQueue" to="." method="_on_reset_queue_pressed"]
+
+[editable path="ActionQueue"]
