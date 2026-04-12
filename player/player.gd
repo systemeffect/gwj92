@@ -5,6 +5,7 @@ extends CharacterBody3D
 @onready var mesh_instance_3d: MeshInstance3D = $"../MeshInstance3D"
 
 var mouse_motion := Vector2.ZERO
+var is_mouse_visible: bool = false
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -23,7 +24,12 @@ func _input(event: InputEvent) -> void:
 			mouse_motion = -event.relative * 0.001
 			
 	if event.is_action_pressed("ui_cancel"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		if !is_mouse_visible:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			is_mouse_visible = true
+		else:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			is_mouse_visible = false
 	
 	if event is InputEventMouseButton:
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):

@@ -1,11 +1,6 @@
 [gd_scene format=3 uid="uid://kd3dcv0ib57v"]
 
 [ext_resource type="Script" uid="uid://r3mqk16frje4" path="res://scripts/card_slot.gd" id="1_mxh2e"]
-[ext_resource type="Texture2D" uid="uid://cgbv5m2a88ogh" path="res://assets/gwj92cards.png" id="2_cypty"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hrxt0"]
-atlas = ExtResource("2_cypty")
-region = Rect2(0, 0, 32, 32)
 
 [node name="Card_Slot" type="Control" unique_id=1543295380]
 layout_mode = 3
@@ -37,7 +32,23 @@ color = Color(0.035213683, 0.0035148873, 3.3579472e-05, 1)
 layout_mode = 0
 offset_right = 76.0
 offset_bottom = 76.0
-texture = SubResource("AtlasTexture_hrxt0")
+
+[node name="ActionQueueNum" type="Label" parent="InnerBorder" unique_id=898542842]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "ACTION 1"
+horizontal_alignment = 1
 
 [node name="CardButton" type="Button" parent="." unique_id=1634989547]
 layout_mode = 0
@@ -79,3 +90,5 @@ text = "Direction"
 [node name="MoveAmount" type="Label" parent="Details/MarginContainer/VBoxContainer" unique_id=1448227611]
 layout_mode = 2
 text = "Move Amount"
+
+[connection signal="pressed" from="CardButton" to="." method="_on_card_button_pressed"]

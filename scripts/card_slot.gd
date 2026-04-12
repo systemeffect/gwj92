@@ -6,6 +6,8 @@ signal pressed
 @export_enum("UP", "DOWN", "LEFT", "RIGHT") var move_direction: String
 @export_range(0.0, 5.0) var move_amount : int
 @export var card_image: Texture
+@export var is_in_action_queue : bool = false
+@export_range(1,4) var queue_number : int
 
 @onready var card_icon: TextureRect = $InnerBorder/CardIcon
 @onready var card_button: Button = $CardButton
@@ -15,10 +17,18 @@ signal pressed
 @onready var move_direction_label: Label = $Details/MarginContainer/VBoxContainer/MoveDirection
 @onready var move_amount_label: Label = $Details/MarginContainer/VBoxContainer/MoveAmount
 @onready var selected: Line2D = $Selected
+@onready var action_queue_num: Label = $InnerBorder/ActionQueueNum
 
+var icon_path : String = "res://assets/icons/"
+var card : Dictionary
 var is_empty : bool = true
 
 func _ready() -> void:
+	if is_in_action_queue:
+		action_queue_num.show()
+		action_queue_num.text = "Action " + str(queue_number)
+	else:
+		action_queue_num.hide()
 	selected.hide()
 	outer_border.color = Color(0.06,0.06,0.06,1.0)
 	card_button.mouse_entered.connect(_on_card_icon_mouse_entered)
@@ -27,8 +37,9 @@ func _ready() -> void:
 	#set_card()
 	
 func _on_card_icon_mouse_entered():
-	details.show()
-	outer_border.color = Color(1.0,1.0,1.0,255)
+	if !is_in_action_queue:
+		details.show()
+		outer_border.color = Color(1.0,1.0,1.0,255)
 	
 func _on_card_icon_mouse_exited():
 	details.hide()
@@ -38,10 +49,26 @@ func set_empty():
 	card_icon.texture = null
 	is_empty = true
 	
-#func set_card():
-	#if is_empty:
-		#if card_type == "MOVEMENT":
-			#if move_direction == "UP":
-				#
-		#pass
+func deselect():
+	selected.hide()
 	
+func set_card(new_card : Dictionary):
+	if new_card != null:
+		card = new_card
+		if card.get("CARD_ICON") != null:
+			var new_card_icon_path = icon_path + card.get("CARD_ICON")
+			card_icon.texture = load(new_card_icon_path)
+		card_type_label.text = card["CARD_TYPE"]
+		move_direction_label.text = card["MOVE_DIRECTION"]
+		move_amount_label.text = str(card["MOVE_AMOUNT"])
+	
+
+
+func _on_card_button_pressed() -> void:
+	if !selected.visible:
+		for slot in get_parent().get_children():
+			slot.deselect()
+		selected.show()
+		pressed.emit()
+	else:
+		selected.hide()
