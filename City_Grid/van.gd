@@ -10,10 +10,11 @@ const MOVE_UNIT: int = 32
 @export var VAN_SPEED: float = 4
 var target_loc_x: float = 0
 var target_loc_y: float = 0
+var path: Array[Direction]
 
 func _ready() -> void:
-	#GlobalSignals.clicked.connect(_on_clicked)
-	pass
+	GlobalSignals.clicked.connect(_on_clicked)
+	path = DirectionList.directions
 
 func _physics_process(delta: float):
 	
@@ -55,5 +56,6 @@ func move (dir: String, amt: int) -> void:
 	#if event.is_action_pressed("ui_down"):
 		#move("down")
 
-#func _on_clicked() -> void:
-	#move("left")
+func _on_clicked() -> void:
+	for i in path:
+		move(i.move_direction, i.move_amount)
