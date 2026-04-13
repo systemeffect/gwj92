@@ -1,31 +1,49 @@
-extends Sprite2D
+extends Node2D
 
-@export var VAN_SPEED: float = 45
+signal is_moving
+signal is_not_moving
+
+# Match these to TileMapLayer grid size
+const TILE_SIZE: Vector2 = Vector2(32, 32)
+const MOVE_UNIT: int = 32
+
+@export var VAN_SPEED: float = 4
 var target_loc_x: float = 0
 var target_loc_y: float = 0
 
 func _ready() -> void:
-	GlobalSignals.clicked.connect(_on_clicked)
+	#GlobalSignals.clicked.connect(_on_clicked)
+	pass
 
-func _process(delta):
+func _physics_process(delta: float):
+	
 	var pos = position
-	
-	if target_loc_x != 0:
+
+	if target_loc_x != 0 and !is_equal_approx(pos.x, target_loc_x):
 		pos.x = lerp(pos.x, target_loc_x, VAN_SPEED * delta)
-	
-	if target_loc_y != 0:
+		is_moving.emit()
+
+	elif target_loc_y != 0 and !is_equal_approx(pos.y, target_loc_y):
 		pos.y = lerp(pos.y, target_loc_y, VAN_SPEED * delta)
+		is_moving.emit()
+	else:
+		# for some reason this doesnt trigger when the van isnt moving
+		#print("not moving")
+		target_loc_x = 0
+		target_loc_y = 0
+		is_not_moving.emit()
 	position = pos
 	
-func move (dir: String) -> void:
-	if dir == "left":
-		target_loc_x = position.x - 48.0
-	if dir == "right":
-		target_loc_x = position.x + 48.0
-	if dir == "up":
-		target_loc_y = position.y - 48.0
-	if dir == "down":
-		target_loc_y = position.y + 48.0
+	
+func move (dir: String, amt: int) -> void:
+	if dir == "WEST":
+		target_loc_x = position.x - (amt * MOVE_UNIT)
+	if dir == "EAST":
+		target_loc_x = position.x + (amt * MOVE_UNIT)
+	if dir == "NORTH":
+		target_loc_y = position.y - (amt * MOVE_UNIT)
+	if dir == "SOUTH":
+		target_loc_y = position.y + (amt * MOVE_UNIT)
 
 #func _input(event: InputEvent) -> void:
 	#if event.is_action_pressed("ui_left"):
@@ -37,5 +55,5 @@ func move (dir: String) -> void:
 	#if event.is_action_pressed("ui_down"):
 		#move("down")
 
-func _on_clicked() -> void:
-	move("left")
+#func _on_clicked() -> void:
+	#move("left")

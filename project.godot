@@ -22,6 +22,7 @@ buses/default_bus_layout="uid://igd5p1vdrhcv"
 [autoload]
 
 GlobalSignals="*uid://do68a770j1li7"
+Util="*uid://dex2y86u5wl4n"
 
 [display]
 
@@ -35,4 +36,5 @@ window/stretch/mode="viewport"
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
