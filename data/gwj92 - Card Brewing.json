@@ -251,5 +251,241 @@
       "CARD_DESCRIPTION": "Move RIGHT 5 spaces",
       "CARD_ICON": "move_r5.png"
     }
+  },
+  "Halves_Import": {
+    "0": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "NORTH",
+      "MOVE_AMOUNT": 0,
+      "STORM_TYPE": "CALM",
+      "STORM_VALUE": 0,
+      "CARD_DESCRIPTION": "Turn UP",
+      "CARD_ICON": "move_u0.png"
+    },
+    "1": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "NORTH",
+      "MOVE_AMOUNT": 1,
+      "STORM_TYPE": "CALM",
+      "STORM_VALUE": 0,
+      "CARD_DESCRIPTION": "Move UP 1 space",
+      "CARD_ICON": "move_u1.png"
+    },
+    "2": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "NORTH",
+      "MOVE_AMOUNT": 2,
+      "STORM_TYPE": "FIRE",
+      "STORM_VALUE": 1,
+      "CARD_DESCRIPTION": "Move UP 2 spaces",
+      "CARD_ICON": "move_u2.png"
+    },
+    "3": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "NORTH",
+      "MOVE_AMOUNT": 3,
+      "STORM_TYPE": "WIND",
+      "STORM_VALUE": 1,
+      "CARD_DESCRIPTION": "Move UP 3 spaces",
+      "CARD_ICON": "move_u3.png"
+    },
+    "4": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "NORTH",
+      "MOVE_AMOUNT": 4,
+      "STORM_TYPE": "FLOOD",
+      "STORM_VALUE": 1,
+      "CARD_DESCRIPTION": "Move UP 4 spaces",
+      "CARD_ICON": "move_u4.png"
+    },
+    "5": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "NORTH",
+      "MOVE_AMOUNT": 5,
+      "STORM_TYPE": "DEBRIS",
+      "STORM_VALUE": 2,
+      "CARD_DESCRIPTION": "Move UP 5 spaces",
+      "CARD_ICON": "move_u5.png"
+    },
+    "6": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "SOUTH",
+      "MOVE_AMOUNT": 0,
+      "STORM_TYPE": "CALM",
+      "STORM_VALUE": 0,
+      "CARD_DESCRIPTION": "Turn DOWN",
+      "CARD_ICON": "move_d0.png"
+    },
+    "7": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "SOUTH",
+      "MOVE_AMOUNT": 1,
+      "STORM_TYPE": "CALM",
+      "STORM_VALUE": 0,
+      "CARD_DESCRIPTION": "Move DOWN 1 space",
+      "CARD_ICON": "move_d1.png"
+    },
+    "8": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "SOUTH",
+      "MOVE_AMOUNT": 2,
+      "STORM_TYPE": "DEBRIS",
+      "STORM_VALUE": 1,
+      "CARD_DESCRIPTION": "Move DOWN 2 spaces",
+      "CARD_ICON": "move_d2.png"
+    },
+    "9": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "SOUTH",
+      "MOVE_AMOUNT": 3,
+      "STORM_TYPE": "FLOOD",
+      "STORM_VALUE": 1,
+      "CARD_DESCRIPTION": "Move DOWN 3 spaces",
+      "CARD_ICON": "move_d3.png"
+    },
+    "10": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "SOUTH",
+      "MOVE_AMOUNT": 4,
+      "STORM_TYPE": "WIND",
+      "STORM_VALUE": 1,
+      "CARD_DESCRIPTION": "Move DOWN 4 spaces",
+      "CARD_ICON": "move_d4.png"
+    },
+    "11": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "SOUTH",
+      "MOVE_AMOUNT": 5,
+      "STORM_TYPE": "FIRE",
+      "STORM_VALUE": 2,
+      "CARD_DESCRIPTION": "Move DOWN 5 spaces",
+      "CARD_ICON": "move_d5.png"
+    },
+    "12": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "WEST",
+      "MOVE_AMOUNT": 0,
+      "STORM_TYPE": "CALM",
+      "STORM_VALUE": 0,
+      "CARD_DESCRIPTION": "Turn LEFT",
+      "CARD_ICON": "move_l0.png"
+    },
+    "13": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "WEST",
+      "MOVE_AMOUNT": 1,
+      "STORM_TYPE": "CALM",
+      "STORM_VALUE": 0,
+      "CARD_DESCRIPTION": "Move LEFT 1 space",
+      "CARD_ICON": "move_l1.png"
+    },
+    "14": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "WEST",
+      "MOVE_AMOUNT": 2,
+      "STORM_TYPE": "FLOOD",
+      "STORM_VALUE": 1,
+      "CARD_DESCRIPTION": "Move LEFT 2 spaces",
+      "CARD_ICON": "move_l2.png"
+    },
+    "15": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "WEST",
+      "MOVE_AMOUNT": 3,
+      "STORM_TYPE": "FIRE",
+      "STORM_VALUE": 1,
+      "CARD_DESCRIPTION": "Move LEFT 3 spaces",
+      "CARD_ICON": "move_l3.png"
+    },
+    "16": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "WEST",
+      "MOVE_AMOUNT": 4,
+      "STORM_TYPE": "DEBRIS",
+      "STORM_VALUE": 1,
+      "CARD_DESCRIPTION": "Move LEFT 4 spaces",
+      "CARD_ICON": "move_l4.png"
+    },
+    "17": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "WEST",
+      "MOVE_AMOUNT": 5,
+      "STORM_TYPE": "WIND",
+      "STORM_VALUE": 2,
+      "CARD_DESCRIPTION": "Move LEFT 5 spaces",
+      "CARD_ICON": "move_l5.png"
+    },
+    "18": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "EAST",
+      "MOVE_AMOUNT": 0,
+      "STORM_TYPE": "CALM",
+      "STORM_VALUE": 0,
+      "CARD_DESCRIPTION": "Turn RIGHT",
+      "CARD_ICON": "move_r0.png"
+    },
+    "19": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "EAST",
+      "MOVE_AMOUNT": 1,
+      "STORM_TYPE": "CALM",
+      "STORM_VALUE": 0,
+      "CARD_DESCRIPTION": "Move RIGHT 1 space",
+      "CARD_ICON": "move_r1.png"
+    },
+    "20": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "EAST",
+      "MOVE_AMOUNT": 2,
+      "STORM_TYPE": "WIND",
+      "STORM_VALUE": 1,
+      "CARD_DESCRIPTION": "Move RIGHT 2 spaces",
+      "CARD_ICON": "move_r2.png"
+    },
+    "21": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "EAST",
+      "MOVE_AMOUNT": 3,
+      "STORM_TYPE": "DEBRIS",
+      "STORM_VALUE": 1,
+      "CARD_DESCRIPTION": "Move RIGHT 3 spaces",
+      "CARD_ICON": "move_r3.png"
+    },
+    "22": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "EAST",
+      "MOVE_AMOUNT": 4,
+      "STORM_TYPE": "FIRE",
+      "STORM_VALUE": 1,
+      "CARD_DESCRIPTION": "Move RIGHT 4 spaces",
+      "CARD_ICON": "move_r4.png"
+    },
+    "23": {
+      "CARD_TYPE": "MOVEMENT",
+      "MOVE_DIRECTION": "EAST",
+      "MOVE_AMOUNT": 5,
+      "STORM_TYPE": "FLOOD",
+      "STORM_VALUE": 2,
+      "CARD_DESCRIPTION": "Move RIGHT 5 spaces",
+      "CARD_ICON": "move_r5.png"
+    }
+  },
+  "Storm Effects": {
+    "Flood": {
+      "Effect": "Add flooded tiles",
+      "Player Effect": "??"
+    },
+    "Wind Gust": {
+      "Effect": "Moves Character in direction",
+      "Player Effect": "Move player"
+    },
+    "Fire": {
+      "Effect": "Spread fire to adjacent tiles",
+      "Player Effect": "Damage player if move through"
+    },
+    "Debris": {
+      "Effect": "Add debris tile",
+      "Player Effect": "2 movement to move through"
+    }
   }
 }

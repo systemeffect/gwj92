@@ -235,6 +235,7 @@ texture_region_size = Vector2i(32, 32)
 9:0/0 = 0
 9:0/0/custom_data_0 = true
 10:0/0 = 0
+10:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 10:0/0/custom_data_0 = true
 11:0/0 = 0
 11:0/0/custom_data_0 = true
@@ -475,6 +476,7 @@ texture_region_size = Vector2i(32, 32)
 
 [sub_resource type="TileSet" id="TileSet_uq6aa"]
 tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 2
 custom_data_layer_0/name = "impassable"
 custom_data_layer_0/type = 1
 sources/0 = SubResource("TileSetAtlasSource_oknig")
@@ -560,10 +562,12 @@ scale = Vector2(0.9999998, 0.99999976)
 tile_map_data = PackedByteArray("AAAGAAYAAAAKAAAAAAAGAAUAAAAKAAAAAAAHAAgAAAAKAAAAAAAIAAgAAAAKAAAAAAAJAAgAAAAKAAAAAAAIAAYAAAAKAAAAAAAIAAQAAAAKAAAAAAAIAAMAAAAKAAAAAAAIAAIAAAAKAAAAAAAFAAMAAAAKAAAAAAAFAAIAAAAKAAAAAAAEAAkAAAAKAAAAAAAEAAgAAAAKAAAAAAADAAYAAAAKAAAAAAAEAAYAAAAKAAAAAAA=")
 tile_set = SubResource("TileSet_uq6aa")
 
-[node name="Van" type="Sprite2D" parent="." unique_id=886823964]
+[node name="Van" type="Node2D" parent="." unique_id=1836967788]
 position = Vector2(112, 80)
-texture = SubResource("AtlasTexture_weyc0")
 script = ExtResource("3_pjegq")
+
+[node name="Sprite2D" type="Sprite2D" parent="Van" unique_id=133699846]
+texture = SubResource("AtlasTexture_weyc0")
 
 [node name="Storm" type="Sprite2D" parent="." unique_id=2133752693]
 visible = false

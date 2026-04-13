@@ -1,4 +1,4 @@
-extends Sprite2D
+extends Node2D
 
 signal is_moving
 signal is_not_moving
@@ -36,13 +36,13 @@ func _physics_process(delta: float):
 	
 	
 func move (dir: String, amt: int) -> void:
-	if dir == "LEFT":
+	if dir == "WEST":
 		target_loc_x = position.x - (amt * MOVE_UNIT)
-	if dir == "RIGHT":
+	if dir == "EAST":
 		target_loc_x = position.x + (amt * MOVE_UNIT)
-	if dir == "UP":
+	if dir == "NORTH":
 		target_loc_y = position.y - (amt * MOVE_UNIT)
-	if dir == "DOWN":
+	if dir == "SOUTH":
 		target_loc_y = position.y + (amt * MOVE_UNIT)
 
 #func _input(event: InputEvent) -> void:

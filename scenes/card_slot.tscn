@@ -91,4 +91,8 @@ text = "Direction"
 layout_mode = 2
 text = "Move Amount"
 
+[node name="Storm" type="Label" parent="Details/MarginContainer/VBoxContainer" unique_id=1478589370]
+layout_mode = 2
+text = "Storm"
+
 [connection signal="pressed" from="CardButton" to="." method="_on_card_button_pressed"]

@@ -1,6 +1,6 @@
 extends Control
 
-signal move_initiated
+signal round_initiated
 signal move_test
 
 @onready var grid_container: GridContainer = $PanelContainer/GridContainer
@@ -48,7 +48,10 @@ func _ready() -> void:
 func load_card_data():
 	var json_data = Util.load_json_data_from_path()
 	if json_data != null:
-		var cards = json_data.get("IMPORT")
+		#load regular data
+		#var cards = json_data.get("IMPORT")
+		#load test data
+		var cards = json_data.get("Halves_Import")
 		if cards != null:
 			for i in range(0, cards.size()):
 				var card_id = str(i)
@@ -67,6 +70,8 @@ func parse_card_data_from_json(id, json_data : Dictionary):
 	card_attributes["MOVE_AMOUNT"] = json_data.get("MOVE_AMOUNT")
 	card_attributes["CARD_DESCRIPTION"] = json_data.get("CARD_DESCRIPTION")
 	card_attributes["CARD_ICON"] = json_data.get("CARD_ICON")
+	card_attributes["STORM_TYPE"] = json_data.get("STORM_TYPE")
+	card_attributes["STORM_VALUE"] = json_data.get("STORM_VALUE")
 	
 	return card_attributes
 	
@@ -176,6 +181,20 @@ func update_queue():
 					queue_item_4 = card_data
 			slot += 1
 
+func highlight_active_slot(slot : int):
+	action_1.set_default_border_color()
+	action_2.set_default_border_color()
+	action_3.set_default_border_color()
+	action_4.set_default_border_color()
+	match slot:
+		0:
+			action_1.set_active_border_color()
+		1:
+			action_2.set_active_border_color()
+		2:
+			action_3.set_active_border_color()
+		3:
+			action_4.set_active_border_color()
 
 func _on_reset_queue_pressed() -> void:
 	available_cards.append_array(current_queue)
@@ -237,7 +256,7 @@ func _on_move_pressed() -> void:
 	#queue_dict_array.append(queue_item_3)
 	#queue_dict_array.append(queue_item_4)
 	if queue_size > 0:
-		move_initiated.emit(current_queue)
+		round_initiated.emit(current_queue)
 
 
 func _on_move_test_pressed() -> void:
