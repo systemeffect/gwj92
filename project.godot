@@ -21,9 +21,9 @@ buses/default_bus_layout="uid://igd5p1vdrhcv"
 
 [autoload]
 
-GlobalSignals="*uid://do68a770j1li7"
 Util="*uid://dex2y86u5wl4n"
 DirectionList="*uid://dmlac1p1yb6u5"
+GlobalSignals="*uid://do68a770j1li7"
 
 [display]
 

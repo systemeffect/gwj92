@@ -1,5 +1,7 @@
 extends Node2D
 
+@export var storm_scene : PackedScene
+
 @onready var actions_ui: Control = $UI/ActionsUI
 @onready var van: Node2D = $Van
 @onready var current_turn_label: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/CurrentTurnLabel
@@ -13,6 +15,9 @@ extends Node2D
 @onready var queue_preview: Line2D = $UI/PathPreview/QueuePreview
 @onready var preview_collider: CollisionShape2D = $UI/PathPreview/PreviewCollider
 @onready var preview_cont: Area2D = $UI/PathPreview/PreviewCont
+
+# Storm
+@onready var storms_container: Node2D = $StormsContainer
 
 
 
@@ -161,4 +166,12 @@ func _on_show_grid_pressed() -> void:
 
 func _on_preview_cont_body_entered(body: Node2D) -> void:
 	print("body entered!")
+	pass # Replace with function body.
+
+
+func _on_brew_storm_pressed() -> void:
+	var current_pos = van.position
+	var storm = storm_scene.instantiate()
+	storm.origin_pos = current_pos
+	storms_container.add_child(storm)
 	pass # Replace with function body.
