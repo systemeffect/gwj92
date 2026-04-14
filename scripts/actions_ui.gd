@@ -225,8 +225,9 @@ func _on_move_pressed() -> void:
 		new_direction.move_amount = move_amt
 		DirectionList.directions.append(new_direction)
 	
-	print("DIRECTIONSSSSSSS ", DirectionList.directions)
-	round_initiated.emit(current_queue)
+		for d in DirectionList.directions:
+			print("Direction:", d.move_direction, "| Amount:", d.move_amount)
+		round_initiated.emit(current_queue)
 
 func _on_move_test_pressed() -> void:
 	move_test.emit()

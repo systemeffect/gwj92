@@ -18,3 +18,5 @@ render_target_update_mode = 4
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=865980419]
 transform = Transform3D(1, 4.5102815e-15, -1.1110615e-09, 1.0495077e-14, 1, 0, -1.0717258e-09, -5.551114e-15, 1.0000001, 5.820766e-09, 0, 0)
 texture = SubResource("ViewportTexture_5vh4w")
+region_enabled = true
+region_rect = Rect2(0, 0, 384, 384)

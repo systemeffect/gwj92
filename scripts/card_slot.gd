@@ -65,7 +65,7 @@ func set_card(new_card : Card):
 		move_direction_label.text = str(card.direction)
 		move_amount_label.text = str(card.amount)
 		storm.text = card.storm_type + " " + str(card.storm_value)
-		set_storm_color()
+		#set_storm_color()
 	
 func set_storm_color():
 	if !is_in_action_queue:
