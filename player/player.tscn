@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dw10cuoav8wwn" path="res://player/camera_3d.gd" id="1_oul6g"]
 [ext_resource type="Script" uid="uid://bea2fhuqg6o4r" path="res://player/player.gd" id="1_rkbax"]
+[ext_resource type="Script" uid="uid://co43cpqcrtcl5" path="res://player/crosshair.gd" id="3_g1dw6"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rkbax"]
 
@@ -14,6 +15,31 @@ script = ExtResource("1_rkbax")
 current = true
 script = ExtResource("1_oul6g")
 
+[node name="RayCast3D" type="RayCast3D" parent="CameraPivot" unique_id=853627566]
+target_position = Vector3(0, 0, -1)
+collide_with_areas = true
+debug_shape_custom_color = Color(0.9137255, 0.36078432, 0, 1)
+debug_shape_thickness = 3
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1668249900]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6792935, 0)
 shape = SubResource("CapsuleShape3D_rkbax")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1984917478]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Crosshair" type="Control" parent="CenterContainer" unique_id=1592517756]
+layout_mode = 2
+script = ExtResource("3_g1dw6")
