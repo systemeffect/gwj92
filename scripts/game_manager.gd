@@ -31,6 +31,7 @@ func _ready() -> void:
 	actions_ui.action_queued.connect(_on_action_queued)
 	actions_ui.action_removed.connect(_on_action_removed)
 	actions_ui.reset_queue.connect(_on_reset_queue)
+	action_queue = actions_ui.current_queue
 	current_turn_label.text = "Current turn: " + str(current_turn)
 	
 	van.is_moving.connect(_on_van_is_moving)
@@ -44,12 +45,9 @@ func _ready() -> void:
 
 func _on_reset_queue():
 	queue_preview.clear_points()
-	action_queue = []
 
 func _on_action_queued(card_id : String):
-	action_queue.append(card_id)
-	actions_queued = action_queue.size()
-	actions_queued_label.text = "Actions queued: " + str(actions_queued)
+	actions_queued_label.text = "Actions queued: " + str(action_queue.size())
 	find_path()
 	#var card = Util.all_cards[card_id]
 	#var move_amt = int(card.get("MOVE_AMOUNT"))
@@ -107,8 +105,6 @@ func find_path():
 		
 
 func _on_action_removed(current_queue : Array):
-	action_queue.clear()
-	action_queue = current_queue
 	actions_queued = action_queue.size()
 	actions_queued_label.text = "Actions queued: " + str(actions_queued)
 	find_path()
