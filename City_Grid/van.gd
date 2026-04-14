@@ -59,6 +59,5 @@ func move (dir: String, amt: int) -> void:
 func _on_clicked() -> void:
 	for i in range(path.size()):
 		var step = path[i]
-		print("Running step ", i, ": ", step.move_direction, " / ", step.move_amount)
 		move(step.move_direction, step.move_amount)
 		await is_not_moving
