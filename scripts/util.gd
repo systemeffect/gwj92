@@ -3,11 +3,11 @@ extends Node
 @onready var card_slot = preload("res://scenes/card_slot.tscn")
 
 # All Card data
-var all_cards = {}
+var all_cards: Array[Card] = []
 # Current Deck
-var current_deck = {}
+var current_deck: Array[Card] = []
 # Cards Available for Deck
-var cards_available = {}
+var cards_available: Array[Card] = []
 var card_manager_path : String = "res://data/gwj92 - Card Brewing.json"
 
 # Load JSON Data

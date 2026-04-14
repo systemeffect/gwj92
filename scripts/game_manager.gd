@@ -20,7 +20,7 @@ var current_turn : int = 0
 var turn_in_progress : bool = false
 var movement_in_progress : bool = false
 var actions_queued : int = 0
-var action_queue : Array
+var action_queue : CardQueue
 var current_preview_coords : Vector2
 var current_preview_position : Vector2
 
@@ -63,9 +63,9 @@ func find_path():
 	queue_preview.add_point(van_position)
 	clear_collider_container()
 	for move in action_queue:
-		var card = Util.all_cards[str(move)]
-		var move_amt = int(card.get("MOVE_AMOUNT"))
-		var move_dir = card.get("MOVE_DIRECTION")
+		var card = Util.all_cards[move]
+		var move_amt = int(card.amount)
+		var move_dir = card.direction
 		var move_vector : Vector2
 		match move_dir:
 			"NORTH":
@@ -94,7 +94,7 @@ func clear_collider_container():
 		preview_cont.remove_child(child)
 		child.queue_free()
 
-func _on_action_removed(current_queue : Array):
+func _on_action_removed(current_queue : CardQueue):
 	actions_queued = action_queue.size()
 	actions_queued_label.text = "Actions queued: " + str(actions_queued)
 	find_path()

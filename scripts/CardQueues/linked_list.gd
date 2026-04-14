@@ -35,5 +35,21 @@ func removeItem(item: Card):
 			current = current.next
 		current.prev.link(current.next)
 		
+func has(item: Card) -> bool:
+	var current = head
+	while is_instance_valid(current):
+		if current.value.id == item.id:
+			return true
+		current = current.next
+	return false
+	
+func size() -> int:
+	var idx = 0
+	var current = head
+	while is_instance_valid(current):
+		current = current.next
+		idx += 1
+	return idx
+
 func clear():
 	head = null

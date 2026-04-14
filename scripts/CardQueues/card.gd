@@ -6,14 +6,14 @@ enum DIRECTION { north, south, east, west }
 var id: String
 var type: String
 var direction: DIRECTION
-var amount: String
+var amount: float
 var description: String
 var icon: String
 var storm_type: String #probably make an enum for this
-var storm_value: String #int or float?
+var storm_value: int #int or float?
 
-func _init(json_data : Dictionary):
-	id = json_data.get("ID")
+func _init(id: String, json_data : Dictionary):
+	id = id
 	type = json_data.get("CARD_TYPE")
 	direction = getDirection(json_data.get("MOVE_DIRECTION"))
 	amount = json_data.get("MOVE_AMOUNT")

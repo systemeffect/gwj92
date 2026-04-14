@@ -11,7 +11,7 @@ func enqueue(item: Card):
 
 func dequeue():
 	return queue.dequeue()
-
+	
 func removeAt(index: int):
 	queue.removeAt(index)
 	
@@ -20,3 +20,22 @@ func removeCard(item: Card):
 	
 func clear():
 	queue.clear()
+	
+func has(item: Card):
+	return queue.has(item)
+	
+func size() -> int:
+	return queue.size()
+	
+#iterable support
+func _should_continue(current):
+	return queue._should_continue(current)
+
+func _iter_init(iter) -> bool:
+	return queue._iter_init(iter)
+
+func _iter_next(iter):
+	return queue._iter_next(iter)
+	
+func _iter_get(iter):
+	return queue.iter_get(iter)
