@@ -146,7 +146,10 @@ func _on_move_test_pressed() -> void:
 	pass # Replace with function body.
 
 func _on_reset_van() -> void:
-	van.position = van_start_pos
+	if movement_in_progress:
+		return
+	else:
+		van.position = van_start_pos
 
 
 func _on_show_grid_pressed() -> void:

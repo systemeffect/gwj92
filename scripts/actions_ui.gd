@@ -294,6 +294,7 @@ func _on_move_pressed() -> void:
 	#queue_dict_array.append(queue_item_3)
 	#queue_dict_array.append(queue_item_4)
 	if queue_size > 0:
+		
 		round_initiated.emit(current_queue)
 
 func _on_move_test_pressed() -> void:
