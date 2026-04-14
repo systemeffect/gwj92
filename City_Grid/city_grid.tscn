@@ -6,10 +6,17 @@
 [ext_resource type="Texture2D" uid="uid://r7mlhuig5t6u" path="res://icon.svg" id="2_pjegq"]
 [ext_resource type="PackedScene" uid="uid://h5j3p5m3g7dy" path="res://scenes/actions_ui.tscn" id="2_wkloc"]
 [ext_resource type="Script" uid="uid://6geatq1krddx" path="res://City_Grid/van.gd" id="3_pjegq"]
+[ext_resource type="Texture2D" uid="uid://fmcvkk6hudgs" path="res://assets/grid_overlay.png" id="4_oknig"]
 [ext_resource type="Texture2D" uid="uid://crtfevg34y4ud" path="res://assets/tilemap_packed.png" id="4_qtupi"]
+[ext_resource type="Shader" uid="uid://dp1ab727doepi" path="res://shaders/line2d.gdshader" id="5_yiybu"]
+[ext_resource type="Texture2D" uid="uid://qearixph1ud2" path="res://assets/line_dash.png" id="6_2f6ys"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_weyc0"]
 font_size = 8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pvxsy"]
+shader = ExtResource("5_yiybu")
+shader_parameter/speed = 1.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wkloc"]
 texture = ExtResource("4_qtupi")
@@ -530,10 +537,17 @@ text = "Move in Progress: false"
 label_settings = SubResource("LabelSettings_weyc0")
 horizontal_alignment = 1
 
-[node name="ShowGrid" type="CheckBox" parent="UI/Debug/Margin/PanelContainer/DebugMenu" unique_id=1749249429]
-visible = false
+[node name="ActionsQueued" type="Label" parent="UI/Debug/Margin/PanelContainer/DebugMenu" unique_id=153661955]
 layout_mode = 2
-text = "show impassable terrain"
+text = "Actions queued: 0"
+label_settings = SubResource("LabelSettings_weyc0")
+horizontal_alignment = 1
+
+[node name="ShowGrid" type="CheckBox" parent="UI/Debug/Margin/PanelContainer/DebugMenu" unique_id=1749249429]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+button_pressed = true
+text = "show  grid"
 
 [node name="MoveTest" type="Button" parent="UI/Debug/Margin/PanelContainer/DebugMenu" unique_id=815592471]
 visible = false
@@ -541,6 +555,27 @@ layout_mode = 2
 text = "Move Test"
 
 [node name="ActionsUI" parent="UI" unique_id=24908026 instance=ExtResource("2_wkloc")]
+offset_top = 30.0
+
+[node name="GridOverlay" type="TextureRect" parent="UI" unique_id=869850497]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -256.0
+offset_bottom = -96.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_oknig")
+stretch_mode = 1
+
+[node name="PathPreview" type="Node2D" parent="UI" unique_id=758530522]
+
+[node name="QueuePreview" type="Line2D" parent="UI/PathPreview" unique_id=1974875317]
+material = SubResource("ShaderMaterial_pvxsy")
+scale = Vector2(1.0022026, 0.9975787)
+texture = ExtResource("6_2f6ys")
+texture_mode = 1
 
 [node name="4848Grid" type="Sprite2D" parent="." unique_id=1875270451]
 visible = false
@@ -576,4 +611,5 @@ position = Vector2(215.99998, 167.99998)
 scale = Vector2(1.0732685, 1.0703458)
 texture = ExtResource("2_pjegq")
 
+[connection signal="pressed" from="UI/Debug/Margin/PanelContainer/DebugMenu/ShowGrid" to="." method="_on_show_grid_pressed"]
 [connection signal="pressed" from="UI/Debug/Margin/PanelContainer/DebugMenu/MoveTest" to="." method="_on_move_test_pressed"]
