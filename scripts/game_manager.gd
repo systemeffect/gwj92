@@ -14,8 +14,6 @@ extends Node2D
 @onready var preview_collider: CollisionShape2D = $UI/PathPreview/PreviewCollider
 @onready var preview_cont: Area2D = $UI/PathPreview/PreviewCont
 
-
-
 var current_turn : int = 0
 var turn_in_progress : bool = false
 var movement_in_progress : bool = false
@@ -52,7 +50,7 @@ func _ready() -> void:
 func _on_reset_queue():
 	queue_preview.clear_points()
 
-func _on_action_queued(card_id : String):
+func _on_action_queued():
 	actions_queued_label.text = "Actions queued: " + str(action_queue.size())
 	find_path()
 
@@ -62,19 +60,18 @@ func find_path():
 	queue_preview.clear_points()
 	queue_preview.add_point(van_position)
 	clear_collider_container()
-	for move in action_queue:
-		var card = Util.all_cards[move]
+	for card in action_queue:
 		var move_amt = int(card.amount)
 		var move_dir = card.direction
 		var move_vector : Vector2
 		match move_dir:
-			"NORTH":
+			Card.DIRECTION.north:
 				move_vector = Vector2(0, -move_amt)
-			"EAST":
+			Card.DIRECTION.east:
 				move_vector = Vector2(move_amt, 0)
-			"SOUTH":
+			Card.DIRECTION.south:
 				move_vector = Vector2(0, move_amt)
-			"WEST":
+			Card.DIRECTION.west:
 				move_vector = Vector2(-move_amt, 0)
 		new_point = last_point + move_vector
 		queue_preview.add_point(city_grid.map_to_local(new_point))
@@ -94,7 +91,7 @@ func clear_collider_container():
 		preview_cont.remove_child(child)
 		child.queue_free()
 
-func _on_action_removed(current_queue : CardQueue):
+func _on_action_removed():
 	actions_queued = action_queue.size()
 	actions_queued_label.text = "Actions queued: " + str(actions_queued)
 	find_path()
@@ -108,16 +105,14 @@ func _on_van_is_not_moving():
 	move_in_progress.text = "Move in Progress: false"
 	
 # Needs to be rebuilt
-func _on_round_initiated(moves : Array):
-	while moves.size() > 0:
-		var current_move = moves.pop_front()
-		var card = Util.all_cards[current_move]
-		if card != null:
+func _on_round_initiated(moves : CardQueue):
+	for card in moves:
+		if is_instance_valid(card):
 			actions_ui.highlight_active_slot(current_turn)
 			
-			var move_dir = card.get("MOVE_DIRECTION")
-			var move_amt = card.get("MOVE_AMOUNT")
-			print("move direction: " + move_dir + " and move amt: " + str(move_amt))
+			var move_dir = card.direction
+			var move_amt = card.amount
+			print("move direction: " + str(move_dir) + " and move amt: " + str(move_amt))
 			van.move(move_dir, move_amt)
 			await get_tree().create_timer(2.0).timeout
 			print("timer timeout!")

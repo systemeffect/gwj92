@@ -13,7 +13,10 @@ signal reset_van
 @onready var sel_card: Label = $ActionDebug/VBoxContainer/SelCard
 @onready var sel_act: Label = $ActionDebug/VBoxContainer/SelAct
 
+@onready var action_queue: Control = $ActionQueue
+
 # Action Queue Slots
+var action_slot_count = 4 # calculate this from container API?
 @onready var action_1: Control = $ActionQueue/GridContainer/Action_1
 @onready var action_2: Control = $ActionQueue/GridContainer/Action_2
 @onready var action_3: Control = $ActionQueue/GridContainer/Action_3
@@ -21,7 +24,6 @@ signal reset_van
 
 # Action Queue
 var current_queue: CardQueue = CardQueue.new()
-var queue_size: int = 0
 var cur_deck_size : int = 0
 var selected_card : Card
 var selected_action : Card
@@ -154,42 +156,50 @@ func _on_pressed(card: Card):
 	# Checks to see if the selected card is in the action queue
 	if current_queue.has(card):
 		# If so, deselect available cards
-		if selected_action.id != card.id:
+		if !is_instance_valid(selected_action) || selected_action.id != card.id:
 			selected_action = card
 			sel_act.text = "SelAct: " + selected_action.id + " - " + selected_action.description
 			selected_card = null
-			sel_card.text = "SelCard: " + selected_card.id + " - " + selected_card.description
+			sel_card.text = "SelCard: "
 			deselect_avail()
 		else:
 			selected_action = null
-			sel_act.text = "SelAct: " + selected_action.id + " - " + selected_action.description
+			sel_act.text = "SelAct: "
 	else:
-		if selected_card.id != card.id:
+		if !is_instance_valid(selected_card) || selected_card.id != card.id:
 			#if the selected card is in the available grid, deselect action queue
 			selected_card = card
 			sel_card.text = "SelCard: " + selected_card.id
 			selected_action = null
-			sel_act.text = "SelAct: " + selected_action.id
+			sel_act.text = "SelAct: "
 			deselect_queue()
 		else:
 			selected_card = null
-			sel_card.text = "SelCard: " + selected_card.id
+			sel_card.text = "SelCard: "
 
 # Adding/removing actions to the queue
-func _on_add_action_button_pressed() -> void:
+func _on_add_action_button_pressed():
 	if is_instance_valid(selected_card):
 		print("add action pressed")
 		print(str(selected_card))
+		if current_queue.size() >= action_slot_count:
+			return
 		current_queue.enqueue(selected_card)
-		action_queued.emit(selected_card)
-		queue_size += 1
+		action_queued.emit()
+		var action
+		match current_queue.size():
+			1: action = action_1
+			2: action = action_2
+			3: action = action_3
+			4: action = action_4
+		action.set_card(selected_card)
+		action.pressed.connect(_on_pressed.bind(selected_card))		
+		current_queue_debug.text += str(selected_card.id) + " \n"
 		var card_index = available_cards.find(selected_card, 0)
-		available_cards.remove_at(card_index)
-		#Util remove script
+		available_cards.remove_at(card_index)		
 		_on_deck_updated()
-		clear_queue_window()
 		selected_card = null
-		sel_card.text = "SelCard: " + selected_card.id
+		sel_card.text = "SelCard: "
 	
 func _on_remove_action_button_pressed() -> void:
 	#action_removed.emit(selected_card)
@@ -198,19 +208,15 @@ func _on_remove_action_button_pressed() -> void:
 		current_queue.erase(selected_action)
 		available_cards.append(selected_action)
 		selected_action = null
-		sel_act.text = "SelAct: " + selected_action.id
+		sel_act.text = "SelAct: "
 		print(current_queue.size())
-		queue_size -= 1
 		action_removed.emit(current_queue)
-		
 		_on_deck_updated()
 		clear_queue_window()
 
 func _on_move_pressed() -> void:
 	# Packages the current queue dictionaries and sends it to the game manager
-
-	for i in current_queue:
-		var card = Util.all_cards[i]
+	for card in current_queue:
 		var move_dir = card.direction
 		var move_amt = card.amount
 		

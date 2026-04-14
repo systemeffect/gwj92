@@ -23,7 +23,7 @@ signal pressed
 
 var outer_border_default_color = Color(0.06,0.06,0.06,1.0)
 var icon_path : String = "res://assets/icons/"
-var card : Dictionary
+var card : Card
 var is_empty : bool = true
 
 func _ready() -> void:
@@ -37,7 +37,6 @@ func _ready() -> void:
 	card_button.mouse_entered.connect(_on_card_icon_mouse_entered)
 	card_button.mouse_exited.connect(_on_card_icon_mouse_exited)
 	card_icon.texture = card_image
-	#set_card()
 	
 func _on_card_icon_mouse_entered():
 	if !is_in_action_queue:
@@ -51,26 +50,26 @@ func _on_card_icon_mouse_exited():
 func set_empty():
 	card_icon.texture = null
 	is_empty = true
-	card = {}
+	card = null
 	
 func deselect():
 	selected.hide()
 	
-func set_card(new_card : Dictionary):
+func set_card(new_card : Card):
 	if new_card != null:
 		card = new_card
-		if card.get("CARD_ICON") != null:
-			var new_card_icon_path = icon_path + card.get("CARD_ICON")
+		if card.icon != null:
+			var new_card_icon_path = icon_path + card.icon
 			card_icon.texture = load(new_card_icon_path)
-		card_type_label.text = card["CARD_TYPE"]
-		move_direction_label.text = card["MOVE_DIRECTION"]
-		move_amount_label.text = str(card["MOVE_AMOUNT"])
-		storm.text = card["STORM_TYPE"] + " " + str(card["STORM_VALUE"])
+		card_type_label.text = card.type
+		move_direction_label.text = str(card.direction)
+		move_amount_label.text = str(card.amount)
+		storm.text = card.storm_type + " " + str(card.storm_value)
 		set_storm_color()
 	
 func set_storm_color():
 	if !is_in_action_queue:
-		var storm_type = card.get("STORM_TYPE")
+		var storm_type = card.storm_type
 		match storm_type:
 			"DEBRIS":
 				outer_border_default_color = Color(0.488, 0.468, 0.079, 1.0)

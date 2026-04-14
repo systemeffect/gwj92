@@ -12,8 +12,8 @@ var icon: String
 var storm_type: String #probably make an enum for this
 var storm_value: int #int or float?
 
-func _init(id: String, json_data : Dictionary):
-	id = id
+func _init(_id: String, json_data : Dictionary):
+	id = _id
 	type = json_data.get("CARD_TYPE")
 	direction = getDirection(json_data.get("MOVE_DIRECTION"))
 	amount = json_data.get("MOVE_AMOUNT")
@@ -24,12 +24,12 @@ func _init(id: String, json_data : Dictionary):
 
 func getDirection(input: String) -> DIRECTION:
 	match input:
-		"north":
+		"NORTH":
 			return DIRECTION.north
-		"south":
+		"SOUTH":
 			return DIRECTION.south
-		"east":
+		"EAST":
 			return DIRECTION.east    
-		"west":
+		"WEST":
 			return DIRECTION.west
 	return DIRECTION.north

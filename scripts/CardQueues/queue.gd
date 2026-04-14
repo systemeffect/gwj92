@@ -9,7 +9,7 @@ func _init():
 func enqueue(item: Card):
 	queue.enqueue(item)
 
-func dequeue():
+func dequeue() -> Card:
 	return queue.dequeue()
 	
 func removeAt(index: int):
@@ -38,4 +38,4 @@ func _iter_next(iter):
 	return queue._iter_next(iter)
 	
 func _iter_get(iter):
-	return queue.iter_get(iter)
+	return queue._iter_get(iter)

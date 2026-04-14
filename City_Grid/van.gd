@@ -36,14 +36,14 @@ func _physics_process(delta: float):
 	position = pos
 	
 	
-func move (dir: String, amt: int) -> void:
-	if dir == "WEST":
+func move (dir: Card.DIRECTION, amt: int) -> void:
+	if dir == Card.DIRECTION.west:
 		target_loc_x = position.x - (amt * MOVE_UNIT)
-	if dir == "EAST":
+	if dir == Card.DIRECTION.east:
 		target_loc_x = position.x + (amt * MOVE_UNIT)
-	if dir == "NORTH":
+	if dir == Card.DIRECTION.north:
 		target_loc_y = position.y - (amt * MOVE_UNIT)
-	if dir == "SOUTH":
+	if dir == Card.DIRECTION.south:
 		target_loc_y = position.y + (amt * MOVE_UNIT)
 
 #func _input(event: InputEvent) -> void:

@@ -9,14 +9,14 @@ func enqueue(item: Card):
 		head = new_node
 	else:
 		var current = head
-		while current.next:
+		while is_instance_valid(current.next):
 			current = current.next
 		current.link(new_node)
 		
 func dequeue() -> Card:
 	var ret = head
 	head = head.next
-	return ret
+	return ret.value
 	
 func removeAt(index: int):
 	var idx = 0
@@ -53,3 +53,19 @@ func size() -> int:
 
 func clear():
 	head = null
+
+#iterable support
+var _current: DoublyLinkedListNode
+func _should_continue(_iter):
+	return is_instance_valid(_current)
+
+func _iter_init(iter) -> bool:
+	_current = head
+	return _should_continue(iter)
+
+func _iter_next(iter):
+	_current = _current.next
+	return _should_continue(iter)
+	
+func _iter_get(_iter) -> Card:
+	return _current.value
