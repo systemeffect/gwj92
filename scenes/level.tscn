@@ -77,16 +77,16 @@ size = Vector3(0.33251953, 1.6000977, 0.7836914)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5485246, 1.9260049, 0.46972364)
 size = Vector3(0.4716797, 0.9135132, 0.20227051)
 
-[node name="button" parent="." unique_id=165692526 instance=ExtResource("6_2r41h")]
+[node name="RedButton" parent="." unique_id=165692526 instance=ExtResource("6_2r41h")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -0.94234324, 1.7346679, 0.60897386)
 
-[node name="Button" parent="button" index="1" unique_id=240862583]
+[node name="Button" parent="RedButton" index="1" unique_id=240862583]
 surface_material_override/0 = SubResource("StandardMaterial3D_2r41h")
 
-[node name="ButtonArea" type="Area3D" parent="button" unique_id=904083176]
+[node name="ButtonArea" type="Area3D" parent="RedButton" unique_id=904083176]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="button/ButtonArea" unique_id=566961876]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RedButton/ButtonArea" unique_id=566961876]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016235352, 0.023925781, 0)
 shape = SubResource("BoxShape3D_2r41h")
 
-[editable path="button"]
+[editable path="RedButton"]

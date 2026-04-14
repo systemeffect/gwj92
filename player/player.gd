@@ -2,6 +2,8 @@ extends CharacterBody3D
 
 @onready var camera_pivot: Node3D = $CameraPivot
 @onready var ray_cast_3d: RayCast3D = $CameraPivot/RayCast3D
+@onready var button_anim_player: AnimationPlayer = $"../RedButton/AnimationPlayer"
+
 
 var mouse_motion := Vector2.ZERO
 var is_mouse_visible: bool = false
@@ -32,7 +34,12 @@ func _input(event: InputEvent) -> void:
 	
 	if event is InputEventMouseButton:
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-			GlobalSignals.clicked.emit()
+			
+			#Probably not the best way to do this but whatever
+			if ray_cast_3d.is_colliding():
+				if ray_cast_3d.get_collider().name == "ButtonArea":
+					GlobalSignals.red_button_pressed.emit()
+					button_anim_player.play("button_press")
 
 func handle_camera_rotation() -> void:
 	rotate_y(mouse_motion.x)

@@ -117,28 +117,12 @@ func _on_round_initiated(moves : Array):
 			
 			var move_dir = card.get("MOVE_DIRECTION")
 			var move_amt = card.get("MOVE_AMOUNT")
-			print("move direction: " + move_dir + " and move amt: " + str(move_amt))
 			van.move(move_dir, move_amt)
 			await get_tree().create_timer(2.0).timeout
-			print("timer timeout!")
 			current_turn +=1
 			current_turn_label.text = "Current turn: " + str(current_turn)
 		else:
 			print("card is null")
-
-#func _on_round_initiated(moves : Array):
-	#while moves.size() > 0:
-		#var current_move = moves.pop_front()
-		#var card = Util.all_cards[current_move]
-		#if card != null:
-			#var move_dir = card.get("MOVE_DIRECTION")
-			#var move_amt = card.get("MOVE_AMOUNT")
-			#print("move direction: " + move_dir + " and move amt: " + str(move_amt))
-			#van.move(move_dir, move_amt)
-			#await get_tree().create_timer(2.0).timeout
-			#print("timer timeout!")
-		#else:
-			#print("card is null")
 
 
 func _on_move_test_pressed() -> void:

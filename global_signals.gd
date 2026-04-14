@@ -1,4 +1,4 @@
 extends Node
 
 
-signal clicked
+signal red_button_pressed
