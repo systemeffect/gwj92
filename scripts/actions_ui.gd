@@ -294,7 +294,17 @@ func _on_move_pressed() -> void:
 	#queue_dict_array.append(queue_item_3)
 	#queue_dict_array.append(queue_item_4)
 	if queue_size > 0:
+		for i in current_queue:
+			var card = Util.all_cards[i]
+			var move_dir = card.get("MOVE_DIRECTION")
+			var move_amt = card.get("MOVE_AMOUNT")
+			
+			var new_direction = Direction.new()
+			new_direction.move_direction = move_dir
+			new_direction.move_amount = move_amt
+			DirectionList.directions.append(new_direction)
 		
+		print("DIRECTIONSSSSSSS ", DirectionList.directions)
 		round_initiated.emit(current_queue)
 
 func _on_move_test_pressed() -> void:
