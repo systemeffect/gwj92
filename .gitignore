@@ -1,3 +1,9 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+City_Grid/city_grid.tscn14286268768.tmp
+City_Grid/city_grid.tscn14300528815.tmp
+City_Grid/city_grid.tscn14487958877.tmp
+City_Grid/city_grid.tscn15368876515.tmp
+City_Grid/city_grid.tscn19340797951.tmp
+City_Grid/city_grid.tscn19354400355.tmp
