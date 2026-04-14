@@ -11,6 +11,8 @@ extends Node2D
 
 # Movement Preview Lines
 @onready var queue_preview: Line2D = $UI/PathPreview/QueuePreview
+@onready var preview_collider: CollisionShape2D = $UI/PathPreview/PreviewCollider
+@onready var preview_cont: Area2D = $UI/PathPreview/PreviewCont
 
 
 
@@ -52,8 +54,10 @@ func _on_action_queued(card_id : String):
 
 func find_path():
 	var last_point = van_grid_coords
+	var new_point = last_point
 	queue_preview.clear_points()
 	queue_preview.add_point(van_position)
+	clear_collider_container()
 	for move in action_queue:
 		var card = Util.all_cards[str(move)]
 		var move_amt = int(card.get("MOVE_AMOUNT"))
@@ -68,9 +72,23 @@ func find_path():
 				move_vector = Vector2(0, move_amt)
 			"WEST":
 				move_vector = Vector2(-move_amt, 0)
-		last_point += move_vector
-		queue_preview.add_point(city_grid.map_to_local(last_point))
+		new_point = last_point + move_vector
+		queue_preview.add_point(city_grid.map_to_local(new_point))
+		var new_collider = preview_collider.duplicate()
+		var new_shape = preview_collider.shape.duplicate()
+		new_collider.shape = new_shape
+		new_collider.shape.a = city_grid.map_to_local(last_point)
+		new_collider.shape.b = city_grid.map_to_local(new_point)
+		preview_cont.add_child(new_collider, true)
+		last_point = new_point
+		if preview_cont.has_overlapping_bodies():
+			print("collision!")
 		
+func clear_collider_container():
+	while preview_cont.get_child_count() > 0:
+		var child = preview_cont.get_child(0)
+		preview_cont.remove_child(child)
+		child.queue_free()
 
 func _on_action_removed(current_queue : Array):
 	actions_queued = action_queue.size()
@@ -129,3 +147,8 @@ func _on_show_grid_pressed() -> void:
 		grid_overlay.hide()
 	else:
 		grid_overlay.show()
+
+
+func _on_preview_cont_body_entered(body: Node2D) -> void:
+	print("body entered!")
+	pass # Replace with function body.

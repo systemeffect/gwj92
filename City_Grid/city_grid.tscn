@@ -18,6 +18,8 @@ font_size = 8
 shader = ExtResource("5_yiybu")
 shader_parameter/speed = 1.0
 
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_yiybu"]
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wkloc"]
 texture = ExtResource("4_qtupi")
 texture_region_size = Vector2i(32, 32)
@@ -577,6 +579,12 @@ scale = Vector2(1.0022026, 0.9975787)
 texture = ExtResource("6_2f6ys")
 texture_mode = 1
 
+[node name="PreviewCollider" type="CollisionShape2D" parent="UI/PathPreview" unique_id=654721820]
+shape = SubResource("SegmentShape2D_yiybu")
+
+[node name="PreviewCont" type="Area2D" parent="UI/PathPreview" unique_id=272044841]
+collision_mask = 2
+
 [node name="4848Grid" type="Sprite2D" parent="." unique_id=1875270451]
 visible = false
 texture = ExtResource("1_5veu3")
@@ -613,3 +621,4 @@ texture = ExtResource("2_pjegq")
 
 [connection signal="pressed" from="UI/Debug/Margin/PanelContainer/DebugMenu/ShowGrid" to="." method="_on_show_grid_pressed"]
 [connection signal="pressed" from="UI/Debug/Margin/PanelContainer/DebugMenu/MoveTest" to="." method="_on_move_test_pressed"]
+[connection signal="body_entered" from="UI/PathPreview/PreviewCont" to="." method="_on_preview_cont_body_entered"]
