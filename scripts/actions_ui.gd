@@ -13,10 +13,6 @@ signal reset_van
 @onready var sel_card: Label = $ActionDebug/VBoxContainer/SelCard
 @onready var sel_act: Label = $ActionDebug/VBoxContainer/SelAct
 
-
-
-@onready var action_queue: Control = $ActionQueue
-
 # Action Queue Slots
 @onready var action_1: Control = $ActionQueue/GridContainer/Action_1
 @onready var action_2: Control = $ActionQueue/GridContainer/Action_2
@@ -24,13 +20,7 @@ signal reset_van
 @onready var action_4: Control = $ActionQueue/GridContainer/Action_4
 
 # Action Queue
-var queue_size : int = 0
-var max_queue_size : int = 4
-var current_queue : Array
-var queue_item_1 : Dictionary
-var queue_item_2 : Dictionary
-var queue_item_3 : Dictionary
-var queue_item_4 : Dictionary
+var current_queue: CardQueue
 
 var cur_deck_size : int = 0
 var selected_card : String
@@ -162,35 +152,7 @@ func clear_queue_window():
 	action_4.set_empty()
 	if action_4.pressed.is_connected(_on_pressed):
 		action_4.pressed.disconnect(_on_pressed)
-	queue_item_1 = {}
-	queue_item_2 = {}
-	queue_item_3 = {}
-	queue_item_4 = {}
 	
-func update_queue():
-	var slot = 0
-	for card_id in current_queue:
-		if card_id != "":
-			var card_data = Util.all_cards[card_id]
-			match slot:
-				0:
-					action_1.set_card(card_data)
-					action_1.pressed.connect(_on_pressed.bind(card_id))
-					queue_item_1 = card_data
-				1:
-					action_2.set_card(card_data)
-					action_2.pressed.connect(_on_pressed.bind(card_id))
-					queue_item_2 = card_data
-				2:
-					action_3.set_card(card_data)
-					action_3.pressed.connect(_on_pressed.bind(card_id))
-					queue_item_3 = card_data
-				3:
-					action_4.set_card(card_data)
-					action_4.pressed.connect(_on_pressed.bind(card_id))
-					queue_item_4 = card_data
-			slot += 1
-
 func highlight_active_slot(slot : int):
 	action_1.set_default_border_color()
 	action_2.set_default_border_color()
@@ -263,12 +225,6 @@ func _on_add_action_button_pressed() -> void:
 		else:
 			print("Action Queue Full")
 	
-
-func refresh_queue():
-	current_queue_debug.text = ""
-	for action in current_queue:
-		current_queue_debug.text += str(action) + " \n"
-
 func _on_remove_action_button_pressed() -> void:
 	#action_removed.emit(selected_card)
 	if selected_action != "":
@@ -288,24 +244,19 @@ func _on_remove_action_button_pressed() -> void:
 
 func _on_move_pressed() -> void:
 	# Packages the current queue dictionaries and sends it to the game manager
-	#var queue_dict_array : Array[Dictionary]
-	#queue_dict_array.append(queue_item_1)
-	#queue_dict_array.append(queue_item_2)
-	#queue_dict_array.append(queue_item_3)
-	#queue_dict_array.append(queue_item_4)
-	if queue_size > 0:
-		for i in current_queue:
-			var card = Util.all_cards[i]
-			var move_dir = card.get("MOVE_DIRECTION")
-			var move_amt = card.get("MOVE_AMOUNT")
-			
-			var new_direction = Direction.new()
-			new_direction.move_direction = move_dir
-			new_direction.move_amount = move_amt
-			DirectionList.directions.append(new_direction)
+
+	for i in current_queue:
+		var card = Util.all_cards[i]
+		var move_dir = card.get("MOVE_DIRECTION")
+		var move_amt = card.get("MOVE_AMOUNT")
 		
-		print("DIRECTIONSSSSSSS ", DirectionList.directions)
-		round_initiated.emit(current_queue)
+		var new_direction = Direction.new()
+		new_direction.move_direction = move_dir
+		new_direction.move_amount = move_amt
+		DirectionList.directions.append(new_direction)
+	
+	print("DIRECTIONSSSSSSS ", DirectionList.directions)
+	round_initiated.emit(current_queue)
 
 func _on_move_test_pressed() -> void:
 	move_test.emit()
