@@ -209,7 +209,7 @@ func _on_reset_queue_pressed() -> void:
 	available_cards.append_array(current_queue)
 	clear_grid_container()
 	load_cards()
-	current_queue = []
+	current_queue.clear()
 	queue_size = 0
 	refresh_queue()
 	clear_queue_window()
@@ -242,24 +242,25 @@ func _on_pressed(card_id: String):
 
 # Adding/removing actions to the queue
 func _on_add_action_button_pressed() -> void:
-	print("add action pressed")
-	print(str(selected_card))
-	if queue_size < max_queue_size:
-		print("room in queue - adding")
-		current_queue.append(selected_card)
-		refresh_queue()
-		action_queued.emit(selected_card)
-		queue_size += 1
-		var card_index = available_cards.find(selected_card, 0)
-		available_cards.remove_at(card_index)
-		#Util remove script
-		_on_deck_updated()
-		clear_queue_window()
-		update_queue()
-		selected_card = ""
-		sel_card.text = "SelCard: " + selected_card
-	else:
-		print("Action Queue Full")
+	if selected_card != "":
+		print("add action pressed")
+		print(str(selected_card))
+		if queue_size < max_queue_size:
+			print("room in queue - adding")
+			current_queue.append(selected_card)
+			refresh_queue()
+			action_queued.emit(selected_card)
+			queue_size += 1
+			var card_index = available_cards.find(selected_card, 0)
+			available_cards.remove_at(card_index)
+			#Util remove script
+			_on_deck_updated()
+			clear_queue_window()
+			update_queue()
+			selected_card = ""
+			sel_card.text = "SelCard: " + selected_card
+		else:
+			print("Action Queue Full")
 	
 
 func refresh_queue():

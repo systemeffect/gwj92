@@ -49,38 +49,6 @@ func _on_reset_queue():
 func _on_action_queued(card_id : String):
 	actions_queued_label.text = "Actions queued: " + str(action_queue.size())
 	find_path()
-	#var card = Util.all_cards[card_id]
-	#var move_amt = int(card.get("MOVE_AMOUNT"))
-	#var move_dir = card.get("MOVE_DIRECTION")
-	#var move_vector : Vector2
-	#match move_dir:
-		#"NORTH":
-			#move_vector = Vector2(0, -move_amt)
-		#"EAST":
-			#move_vector = Vector2(move_amt, 0)
-		#"SOUTH":
-			#move_vector = Vector2(0, move_amt)
-		#"WEST":
-			#move_vector = Vector2(-move_amt, 0)
-	#current_preview_coords += move_vector
-	#current_preview_position = city_grid.map_to_local(current_preview_coords)
-	#if actions_queued <= 1:
-		## when an action is queued, draw a line from the previous move position point
-		#queue_preview_1.add_point(van_position)
-		#queue_preview_1.add_point(current_preview_position)
-		#preview_1_pos = current_preview_position
-	#elif actions_queued == 2:
-		#queue_preview_2.add_point(preview_1_pos)
-		#queue_preview_2.add_point(current_preview_position)
-		#preview_2_pos = current_preview_position
-	#elif actions_queued == 3:
-		#queue_preview_3.add_point(preview_2_pos)
-		#queue_preview_3.add_point(current_preview_position)
-		#preview_3_pos = current_preview_position
-	#elif actions_queued == 4:
-		#queue_preview_4.add_point(preview_3_pos)
-		#queue_preview_4.add_point(current_preview_position)
-		#preview_4_pos = current_preview_position
 
 func find_path():
 	var last_point = van_grid_coords
