@@ -51,6 +51,7 @@ func _on_card_icon_mouse_exited():
 func set_empty():
 	card_icon.texture = null
 	is_empty = true
+	card = {}
 	
 func deselect():
 	selected.hide()

@@ -2,10 +2,17 @@ extends Control
 
 signal round_initiated
 signal move_test
-signal van_reset
+signal action_queued
+signal action_removed
+signal reset_queue
 
 @onready var grid_container: GridContainer = $PanelContainer/GridContainer
 @onready var queue_grid_container: GridContainer = $ActionQueue/GridContainer
+@onready var current_queue_debug: RichTextLabel = $ActionDebug/VBoxContainer/CurrentQueue
+@onready var sel_card: Label = $ActionDebug/VBoxContainer/SelCard
+@onready var sel_act: Label = $ActionDebug/VBoxContainer/SelAct
+
+
 
 @onready var action_queue: Control = $ActionQueue
 
@@ -35,15 +42,17 @@ var all_cards = {}
 var current_deck : Array[String]
 # Card IDs for all cards currently available to use as actions
 var available_cards : Array[String]
-var test_hand : Array[String]= ["3", "7", "15", "21"]
+var test_hand : Array[String]= ["3", "7","11","19", "15", "21"]
 
-
+var van : Node2D
+var van_grid_coords : Vector2
 
 func _ready() -> void:
 	load_card_data()
 	current_deck = test_hand
 	available_cards = current_deck
 	load_cards()
+
 
 # JSON functions
 func load_card_data():
@@ -114,7 +123,6 @@ func load_cards():
 				slot.pressed.connect(_on_pressed.bind(card_id))
 			else:
 				slot.set_empty()
-
 
 # Deselect functions for each gridcontainer
 func deselect_avail():
@@ -201,53 +209,81 @@ func _on_reset_queue_pressed() -> void:
 	available_cards.append_array(current_queue)
 	clear_grid_container()
 	load_cards()
-	current_queue = []
+	current_queue.clear()
 	queue_size = 0
+	refresh_queue()
 	clear_queue_window()
+	reset_queue.emit()
 
 func _on_pressed(card_id: String):
-	# Checks to seeif the selected card is in the action queue
+	# Checks to see if the selected card is in the action queue
 	if current_queue.has(card_id):
 		# If so, deselect available cards
 		if selected_action != card_id:
 			selected_action = card_id
+			sel_act.text = "SelAct: " + selected_action
 			selected_card = ""
+			sel_card.text = "SelCard: " + selected_card
 			deselect_avail()
 		else:
 			selected_action = ""
+			sel_act.text = "SelAct: " + selected_action
 	else:
 		if selected_card != card_id:
 			#if the selected card is in the available grid, deselect action queue
 			selected_card = card_id
+			sel_card.text = "SelCard: " + selected_card
 			selected_action = ""
+			sel_act.text = "SelAct: " + selected_action
 			deselect_queue()
 		else:
 			selected_card = ""
+			sel_card.text = "SelCard: " + selected_card
 
+# Adding/removing actions to the queue
 func _on_add_action_button_pressed() -> void:
-	#action_queued.emit(selected_card)
-	#
-	if queue_size < max_queue_size:
-		current_queue.append(selected_card)
-		queue_size += 1
-		var card_index = available_cards.find(selected_card, 0)
-		available_cards.remove_at(card_index)
-		#Util remove script
-		_on_deck_updated()
-	else:
-		print("Action Queue Full")
-	clear_queue_window()
-	update_queue()
+	if selected_card != "":
+		print("add action pressed")
+		print(str(selected_card))
+		if queue_size < max_queue_size:
+			print("room in queue - adding")
+			current_queue.append(selected_card)
+			refresh_queue()
+			action_queued.emit(selected_card)
+			queue_size += 1
+			var card_index = available_cards.find(selected_card, 0)
+			available_cards.remove_at(card_index)
+			#Util remove script
+			_on_deck_updated()
+			clear_queue_window()
+			update_queue()
+			selected_card = ""
+			sel_card.text = "SelCard: " + selected_card
+		else:
+			print("Action Queue Full")
+	
+
+func refresh_queue():
+	current_queue_debug.text = ""
+	for action in current_queue:
+		current_queue_debug.text += str(action) + " \n"
 
 func _on_remove_action_button_pressed() -> void:
 	#action_removed.emit(selected_card)
-	current_queue.erase(selected_action)
-	queue_size -= 1
-	available_cards.append(selected_action)
-	_on_deck_updated()
-	clear_queue_window()
-	update_queue()
-
+	if selected_action != "":
+		print("erasing " + str(selected_action))
+		current_queue.erase(selected_action)
+		available_cards.append(selected_action)
+		selected_action = ""
+		sel_act.text = "SelAct: " + selected_action
+		print(current_queue.size())
+		refresh_queue()
+		queue_size -= 1
+		action_removed.emit(current_queue)
+		
+		_on_deck_updated()
+		clear_queue_window()
+		update_queue()
 
 func _on_move_pressed() -> void:
 	# Packages the current queue dictionaries and sends it to the game manager
@@ -259,13 +295,5 @@ func _on_move_pressed() -> void:
 	if queue_size > 0:
 		round_initiated.emit(current_queue)
 
-
 func _on_move_test_pressed() -> void:
 	move_test.emit()
-
-
-func _on_van_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/level.tscn")
-
-func _on_reset_van_pressed() -> void:
-	van_reset.emit()
