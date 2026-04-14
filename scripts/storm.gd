@@ -1,5 +1,6 @@
 extends Node2D
 
+@onready var sprite: Sprite2D = $Sprite
 
 var origin_pos : Vector2
 var direction : Vector2
@@ -23,6 +24,7 @@ func _process(delta: float) -> void:
 	self.position += direction * storm_speed * delta
 	variance = randf_range(-0.1, 0.1)
 	direction = direction.rotated(variance)
+	sprite.rotation += 1 * delta
 	pass
 	# Write function to determine storm direction with drift
 	# Move the storm in new direction at set speed

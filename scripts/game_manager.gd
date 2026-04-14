@@ -29,9 +29,13 @@ var action_queue : Array
 var current_preview_coords : Vector2
 var current_preview_position : Vector2
 
+# Van positions
 var van_position : Vector2
 var van_grid_coords : Vector2
 var van_start_pos: Vector2
+
+# Storm variables
+var wind_direction : Direction
 
 func _ready() -> void:
 	actions_ui.round_initiated.connect(_on_round_initiated)
@@ -131,19 +135,9 @@ func _on_round_initiated(moves : Array):
 		else:
 			print("card is null")
 
-#func _on_round_initiated(moves : Array):
-	#while moves.size() > 0:
-		#var current_move = moves.pop_front()
-		#var card = Util.all_cards[current_move]
-		#if card != null:
-			#var move_dir = card.get("MOVE_DIRECTION")
-			#var move_amt = card.get("MOVE_AMOUNT")
-			#print("move direction: " + move_dir + " and move amt: " + str(move_amt))
-			#van.move(move_dir, move_amt)
-			#await get_tree().create_timer(2.0).timeout
-			#print("timer timeout!")
-		#else:
-			#print("card is null")
+func set_wind_direction(dir : Direction):
+	wind_direction = dir
+	# emit signal if needed?
 
 
 func _on_move_test_pressed() -> void:
@@ -174,4 +168,11 @@ func _on_brew_storm_pressed() -> void:
 	var storm = storm_scene.instantiate()
 	storm.origin_pos = current_pos
 	storms_container.add_child(storm)
+	pass # Replace with function body.
+
+
+func _on_add_status_pressed() -> void:
+	var first_storm = storms_container.get_child(0)
+	var storm_loc = first_storm.position
+	print("STATUS AT " + str(storm_loc))
 	pass # Replace with function body.

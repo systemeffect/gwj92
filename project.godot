@@ -31,6 +31,13 @@ window/size/viewport_width=640
 window/size/viewport_height=480
 window/stretch/mode="viewport"
 
+[layer_names]
+
+2d_physics/layer_2="ground_obstacles"
+2d_physics/layer_3="ground_status"
+2d_physics/layer_4="storm"
+2d_physics/layer_5="preview_lines"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
