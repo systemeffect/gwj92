@@ -1,8 +1,6 @@
 extends CharacterBody3D
 
-@onready var sub_viewport: SubViewport = $"../MeshInstance3D/SubViewport"
 @onready var camera_pivot: Node3D = $CameraPivot
-@onready var mesh_instance_3d: MeshInstance3D = $"../MeshInstance3D"
 
 var mouse_motion := Vector2.ZERO
 var is_mouse_visible: bool = false
