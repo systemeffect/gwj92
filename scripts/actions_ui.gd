@@ -5,6 +5,7 @@ signal move_test
 signal action_queued
 signal action_removed
 signal reset_queue
+signal reset_van
 
 @onready var grid_container: GridContainer = $PanelContainer/GridContainer
 @onready var queue_grid_container: GridContainer = $ActionQueue/GridContainer
@@ -297,3 +298,9 @@ func _on_move_pressed() -> void:
 
 func _on_move_test_pressed() -> void:
 	move_test.emit()
+
+func _on_reset_van_pressed() -> void:
+	reset_van.emit()
+
+func _on_van_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/level.tscn")

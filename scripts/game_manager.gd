@@ -26,6 +26,7 @@ var current_preview_position : Vector2
 
 var van_position : Vector2
 var van_grid_coords : Vector2
+var van_start_pos: Vector2
 
 func _ready() -> void:
 	actions_ui.round_initiated.connect(_on_round_initiated)
@@ -33,6 +34,8 @@ func _ready() -> void:
 	actions_ui.action_queued.connect(_on_action_queued)
 	actions_ui.action_removed.connect(_on_action_removed)
 	actions_ui.reset_queue.connect(_on_reset_queue)
+	actions_ui.reset_van.connect(_on_reset_van)
+	
 	action_queue = actions_ui.current_queue
 	current_turn_label.text = "Current turn: " + str(current_turn)
 	
@@ -40,6 +43,7 @@ func _ready() -> void:
 	van.is_not_moving.connect(_on_van_is_not_moving)
 	
 	van_position = van.global_position
+	van_start_pos = van.global_position
 	van_grid_coords = city_grid.local_to_map(van_position)
 	print(van_grid_coords)
 	current_preview_coords = van_grid_coords
@@ -140,6 +144,9 @@ func _on_round_initiated(moves : Array):
 func _on_move_test_pressed() -> void:
 	van.move("RIGHT", 3)
 	pass # Replace with function body.
+
+func _on_reset_van() -> void:
+	van.position = van_start_pos
 
 
 func _on_show_grid_pressed() -> void:

@@ -27,54 +27,73 @@ layout_mode = 2
 theme_override_constants/h_separation = 84
 columns = 6
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1097832441]
+[node name="ActionDebug" type="PanelContainer" parent="." unique_id=686111020]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -204.0
-offset_top = 20.0
-offset_right = -80.0
-offset_bottom = 86.0
+offset_left = -228.0
+offset_top = 50.0
+offset_right = -82.0
+offset_bottom = 345.0
 grow_horizontal = 0
 
-[node name="AddActionButton" type="Button" parent="VBoxContainer" unique_id=1445214600]
+[node name="VBoxContainer" type="VBoxContainer" parent="ActionDebug" unique_id=1097832441]
+layout_mode = 2
+
+[node name="AddActionButton" type="Button" parent="ActionDebug/VBoxContainer" unique_id=1445214600]
 layout_mode = 2
 text = "Add Action"
 
-[node name="RemoveActionButton" type="Button" parent="VBoxContainer" unique_id=1187820135]
+[node name="RemoveActionButton" type="Button" parent="ActionDebug/VBoxContainer" unique_id=1187820135]
 layout_mode = 2
 text = "Remove Action"
 
-[node name="ResetQueue" type="Button" parent="VBoxContainer" unique_id=845560267]
+[node name="ResetQueue" type="Button" parent="ActionDebug/VBoxContainer" unique_id=845560267]
 layout_mode = 2
 text = "Reset Queue"
 
-[node name="Move" type="Button" parent="VBoxContainer" unique_id=170235260]
+[node name="Move" type="Button" parent="ActionDebug/VBoxContainer" unique_id=170235260]
 layout_mode = 2
 text = "Move"
 
-[node name="MoveTest" type="Button" parent="VBoxContainer" unique_id=129270989]
+[node name="MoveTest" type="Button" parent="ActionDebug/VBoxContainer" unique_id=129270989]
 layout_mode = 2
 text = "Move Test - R3"
 
-[node name="VanButton" type="Button" parent="VBoxContainer" unique_id=202436281]
+[node name="VanButton" type="Button" parent="ActionDebug/VBoxContainer" unique_id=202436281]
 layout_mode = 2
 text = "Inside Van"
 
-[node name="ResetVan" type="Button" parent="VBoxContainer" unique_id=105072662]
+[node name="ResetVan" type="Button" parent="ActionDebug/VBoxContainer" unique_id=105072662]
 layout_mode = 2
 text = "Reset Van"
+
+[node name="SelCard" type="Label" parent="ActionDebug/VBoxContainer" unique_id=328702552]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "SelCard"
+
+[node name="SelAct" type="Label" parent="ActionDebug/VBoxContainer" unique_id=614994489]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "SelAct"
+
+[node name="CurrentQueue" type="RichTextLabel" parent="ActionDebug/VBoxContainer" unique_id=89345188]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 10
+text = "test"
+fit_content = true
 
 [node name="ActionQueue" parent="." unique_id=509091489 instance=ExtResource("2_m8tt6")]
 layout_mode = 1
 
-[connection signal="pressed" from="VBoxContainer/AddActionButton" to="." method="_on_add_action_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/RemoveActionButton" to="." method="_on_remove_action_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/ResetQueue" to="." method="_on_reset_queue_pressed"]
-[connection signal="pressed" from="VBoxContainer/Move" to="." method="_on_move_pressed"]
-[connection signal="pressed" from="VBoxContainer/MoveTest" to="." method="_on_move_test_pressed"]
-[connection signal="pressed" from="VBoxContainer/VanButton" to="." method="_on_van_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/ResetVan" to="." method="_on_reset_van_pressed"]
+[connection signal="pressed" from="ActionDebug/VBoxContainer/AddActionButton" to="." method="_on_add_action_button_pressed"]
+[connection signal="pressed" from="ActionDebug/VBoxContainer/RemoveActionButton" to="." method="_on_remove_action_button_pressed"]
+[connection signal="pressed" from="ActionDebug/VBoxContainer/ResetQueue" to="." method="_on_reset_queue_pressed"]
+[connection signal="pressed" from="ActionDebug/VBoxContainer/Move" to="." method="_on_move_pressed"]
+[connection signal="pressed" from="ActionDebug/VBoxContainer/MoveTest" to="." method="_on_move_test_pressed"]
+[connection signal="pressed" from="ActionDebug/VBoxContainer/VanButton" to="." method="_on_van_button_pressed"]
+[connection signal="pressed" from="ActionDebug/VBoxContainer/ResetVan" to="." method="_on_reset_van_pressed"]
 
 [editable path="ActionQueue"]
