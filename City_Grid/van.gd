@@ -13,7 +13,7 @@ var target_loc_y: float = 0
 var path: Array[Direction]
 
 func _ready() -> void:
-	GlobalSignals.clicked.connect(_on_clicked)
+#	GlobalSignals.clicked.connect(_on_clicked)
 	path = DirectionList.directions
 
 func _physics_process(delta: float):
