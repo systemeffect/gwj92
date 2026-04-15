@@ -2,10 +2,6 @@ extends Control
 
 #signal action_removed
 
-#@onready var action_1: Control = $GridContainer/Action_1
-#@onready var action_2: Control = $GridContainer/Action_2
-#@onready var action_3: Control = $GridContainer/Action_3
-#@onready var action_4: Control = $GridContainer/Action_4
 
 var queue_size : int = 0
 var max_queue_size : int = 4

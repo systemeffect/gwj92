@@ -113,7 +113,6 @@ func _on_round_initiated(moves: CardQueue):
 			var move_amt = card.amount
 			van.move(move_dir, move_amt)
 			await get_tree().create_timer(2.0).timeout
-			print("timer timeout!")
 			current_turn +=1
 			current_turn_label.text = "Current turn: " + str(current_turn)
 		else:

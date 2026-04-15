@@ -215,7 +215,6 @@ func _on_remove_action_button_pressed() -> void:
 		clear_queue_window()
 
 func _on_move_pressed() -> void:
-	# Packages the current queue dictionaries and sends it to the game manager
 	for card in current_queue:
 		DirectionList.directions.append(Direction.new(card.direction, card.amount))
 		round_initiated.emit(current_queue)
