@@ -48,7 +48,13 @@ func _ready() -> void:
 	print(van_grid_coords)
 	current_preview_coords = van_grid_coords
 	current_preview_position = van_position
-
+	
+	if GlobalLocations.van_grid_loc != Vector2(0, 0):
+		van_grid_coords = GlobalLocations.van_grid_loc
+	
+	if GlobalLocations.van_global_loc != Vector2(0,0):
+		van.global_position = GlobalLocations.van_global_loc
+		
 func _on_reset_queue():
 	queue_preview.clear_points()
 
@@ -107,6 +113,8 @@ func _on_van_is_not_moving():
 	movement_in_progress = false
 	move_in_progress.text = "Move in Progress: false"
 	
+	van_grid_coords = city_grid.local_to_map(van.global_position)
+	
 # Needs to be rebuilt
 func _on_round_initiated(moves : Array):
 	while moves.size() > 0:
@@ -146,3 +154,6 @@ func _on_show_grid_pressed() -> void:
 func _on_preview_cont_body_entered(body: Node2D) -> void:
 	print("body entered!")
 	pass # Replace with function body.
+	
+func get_van_grid_coords() -> Vector2:
+	return van_grid_coords

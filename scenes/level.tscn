@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://eiyf1po3apii"]
 
 [ext_resource type="Shader" uid="uid://36rw4b0v4k5g" path="res://shaders/vhs.gdshader" id="1_2q6dc"]
+[ext_resource type="Script" uid="uid://cfnnbkqgdaayg" path="res://scenes/3D_Level.gd" id="1_klq6b"]
 [ext_resource type="PackedScene" uid="uid://dqwwbfrdyaewv" path="res://player/player.tscn" id="2_w8frs"]
 [ext_resource type="PackedScene" uid="uid://t4arc7lls1t4" path="res://City_Grid/grid_screen.tscn" id="3_mx8sn"]
 [ext_resource type="PackedScene" uid="uid://bsqae4sgsiltv" path="res://assets/3D/van.glb" id="4_mx8sn"]
@@ -84,7 +85,15 @@ backlight = Color(0.40392157, 0, 0, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_2r41h"]
 size = Vector3(0.82006836, 0.15527344, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_klq6b"]
+albedo_color = Color(0, 0.5411765, 1, 1)
+metallic = 0.85
+roughness = 0.3
+emission_enabled = true
+emission = Color(0, 0, 1, 1)
+
 [node name="Level" type="Node3D" unique_id=824859054]
+script = ExtResource("1_klq6b")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=27209454]
 
@@ -99,49 +108,64 @@ grow_vertical = 2
 [node name="Player" parent="." unique_id=63880466 instance=ExtResource("2_w8frs")]
 transform = Transform3D(0.9509486, 0, -0.30934894, 0, 1, 0, 0.30934894, 0, 0.9509486, -0.80212635, 2.176927, 1.1396956)
 
-[node name="van" parent="." unique_id=1104021085 instance=ExtResource("4_mx8sn")]
-transform = Transform3D(-1.09278474e-07, 0, 2.5000002, 0, 2.5, 0, -2.5, 0, -1.0927848e-07, 0.0005354881, 0.0029724836, 1.6856933)
+[node name="Van" type="Node3D" parent="." unique_id=81167758]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="van" unique_id=925046479]
+[node name="Van Model" parent="Van" unique_id=1104021085 instance=ExtResource("4_mx8sn")]
+transform = Transform3D(-1.09278474e-07, 0, 2.5000002, 0, 2.5, 0, -2.5, 0, -1.0927848e-07, 0.003497839, 0.008047938, 1.690309)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Van/Van Model" unique_id=925046479]
 libraries/ = SubResource("AnimationLibrary_b121j")
 
-[node name="GridScreen" parent="van" unique_id=1878672563 instance=ExtResource("3_mx8sn")]
+[node name="GridScreen" parent="Van/Van Model" unique_id=1878672563 instance=ExtResource("3_mx8sn")]
 transform = Transform3D(6.3557226e-10, 0, -0.032, 0, 0.032, 0, 0.032, 0, 6.3557226e-10, 0.44287947, 0.8758511, -0.21745318)
 
-[node name="OmniLight3D" type="OmniLight3D" parent="van" unique_id=1502716425]
+[node name="OmniLight3D" type="OmniLight3D" parent="Van/Van Model" unique_id=1502716425]
 transform = Transform3D(-1.7484556e-08, 0, -0.4, 0, 0.4, 0, 0.4, 0, -1.7484556e-08, -0.2722053, 1.1669664, -0.38081178)
 light_color = Color(0.5111072, 0.9249332, 0.99999994, 1)
 shadow_enabled = true
 
-[node name="Wheel" parent="van" unique_id=1221445730 instance=ExtResource("5_ppgk2")]
+[node name="Wheel" parent="Van/Van Model" unique_id=1221445730 instance=ExtResource("5_ppgk2")]
 transform = Transform3D(-0.39999995, 0, -3.49691e-08, 0, 0.39999995, 0, 3.4969105e-08, 0, -0.3999999, 0.18754828, 0.85731864, 0.42106503)
 
-[node name="Table" type="CSGBox3D" parent="van" unique_id=1050278442]
+[node name="Table" type="CSGBox3D" parent="Van/Van Model" unique_id=1050278442]
 transform = Transform3D(-1.7484556e-08, 0, -0.4, 0, 0.4, 0, 0.4, 0, -1.7484556e-08, 0.56791145, 0.6409741, -0.28118637)
 size = Vector3(1.5046387, 0.21081543, 1)
 
-[node name="Driver Seat" type="CSGBox3D" parent="van" unique_id=2034524659]
+[node name="Driver Seat" type="CSGBox3D" parent="Van/Van Model" unique_id=2034524659]
 transform = Transform3D(-1.7484556e-08, 0, -0.4, 0, 0.4, 0, 0.4, 0, -1.7484556e-08, 0.25329742, 0.51883054, 0.2644681)
 size = Vector3(0.33251953, 1.6000977, 0.7836914)
 
-[node name="Passenger Seat" type="CSGBox3D" parent="van" unique_id=434295182]
+[node name="Passenger Seat" type="CSGBox3D" parent="Van/Van Model" unique_id=434295182]
 transform = Transform3D(-1.7484556e-08, 0, -0.4, 0, 0.4, 0, 0.4, 0, -1.7484556e-08, -0.22953624, 0.51883054, 0.2644681)
 size = Vector3(0.33251953, 1.6000977, 0.7836914)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="van" unique_id=648616691]
+[node name="CSGBox3D" type="CSGBox3D" parent="Van/Van Model" unique_id=648616691]
 transform = Transform3D(-1.7484556e-08, 0, -0.4, 0, 0.4, 0, 0.4, 0, -1.7484556e-08, 0.48638785, 0.76921296, -0.21962403)
 size = Vector3(0.4716797, 0.9135132, 0.20227051)
 
-[node name="RedButton" parent="van" unique_id=165692526 instance=ExtResource("6_2r41h")]
+[node name="RedButton" parent="Van/Van Model" unique_id=165692526 instance=ExtResource("6_2r41h")]
 transform = Transform3D(-6.9938224e-09, 0, -0.16000001, 0, 0.16000001, 0, 0.16000001, 0, -6.9938224e-09, 0.4306878, 0.69267815, -0.37715146)
 
-[node name="Button" parent="van/RedButton" index="1" unique_id=240862583]
+[node name="Button" parent="Van/Van Model/RedButton" index="1" unique_id=240862583]
 surface_material_override/0 = SubResource("StandardMaterial3D_2r41h")
 
-[node name="ButtonArea" type="Area3D" parent="van/RedButton" unique_id=904083176]
+[node name="ButtonArea" type="Area3D" parent="Van/Van Model/RedButton" unique_id=904083176]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="van/RedButton/ButtonArea" unique_id=566961876]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Van/Van Model/RedButton/ButtonArea" unique_id=566961876]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016235352, 0.023925781, 0)
 shape = SubResource("BoxShape3D_2r41h")
 
-[editable path="van/RedButton"]
+[node name="BlueButton" parent="Van/Van Model" unique_id=1250011977 instance=ExtResource("6_2r41h")]
+transform = Transform3D(-2.622683e-09, 0, -0.06, 0, 0.06, 0, 0.06, 0, -2.622683e-09, 0.40031675, 0.69267815, -0.21020113)
+
+[node name="Button" parent="Van/Van Model/BlueButton" index="1" unique_id=240862583]
+surface_material_override/0 = SubResource("StandardMaterial3D_klq6b")
+
+[node name="BlueButtonArea" type="Area3D" parent="Van/Van Model/BlueButton" unique_id=1802090844]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Van/Van Model/BlueButton/BlueButtonArea" unique_id=1784718479]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016235352, 0.023925781, 0)
+shape = SubResource("BoxShape3D_2r41h")
+
+[editable path="Van/Van Model/RedButton"]
+[editable path="Van/Van Model/BlueButton"]
