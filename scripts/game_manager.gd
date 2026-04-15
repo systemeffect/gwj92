@@ -1,18 +1,27 @@
 extends Node2D
 
+@export var storm_scene : PackedScene
+
 @onready var actions_ui: Control = $UI/ActionsUI
 @onready var van: Node2D = $Van
 @onready var current_turn_label: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/CurrentTurnLabel
 @onready var move_in_progress: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/MoveInProgress
 @onready var actions_queued_label: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/ActionsQueued
+@onready var wind_dir: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/WindDir
 
 @onready var grid_overlay: TextureRect = $UI/GridOverlay
 @onready var city_grid: TileMapLayer = $GridArea/Tilemaps/CityGrid
+@onready var status_effects: TileMapLayer = $GridArea/Tilemaps/StatusEffects
 
 # Movement Preview Lines
 @onready var queue_preview: Line2D = $UI/PathPreview/QueuePreview
 @onready var preview_collider: CollisionShape2D = $UI/PathPreview/PreviewCollider
 @onready var preview_cont: Area2D = $UI/PathPreview/PreviewCont
+
+# Storm
+@onready var storms_container: Node2D = $StormsContainer
+@onready var wind_timer: Timer = $WindTimer
+var change_wind : bool = true
 
 
 
@@ -24,9 +33,14 @@ var action_queue : Array
 var current_preview_coords : Vector2
 var current_preview_position : Vector2
 
+var grid_size = Vector2(12,12)
+# Van positions
 var van_position : Vector2
 var van_grid_coords : Vector2
 var van_start_pos: Vector2
+
+# Storm variables
+var wind_direction : Direction
 
 func _ready() -> void:
 	actions_ui.round_initiated.connect(_on_round_initiated)
@@ -130,6 +144,10 @@ func _on_round_initiated(moves : Array):
 		else:
 			print("card is null")
 
+func set_wind_direction(dir : Direction):
+	wind_direction = dir
+	# emit signal if needed?
+
 
 func _on_show_grid_pressed() -> void:
 	if grid_overlay.visible:
@@ -140,6 +158,62 @@ func _on_show_grid_pressed() -> void:
 
 func _on_preview_cont_body_entered(body: Node2D) -> void:
 	print("body entered!")
+
+
+func _on_brew_storm_pressed() -> void:
+	var current_pos = van.position
+	var storm = storm_scene.instantiate()
+	storm.origin_pos = current_pos
+	storms_container.add_child(storm)
+
+
+func _on_add_status_pressed() -> void:
+	var first_storm = storms_container.get_child(0)
+	var storm_loc = first_storm.position
+	print("STATUS AT " + str(storm_loc))
+	storm_loc = city_grid.local_to_map(storm_loc)
+	status_effects.set_cell(storm_loc, 0 , Vector2(16,4))
+
+
+func _on_change_wind_pressed() -> void:
+	wind_direction = Direction.new()
+	var ran = randi_range(0,4)
+	match ran:
+		0:
+			wind_direction.move_direction = "NORTH"
+			wind_dir.text = "WindDir: ^N^" 
+		1:
+			wind_direction.move_direction = "EAST"
+			wind_dir.text = "WindDir: >E>" 
+		2:
+			wind_direction.move_direction = "SOUTH"
+			wind_dir.text = "WindDir: vSv" 
+		3:
+			wind_direction.move_direction = "WEST"
+			wind_dir.text = "WindDir: <W<"
+		4:
+			wind_direction.move_direction = "NONE"
+			wind_dir.text = "WindDir: calm"
+	var storms = storms_container.get_children()
+	for storm in storms:
+		storm.set_storm_direction(wind_direction)
+	change_wind = false
+	wind_timer.start()
+		
+func status_spread():
+	var new_statuses = []
+	
+
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	# triggered when van and storm colliders meet
+	# signal to trigger van shake+sound/storm fx
+	print("WARNING: Proximity to STORM EVENT might cause damage to the vehicle. Exercise caution.")
+	pass # Replace with function body.
+
+
+func _on_wind_timer_timeout() -> void:
+	_on_change_wind_pressed()
+	
 	pass # Replace with function body.
 	
 func get_van_grid_coords() -> Vector2:

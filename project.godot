@@ -21,7 +21,6 @@ buses/default_bus_layout="uid://igd5p1vdrhcv"
 
 [autoload]
 
-GlobalSignals="*uid://do68a770j1li7"
 Util="*uid://dex2y86u5wl4n"
 DirectionList="*uid://dmlac1p1yb6u5"
 GlobalLocations="*uid://dt0ljyfexou45"
@@ -31,6 +30,14 @@ GlobalLocations="*uid://dt0ljyfexou45"
 window/size/viewport_width=640
 window/size/viewport_height=480
 window/stretch/mode="viewport"
+
+[layer_names]
+
+2d_physics/layer_1="van"
+2d_physics/layer_2="ground_obstacles"
+2d_physics/layer_3="ground_status"
+2d_physics/layer_4="storm"
+2d_physics/layer_5="preview_lines"
 
 [physics]
 
