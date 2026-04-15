@@ -14,7 +14,7 @@ var target_loc_y: float = 0.0
 var current_axis: String = ""
 var path: Array[Direction]
 var internal_map_van_enabled: bool = false
-
+var turn_direction: String = ""
 
 func _ready() -> void:
 	GlobalSignals.red_button_pressed.connect(_on_red_button_pressed)
@@ -90,13 +90,65 @@ func move(dir: String, amt: int) -> void:
 		target_loc_x = global_position.x
 		current_axis = "y"
 
+#Figures out what turn is coming
+func get_turn_type(from_dir: String, to_dir: String) -> String:
+	if from_dir == "" or from_dir == to_dir:
+		return "straight"
+
+	match from_dir:
+		"NORTH":
+			if to_dir == "EAST":
+				return "right"
+			elif to_dir == "WEST":
+				return "left"
+			elif to_dir == "SOUTH":
+				return "u_turn"
+
+		"EAST":
+			if to_dir == "SOUTH":
+				return "right"
+			elif to_dir == "NORTH":
+				return "left"
+			elif to_dir == "WEST":
+				return "u_turn"
+
+		"SOUTH":
+			if to_dir == "WEST":
+				return "right"
+			elif to_dir == "EAST":
+				return "left"
+			elif to_dir == "NORTH":
+				return "u_turn"
+
+		"WEST":
+			if to_dir == "NORTH":
+				return "right"
+			elif to_dir == "SOUTH":
+				return "left"
+			elif to_dir == "EAST":
+				return "u_turn"
+
+	return "straight"
+
+#Starts car movement, can be plugged in anywhere
 func _on_red_button_pressed() -> void:
 	internal_map_van_enabled = true
 	path = DirectionList.directions
-	
+
 	for i in range(path.size()):
 		var step = path[i]
-		print("Running step ", i, ": ", step.move_direction, " / ", step.move_amount)
-		move(step.move_direction, step.move_amount)
+		var current_dir = step.move_direction
+
+		if i < path.size() - 1:
+			var next_step = path[i + 1]
+			var next_dir = next_step.move_direction
+			turn_direction = get_turn_type(current_dir, next_dir)
+		else:
+			turn_direction = "none"
+
+		print("Current: ", current_dir, " | Next Turn: ", turn_direction)
+
+		move(current_dir, step.move_amount)
 		await is_not_moving
-		
+		if turn_direction == "left":
+			print("Wheel spins left now")
