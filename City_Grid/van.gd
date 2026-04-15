@@ -15,6 +15,9 @@ var current_axis: String = ""
 var path: Array[Direction]
 var internal_map_van_enabled: bool = false
 var turn_direction: String = ""
+var is_turning: bool = false
+
+@export var TURN_DURATION: float = 2
 
 func _ready() -> void:
 	GlobalSignals.red_button_pressed.connect(_on_red_button_pressed)
@@ -130,6 +133,25 @@ func get_turn_type(from_dir: String, to_dir: String) -> String:
 
 	return "straight"
 
+func get_turn_info(turn: String) -> Dictionary:
+	return {
+		"is_turning": turn != "straight" and turn != "none",
+		"direction": turn
+	}
+
+func do_turn(direction: String) -> void:
+	is_turning = true
+	turn_direction = direction
+
+	print("Turning now: ", is_turning, " | Turn Type: ", turn_direction)
+
+	await get_tree().create_timer(TURN_DURATION).timeout
+
+	is_turning = false
+	turn_direction = "none"
+
+	print("Turn complete. Turning: ", is_turning)
+
 #Starts car movement, can be plugged in anywhere
 func _on_red_button_pressed() -> void:
 	internal_map_van_enabled = true
@@ -139,16 +161,15 @@ func _on_red_button_pressed() -> void:
 		var step = path[i]
 		var current_dir = step.move_direction
 
-		if i < path.size() - 1:
-			var next_step = path[i + 1]
-			var next_dir = next_step.move_direction
-			turn_direction = get_turn_type(current_dir, next_dir)
-		else:
-			turn_direction = "none"
-
-		print("Current: ", current_dir, " | Next Turn: ", turn_direction)
+		is_turning = false
+		turn_direction = "none"
 
 		move(current_dir, step.move_amount)
 		await is_not_moving
-		if turn_direction == "left":
-			print("Wheel spins left now")
+
+		if i < path.size() - 1:
+			var next_dir = path[i + 1].move_direction
+			var next_turn = get_turn_type(current_dir, next_dir)
+
+			if next_turn != "straight" and next_turn != "none":
+				await do_turn(next_turn)
