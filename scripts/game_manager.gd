@@ -11,6 +11,7 @@ extends Node2D
 
 @onready var grid_overlay: TextureRect = $UI/GridOverlay
 @onready var city_grid: TileMapLayer = $GridArea/Tilemaps/CityGrid
+@onready var status_effects: TileMapLayer = $GridArea/Tilemaps/StatusEffects
 
 # Movement Preview Lines
 @onready var queue_preview: Line2D = $UI/PathPreview/QueuePreview
@@ -32,6 +33,7 @@ var action_queue : Array
 var current_preview_coords : Vector2
 var current_preview_position : Vector2
 
+var grid_size = Vector2(12,12)
 # Van positions
 var van_position : Vector2
 var van_grid_coords : Vector2
@@ -176,6 +178,8 @@ func _on_add_status_pressed() -> void:
 	var first_storm = storms_container.get_child(0)
 	var storm_loc = first_storm.position
 	print("STATUS AT " + str(storm_loc))
+	storm_loc = city_grid.local_to_map(storm_loc)
+	status_effects.set_cell(storm_loc, 0 , Vector2(16,4))
 
 
 func _on_change_wind_pressed() -> void:
@@ -203,7 +207,9 @@ func _on_change_wind_pressed() -> void:
 	change_wind = false
 	wind_timer.start()
 		
-
+func status_spread():
+	var new_statuses = []
+	
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	# triggered when van and storm colliders meet

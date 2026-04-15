@@ -581,6 +581,7 @@ texture_region_size = Vector2i(32, 32)
 14:4/0 = 0
 15:4/0 = 0
 16:4/0 = 0
+16:4/0/custom_data_0 = true
 17:4/0 = 0
 0:5/0 = 0
 1:5/0 = 0
@@ -693,6 +694,8 @@ texture_region_size = Vector2i(32, 32)
 
 [sub_resource type="TileSet" id="TileSet_2f6ys"]
 tile_size = Vector2i(32, 32)
+custom_data_layer_0/name = "burning"
+custom_data_layer_0/type = 1
 sources/0 = SubResource("TileSetAtlasSource_yiybu")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_weyc0"]
@@ -828,7 +831,7 @@ scale = Vector2(0.9999998, 0.99999976)
 tile_map_data = PackedByteArray("AAAGAAYAAAAKAAAAAAAGAAUAAAAKAAAAAAAHAAgAAAAKAAAAAAAIAAgAAAAKAAAAAAAJAAgAAAAKAAAAAAAIAAYAAAAKAAAAAAAIAAQAAAAKAAAAAAAIAAMAAAAKAAAAAAAIAAIAAAAKAAAAAAAFAAMAAAAKAAAAAAAFAAIAAAAKAAAAAAAEAAkAAAAKAAAAAAAEAAgAAAAKAAAAAAADAAYAAAAKAAAAAAAEAAYAAAAKAAAAAAA=")
 tile_set = SubResource("TileSet_uq6aa")
 
-[node name="TileMapLayer" type="TileMapLayer" parent="GridArea/Tilemaps" unique_id=427802453]
+[node name="StatusEffects" type="TileMapLayer" parent="GridArea/Tilemaps" unique_id=427802453]
 tile_set = SubResource("TileSet_2f6ys")
 
 [node name="Van" type="Node2D" parent="." unique_id=1836967788]
