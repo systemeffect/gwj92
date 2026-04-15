@@ -105,14 +105,12 @@ func _on_van_is_not_moving():
 	move_in_progress.text = "Move in Progress: false"
 	
 # Needs to be rebuilt
-func _on_round_initiated(moves : CardQueue):
+func _on_round_initiated(moves: CardQueue):
 	for card in moves:
 		if is_instance_valid(card):
 			actions_ui.highlight_active_slot(current_turn)
-			
 			var move_dir = card.direction
 			var move_amt = card.amount
-			print("move direction: " + str(move_dir) + " and move amt: " + str(move_amt))
 			van.move(move_dir, move_amt)
 			await get_tree().create_timer(2.0).timeout
 			print("timer timeout!")
@@ -120,21 +118,6 @@ func _on_round_initiated(moves : CardQueue):
 			current_turn_label.text = "Current turn: " + str(current_turn)
 		else:
 			print("card is null")
-
-#func _on_round_initiated(moves : Array):
-	#while moves.size() > 0:
-		#var current_move = moves.pop_front()
-		#var card = Util.all_cards[current_move]
-		#if card != null:
-			#var move_dir = card.get("MOVE_DIRECTION")
-			#var move_amt = card.get("MOVE_AMOUNT")
-			#print("move direction: " + move_dir + " and move amt: " + str(move_amt))
-			#van.move(move_dir, move_amt)
-			#await get_tree().create_timer(2.0).timeout
-			#print("timer timeout!")
-		#else:
-			#print("card is null")
-
 
 func _on_move_test_pressed() -> void:
 	van.move("RIGHT", 3)
@@ -146,13 +129,11 @@ func _on_reset_van() -> void:
 	else:
 		van.position = van_start_pos
 
-
 func _on_show_grid_pressed() -> void:
 	if grid_overlay.visible:
 		grid_overlay.hide()
 	else:
 		grid_overlay.show()
-
 
 func _on_preview_cont_body_entered(body: Node2D) -> void:
 	print("body entered!")

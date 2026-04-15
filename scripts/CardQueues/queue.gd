@@ -16,7 +16,7 @@ func removeAt(index: int):
 	queue.removeAt(index)
 	
 func removeCard(item: Card):
-	queue.removeCard(item)
+	queue.removeItem(item)
 	
 func clear():
 	queue.clear()

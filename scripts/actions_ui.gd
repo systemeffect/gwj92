@@ -205,7 +205,7 @@ func _on_remove_action_button_pressed() -> void:
 	#action_removed.emit(selected_card)
 	if is_instance_valid(selected_action):
 		print("erasing " + str(selected_action))
-		current_queue.erase(selected_action)
+		current_queue.removeCard(selected_action)
 		available_cards.append(selected_action)
 		selected_action = null
 		sel_act.text = "SelAct: "
@@ -217,18 +217,9 @@ func _on_remove_action_button_pressed() -> void:
 func _on_move_pressed() -> void:
 	# Packages the current queue dictionaries and sends it to the game manager
 	for card in current_queue:
-		var move_dir = card.direction
-		var move_amt = card.amount
-		
-		var new_direction = Direction.new()
-		new_direction.move_direction = move_dir
-		new_direction.move_amount = move_amt
-		DirectionList.directions.append(new_direction)
-	
-		for d in DirectionList.directions:
-			print("Direction:", d.move_direction, "| Amount:", d.move_amount)
+		DirectionList.directions.append(Direction.new(card.direction, card.amount))
 		round_initiated.emit(current_queue)
-
+		
 func _on_move_test_pressed() -> void:
 	move_test.emit()
 
