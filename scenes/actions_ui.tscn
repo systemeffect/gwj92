@@ -57,17 +57,9 @@ text = "Reset Queue"
 layout_mode = 2
 text = "Move"
 
-[node name="MoveTest" type="Button" parent="ActionDebug/VBoxContainer" unique_id=129270989]
-layout_mode = 2
-text = "Move Test - R3"
-
 [node name="VanButton" type="Button" parent="ActionDebug/VBoxContainer" unique_id=202436281]
 layout_mode = 2
 text = "Inside Van"
-
-[node name="ResetVan" type="Button" parent="ActionDebug/VBoxContainer" unique_id=105072662]
-layout_mode = 2
-text = "Reset Van"
 
 [node name="SelCard" type="Label" parent="ActionDebug/VBoxContainer" unique_id=328702552]
 layout_mode = 2
@@ -92,8 +84,6 @@ layout_mode = 1
 [connection signal="pressed" from="ActionDebug/VBoxContainer/RemoveActionButton" to="." method="_on_remove_action_button_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/ResetQueue" to="." method="_on_reset_queue_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/Move" to="." method="_on_move_pressed"]
-[connection signal="pressed" from="ActionDebug/VBoxContainer/MoveTest" to="." method="_on_move_test_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/VanButton" to="." method="_on_van_button_pressed"]
-[connection signal="pressed" from="ActionDebug/VBoxContainer/ResetVan" to="." method="_on_reset_van_pressed"]
 
 [editable path="ActionQueue"]

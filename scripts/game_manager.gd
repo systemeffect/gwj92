@@ -30,11 +30,9 @@ var van_start_pos: Vector2
 
 func _ready() -> void:
 	actions_ui.round_initiated.connect(_on_round_initiated)
-	actions_ui.move_test.connect(_on_move_test_pressed)
 	actions_ui.action_queued.connect(_on_action_queued)
 	actions_ui.action_removed.connect(_on_action_removed)
 	actions_ui.reset_queue.connect(_on_reset_queue)
-	actions_ui.reset_van.connect(_on_reset_van)
 	
 	action_queue = actions_ui.current_queue
 	current_turn_label.text = "Current turn: " + str(current_turn)
@@ -131,17 +129,6 @@ func _on_round_initiated(moves : Array):
 			current_turn_label.text = "Current turn: " + str(current_turn)
 		else:
 			print("card is null")
-
-
-func _on_move_test_pressed() -> void:
-	van.move("RIGHT", 3)
-	pass # Replace with function body.
-
-func _on_reset_van() -> void:
-	if movement_in_progress:
-		return
-	else:
-		van.position = van_start_pos
 
 
 func _on_show_grid_pressed() -> void:
