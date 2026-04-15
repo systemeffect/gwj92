@@ -16,11 +16,11 @@ var path: Array[Direction]
 var internal_map_van_enabled: bool = false
 
 
-func _ready() -> void:
+func _ready():
 	GlobalSignals.red_button_pressed.connect(_on_red_button_pressed)
 	path = DirectionList.directions
 
-func _physics_process(delta: float) -> void:
+func _physics_process(delta: float):
 	var pos = global_position
 
 	if internal_map_van_enabled == false:
@@ -46,7 +46,6 @@ func _physics_process(delta: float) -> void:
 		global_position = pos
 		
 	else:
-<<<<<<< HEAD
 		# for some reason this doesnt trigger when the van isnt moving
 		#print("not moving")
 		target_loc_x = 0
@@ -54,61 +53,25 @@ func _physics_process(delta: float) -> void:
 		is_not_moving.emit()
 	position = pos
 	
-	
-func move (dir: Card.DIRECTION, amt: int) -> void:
-	if dir == Card.DIRECTION.west:
-		target_loc_x = position.x - (amt * MOVE_UNIT)
-	if dir == Card.DIRECTION.east:
-		target_loc_x = position.x + (amt * MOVE_UNIT)
-	if dir == Card.DIRECTION.north:
-		target_loc_y = position.y - (amt * MOVE_UNIT)
-	if dir == Card.DIRECTION.south:
-		target_loc_y = position.y + (amt * MOVE_UNIT)
-=======
-		#Internal Van
-		VAN_SPEED = 4.0
-		
-		if current_axis == "x":
-			pos.x = move_toward(pos.x, target_loc_x, VAN_SPEED * delta)
-			is_moving.emit()
-			
-			if is_equal_approx(pos.x, target_loc_x):
-				pos.x = target_loc_x
-				current_axis = ""
-				is_not_moving.emit()
-				
-		elif current_axis == "y":
-			pos.y = move_toward(pos.y, target_loc_y, VAN_SPEED * delta)
-			is_moving.emit()
-			
-			if is_equal_approx(pos.y, target_loc_y):
-				pos.y = target_loc_y
-				current_axis = ""
-				is_not_moving.emit()
-				
-		global_position = pos
 
-func move(dir: String, amt: int) -> void:
-	if dir == "WEST":
-		target_loc_x = global_position.x - (amt * MOVE_UNIT)
-		target_loc_y = global_position.y
-		current_axis = "x"
-		
-	elif dir == "EAST":
-		target_loc_x = global_position.x + (amt * MOVE_UNIT)
-		target_loc_y = global_position.y
-		current_axis = "x"
-		
-	elif dir == "NORTH":
-		target_loc_y = global_position.y - (amt * MOVE_UNIT)
-		target_loc_x = global_position.x
-		current_axis = "y"
-		
-	elif dir == "SOUTH":
-		target_loc_y = global_position.y + (amt * MOVE_UNIT)
-		target_loc_x = global_position.x
-		current_axis = "y"
->>>>>>> main
+func move(dir: Card.DIRECTION, amt: int):
+	match dir:
+		Card.DIRECTION.west:
+			target_loc_x = global_position.x - (amt * MOVE_UNIT)
+			target_loc_y = global_position.y
+			current_axis = "x"
+		Card.DIRECTION.east:
+			target_loc_x = global_position.x + (amt * MOVE_UNIT)
+			target_loc_y = global_position.y
+			current_axis = "x"
+		Card.DIRECTION.north:
+			target_loc_y = global_position.y - (amt * MOVE_UNIT)
+			target_loc_x = global_position.x
+			current_axis = "y"
+		Card.DIRECTION.south:
+			target_loc_y = global_position.y + (amt * MOVE_UNIT)
+			target_loc_x = global_position.x
+			current_axis = "y"
 
 func _on_red_button_pressed() -> void:
 	internal_map_van_enabled = true
