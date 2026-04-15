@@ -33,6 +33,7 @@ window/stretch/mode="viewport"
 
 [layer_names]
 
+2d_physics/layer_1="van"
 2d_physics/layer_2="ground_obstacles"
 2d_physics/layer_3="ground_status"
 2d_physics/layer_4="storm"

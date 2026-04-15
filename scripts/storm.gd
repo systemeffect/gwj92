@@ -5,6 +5,7 @@ extends Node2D
 var origin_pos : Vector2
 var direction : Vector2
 var variance = randf_range(-0.1, 0.1)
+var wind_change_var = randf_range(-1.0, 1.0)
 var storm_speed : float = 8.0
 
 # Storm will spawn on origin_pos and will generate a random vector
@@ -29,3 +30,30 @@ func _process(delta: float) -> void:
 	# Write function to determine storm direction with drift
 	# Move the storm in new direction at set speed
 	
+func set_storm_direction(dir : Direction):
+	var new_direction = dir.move_direction
+	match new_direction:
+		"NORTH":
+			direction = Vector2(0, -1)
+			var wind_variance = wind_change_var
+			direction = direction.rotated(wind_variance)
+		"EAST":
+			direction = Vector2(1, 0)
+			var wind_variance = wind_change_var
+			direction = direction.rotated(wind_variance)
+		"SOUTH":
+			direction = Vector2(0, 1)
+			var wind_variance = wind_change_var
+			direction = direction.rotated(wind_variance)
+		"WEST":
+			direction = Vector2(-1, 0)
+			var wind_variance = wind_change_var
+			direction = direction.rotated(wind_variance)
+			
+func set_storm_status(status):
+	# receives the status and adds it to the current status array
+	status_attributes.append(status)
+
+func spawn_status_tile(status):
+	#trigger the storm to change the status of the tile under the center
+	pass

@@ -7,6 +7,7 @@ extends Node2D
 @onready var current_turn_label: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/CurrentTurnLabel
 @onready var move_in_progress: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/MoveInProgress
 @onready var actions_queued_label: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/ActionsQueued
+@onready var wind_dir: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/WindDir
 
 @onready var grid_overlay: TextureRect = $UI/GridOverlay
 @onready var city_grid: TileMapLayer = $GridArea/Tilemaps/CityGrid
@@ -18,6 +19,8 @@ extends Node2D
 
 # Storm
 @onready var storms_container: Node2D = $StormsContainer
+@onready var wind_timer: Timer = $WindTimer
+var change_wind : bool = true
 
 
 
@@ -160,7 +163,6 @@ func _on_show_grid_pressed() -> void:
 
 func _on_preview_cont_body_entered(body: Node2D) -> void:
 	print("body entered!")
-	pass # Replace with function body.
 
 
 func _on_brew_storm_pressed() -> void:
@@ -168,11 +170,49 @@ func _on_brew_storm_pressed() -> void:
 	var storm = storm_scene.instantiate()
 	storm.origin_pos = current_pos
 	storms_container.add_child(storm)
-	pass # Replace with function body.
 
 
 func _on_add_status_pressed() -> void:
 	var first_storm = storms_container.get_child(0)
 	var storm_loc = first_storm.position
 	print("STATUS AT " + str(storm_loc))
+
+
+func _on_change_wind_pressed() -> void:
+	wind_direction = Direction.new()
+	var ran = randi_range(0,4)
+	match ran:
+		0:
+			wind_direction.move_direction = "NORTH"
+			wind_dir.text = "WindDir: ^N^" 
+		1:
+			wind_direction.move_direction = "EAST"
+			wind_dir.text = "WindDir: >E>" 
+		2:
+			wind_direction.move_direction = "SOUTH"
+			wind_dir.text = "WindDir: vSv" 
+		3:
+			wind_direction.move_direction = "WEST"
+			wind_dir.text = "WindDir: <W<"
+		4:
+			wind_direction.move_direction = "NONE"
+			wind_dir.text = "WindDir: calm"
+	var storms = storms_container.get_children()
+	for storm in storms:
+		storm.set_storm_direction(wind_direction)
+	change_wind = false
+	wind_timer.start()
+		
+
+
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	# triggered when van and storm colliders meet
+	# signal to trigger van shake+sound/storm fx
+	print("WARNING: Proximity to STORM EVENT might cause damage to the vehicle. Exercise caution.")
+	pass # Replace with function body.
+
+
+func _on_wind_timer_timeout() -> void:
+	_on_change_wind_pressed()
+	
 	pass # Replace with function body.

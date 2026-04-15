@@ -3,11 +3,16 @@ extends Node2D
 signal is_moving
 signal is_not_moving
 
+@export var VAN_SPEED: float = 4
+
+# van collider
+@onready var area_2d: Area2D = $Area2D
+
 # Match these to TileMapLayer grid size
 const TILE_SIZE: Vector2 = Vector2(32, 32)
 const MOVE_UNIT: int = 32
 
-@export var VAN_SPEED: float = 4
+
 var target_loc_x: float = 0
 var target_loc_y: float = 0
 var path: Array[Direction]

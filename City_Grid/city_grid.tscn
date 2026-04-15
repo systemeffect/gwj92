@@ -1,7 +1,6 @@
 [gd_scene format=4 uid="uid://qa0jokklwoos"]
 
 [ext_resource type="Script" uid="uid://b3pcj1r8v6rl1" path="res://scripts/grid_display.gd" id="1_5ioxu"]
-[ext_resource type="Texture2D" uid="uid://v8bc35tkx416" path="res://assets/48 48 grid.png" id="1_5veu3"]
 [ext_resource type="Script" uid="uid://crbwjblj7in52" path="res://scripts/game_manager.gd" id="1_weyc0"]
 [ext_resource type="PackedScene" uid="uid://h5j3p5m3g7dy" path="res://scenes/actions_ui.tscn" id="2_wkloc"]
 [ext_resource type="PackedScene" uid="uid://yswbr8ngwxvc" path="res://scenes/storm.tscn" id="2_yiybu"]
@@ -700,7 +699,11 @@ sources/0 = SubResource("TileSetAtlasSource_yiybu")
 atlas = ExtResource("4_qtupi")
 region = Rect2(192, 288, 32, 32)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_uq6aa"]
+radius = 6.7412615
+
 [node name="City_Grid" type="Node2D" unique_id=81070115]
+process_mode = 1
 scale = Vector2(1.0022026, 0.9975787)
 script = ExtResource("1_weyc0")
 storm_scene = ExtResource("2_yiybu")
@@ -769,6 +772,17 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Status"
 
+[node name="WindDir" type="Label" parent="UI/Debug/Margin/PanelContainer/DebugMenu" unique_id=1247991223]
+layout_mode = 2
+text = "WindDir: "
+label_settings = SubResource("LabelSettings_weyc0")
+horizontal_alignment = 1
+
+[node name="ChangeWind" type="Button" parent="UI/Debug/Margin/PanelContainer/DebugMenu" unique_id=1336530099]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Wind"
+
 [node name="ActionsUI" parent="UI" unique_id=24908026 instance=ExtResource("2_wkloc")]
 offset_top = 30.0
 
@@ -799,11 +813,6 @@ shape = SubResource("SegmentShape2D_yiybu")
 collision_layer = 16
 collision_mask = 10
 
-[node name="4848Grid" type="Sprite2D" parent="." unique_id=1875270451]
-visible = false
-texture = ExtResource("1_5veu3")
-centered = false
-
 [node name="GridArea" type="Node2D" parent="." unique_id=465513157]
 scale = Vector2(0.99999994, 0.9999999)
 
@@ -829,9 +838,23 @@ script = ExtResource("3_pjegq")
 [node name="Sprite2D" type="Sprite2D" parent="Van" unique_id=133699846]
 texture = SubResource("AtlasTexture_weyc0")
 
+[node name="Area2D" type="Area2D" parent="Van" unique_id=1962811357]
+collision_mask = 14
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Van/Area2D" unique_id=735445488]
+shape = SubResource("CircleShape2D_uq6aa")
+
 [node name="StormsContainer" type="Node2D" parent="." unique_id=84711386]
+
+[node name="WindTimer" type="Timer" parent="." unique_id=801378152]
+process_callback = 0
+wait_time = 3.5
+autostart = true
 
 [connection signal="pressed" from="UI/Debug/Margin/PanelContainer/DebugMenu/ShowGrid" to="." method="_on_show_grid_pressed"]
 [connection signal="pressed" from="UI/Debug/Margin/PanelContainer/DebugMenu/BrewStorm" to="." method="_on_brew_storm_pressed"]
 [connection signal="pressed" from="UI/Debug/Margin/PanelContainer/DebugMenu/AddStatus" to="." method="_on_add_status_pressed"]
+[connection signal="pressed" from="UI/Debug/Margin/PanelContainer/DebugMenu/ChangeWind" to="." method="_on_change_wind_pressed"]
 [connection signal="body_entered" from="UI/PathPreview/PreviewCont" to="." method="_on_preview_cont_body_entered"]
+[connection signal="area_entered" from="Van/Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="WindTimer" to="." method="_on_wind_timer_timeout"]
