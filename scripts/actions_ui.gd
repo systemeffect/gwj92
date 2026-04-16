@@ -64,6 +64,8 @@ var van : Node2D
 var van_grid_coords : Vector2
 
 func _ready() -> void:
+	if GlobalLocations.van_global_dir != "":
+		current_van_direction = GlobalLocations.van_global_dir
 	load_card_data()
 	current_deck = test_hand
 	available_cards = current_deck
