@@ -48,6 +48,7 @@ var van_start_pos: Vector2
 var wind_direction : Direction
 
 func _ready() -> void:
+	get_tree().paused = true
 	actions_ui.round_initiated.connect(_on_round_initiated)
 	actions_ui.action_queued.connect(_on_action_queued)
 	actions_ui.action_removed.connect(_on_action_removed)
@@ -173,6 +174,7 @@ func _on_van_is_not_moving():
 	
 # Needs to be rebuilt
 func _on_round_initiated():
+	get_tree().paused = false
 	var dir_array = DirectionList.directions.duplicate()
 
 	while dir_array.size() > 0:

@@ -76,7 +76,6 @@ func _ready() -> void:
 	load_card_data()
 	current_deck = ["0","1","2","3","4","5","6","7","8","9","10","11"]
 	print(current_deck)
-	#available_cards = current_deck
 	load_cards()
 	set_van_direction_index()
 	
@@ -87,8 +86,7 @@ func _process(delta: float) -> void:
 		move_button.disabled = true
 
 func process_turn():
-	
-	get_tree().paused
+	get_tree().paused = true
 	end_of_turn_prompt.show()
 	
 
@@ -121,9 +119,6 @@ func set_van_direction_string():
 func load_card_data():
 	var json_data = Util.load_json_data_from_path()
 	if json_data != null:
-		#load regular data
-		#var cards = json_data.get("IMPORT")
-		#load test data
 		var cards = json_data.get("Att_Cards_Import")
 		if cards != null:
 			for i in range(0, cards.size()):
@@ -157,16 +152,8 @@ func get_card_by_id(card_id: String) -> Dictionary:
 
 # Load cards available_cards version
 func load_cards():
-	#if current_deck != null:
-		#cur_deck_size = 0
-		#print("cur deck size " + str(cur_deck_size))
-		#while cur_deck_size < 6:
-			#var draw_card = current_deck.pick_random()
-			#if !available_cards.has(draw_card):
-				#available_cards.append(draw_card)
-				#cur_deck_size += 1
-		#print(available_cards)
-		available_cards.resize(6)
+		if available_cards.size() > 6:
+			available_cards.resize(6)
 		for card_id in available_cards:
 			print("Checking if card_id exists in available_cards")
 			var slot = Util.card_slot.instantiate()
@@ -272,10 +259,10 @@ func update_queue():
 					action_3.set_card(card_data)
 					action_3.pressed.connect(_on_pressed.bind(card_id))
 					queue_item_3 = card_data
-				3:
-					action_4.set_card(card_data)
-					action_4.pressed.connect(_on_pressed.bind(card_id))
-					queue_item_4 = card_data
+				#3:
+					#action_4.set_card(card_data)
+					#action_4.pressed.connect(_on_pressed.bind(card_id))
+					#queue_item_4 = card_data
 			slot += 1
 
 func update_movement_queue():
@@ -324,6 +311,44 @@ func _on_reset_queue_pressed() -> void:
 	reset_queue.emit()
 
 func _on_pressed(card_id: String):
+	if current_queue.has(card_id):
+		#remove from queue
+		if card_id != "":
+			print("erasing " + str(card_id))
+			current_queue.erase(card_id)
+			available_cards.append(card_id)
+			selected_action = ""
+			sel_act.text = "SelAct: " + selected_action
+			print(current_queue.size())
+			refresh_queue()
+			queue_size -= 1
+			action_removed.emit(current_queue)
+			
+			_on_deck_updated()
+			clear_queue_window()
+			update_queue()
+	else:
+		if card_id != "":
+			print("add action pressed")
+			print(str(card_id))
+			if queue_size < max_queue_size:
+				print("room in queue - adding")
+				current_queue.append(card_id)
+				refresh_queue()
+				action_queued.emit(card_id)
+				queue_size += 1
+				var card_index = available_cards.find(card_id, 0)
+				available_cards.remove_at(card_index)
+				#Util remove script
+				_on_deck_updated()
+				clear_queue_window()
+				update_queue()
+				selected_card = ""
+				sel_card.text = "SelCard: " + selected_card
+			else:
+				print("Action Queue Full")
+	
+	
 	# Checks to see if the selected card is in the action queue
 	if current_queue.has(card_id):
 		# If so, deselect available cards
