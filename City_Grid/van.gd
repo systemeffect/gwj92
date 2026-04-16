@@ -159,8 +159,10 @@ func do_turn(direction: String) -> void:
 func _on_red_button_pressed() -> void:
 	internal_map_van_enabled = true
 	path = DirectionList.directions
-	print(DirectionList.directions)
-
+	
+	for d in DirectionList.directions:
+		print("Direction:", d.move_direction, "| Amount:", d.move_amount)
+		
 	for i in range(path.size()):
 		var step = path[i]
 		var current_dir = step.move_direction

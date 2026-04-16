@@ -113,7 +113,7 @@ _data = {
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_olg7q"]
-size = Vector3(2.1651764, 2.1692505, 0.57788086)
+size = Vector3(2.119297, 2.096756, 0.57788086)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2r41h"]
 albedo_color = Color(1, 0.03137255, 0, 1)
@@ -198,7 +198,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Player" parent="." unique_id=63880466 instance=ExtResource("2_w8frs")]
-transform = Transform3D(0.9509486, 0, -0.30934894, 0, 1, 0, 0.30934894, 0, 0.9509486, -0.80212635, 2.176927, 1.1396956)
+transform = Transform3D(0.23668557, 0, -0.9715863, 0, 1, 0, 0.9715863, 0, 0.23668557, -0.80212635, 2.176927, 1.1396956)
 
 [node name="Van" type="Node3D" parent="." unique_id=81167758]
 
@@ -215,7 +215,7 @@ transform = Transform3D(6.3557226e-10, 0, -0.032, 0, 0.032, 0, 0.032, 0, 6.35572
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="GridCollision" type="CollisionShape3D" parent="Van/Van Model/GridScreen/GridScreenArea" unique_id=1784718479]
-transform = Transform3D(1.8749018, 0, -1.1919324e-07, 0, 1.8749018, 0, 1.1919324e-07, 0, 1.8749018, 0.015036583, 0.05663681, -0.03393507)
+transform = Transform3D(1.8748875, 0, -1.1919232e-07, 0, 1.8748875, 0, 1.1919232e-07, 0, 1.8748875, 0.003282547, 0.040086746, -0.03393507)
 shape = SubResource("BoxShape3D_olg7q")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Van/Van Model" unique_id=1502716425]

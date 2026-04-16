@@ -154,21 +154,19 @@ func _on_van_is_not_moving():
 	
 # Needs to be rebuilt
 func _on_round_initiated():
-	var dir_array = DirectionList.directions
+	var dir_array = DirectionList.directions.duplicate()
+
 	while dir_array.size() > 0:
 		var current_move = dir_array.pop_front()
-		#var card = Util.all_cards[current_move]
+
 		if current_move != null:
 			var move_dir = current_move.move_direction
 			var move_amt = current_move.move_amount
-		#if card != null:
-			#actions_ui.highlight_active_slot(current_turn)
-			
-			#var move_dir = card.get("MOVE_DIRECTION")
-			#var move_amt = card.get("MOVE_AMOUNT")
+
 			van.move(move_dir, move_amt)
 			await get_tree().create_timer(2.0).timeout
-			current_turn +=1
+
+			current_turn += 1
 			current_turn_label.text = "Current turn: " + str(current_turn)
 		else:
 			print("card is null")

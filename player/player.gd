@@ -3,7 +3,6 @@ extends CharacterBody3D
 @onready var camera_pivot: Node3D = $CameraPivot
 @onready var ray_cast_3d: RayCast3D = $CameraPivot/RayCast3D
 @onready var button_anim_player: AnimationPlayer = $"../Van/Van Model/RedButton/AnimationPlayer"
-@onready var blue_button_anim_player: AnimationPlayer = $"../Van/Van Model/BlueButton/AnimationPlayer"
 
 var mouse_motion := Vector2.ZERO
 var is_mouse_visible: bool = false
