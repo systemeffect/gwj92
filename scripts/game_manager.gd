@@ -23,7 +23,8 @@ extends Node2D
 @onready var wind_timer: Timer = $WindTimer
 var change_wind : bool = true
 
-
+var fire_status = Status
+var flood_status = Status
 
 var current_turn : int = 0
 var turn_in_progress : bool = false
@@ -67,6 +68,14 @@ func _ready() -> void:
 	if GlobalLocations.van_global_loc != Vector2(0,0):
 		van.global_position = GlobalLocations.van_global_loc
 		
+	fire_status = Status.new()
+	fire_status.status_name = "fire"
+	fire_status.status_type = 1
+	fire_status.status_amount = 3
+	flood_status = Status.new()
+	flood_status.status_name = "flood"
+	flood_status.status_type = 2
+	flood_status.status_amount = 3
 func _on_reset_queue():
 	queue_preview.clear_points()
 
@@ -168,11 +177,42 @@ func _on_brew_storm_pressed() -> void:
 
 
 func _on_add_status_pressed() -> void:
-	var first_storm = storms_container.get_child(0)
-	var storm_loc = first_storm.position
-	print("STATUS AT " + str(storm_loc))
-	storm_loc = city_grid.local_to_map(storm_loc)
-	status_effects.set_cell(storm_loc, 0 , Vector2(16,4))
+	var statuses = []
+	statuses.append(fire_status)
+	statuses.append(flood_status)
+	var random = statuses.pick_random()
+	status_effects.spread_available_cell(random)
+	#_on_add_status_pressed()
+	var storms = storms_container.get_children()
+	for storm in storms:
+		var storm_loc = storm.position
+		storm_loc = city_grid.local_to_map(storm_loc)
+		
+		#status_type.init_coord = storm_loc
+		status_effects.add_status_effect(random, storm_loc)
+	
+	
+	#
+	#var storms = storms_container.get_children()
+	#for storm in storms:
+		#var storm_loc = storm.position
+		#storm_loc = city_grid.local_to_map(storm_loc)
+		#var status_type = Status.new()
+		#status_type.status_name = "fire"
+		#status_type.status_type = 1
+		#status_type.status_amount = 1
+		#status_type.init_coord = storm_loc
+		#status_effects.add_status_effect(status_type, storm_loc)
+		
+	#var first_storm = storms_container.get_child(0)
+	#var storm_loc = first_storm.position
+	#print("STATUS AT " + str(storm_loc))
+	#storm_loc = city_grid.local_to_map(storm_loc)
+	#var status_type = Status.new()
+	#status_type.status_type = 1
+	#status_type.init_coord = storm_loc
+	#status_effects.add_status_effect(status_type, storm_loc)
+	#status_effects.set_cell(storm_loc, 0 , Vector2(16,4))
 
 
 func _on_change_wind_pressed() -> void:
@@ -218,3 +258,19 @@ func _on_wind_timer_timeout() -> void:
 	
 func get_van_grid_coords() -> Vector2:
 	return van_grid_coords
+
+
+func _on_spread_pressed() -> void:
+	var statuses = []
+	statuses.append(fire_status)
+	statuses.append(flood_status)
+	var random = statuses.pick_random()
+	status_effects.spread_available_cell(random)
+	#_on_add_status_pressed()
+	var storms = storms_container.get_children()
+	for storm in storms:
+		var storm_loc = storm.position
+		storm_loc = city_grid.local_to_map(storm_loc)
+		
+		#status_type.init_coord = storm_loc
+		status_effects.add_status_effect(random, storm_loc)

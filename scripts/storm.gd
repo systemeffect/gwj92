@@ -1,8 +1,11 @@
 extends Node2D
 
+
+@export var origin_pos : Vector2
+
 @onready var sprite: Sprite2D = $Sprite
 
-var origin_pos : Vector2
+
 var direction : Vector2
 var variance = randf_range(-0.1, 0.1)
 var wind_change_var = randf_range(-1.0, 1.0)

@@ -11,15 +11,15 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w7c3h"]
 shader = ExtResource("1_2q6dc")
 shader_parameter/smearing = 0.5
-shader_parameter/color_offset = 0.005
+shader_parameter/color_offset = 0.002000001724939998
 shader_parameter/sharpening = 0.4
 shader_parameter/static_noise = 0.08
-shader_parameter/crack_center = Vector2(0.15, 0.85)
-shader_parameter/crack_intensity = 0.4
+shader_parameter/crack_center = Vector2(-10000, -100000)
+shader_parameter/crack_intensity = 0.0
 shader_parameter/crack_size = 0.35
 shader_parameter/vertical_jitter = 0.002
-shader_parameter/scanline_opacity = 0.1
-shader_parameter/vignette_intensity = 0.3
+shader_parameter/scanline_opacity = 0.1550000073625
+shader_parameter/vignette_intensity = 0.34400001634
 
 [sub_resource type="Animation" id="Animation_2r41h"]
 tracks/0/type = "value"
@@ -146,7 +146,7 @@ size = Vector3(0.4716797, 0.9135132, 0.20227051)
 [node name="RedButton" parent="Van/Van Model" unique_id=165692526 instance=ExtResource("6_2r41h")]
 transform = Transform3D(-6.9938224e-09, 0, -0.16000001, 0, 0.16000001, 0, 0.16000001, 0, -6.9938224e-09, 0.4306878, 0.69267815, -0.37715146)
 
-[node name="Button" parent="Van/Van Model/RedButton" index="1" unique_id=240862583]
+[node name="Button" parent="Van/Van Model/RedButton" index="1" unique_id=863461826]
 surface_material_override/0 = SubResource("StandardMaterial3D_2r41h")
 
 [node name="ButtonArea" type="Area3D" parent="Van/Van Model/RedButton" unique_id=904083176]
@@ -158,7 +158,7 @@ shape = SubResource("BoxShape3D_2r41h")
 [node name="BlueButton" parent="Van/Van Model" unique_id=1250011977 instance=ExtResource("6_2r41h")]
 transform = Transform3D(-2.622683e-09, 0, -0.06, 0, 0.06, 0, 0.06, 0, -2.622683e-09, 0.40031675, 0.69267815, -0.21020113)
 
-[node name="Button" parent="Van/Van Model/BlueButton" index="1" unique_id=240862583]
+[node name="Button" parent="Van/Van Model/BlueButton" index="1" unique_id=863461826]
 surface_material_override/0 = SubResource("StandardMaterial3D_klq6b")
 
 [node name="BlueButtonArea" type="Area3D" parent="Van/Van Model/BlueButton" unique_id=1802090844]

@@ -18,5 +18,7 @@ monitoring = false
 shape = SubResource("CircleShape2D_i2rct")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1380361334]
+modulate = Color(1, 1, 1, 0.3529412)
 texture = ExtResource("2_dl58t")
+flip_h = true
 region_rect = Rect2(35, 68.5, 32, 32)
