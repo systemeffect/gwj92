@@ -19,6 +19,7 @@ var path: Array[Direction]
 var internal_map_van_enabled: bool = false
 var turn_direction: String = ""
 var is_turning: bool = false
+var direction_copy = DirectionList.directions
 
 @export var TURN_DURATION: float = 2
 
@@ -158,13 +159,13 @@ func do_turn(direction: String) -> void:
 #Starts car movement, can be plugged in anywhere
 func _on_red_button_pressed() -> void:
 	internal_map_van_enabled = true
-	path = DirectionList.directions
 	
-	for d in DirectionList.directions:
-		print("Direction:", d.move_direction, "| Amount:", d.move_amount)
-		
-	for i in range(path.size()):
-		var step = path[i]
+	#Need this for copy of direction, gets cleared when switching to 2D scene in "3D_Level.gd"
+	direction_copy = DirectionList.directions.duplicate()
+	
+	while DirectionList.directions.size() > 0:
+
+		var step = DirectionList.directions[0]
 		var current_dir = step.move_direction
 
 		is_turning = false
@@ -173,9 +174,12 @@ func _on_red_button_pressed() -> void:
 		move(current_dir, step.move_amount)
 		await is_not_moving
 
-		if i < path.size() - 1:
-			var next_dir = path[i + 1].move_direction
+		DirectionList.directions.pop_front()
+			
+		if DirectionList.directions.size() > 0:
+			var next_dir = DirectionList.directions[0].move_direction
 			var next_turn = get_turn_type(current_dir, next_dir)
 
 			if next_turn != "straight" and next_turn != "none":
 				await do_turn(next_turn)
+				

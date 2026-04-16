@@ -1,9 +1,10 @@
 [gd_scene format=4 uid="uid://eiyf1po3apii"]
 
 [ext_resource type="Shader" uid="uid://36rw4b0v4k5g" path="res://shaders/vhs.gdshader" id="1_2q6dc"]
-[ext_resource type="Script" uid="uid://cfnnbkqgdaayg" path="res://scenes/3D_Level.gd" id="1_klq6b"]
+[ext_resource type="Script" uid="uid://cfnnbkqgdaayg" path="res://scripts/3D_Level.gd" id="1_klq6b"]
 [ext_resource type="PackedScene" uid="uid://dqwwbfrdyaewv" path="res://player/player.tscn" id="2_w8frs"]
 [ext_resource type="PackedScene" uid="uid://t4arc7lls1t4" path="res://City_Grid/grid_screen.tscn" id="3_mx8sn"]
+[ext_resource type="Script" uid="uid://i8kx08pvsv7d" path="res://scripts/3Dvan.gd" id="4_fpun6"]
 [ext_resource type="PackedScene" uid="uid://bsqae4sgsiltv" path="res://assets/3D/van.glb" id="4_mx8sn"]
 [ext_resource type="PackedScene" uid="uid://cxq1kfq72h5s7" path="res://assets/3D/button.glb" id="6_2r41h"]
 [ext_resource type="PackedScene" uid="uid://bfa14v1usa71w" path="res://assets/3D/seat.glb" id="6_8c41q"]
@@ -218,6 +219,7 @@ grow_vertical = 2
 transform = Transform3D(0.23668557, 0, -0.9715863, 0, 1, 0, 0.9715863, 0, 0.23668557, -0.80212635, 2.176927, 1.2719826)
 
 [node name="Van" type="Node3D" parent="." unique_id=81167758]
+script = ExtResource("4_fpun6")
 
 [node name="Van Model" parent="Van" unique_id=1104021085 instance=ExtResource("4_mx8sn")]
 transform = Transform3D(-1.09278474e-07, 0, 2.5000002, 0, 2.5, 0, -2.5, 0, -1.0927848e-07, 0.003497839, 0.008047938, 1.690309)
