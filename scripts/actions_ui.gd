@@ -6,7 +6,6 @@ signal reset_movement_queue
 signal action_queued
 signal action_removed
 signal reset_queue
-signal reset_van
 
 @export_enum("NORTH", "EAST", "SOUTH", "WEST") var current_van_direction : String
 
@@ -428,8 +427,6 @@ func set_directions():
 			
 			DirectionList.directions.append(new_direction)
 
-func _on_reset_van_pressed() -> void:
-	reset_van.emit()
 
 func _on_van_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/level.tscn")
