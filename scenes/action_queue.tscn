@@ -1,31 +1,34 @@
 [gd_scene format=3 uid="uid://34hboxtiso3n"]
 
-[ext_resource type="Script" uid="uid://b0veb8d4xplxl" path="res://scripts/action_queue.gd" id="1_2nx45"]
 [ext_resource type="PackedScene" uid="uid://kd3dcv0ib57v" path="res://scenes/card_slot.tscn" id="1_l5j14"]
 
 [node name="ActionQueue" type="Control" unique_id=509091489]
 layout_mode = 3
-anchors_preset = 6
+anchors_preset = 3
 anchor_left = 1.0
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -80.0
-offset_top = -194.0
-offset_bottom = 194.0
+anchor_bottom = 1.0
+offset_left = -249.0
+offset_top = -167.0
+offset_bottom = -84.0
 grow_horizontal = 0
-grow_vertical = 2
-script = ExtResource("1_2nx45")
+grow_vertical = 0
 
 [node name="GridContainer" type="GridContainer" parent="." unique_id=1955789638]
 layout_mode = 1
-anchors_preset = 1
+anchors_preset = 3
 anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
-offset_left = -80.0
-offset_bottom = 388.0
+anchor_bottom = 1.0
+offset_left = -251.0
+offset_top = -80.0
 grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/h_separation = 84
 theme_override_constants/v_separation = 84
+columns = 3
 
 [node name="Action_1" parent="GridContainer" unique_id=1543295380 instance=ExtResource("1_l5j14")]
 layout_mode = 2
@@ -42,6 +45,7 @@ is_in_action_queue = true
 queue_number = 3
 
 [node name="Action_4" parent="GridContainer" unique_id=1751382977 instance=ExtResource("1_l5j14")]
+visible = false
 layout_mode = 2
 is_in_action_queue = true
 queue_number = 4

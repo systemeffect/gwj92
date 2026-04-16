@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://kd3dcv0ib57v"]
 
 [ext_resource type="Script" uid="uid://r3mqk16frje4" path="res://scripts/card_slot.gd" id="1_mxh2e"]
+[ext_resource type="Theme" uid="uid://ywdabumyudpa" path="res://themes/details.tres" id="2_cypty"]
 
 [node name="Card_Slot" type="Control" unique_id=1543295380]
 layout_mode = 3
@@ -65,9 +66,10 @@ width = 4.0
 [node name="Details" type="PanelContainer" parent="." unique_id=481766401]
 visible = false
 layout_mode = 1
-offset_top = -124.0
-offset_right = 180.0
+offset_top = -67.0
+offset_right = 156.0
 offset_bottom = -4.0
+theme = ExtResource("2_cypty")
 
 [node name="MarginContainer" type="MarginContainer" parent="Details" unique_id=1000243936]
 layout_mode = 2
@@ -83,16 +85,16 @@ layout_mode = 2
 layout_mode = 2
 text = "Card Type"
 
-[node name="MoveDirection" type="Label" parent="Details/MarginContainer/VBoxContainer" unique_id=1549865895]
+[node name="Heading" type="Label" parent="Details/MarginContainer/VBoxContainer" unique_id=1448227611]
 layout_mode = 2
-text = "Direction"
+text = "Heading"
 
-[node name="MoveAmount" type="Label" parent="Details/MarginContainer/VBoxContainer" unique_id=1448227611]
+[node name="Subheading" type="Label" parent="Details/MarginContainer/VBoxContainer" unique_id=1549865895]
 layout_mode = 2
-text = "Move Amount"
+text = "Subheading"
 
-[node name="Storm" type="Label" parent="Details/MarginContainer/VBoxContainer" unique_id=1478589370]
+[node name="CardID" type="Label" parent="Details/MarginContainer/VBoxContainer" unique_id=1478589370]
 layout_mode = 2
-text = "Storm"
+text = "Card ID: "
 
 [connection signal="pressed" from="CardButton" to="." method="_on_card_button_pressed"]

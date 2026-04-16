@@ -2,21 +2,22 @@ extends Control
 
 signal pressed
 
-@export_enum("MOVEMENT", "INFORMATION", "OBJECTIVE", "INTERACTION") var card_type: String
+@export_enum("MOVEMENT", "ATTRIBUTE") var card_type: String
 @export_enum("UP", "DOWN", "LEFT", "RIGHT") var move_direction: String
 @export_range(0.0, 5.0) var move_amount : int
 @export var card_image: Texture
 @export var is_in_action_queue : bool = false
-@export_range(1,4) var queue_number : int
+@export_range(1,3) var queue_number : int
 
 @onready var card_icon: TextureRect = $InnerBorder/CardIcon
 @onready var card_button: Button = $CardButton
 @onready var outer_border: ColorRect = $OuterBorder
 @onready var details: PanelContainer = $Details
 @onready var card_type_label: Label = $Details/MarginContainer/VBoxContainer/CardType
-@onready var move_direction_label: Label = $Details/MarginContainer/VBoxContainer/MoveDirection
-@onready var move_amount_label: Label = $Details/MarginContainer/VBoxContainer/MoveAmount
-@onready var storm: Label = $Details/MarginContainer/VBoxContainer/Storm
+@onready var heading: Label = $Details/MarginContainer/VBoxContainer/Heading
+@onready var subheading: Label = $Details/MarginContainer/VBoxContainer/Subheading
+@onready var card_id: Label = $Details/MarginContainer/VBoxContainer/CardID
+
 
 @onready var selected: Line2D = $Selected
 @onready var action_queue_num: Label = $InnerBorder/ActionQueueNum
@@ -27,11 +28,11 @@ var card : Dictionary
 var is_empty : bool = true
 
 func _ready() -> void:
-	if is_in_action_queue:
-		action_queue_num.show()
-		action_queue_num.text = "Action " + str(queue_number)
-	else:
-		action_queue_num.hide()
+	#if is_in_action_queue:
+		#action_queue_num.show()
+		#action_queue_num.text = "Action " + str(queue_number)
+	#else:
+		#action_queue_num.hide()
 	selected.hide()
 	outer_border.color = Color(0.06,0.06,0.06,1.0)
 	card_button.mouse_entered.connect(_on_card_icon_mouse_entered)
@@ -63,9 +64,9 @@ func set_card(new_card : Dictionary):
 			var new_card_icon_path = icon_path + card.get("CARD_ICON")
 			card_icon.texture = load(new_card_icon_path)
 		card_type_label.text = card["CARD_TYPE"]
-		move_direction_label.text = card["MOVE_DIRECTION"]
-		move_amount_label.text = str(card["MOVE_AMOUNT"])
-		storm.text = card["STORM_TYPE"] + " " + str(card["STORM_VALUE"])
+		heading.text = card["DESCRIPTION_HEADING"]
+		subheading.text = str(card["DESCRIPTION_SUBHEADING"])
+		card_id.text = "Card ID: " + str(card["ID"])
 		#set_storm_color()
 	
 func set_storm_color():

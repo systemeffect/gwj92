@@ -1,20 +1,21 @@
 extends Control
 
 signal round_initiated
-signal move_test
+signal movement_queued
+signal reset_movement_queue
 signal action_queued
 signal action_removed
 signal reset_queue
 signal reset_van
 
+@export_enum("NORTH", "EAST", "SOUTH", "WEST") var current_van_direction : String
+
+# Stormbrew/Action Queue
 @onready var grid_container: GridContainer = $PanelContainer/GridContainer
 @onready var queue_grid_container: GridContainer = $ActionQueue/GridContainer
 @onready var current_queue_debug: RichTextLabel = $ActionDebug/VBoxContainer/CurrentQueue
 @onready var sel_card: Label = $ActionDebug/VBoxContainer/SelCard
 @onready var sel_act: Label = $ActionDebug/VBoxContainer/SelAct
-
-
-
 @onready var action_queue: Control = $ActionQueue
 
 # Action Queue Slots
@@ -23,9 +24,23 @@ signal reset_van
 @onready var action_3: Control = $ActionQueue/GridContainer/Action_3
 @onready var action_4: Control = $ActionQueue/GridContainer/Action_4
 
-# Action Queue
+# Movement Queue
+@onready var movement_grid_container: GridContainer = $MovementQueue/GridContainer
+@onready var move_1: Control = $MovementQueue/GridContainer/Move_1
+@onready var move_2: Control = $MovementQueue/GridContainer/Move_2
+@onready var move_3: Control = $MovementQueue/GridContainer/Move_3
+var moves_selected : int = 0
+var max_move_queue_size : int = 3
+var current_movement_queue : Array
+var movement_queue_item_1 : Dictionary
+var movement_queue_item_2 : Dictionary
+var movement_queue_item_3 : Dictionary
+var van_direction_index : int
+var van_direction_index_default : int
+
+# Stormbrew / Action Queue
 var queue_size : int = 0
-var max_queue_size : int = 4
+var max_queue_size : int = 3
 var current_queue : Array
 var queue_item_1 : Dictionary
 var queue_item_2 : Dictionary
@@ -43,7 +58,7 @@ var all_cards = {}
 var current_deck : Array[String]
 # Card IDs for all cards currently available to use as actions
 var available_cards : Array[String]
-var test_hand : Array[String]= ["3", "7","11","19", "15", "21"]
+var test_hand : Array[String]= ["3", "7","11","4", "15", "0"]
 
 var van : Node2D
 var van_grid_coords : Vector2
@@ -53,7 +68,32 @@ func _ready() -> void:
 	current_deck = test_hand
 	available_cards = current_deck
 	load_cards()
+	set_van_direction_index()
 
+func set_van_direction_index():
+	match current_van_direction:
+		"NORTH":
+			van_direction_index = 0
+			van_direction_index_default = 0
+		"EAST":
+			van_direction_index = 1
+			van_direction_index_default = 1
+		"SOUTH":
+			van_direction_index = 2
+			van_direction_index_default = 2
+		"WEST":
+			van_direction_index = 3
+			van_direction_index_default = 3
+func set_van_direction_string():
+	match van_direction_index:
+		0:
+			current_van_direction = "NORTH"
+		1:
+			current_van_direction = "EAST"
+		2:
+			current_van_direction = "SOUTH"
+		3:
+			current_van_direction = "WEST"
 
 # JSON functions
 func load_card_data():
@@ -62,7 +102,7 @@ func load_card_data():
 		#load regular data
 		#var cards = json_data.get("IMPORT")
 		#load test data
-		var cards = json_data.get("Halves_Import")
+		var cards = json_data.get("Att_Cards_Import")
 		if cards != null:
 			for i in range(0, cards.size()):
 				var card_id = str(i)
@@ -77,12 +117,12 @@ func parse_card_data_from_json(id, json_data : Dictionary):
 	card_attributes["ID"] = id
 	
 	card_attributes["CARD_TYPE"] = json_data.get("CARD_TYPE")
-	card_attributes["MOVE_DIRECTION"] = json_data.get("MOVE_DIRECTION")
-	card_attributes["MOVE_AMOUNT"] = json_data.get("MOVE_AMOUNT")
-	card_attributes["CARD_DESCRIPTION"] = json_data.get("CARD_DESCRIPTION")
+	card_attributes["ATTRIBUTE_TYPE"] = json_data.get("ATTRIBUTE_TYPE")
+	card_attributes["VALUE"] = json_data.get("VALUE")
+	card_attributes["DESCRIPTION_HEADING"] = json_data.get("DESCRIPTION_HEADING")
+	card_attributes["DESCRIPTION_SUBHEADING"] = json_data.get("DESCRIPTION_SUBHEADING")
+	card_attributes["STORM_EFFECT"] = json_data.get("STORM_EFFECT")
 	card_attributes["CARD_ICON"] = json_data.get("CARD_ICON")
-	card_attributes["STORM_TYPE"] = json_data.get("STORM_TYPE")
-	card_attributes["STORM_VALUE"] = json_data.get("STORM_VALUE")
 	
 	return card_attributes
 	
@@ -92,22 +132,6 @@ func get_card_by_id(card_id: String) -> Dictionary:
 	else:
 		print("CARD ID NOT FOUND")
 		return {}
-
-# Load cards, current_deck version - want to switch to available cards
-#func load_cards():
-	#if current_deck != null:
-		#cur_deck_size = 0
-		#for card_id in current_deck:
-			#print("Checking if card_id exists in current_deck")
-			#var slot = Util.card_slot.instantiate()
-			#grid_container.add_child(slot)
-			#if all_cards.has(card_id):
-				#slot.set_card(all_cards[card_id])
-				#print("Slot created for " + str(card_id))
-				#cur_deck_size += 1
-				#slot.pressed.connect(_on_pressed.bind(card_id))
-			#else:
-				#slot.set_empty()
 
 # Load cards available_cards version
 func load_cards():
@@ -166,7 +190,21 @@ func clear_queue_window():
 	queue_item_2 = {}
 	queue_item_3 = {}
 	queue_item_4 = {}
-	
+
+func clear_movement_queue_window():
+	move_1.set_empty()
+	if move_1.pressed.is_connected(_on_pressed):
+		move_1.pressed.disconnect(_on_pressed)
+	move_2.set_empty()
+	if move_2.pressed.is_connected(_on_pressed):
+		move_2.pressed.disconnect(_on_pressed)
+	move_3.set_empty()
+	if move_3.pressed.is_connected(_on_pressed):
+		move_3.pressed.disconnect(_on_pressed)
+	movement_queue_item_1 = {}
+	movement_queue_item_2 = {}
+	movement_queue_item_3 = {}
+
 func update_queue():
 	var slot = 0
 	for card_id in current_queue:
@@ -189,6 +227,26 @@ func update_queue():
 					action_4.set_card(card_data)
 					action_4.pressed.connect(_on_pressed.bind(card_id))
 					queue_item_4 = card_data
+			slot += 1
+
+func update_movement_queue():
+	var slot = 0
+	for card_id in current_movement_queue:
+		if card_id != "":
+			var card_data = Util.all_cards[card_id]
+			match slot:
+				0:
+					move_1.set_card(card_data)
+					move_1.pressed.connect(_on_pressed.bind(card_id))
+					movement_queue_item_1 = card_data
+				1:
+					move_2.set_card(card_data)
+					move_2.pressed.connect(_on_pressed.bind(card_id))
+					movement_queue_item_2 = card_data
+				2:
+					move_3.set_card(card_data)
+					move_3.pressed.connect(_on_pressed.bind(card_id))
+					movement_queue_item_3 = card_data
 			slot += 1
 
 func highlight_active_slot(slot : int):
@@ -262,7 +320,6 @@ func _on_add_action_button_pressed() -> void:
 			sel_card.text = "SelCard: " + selected_card
 		else:
 			print("Action Queue Full")
-	
 
 func refresh_queue():
 	current_queue_debug.text = ""
@@ -293,24 +350,196 @@ func _on_move_pressed() -> void:
 	#queue_dict_array.append(queue_item_2)
 	#queue_dict_array.append(queue_item_3)
 	#queue_dict_array.append(queue_item_4)
-	if queue_size > 0:
-		for i in current_queue:
+	#if queue_size > 0:
+		#for i in current_queue:
+			#var card = Util.all_cards[i]
+			#var move_dir = card.get("MOVE_DIRECTION")
+			#var move_amt = card.get("MOVE_AMOUNT")
+			#
+			#var new_direction = Direction.new()
+			#new_direction.move_direction = move_dir
+			#new_direction.move_amount = move_amt
+			#DirectionList.directions.append(new_direction)
+			#
+		#round_initiated.emit(current_queue)
+		
+	if moves_selected > 0:
+		set_directions()
+		#for i in current_movement_queue:
+			#var card = Util.all_cards[i]
+			#var attr = card.get("ATTRIBUTE_TYPE")
+			#var value = card.get("VALUE")
+			#var move_dir
+			#print("van index: " + str(van_direction_index))
+			#match attr:
+				#"TURNLEFT":
+					#if van_direction_index > 0:
+						#van_direction_index -= 1
+					#else:
+						#van_direction_index = 3
+					#set_van_direction_string()
+					#move_dir = current_van_direction
+				#"TURNRIGHT":
+					#if van_direction_index < 3:
+						#van_direction_index += 1
+					#else:
+						#van_direction_index = 0
+					#print("new van dir index " + str(van_direction_index))
+					#set_van_direction_string()
+					#move_dir = current_van_direction
+				#"UTURN":
+					#if van_direction_index == 0:
+						#van_direction_index = 2
+					#elif van_direction_index == 1:
+						#van_direction_index = 3
+					#elif van_direction_index == 2:
+						#van_direction_index = 0
+					#else:
+						#van_direction_index = 1
+					#set_van_direction_string()
+					#move_dir = current_van_direction
+				#"FORWARD":
+					#move_dir = current_van_direction
+				#"REVERSE":
+					#if van_direction_index == 0:
+						#move_dir = "SOUTH"
+					#elif van_direction_index == 1:
+						#move_dir = "WEST"
+					#elif van_direction_index == 2:
+						#move_dir = "NORTH"
+					#else:
+						#move_dir = "EAST"
+#
+			#var new_direction = Direction.new()
+			#new_direction.move_direction = move_dir
+			#new_direction.move_amount = value
+			#
+			#DirectionList.directions.append(new_direction)
+			#print("moving in " + move_dir + " direction, going " + str(value) + " space(s).")
+		round_initiated.emit()
+
+func set_directions():
+	DirectionList.directions.clear()
+	for i in current_movement_queue:
 			var card = Util.all_cards[i]
-			var move_dir = card.get("MOVE_DIRECTION")
-			var move_amt = card.get("MOVE_AMOUNT")
-			
+			var attr = card.get("ATTRIBUTE_TYPE")
+			var value = card.get("VALUE")
+			var move_dir
+			print("van index: " + str(van_direction_index))
+			match attr:
+				"TURNLEFT":
+					if van_direction_index > 0:
+						van_direction_index -= 1
+					else:
+						van_direction_index = 3
+					set_van_direction_string()
+					move_dir = current_van_direction
+				"TURNRIGHT":
+					if van_direction_index < 3:
+						van_direction_index += 1
+					else:
+						van_direction_index = 0
+					print("new van dir index " + str(van_direction_index))
+					set_van_direction_string()
+					move_dir = current_van_direction
+				"UTURN":
+					if van_direction_index == 0:
+						van_direction_index = 2
+					elif van_direction_index == 1:
+						van_direction_index = 3
+					elif van_direction_index == 2:
+						van_direction_index = 0
+					else:
+						van_direction_index = 1
+					set_van_direction_string()
+					move_dir = current_van_direction
+				"FORWARD":
+					move_dir = current_van_direction
+				"REVERSE":
+					if van_direction_index == 0:
+						move_dir = "SOUTH"
+					elif van_direction_index == 1:
+						move_dir = "WEST"
+					elif van_direction_index == 2:
+						move_dir = "NORTH"
+					else:
+						move_dir = "EAST"
+
 			var new_direction = Direction.new()
 			new_direction.move_direction = move_dir
-			new_direction.move_amount = move_amt
-			DirectionList.directions.append(new_direction)
+			new_direction.move_amount = value
 			
-		round_initiated.emit(current_queue)
-
-func _on_move_test_pressed() -> void:
-	move_test.emit()
+			DirectionList.directions.append(new_direction)
 
 func _on_reset_van_pressed() -> void:
 	reset_van.emit()
 
 func _on_van_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/level.tscn")
+
+
+
+
+
+func _on_reset_moves_pressed() -> void:
+	current_movement_queue.clear()
+	moves_selected = 0
+	clear_movement_queue_window()
+	reset_movement_queue.emit()
+	van_direction_index = van_direction_index_default
+	set_van_direction_string()
+
+func _on_forward_1_pressed() -> void:
+	if moves_selected < max_move_queue_size:
+		current_movement_queue.append("16")
+		set_directions()
+		movement_queued.emit()
+		moves_selected += 1
+		clear_movement_queue_window()
+		update_movement_queue()
+		
+
+func _on_forward_2_pressed() -> void:
+	if moves_selected < max_move_queue_size:
+		current_movement_queue.append("17")
+		set_directions()
+		movement_queued.emit()
+		moves_selected += 1
+		clear_movement_queue_window()
+		update_movement_queue()
+
+func _on_reverse_1_pressed() -> void:
+	if moves_selected < max_move_queue_size:
+		current_movement_queue.append("18")
+		set_directions()
+		movement_queued.emit()
+		moves_selected += 1
+		clear_movement_queue_window()
+		update_movement_queue()
+
+func _on_turn_left_pressed() -> void:
+	if moves_selected < max_move_queue_size:
+		current_movement_queue.append("19")
+		set_directions()
+		movement_queued.emit()
+		moves_selected += 1
+		clear_movement_queue_window()
+		update_movement_queue()
+
+func _on_turn_around_pressed() -> void:
+	if moves_selected < max_move_queue_size:
+		current_movement_queue.append("21")
+		set_directions()
+		movement_queued.emit()
+		moves_selected += 1
+		clear_movement_queue_window()
+		update_movement_queue()
+
+func _on_turn_right_pressed() -> void:
+	if moves_selected < max_move_queue_size:
+		current_movement_queue.append("20")
+		set_directions()
+		movement_queued.emit()
+		moves_selected += 1
+		clear_movement_queue_window()
+		update_movement_queue()

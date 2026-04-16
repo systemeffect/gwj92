@@ -288,6 +288,9 @@ storm_scene = ExtResource("2_yiybu")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=642432425]
 
+[node name="ActionsUI" parent="UI" unique_id=24908026 instance=ExtResource("2_wkloc")]
+current_van_direction = "EAST"
+
 [node name="Debug" type="Control" parent="UI" unique_id=1033361981]
 layout_mode = 3
 anchors_preset = 5
@@ -323,12 +326,14 @@ label_settings = SubResource("LabelSettings_weyc0")
 horizontal_alignment = 1
 
 [node name="MoveInProgress" type="Label" parent="UI/Debug/Margin/PanelContainer/DebugMenu" unique_id=2075919014]
+visible = false
 layout_mode = 2
 text = "Move in Progress: false"
 label_settings = SubResource("LabelSettings_weyc0")
 horizontal_alignment = 1
 
 [node name="ActionsQueued" type="Label" parent="UI/Debug/Margin/PanelContainer/DebugMenu" unique_id=153661955]
+visible = false
 layout_mode = 2
 text = "Actions queued: 0"
 label_settings = SubResource("LabelSettings_weyc0")
@@ -365,9 +370,6 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Wind"
-
-[node name="ActionsUI" parent="UI" unique_id=24908026 instance=ExtResource("2_wkloc")]
-offset_top = 30.0
 
 [node name="GridOverlay" type="TextureRect" parent="UI" unique_id=869850497]
 anchors_preset = 15

@@ -29,6 +29,8 @@ var flood_status = Status
 var current_turn : int = 0
 var turn_in_progress : bool = false
 var movement_in_progress : bool = false
+var moves_queued : int = 0
+var movement_queue : Array
 var actions_queued : int = 0
 var action_queue : Array
 var current_preview_coords : Vector2
@@ -48,8 +50,10 @@ func _ready() -> void:
 	actions_ui.action_queued.connect(_on_action_queued)
 	actions_ui.action_removed.connect(_on_action_removed)
 	actions_ui.reset_queue.connect(_on_reset_queue)
-	
+	actions_ui.reset_movement_queue.connect(_on_reset_movement_queue)
+	actions_ui.movement_queued.connect(_on_movement_queued)
 	action_queue = actions_ui.current_queue
+	movement_queue = actions_ui.current_movement_queue
 	current_turn_label.text = "Current turn: " + str(current_turn)
 	
 	van.is_moving.connect(_on_van_is_moving)
@@ -76,12 +80,22 @@ func _ready() -> void:
 	flood_status.status_name = "flood"
 	flood_status.status_type = 2
 	flood_status.status_amount = 3
+	
 func _on_reset_queue():
-	queue_preview.clear_points()
+	# reset wind preview line at end (if applies)
+	pass
 
 func _on_action_queued(card_id : String):
 	actions_queued_label.text = "Actions queued: " + str(action_queue.size())
+	#find_path()
+
+func _on_movement_queued():
+	print("movement queued")
 	find_path()
+	
+func _on_reset_movement_queue():
+	queue_preview.clear_points()
+	queue_preview.add_point(van_position)
 
 func find_path():
 	var last_point = van_grid_coords
@@ -89,10 +103,12 @@ func find_path():
 	queue_preview.clear_points()
 	queue_preview.add_point(van_position)
 	clear_collider_container()
-	for move in action_queue:
-		var card = Util.all_cards[str(move)]
-		var move_amt = int(card.get("MOVE_AMOUNT"))
-		var move_dir = card.get("MOVE_DIRECTION")
+	var dir_array = DirectionList.directions
+	print('finding path')
+	print("moves in queue: " + str(dir_array.size()))
+	for move in dir_array:
+		var move_amt = move.move_amount
+		var move_dir = move.move_direction
 		var move_vector : Vector2
 		match move_dir:
 			"NORTH":
@@ -137,15 +153,19 @@ func _on_van_is_not_moving():
 	van_grid_coords = city_grid.local_to_map(van.global_position)
 	
 # Needs to be rebuilt
-func _on_round_initiated(moves : Array):
-	while moves.size() > 0:
-		var current_move = moves.pop_front()
-		var card = Util.all_cards[current_move]
-		if card != null:
-			actions_ui.highlight_active_slot(current_turn)
+func _on_round_initiated():
+	var dir_array = DirectionList.directions
+	while dir_array.size() > 0:
+		var current_move = dir_array.pop_front()
+		#var card = Util.all_cards[current_move]
+		if current_move != null:
+			var move_dir = current_move.move_direction
+			var move_amt = current_move.move_amount
+		#if card != null:
+			#actions_ui.highlight_active_slot(current_turn)
 			
-			var move_dir = card.get("MOVE_DIRECTION")
-			var move_amt = card.get("MOVE_AMOUNT")
+			#var move_dir = card.get("MOVE_DIRECTION")
+			#var move_amt = card.get("MOVE_AMOUNT")
 			van.move(move_dir, move_amt)
 			await get_tree().create_timer(2.0).timeout
 			current_turn +=1

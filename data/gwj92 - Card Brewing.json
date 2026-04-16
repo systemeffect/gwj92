@@ -1,4 +1,7 @@
 {
+  "ReImagined": {
+    "": {}
+  },
   "Dedicated": {
     "Floor It": {
       "Type": "Movement",
@@ -473,19 +476,219 @@
   "Storm Effects": {
     "Flood": {
       "Effect": "Add flooded tiles",
-      "Player Effect": "??"
+      "Player Effect": "3 Movement to move through"
     },
     "Wind Gust": {
       "Effect": "Moves Character in direction",
-      "Player Effect": "Move player"
+      "Player Effect": "Move player in wind direction that character can move (not against buildings)"
     },
     "Fire": {
       "Effect": "Spread fire to adjacent tiles",
-      "Player Effect": "Damage player if move through"
+      "Player Effect": "Lose Fuel"
     },
     "Debris": {
       "Effect": "Add debris tile",
       "Player Effect": "2 movement to move through"
+    }
+  },
+  "Att_Cards_Import": {
+    "0": {
+      "CARD_TYPE": "ATTRIBUTE",
+      "ATTRIBUTE_TYPE": "TEMPERATURE",
+      "VALUE": 0,
+      "DESCRIPTION_HEADING": "Temperature 0",
+      "DESCRIPTION_SUBHEADING": "Spawns Fire",
+      "STORM_EFFECT": "Spreads fire",
+      "CARD_ICON": "att_t0.png"
+    },
+    "1": {
+      "CARD_TYPE": "ATTRIBUTE",
+      "ATTRIBUTE_TYPE": "TEMPERATURE",
+      "VALUE": 1,
+      "DESCRIPTION_HEADING": "Temperature 1",
+      "DESCRIPTION_SUBHEADING": "Spawns and Spreads Fire",
+      "STORM_EFFECT": "Spreads fire",
+      "CARD_ICON": "att_t1.png"
+    },
+    "2": {
+      "CARD_TYPE": "ATTRIBUTE",
+      "ATTRIBUTE_TYPE": "TEMPERATURE",
+      "VALUE": 2,
+      "DESCRIPTION_HEADING": "Temperature 2",
+      "DESCRIPTION_SUBHEADING": "Spawns and Spreads Fire",
+      "STORM_EFFECT": "Spreads fire",
+      "CARD_ICON": "att_t2.png"
+    },
+    "3": {
+      "CARD_TYPE": "ATTRIBUTE",
+      "ATTRIBUTE_TYPE": "TEMPERATURE",
+      "VALUE": 3,
+      "DESCRIPTION_HEADING": "Temperature 3",
+      "DESCRIPTION_SUBHEADING": "Spawns and Spreads Fire",
+      "STORM_EFFECT": "Spreads fire",
+      "CARD_ICON": "att_t3.png"
+    },
+    "4": {
+      "CARD_TYPE": "ATTRIBUTE",
+      "ATTRIBUTE_TYPE": "HUMIDITY",
+      "VALUE": 0,
+      "DESCRIPTION_HEADING": "Humidity 0",
+      "DESCRIPTION_SUBHEADING": "Spawns Flooding",
+      "STORM_EFFECT": "Spreads flooding",
+      "CARD_ICON": "att_h0.png"
+    },
+    "5": {
+      "CARD_TYPE": "ATTRIBUTE",
+      "ATTRIBUTE_TYPE": "HUMIDITY",
+      "VALUE": 1,
+      "DESCRIPTION_HEADING": "Humidity 1",
+      "DESCRIPTION_SUBHEADING": "Spawns and Spreads Flooding",
+      "STORM_EFFECT": "Spreads flooding",
+      "CARD_ICON": "att_h1.png"
+    },
+    "6": {
+      "CARD_TYPE": "ATTRIBUTE",
+      "ATTRIBUTE_TYPE": "HUMIDITY",
+      "VALUE": 2,
+      "DESCRIPTION_HEADING": "Humidity 2",
+      "DESCRIPTION_SUBHEADING": "Spawns and Spreads Flooding",
+      "STORM_EFFECT": "Spreads flooding",
+      "CARD_ICON": "att_h2.png"
+    },
+    "7": {
+      "CARD_TYPE": "ATTRIBUTE",
+      "ATTRIBUTE_TYPE": "HUMIDITY",
+      "VALUE": 3,
+      "DESCRIPTION_HEADING": "Humidity 3",
+      "DESCRIPTION_SUBHEADING": "Spawns and Spreads Flooding",
+      "STORM_EFFECT": "Spreads flooding",
+      "CARD_ICON": "att_h3.png"
+    },
+    "8": {
+      "CARD_TYPE": "ATTRIBUTE",
+      "ATTRIBUTE_TYPE": "PRESSURE",
+      "VALUE": 0,
+      "DESCRIPTION_HEADING": "Pressure 0",
+      "DESCRIPTION_SUBHEADING": "Spawns Fire and/or Flooding",
+      "STORM_EFFECT": "Spreads fire and flooding",
+      "CARD_ICON": "att_p0.png"
+    },
+    "9": {
+      "CARD_TYPE": "ATTRIBUTE",
+      "ATTRIBUTE_TYPE": "PRESSURE",
+      "VALUE": 1,
+      "DESCRIPTION_HEADING": "Pressure 1",
+      "DESCRIPTION_SUBHEADING": "Spawns and Spreads Fire and Flooding",
+      "STORM_EFFECT": "Spreads fire and flooding",
+      "CARD_ICON": "att_p1.png"
+    },
+    "10": {
+      "CARD_TYPE": "ATTRIBUTE",
+      "ATTRIBUTE_TYPE": "PRESSURE",
+      "VALUE": 2,
+      "DESCRIPTION_HEADING": "Pressure 2",
+      "DESCRIPTION_SUBHEADING": "Spawns and Spreads Fire and Flooding",
+      "STORM_EFFECT": "Spreads fire and flooding",
+      "CARD_ICON": "att_p2.png"
+    },
+    "11": {
+      "CARD_TYPE": "ATTRIBUTE",
+      "ATTRIBUTE_TYPE": "PRESSURE",
+      "VALUE": 3,
+      "DESCRIPTION_HEADING": "Pressure 3",
+      "DESCRIPTION_SUBHEADING": "Spawns and Spreads Fire and Flooding",
+      "STORM_EFFECT": "Spreads fire and flooding",
+      "CARD_ICON": "att_p3.png"
+    },
+    "12": {
+      "CARD_TYPE": "ATTRIBUTE",
+      "ATTRIBUTE_TYPE": "WIND",
+      "VALUE": 0,
+      "DESCRIPTION_HEADING": "Wind 0",
+      "DESCRIPTION_SUBHEADING": "Pushes Van",
+      "STORM_EFFECT": "Pushes storms",
+      "CARD_ICON": "att_w0.png"
+    },
+    "13": {
+      "CARD_TYPE": "ATTRIBUTE",
+      "ATTRIBUTE_TYPE": "WIND",
+      "VALUE": 1,
+      "DESCRIPTION_HEADING": "Wind 1",
+      "DESCRIPTION_SUBHEADING": "Pushes Van 1 Grid Space in Wind Direction",
+      "STORM_EFFECT": "Pushes storms",
+      "CARD_ICON": "att_w1.png"
+    },
+    "14": {
+      "CARD_TYPE": "ATTRIBUTE",
+      "ATTRIBUTE_TYPE": "WIND",
+      "VALUE": 2,
+      "DESCRIPTION_HEADING": "Wind 2",
+      "DESCRIPTION_SUBHEADING": "Pushes Van 2 Grid Spaces in Wind Direction",
+      "STORM_EFFECT": "Pushes storms",
+      "CARD_ICON": "att_w2.png"
+    },
+    "15": {
+      "CARD_TYPE": "ATTRIBUTE",
+      "ATTRIBUTE_TYPE": "WIND",
+      "VALUE": 3,
+      "DESCRIPTION_HEADING": "Wind 3",
+      "DESCRIPTION_SUBHEADING": "Pushes Van 3 Grid Spaces in Wind Direction",
+      "STORM_EFFECT": "Pushes storms",
+      "CARD_ICON": "att_w3.png"
+    },
+    "16": {
+      "CARD_TYPE": "MOVEMENT",
+      "ATTRIBUTE_TYPE": "FORWARD",
+      "VALUE": 1,
+      "DESCRIPTION_HEADING": "Forward 1",
+      "DESCRIPTION_SUBHEADING": "Van Auto-Drives 1 Grid Space Forward",
+      "STORM_EFFECT": null,
+      "CARD_ICON": "forward_1.png"
+    },
+    "17": {
+      "CARD_TYPE": "MOVEMENT",
+      "ATTRIBUTE_TYPE": "FORWARD",
+      "VALUE": 2,
+      "DESCRIPTION_HEADING": "Forward 2",
+      "DESCRIPTION_SUBHEADING": "Van Auto-Drives 2 Grid Spaces Forward",
+      "STORM_EFFECT": null,
+      "CARD_ICON": "forward_2.png"
+    },
+    "18": {
+      "CARD_TYPE": "MOVEMENT",
+      "ATTRIBUTE_TYPE": "REVERSE",
+      "VALUE": 1,
+      "DESCRIPTION_HEADING": "Reverse 1",
+      "DESCRIPTION_SUBHEADING": "Van Auto-Drives 1 Grid Space in Reverse",
+      "STORM_EFFECT": null,
+      "CARD_ICON": "reverse_1.png"
+    },
+    "19": {
+      "CARD_TYPE": "MOVEMENT",
+      "ATTRIBUTE_TYPE": "TURNLEFT",
+      "VALUE": 0,
+      "DESCRIPTION_HEADING": "Turn Left",
+      "DESCRIPTION_SUBHEADING": "Van Turns Left",
+      "STORM_EFFECT": null,
+      "CARD_ICON": "turn_left.png"
+    },
+    "20": {
+      "CARD_TYPE": "MOVEMENT",
+      "ATTRIBUTE_TYPE": "TURNRIGHT",
+      "VALUE": 0,
+      "DESCRIPTION_HEADING": "Turn Right",
+      "DESCRIPTION_SUBHEADING": "Van Turns Right",
+      "STORM_EFFECT": null,
+      "CARD_ICON": "turn_right.png"
+    },
+    "21": {
+      "CARD_TYPE": "MOVEMENT",
+      "ATTRIBUTE_TYPE": "UTURN",
+      "VALUE": 0,
+      "DESCRIPTION_HEADING": "U-Turn",
+      "DESCRIPTION_SUBHEADING": "Van U-Turns",
+      "STORM_EFFECT": null,
+      "CARD_ICON": "turn_around.png"
     }
   }
 }
