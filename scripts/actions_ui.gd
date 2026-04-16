@@ -46,6 +46,7 @@ var queue_item_1 : Dictionary
 var queue_item_2 : Dictionary
 var queue_item_3 : Dictionary
 var queue_item_4 : Dictionary
+var nullify_set : bool = false
 
 var cur_deck_size : int = 0
 var selected_card : String
@@ -69,6 +70,19 @@ func _ready() -> void:
 	available_cards = current_deck
 	load_cards()
 	set_van_direction_index()
+	
+#func _process(delta: float) -> void:
+	#if queue_size == max_queue_size and !nullify_set:
+		#nullify_set = true
+		#action_1.toggle_nullify(nullify_set)
+		#action_2.toggle_nullify(nullify_set)
+		#action_3.toggle_nullify(nullify_set)
+	#elif queue_size < max_queue_size and nullify_set:
+		#nullify_set = false
+		#action_1.toggle_nullify(nullify_set)
+		#action_2.toggle_nullify(nullify_set)
+		#action_3.toggle_nullify(nullify_set)
+		
 
 func set_van_direction_index():
 	match current_van_direction:
@@ -146,6 +160,12 @@ func load_cards():
 				print("Slot created for " + str(card_id))
 				cur_deck_size += 1
 				slot.pressed.connect(_on_pressed.bind(card_id))
+				if queue_size == max_queue_size and !nullify_set:
+					nullify_set = true
+					slot.toggle_nullify(nullify_set)
+				elif queue_size < max_queue_size and nullify_set:
+					nullify_set = false
+					slot.toggle_nullify(nullify_set)
 			else:
 				slot.set_empty()
 
@@ -344,79 +364,11 @@ func _on_remove_action_button_pressed() -> void:
 		update_queue()
 
 func _on_move_pressed() -> void:
-	# Packages the current queue dictionaries and sends it to the game manager
-	#var queue_dict_array : Array[Dictionary]
-	#queue_dict_array.append(queue_item_1)
-	#queue_dict_array.append(queue_item_2)
-	#queue_dict_array.append(queue_item_3)
-	#queue_dict_array.append(queue_item_4)
-	#if queue_size > 0:
-		#for i in current_queue:
-			#var card = Util.all_cards[i]
-			#var move_dir = card.get("MOVE_DIRECTION")
-			#var move_amt = card.get("MOVE_AMOUNT")
-			#
-			#var new_direction = Direction.new()
-			#new_direction.move_direction = move_dir
-			#new_direction.move_amount = move_amt
-			#DirectionList.directions.append(new_direction)
-			#
-		#round_initiated.emit(current_queue)
-		
 	if moves_selected > 0:
 		set_directions()
-		#for i in current_movement_queue:
-			#var card = Util.all_cards[i]
-			#var attr = card.get("ATTRIBUTE_TYPE")
-			#var value = card.get("VALUE")
-			#var move_dir
-			#print("van index: " + str(van_direction_index))
-			#match attr:
-				#"TURNLEFT":
-					#if van_direction_index > 0:
-						#van_direction_index -= 1
-					#else:
-						#van_direction_index = 3
-					#set_van_direction_string()
-					#move_dir = current_van_direction
-				#"TURNRIGHT":
-					#if van_direction_index < 3:
-						#van_direction_index += 1
-					#else:
-						#van_direction_index = 0
-					#print("new van dir index " + str(van_direction_index))
-					#set_van_direction_string()
-					#move_dir = current_van_direction
-				#"UTURN":
-					#if van_direction_index == 0:
-						#van_direction_index = 2
-					#elif van_direction_index == 1:
-						#van_direction_index = 3
-					#elif van_direction_index == 2:
-						#van_direction_index = 0
-					#else:
-						#van_direction_index = 1
-					#set_van_direction_string()
-					#move_dir = current_van_direction
-				#"FORWARD":
-					#move_dir = current_van_direction
-				#"REVERSE":
-					#if van_direction_index == 0:
-						#move_dir = "SOUTH"
-					#elif van_direction_index == 1:
-						#move_dir = "WEST"
-					#elif van_direction_index == 2:
-						#move_dir = "NORTH"
-					#else:
-						#move_dir = "EAST"
-#
-			#var new_direction = Direction.new()
-			#new_direction.move_direction = move_dir
-			#new_direction.move_amount = value
-			#
-			#DirectionList.directions.append(new_direction)
-			#print("moving in " + move_dir + " direction, going " + str(value) + " space(s).")
 		round_initiated.emit()
+	else:
+		print("max moves reached")
 
 func set_directions():
 	DirectionList.directions.clear()
@@ -428,11 +380,16 @@ func set_directions():
 			print("van index: " + str(van_direction_index))
 			match attr:
 				"TURNLEFT":
-					if van_direction_index > 0:
-						van_direction_index -= 1
-					else:
-						van_direction_index = 3
-					set_van_direction_string()
+					match current_van_direction:
+						"NORTH":
+							current_van_direction = "WEST"
+						"EAST":
+							current_van_direction = "NORTH"
+						"SOUTH":
+							current_van_direction = "EAST"
+						"WEST":
+							current_van_direction = "SOUTH"
+					
 					move_dir = current_van_direction
 				"TURNRIGHT":
 					if van_direction_index < 3:

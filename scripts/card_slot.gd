@@ -10,6 +10,7 @@ signal pressed
 @export_range(1,3) var queue_number : int
 
 @onready var card_icon: TextureRect = $InnerBorder/CardIcon
+@onready var card_nullify: TextureRect = $InnerBorder/CardNullify
 @onready var card_button: Button = $CardButton
 @onready var outer_border: ColorRect = $OuterBorder
 @onready var details: PanelContainer = $Details
@@ -33,6 +34,7 @@ func _ready() -> void:
 		#action_queue_num.text = "Action " + str(queue_number)
 	#else:
 		#action_queue_num.hide()
+	card_nullify.hide()
 	selected.hide()
 	outer_border.color = Color(0.06,0.06,0.06,1.0)
 	card_button.mouse_entered.connect(_on_card_icon_mouse_entered)
@@ -56,6 +58,12 @@ func set_empty():
 	
 func deselect():
 	selected.hide()
+	
+func toggle_nullify(on: bool):
+	if on:
+		card_nullify.show()
+	else:
+		card_nullify.hide()
 	
 func set_card(new_card : Dictionary):
 	if new_card != null:

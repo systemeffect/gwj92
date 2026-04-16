@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://r3mqk16frje4" path="res://scripts/card_slot.gd" id="1_mxh2e"]
 [ext_resource type="Theme" uid="uid://ywdabumyudpa" path="res://themes/details.tres" id="2_cypty"]
+[ext_resource type="Texture2D" uid="uid://be0x2asfli6o3" path="res://assets/icons/nullify.png" id="2_hrxt0"]
 
 [node name="Card_Slot" type="Control" unique_id=1543295380]
 layout_mode = 3
@@ -33,6 +34,16 @@ color = Color(0.035213683, 0.0035148873, 3.3579472e-05, 1)
 layout_mode = 0
 offset_right = 76.0
 offset_bottom = 76.0
+
+[node name="CardNullify" type="TextureRect" parent="InnerBorder" unique_id=352957853]
+visible = false
+modulate = Color(1, 1, 1, 0.7137255)
+layout_mode = 0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 78.0
+offset_bottom = 78.0
+texture = ExtResource("2_hrxt0")
 
 [node name="ActionQueueNum" type="Label" parent="InnerBorder" unique_id=898542842]
 visible = false
