@@ -98,12 +98,12 @@ func _on_reset_movement_queue():
 	queue_preview.add_point(van_position)
 
 func find_path():
-	var last_point = van_grid_coords
+	var last_point: Vector2 = city_grid.local_to_map(van.global_position)
 	var new_point = last_point
 	queue_preview.clear_points()
-	queue_preview.add_point(van_position)
+	queue_preview.add_point(van.global_position)
 	clear_collider_container()
-	var dir_array = DirectionList.directions
+	var dir_array = DirectionList.previewer_directions
 	print('finding path')
 	print("moves in queue: " + str(dir_array.size()))
 	for move in dir_array:

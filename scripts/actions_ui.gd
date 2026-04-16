@@ -378,6 +378,16 @@ func _on_move_pressed() -> void:
 		round_initiated.emit()
 	else:
 		print("max moves reached")
+		
+func build_preview_directions():
+	var result = MovementPlanner.build_preview_directions(current_movement_queue, current_van_direction, Util.all_cards)
+	DirectionList.previewer_directions.clear()
+	DirectionList.previewer_directions.append_array(result["directions"])
+	for d in DirectionList.previewer_directions:
+		print("Direction:", d.move_direction, "| Amount:", d.move_amount)
+
+		#current_van_direction = result["final_facing"]
+
 
 func _on_van_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/level.tscn")
@@ -394,48 +404,59 @@ func _on_reset_moves_pressed() -> void:
 func _on_forward_1_pressed() -> void:
 	if moves_selected < max_move_queue_size:
 		current_movement_queue.append("16")
-		movement_queued.emit()
+		build_preview_directions()
+		
 		moves_selected += 1
 		clear_movement_queue_window()
 		update_movement_queue()
-		
+		movement_queued.emit()
 
 func _on_forward_2_pressed() -> void:
 	if moves_selected < max_move_queue_size:
 		current_movement_queue.append("17")
-		movement_queued.emit()
+		build_preview_directions()
+		
 		moves_selected += 1
 		clear_movement_queue_window()
 		update_movement_queue()
+		movement_queued.emit()
 
 func _on_reverse_1_pressed() -> void:
 	if moves_selected < max_move_queue_size:
 		current_movement_queue.append("18")
-		movement_queued.emit()
+		build_preview_directions()
+		
 		moves_selected += 1
 		clear_movement_queue_window()
 		update_movement_queue()
+		movement_queued.emit()
 
 func _on_turn_left_pressed() -> void:
 	if moves_selected < max_move_queue_size:
 		current_movement_queue.append("19")
-		movement_queued.emit()
+		build_preview_directions()
+		
 		moves_selected += 1
 		clear_movement_queue_window()
 		update_movement_queue()
+		movement_queued.emit()
 
 func _on_turn_around_pressed() -> void:
 	if moves_selected < max_move_queue_size:
 		current_movement_queue.append("21")
-		movement_queued.emit()
+		build_preview_directions()
+		
 		moves_selected += 1
 		clear_movement_queue_window()
 		update_movement_queue()
+		movement_queued.emit()
 
 func _on_turn_right_pressed() -> void:
 	if moves_selected < max_move_queue_size:
 		current_movement_queue.append("20")
-		movement_queued.emit()
+		build_preview_directions()
+		
 		moves_selected += 1
 		clear_movement_queue_window()
 		update_movement_queue()
+		movement_queued.emit()

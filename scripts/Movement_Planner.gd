@@ -44,6 +44,47 @@ static func build_directions(movement_queue: Array, starting_direction: String, 
 		"final_facing": facing
 	}
 
+static func build_preview_directions(movement_queue: Array, starting_direction: String, all_cards: Dictionary) -> Dictionary:
+	var previewer_directions: Array[Direction] = []
+	var facing := starting_direction
+
+	for card_id in movement_queue:
+		var card = all_cards.get(card_id)
+		if card == null:
+			continue
+
+		var attr = card.get("ATTRIBUTE_TYPE")
+		var value = int(card.get("VALUE"))
+		var move_dir := facing
+
+		match attr:
+			"TURNLEFT":
+				facing = _turn_left(facing)
+				move_dir = facing
+
+			"TURNRIGHT":
+				facing = _turn_right(facing)
+				move_dir = facing
+
+			"UTURN":
+				facing = _u_turn(facing)
+				move_dir = facing
+
+			"FORWARD":
+				move_dir = facing
+
+			"REVERSE":
+				move_dir = _u_turn(facing)
+
+		var new_direction := Direction.new()
+		new_direction.move_direction = move_dir
+		new_direction.move_amount = value
+		previewer_directions.append(new_direction)
+
+	return {
+		"directions": previewer_directions,
+		"final_facing": facing
+	}
 
 static func _turn_left(dir: String) -> String:
 	match dir:
