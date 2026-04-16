@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://1mhyyd4h6qh" path="res://scripts/actions_ui.gd" id="1_cou15"]
 [ext_resource type="PackedScene" uid="uid://34hboxtiso3n" path="res://scenes/action_queue.tscn" id="2_m8tt6"]
 [ext_resource type="PackedScene" uid="uid://kd3dcv0ib57v" path="res://scenes/card_slot.tscn" id="3_cou15"]
+[ext_resource type="Theme" uid="uid://ywdabumyudpa" path="res://themes/details.tres" id="4_p22f0"]
+[ext_resource type="FontFile" uid="uid://bc7s77r5opgfm" path="res://assets/fonts/easvhs.ttf" id="5_lgsi3"]
 
 [node name="ActionsUI" type="Control" unique_id=24908026]
 layout_mode = 3
@@ -112,6 +114,7 @@ text = "Reset Queue"
 [node name="Move" type="Button" parent="ActionDebug/VBoxContainer" unique_id=170235260]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
+disabled = true
 text = "Move"
 
 [node name="VanButton" type="Button" parent="ActionDebug/VBoxContainer" unique_id=202436281]
@@ -210,6 +213,49 @@ layout_mode = 2
 is_in_action_queue = true
 queue_number = 3
 
+[node name="EndOfTurnPrompt" type="PanelContainer" parent="." unique_id=256923231]
+process_mode = 3
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -66.5
+offset_top = -40.5
+offset_right = 66.5
+offset_bottom = 40.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_p22f0")
+
+[node name="MarginContainer" type="MarginContainer" parent="EndOfTurnPrompt" unique_id=443817379]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EndOfTurnPrompt/MarginContainer" unique_id=565115545]
+layout_mode = 2
+
+[node name="TurnEndLabel" type="Label" parent="EndOfTurnPrompt/MarginContainer/VBoxContainer" unique_id=391455598]
+layout_mode = 2
+text = "AUTO-DRIVE PATH EXECUTED"
+
+[node name="TurnEndLabel2" type="Label" parent="EndOfTurnPrompt/MarginContainer/VBoxContainer" unique_id=81119086]
+layout_mode = 2
+text = "Engage Tempest Drive
+and Update Radar"
+horizontal_alignment = 1
+
+[node name="EndOfTurnButton" type="Button" parent="EndOfTurnPrompt/MarginContainer/VBoxContainer" unique_id=1293705903]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9098039, 0.40784314, 0.2509804, 1)
+theme_override_fonts/font = ExtResource("5_lgsi3")
+text = "UPDATE MAP"
+
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Forward1" to="." method="_on_forward_1_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Forward2" to="." method="_on_forward_2_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Reverse1" to="." method="_on_reverse_1_pressed"]
@@ -222,5 +268,6 @@ queue_number = 3
 [connection signal="pressed" from="ActionDebug/VBoxContainer/ResetQueue" to="." method="_on_reset_queue_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/Move" to="." method="_on_move_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/VanButton" to="." method="_on_van_button_pressed"]
+[connection signal="pressed" from="EndOfTurnPrompt/MarginContainer/VBoxContainer/EndOfTurnButton" to="." method="_on_end_of_turn_button_pressed"]
 
 [editable path="ActionQueue"]

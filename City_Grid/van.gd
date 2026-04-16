@@ -155,6 +155,7 @@ func do_turn(direction: String) -> void:
 
 	print("Turn complete. Turning: ", is_turning)
 
+
 #Starts car movement, can be plugged in anywhere
 func _on_red_button_pressed() -> void:
 	internal_map_van_enabled = true

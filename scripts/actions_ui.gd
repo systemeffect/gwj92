@@ -6,8 +6,12 @@ signal reset_movement_queue
 signal action_queued
 signal action_removed
 signal reset_queue
+signal end_of_turn
 
 @export_enum("NORTH", "EAST", "SOUTH", "WEST") var current_van_direction : String
+
+@onready var move_button: Button = $ActionDebug/VBoxContainer/Move
+@onready var end_of_turn_prompt: PanelContainer = $EndOfTurnPrompt
 
 # Stormbrew/Action Queue
 @onready var grid_container: GridContainer = $PanelContainer/GridContainer
@@ -72,18 +76,17 @@ func _ready() -> void:
 	load_cards()
 	set_van_direction_index()
 	
-#func _process(delta: float) -> void:
-	#if queue_size == max_queue_size and !nullify_set:
-		#nullify_set = true
-		#action_1.toggle_nullify(nullify_set)
-		#action_2.toggle_nullify(nullify_set)
-		#action_3.toggle_nullify(nullify_set)
-	#elif queue_size < max_queue_size and nullify_set:
-		#nullify_set = false
-		#action_1.toggle_nullify(nullify_set)
-		#action_2.toggle_nullify(nullify_set)
-		#action_3.toggle_nullify(nullify_set)
-		
+func _process(delta: float) -> void:
+	if queue_size == 3:
+		move_button.disabled = false
+	else:
+		move_button.disabled = true
+
+func process_turn():
+	
+	get_tree().paused
+	end_of_turn_prompt.show()
+	
 
 func set_van_direction_index():
 	match current_van_direction:
@@ -460,3 +463,11 @@ func _on_turn_right_pressed() -> void:
 		clear_movement_queue_window()
 		update_movement_queue()
 		movement_queued.emit()
+
+
+func _on_end_of_turn_button_pressed() -> void:
+	end_of_turn.emit()
+	reset_movement_queue.emit()
+	_on_reset_queue_pressed()
+	_on_reset_moves_pressed()
+	end_of_turn_prompt.hide()

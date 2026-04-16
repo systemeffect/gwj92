@@ -27,6 +27,7 @@ var fire_status = Status
 var flood_status = Status
 
 var current_turn : int = 0
+var end_of_turn : bool = false
 var turn_in_progress : bool = false
 var movement_in_progress : bool = false
 var moves_queued : int = 0
@@ -52,6 +53,7 @@ func _ready() -> void:
 	actions_ui.reset_queue.connect(_on_reset_queue)
 	actions_ui.reset_movement_queue.connect(_on_reset_movement_queue)
 	actions_ui.movement_queued.connect(_on_movement_queued)
+	actions_ui.end_of_turn.connect(update_map_interface)
 	action_queue = actions_ui.current_queue
 	movement_queue = actions_ui.current_movement_queue
 	current_turn_label.text = "Current turn: " + str(current_turn)
@@ -80,7 +82,19 @@ func _ready() -> void:
 	flood_status.status_name = "flood"
 	flood_status.status_type = 2
 	flood_status.status_amount = 3
-	
+
+func _process(delta: float) -> void:
+	if end_of_turn:
+		check_end_of_movement()
+		
+func check_end_of_movement():
+	if van.is_not_moving:
+		actions_ui.process_turn()
+
+func update_map_interface():
+		_on_spread_pressed()
+		end_of_turn = false
+
 func _on_reset_queue():
 	# reset wind preview line at end (if applies)
 	pass
@@ -168,8 +182,12 @@ func _on_round_initiated():
 
 			current_turn += 1
 			current_turn_label.text = "Current turn: " + str(current_turn)
+			turn_in_progress = true
 		else:
 			print("card is null")
+	if dir_array.size() == 0:
+		end_of_turn = true
+	
 
 func set_wind_direction(dir : Direction):
 	wind_direction = dir
