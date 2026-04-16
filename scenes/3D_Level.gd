@@ -6,9 +6,9 @@ var van_grid_loc: Vector2
 var van_global_loc: Vector2
 
 func _ready() -> void:
-	GlobalSignals.blue_button_pressed.connect(_on_blue_button_pressed)
+	GlobalSignals.grid_screen_pressed.connect(_on_grid_screen_pressed)
 	
-func _on_blue_button_pressed() -> void:
+func _on_grid_screen_pressed() -> void:
 	DirectionList.directions.clear()
 	van_grid_loc = grid_screen.find_child("City_Grid").get_van_grid_coords()
 	van_global_loc = grid_screen.find_child("City_Grid").find_child("Van").global_position

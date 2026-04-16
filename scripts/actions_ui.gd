@@ -372,60 +372,60 @@ func _on_move_pressed() -> void:
 func set_directions():
 	DirectionList.directions.clear()
 	for i in current_movement_queue:
-			var card = Util.all_cards[i]
-			var attr = card.get("ATTRIBUTE_TYPE")
-			var value = card.get("VALUE")
-			var move_dir
-			print("van index: " + str(van_direction_index))
-			match attr:
-				"TURNLEFT":
-					match current_van_direction:
-						"NORTH":
-							current_van_direction = "WEST"
-						"EAST":
-							current_van_direction = "NORTH"
-						"SOUTH":
-							current_van_direction = "EAST"
-						"WEST":
-							current_van_direction = "SOUTH"
-					
-					move_dir = current_van_direction
-				"TURNRIGHT":
-					if van_direction_index < 3:
-						van_direction_index += 1
-					else:
-						van_direction_index = 0
-					print("new van dir index " + str(van_direction_index))
-					set_van_direction_string()
-					move_dir = current_van_direction
-				"UTURN":
-					if van_direction_index == 0:
-						van_direction_index = 2
-					elif van_direction_index == 1:
-						van_direction_index = 3
-					elif van_direction_index == 2:
-						van_direction_index = 0
-					else:
-						van_direction_index = 1
-					set_van_direction_string()
-					move_dir = current_van_direction
-				"FORWARD":
-					move_dir = current_van_direction
-				"REVERSE":
-					if van_direction_index == 0:
-						move_dir = "SOUTH"
-					elif van_direction_index == 1:
-						move_dir = "WEST"
-					elif van_direction_index == 2:
-						move_dir = "NORTH"
-					else:
-						move_dir = "EAST"
+		var card = Util.all_cards[i]
+		var attr = card.get("ATTRIBUTE_TYPE")
+		var value = card.get("VALUE")
+		var move_dir
+		print("van index: " + str(van_direction_index))
+		match attr:
+			"TURNLEFT":
+				match current_van_direction:
+					"NORTH":
+						current_van_direction = "WEST"
+					"EAST":
+						current_van_direction = "NORTH"
+					"SOUTH":
+						current_van_direction = "EAST"
+					"WEST":
+						current_van_direction = "SOUTH"
+				
+				move_dir = current_van_direction
+			"TURNRIGHT":
+				if van_direction_index < 3:
+					van_direction_index += 1
+				else:
+					van_direction_index = 0
+				print("new van dir index " + str(van_direction_index))
+				set_van_direction_string()
+				move_dir = current_van_direction
+			"UTURN":
+				if van_direction_index == 0:
+					van_direction_index = 2
+				elif van_direction_index == 1:
+					van_direction_index = 3
+				elif van_direction_index == 2:
+					van_direction_index = 0
+				else:
+					van_direction_index = 1
+				set_van_direction_string()
+				move_dir = current_van_direction
+			"FORWARD":
+				move_dir = current_van_direction
+			"REVERSE":
+				if van_direction_index == 0:
+					move_dir = "SOUTH"
+				elif van_direction_index == 1:
+					move_dir = "WEST"
+				elif van_direction_index == 2:
+					move_dir = "NORTH"
+				else:
+					move_dir = "EAST"
 
-			var new_direction = Direction.new()
-			new_direction.move_direction = move_dir
-			new_direction.move_amount = value
-			
-			DirectionList.directions.append(new_direction)
+		var new_direction = Direction.new()
+		new_direction.move_direction = move_dir
+		new_direction.move_amount = value
+		
+		DirectionList.directions.append(new_direction)
 
 
 func _on_van_button_pressed() -> void:

@@ -40,12 +40,11 @@ func _input(event: InputEvent) -> void:
 				if ray_cast_3d.get_collider().name == "ButtonArea":
 					GlobalSignals.red_button_pressed.emit()
 					button_anim_player.play("button_press")
-				if ray_cast_3d.get_collider().name == "BlueButtonArea":
+				if ray_cast_3d.get_collider().name == "GridScreenArea":
 					if !is_mouse_visible:
 						Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 						is_mouse_visible = true
-					GlobalSignals.blue_button_pressed.emit()
-					blue_button_anim_player.play("button_press")
+					GlobalSignals.grid_screen_pressed.emit()
 
 func handle_camera_rotation() -> void:
 	rotate_y(mouse_motion.x)
