@@ -30,25 +30,25 @@ func _physics_process(delta: float) -> void:
 	var pos = global_position
 
 	if internal_map_van_enabled == false:
-		#CityGrid Van
+		# CityGrid Van
 		if current_axis == "x":
 			pos.x = lerp(pos.x, target_loc_x, VAN_SPEED * delta)
 			is_moving.emit()
-			
-			if is_equal_approx(pos.x, target_loc_x):
+
+			if abs(pos.x - target_loc_x) < 0.5:
 				pos.x = target_loc_x
 				current_axis = ""
 				is_not_moving.emit()
-				
+
 		elif current_axis == "y":
 			pos.y = lerp(pos.y, target_loc_y, VAN_SPEED * delta)
 			is_moving.emit()
-			
-			if is_equal_approx(pos.y, target_loc_y):
+
+			if abs(pos.y - target_loc_y) < 0.5:
 				pos.y = target_loc_y
 				current_axis = ""
 				is_not_moving.emit()
-				
+
 		global_position = pos
 		
 	else:

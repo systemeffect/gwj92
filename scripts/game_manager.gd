@@ -164,7 +164,7 @@ func _on_round_initiated():
 			var move_amt = current_move.move_amount
 
 			van.move(move_dir, move_amt)
-			await get_tree().create_timer(2.0).timeout
+			await van.is_not_moving
 
 			current_turn += 1
 			current_turn_label.text = "Current turn: " + str(current_turn)
