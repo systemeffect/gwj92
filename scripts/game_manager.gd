@@ -25,6 +25,7 @@ var change_wind : bool = true
 
 var fire_status = Status
 var flood_status = Status
+var wind_status = Status
 
 var current_turn : int = 0
 var end_of_turn : bool = false
@@ -82,6 +83,10 @@ func _ready() -> void:
 	flood_status.status_name = "flood"
 	flood_status.status_type = 2
 	flood_status.status_amount = 3
+	wind_status = Status.new()
+	wind_status.status_name = "wind"
+	wind_status.status_type = 3
+	wind_status.status_amount = 3
 
 func _process(delta: float) -> void:
 	if end_of_turn:
@@ -91,8 +96,8 @@ func check_end_of_movement():
 	if van.is_not_moving:
 		actions_ui.process_turn()
 
-func update_map_interface():
-		_on_spread_pressed()
+func update_map_interface(attr_array : Array):
+		_on_spread_pressed(attr_array)
 		end_of_turn = false
 
 func _on_reset_queue():
@@ -296,17 +301,26 @@ func get_van_grid_coords() -> Vector2:
 	return van_grid_coords
 
 
-func _on_spread_pressed() -> void:
+func _on_spread_pressed(attr_array : Array) -> void:
 	var statuses = []
-	statuses.append(fire_status)
-	statuses.append(flood_status)
-	var random = statuses.pick_random()
-	status_effects.spread_available_cell(random)
-	#_on_add_status_pressed()
-	var storms = storms_container.get_children()
-	for storm in storms:
-		var storm_loc = storm.position
-		storm_loc = city_grid.local_to_map(storm_loc)
-		
-		#status_type.init_coord = storm_loc
-		status_effects.add_status_effect(random, storm_loc)
+	for attr in attr_array:
+		if attr.spawns_fire:
+			fire_status.status_amount = attr.attr_value
+			statuses.append(fire_status)
+		if attr.spawns_flood:
+			flood_status.status_amount = attr.attr_value
+			statuses.append(flood_status)
+		if attr.spawns_wind:
+			wind_status.status_amount = attr.attr_value
+			# store/trigger wind
+	for status in statuses:
+		var cur_status = statuses.pop_front()
+		status_effects.spread_available_cell(cur_status)
+		#_on_add_status_pressed()
+		var storms = storms_container.get_children()
+		for storm in storms:
+			var storm_loc = storm.position
+			storm_loc = city_grid.local_to_map(storm_loc)
+			
+			#status_type.init_coord = storm_loc
+			status_effects.add_status_effect(cur_status, storm_loc)

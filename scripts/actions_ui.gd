@@ -59,20 +59,24 @@ var json_file_path = "res://data/gwj92 - Card Brewing.json"
 # All available CARDS/ACTIONS in the game
 var all_cards = {}
 # Card IDs for all cards currently in the deck
-var current_deck : Array[String]
+var current_deck : Array[String] = ["0","1","2","3","4","5","6","7","8","9","10","11"]
 # Card IDs for all cards currently available to use as actions
 var available_cards : Array[String]
-var test_hand : Array[String]= ["3", "7","11","4", "15", "0"]
+var test_hand : Array[String]= ["3", "7","11","4", "9", "0"]
 
 var van : Node2D
 var van_grid_coords : Vector2
 
+func _init() -> void:
+	set_turn_hand()
+	
 func _ready() -> void:
 	if GlobalLocations.van_global_dir != "":
 		current_van_direction = GlobalLocations.van_global_dir
 	load_card_data()
-	current_deck = test_hand
-	available_cards = current_deck
+	current_deck = ["0","1","2","3","4","5","6","7","8","9","10","11"]
+	print(current_deck)
+	#available_cards = current_deck
 	load_cards()
 	set_van_direction_index()
 	
@@ -153,8 +157,16 @@ func get_card_by_id(card_id: String) -> Dictionary:
 
 # Load cards available_cards version
 func load_cards():
-	if available_cards != null:
-		cur_deck_size = 0
+	#if current_deck != null:
+		#cur_deck_size = 0
+		#print("cur deck size " + str(cur_deck_size))
+		#while cur_deck_size < 6:
+			#var draw_card = current_deck.pick_random()
+			#if !available_cards.has(draw_card):
+				#available_cards.append(draw_card)
+				#cur_deck_size += 1
+		#print(available_cards)
+		available_cards.resize(6)
 		for card_id in available_cards:
 			print("Checking if card_id exists in available_cards")
 			var slot = Util.card_slot.instantiate()
@@ -172,6 +184,19 @@ func load_cards():
 					slot.toggle_nullify(nullify_set)
 			else:
 				slot.set_empty()
+
+func set_turn_hand():
+	available_cards.clear()
+	if current_deck != null:
+		cur_deck_size = 0
+		print("cur deck size " + str(cur_deck_size))
+		while cur_deck_size < 6:
+			var draw_card = current_deck.pick_random()
+			if !available_cards.has(draw_card):
+				available_cards.append(draw_card)
+				cur_deck_size += 1
+		print(available_cards)
+	available_cards.resize(6)
 
 # Deselect functions for each gridcontainer
 func deselect_avail():
@@ -406,7 +431,7 @@ func _on_reset_moves_pressed() -> void:
 
 func _on_forward_1_pressed() -> void:
 	if moves_selected < max_move_queue_size:
-		current_movement_queue.append("16")
+		current_movement_queue.append("12")
 		build_preview_directions()
 		
 		moves_selected += 1
@@ -416,7 +441,7 @@ func _on_forward_1_pressed() -> void:
 
 func _on_forward_2_pressed() -> void:
 	if moves_selected < max_move_queue_size:
-		current_movement_queue.append("17")
+		current_movement_queue.append("13")
 		build_preview_directions()
 		
 		moves_selected += 1
@@ -426,7 +451,7 @@ func _on_forward_2_pressed() -> void:
 
 func _on_reverse_1_pressed() -> void:
 	if moves_selected < max_move_queue_size:
-		current_movement_queue.append("18")
+		current_movement_queue.append("14")
 		build_preview_directions()
 		
 		moves_selected += 1
@@ -436,7 +461,7 @@ func _on_reverse_1_pressed() -> void:
 
 func _on_turn_left_pressed() -> void:
 	if moves_selected < max_move_queue_size:
-		current_movement_queue.append("19")
+		current_movement_queue.append("15")
 		build_preview_directions()
 		
 		moves_selected += 1
@@ -446,7 +471,7 @@ func _on_turn_left_pressed() -> void:
 
 func _on_turn_around_pressed() -> void:
 	if moves_selected < max_move_queue_size:
-		current_movement_queue.append("21")
+		current_movement_queue.append("17")
 		build_preview_directions()
 		
 		moves_selected += 1
@@ -456,7 +481,7 @@ func _on_turn_around_pressed() -> void:
 
 func _on_turn_right_pressed() -> void:
 	if moves_selected < max_move_queue_size:
-		current_movement_queue.append("20")
+		current_movement_queue.append("16")
 		build_preview_directions()
 		
 		moves_selected += 1
@@ -466,8 +491,23 @@ func _on_turn_right_pressed() -> void:
 
 
 func _on_end_of_turn_button_pressed() -> void:
-	end_of_turn.emit()
+	available_cards = []
+	clear_grid_container()
+	set_turn_hand()
+	var attr_array = set_attribute_status_array()
+	end_of_turn.emit(attr_array)
 	reset_movement_queue.emit()
 	_on_reset_queue_pressed()
 	_on_reset_moves_pressed()
+
 	end_of_turn_prompt.hide()
+
+func set_attribute_status_array() -> Array:
+	var attribute_array = []
+	for card in current_queue:
+		var attr_type = all_cards[card].get("ATTRIBUTE_TYPE")
+		var attr_value = all_cards[card].get("VALUE")
+		var new_attribute = Attribute.new()
+		new_attribute.set_attribute(attr_type, attr_value)
+		attribute_array.append(new_attribute)
+	return attribute_array
