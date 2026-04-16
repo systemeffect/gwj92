@@ -12,8 +12,6 @@ signal is_not_moving
 const TILE_SIZE: Vector2 = Vector2(32, 32)
 const MOVE_UNIT: int = 32
 
-@export var VAN_SPEED: float = 4.0
-
 var target_loc_x: float = 0.0
 var target_loc_y: float = 0.0
 var current_axis: String = ""
