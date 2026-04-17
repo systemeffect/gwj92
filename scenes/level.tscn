@@ -42,6 +42,35 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector3(0, 1.5707964, 0), Vector3(0, 1.5707964, 0.07853982)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.003497839, 0.008047938, 1.690309)]
+}
+
+[sub_resource type="Animation" id="Animation_arp2o"]
+resource_name = "idle"
+length = 0.25
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.03, 0.06666667, 0.09666667, 0.1, 0.13, 0.16666667, 0.19666666, 0.2, 0.22999999),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.003497839, 0.008047938, 1.690309), Vector3(0.003, 0.009, 1.69), Vector3(0.003497839, 0.008047938, 1.690309), Vector3(0.003, 0.009, 1.69), Vector3(0.003497839, 0.008047938, 1.690309), Vector3(0.003, 0.01, 1.69), Vector3(0.003497839, 0.008047938, 1.690309), Vector3(0.003, 0.009, 1.69), Vector3(0.003497839, 0.008047938, 1.690309), Vector3(0.003, 0.01, 1.69)]
+}
 
 [sub_resource type="Animation" id="Animation_klq6b"]
 resource_name = "left"
@@ -125,6 +154,7 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b121j"]
 _data = {
 &"RESET": SubResource("Animation_2r41h"),
+&"idle": SubResource("Animation_arp2o"),
 &"left": SubResource("Animation_klq6b"),
 &"right": SubResource("Animation_b121j"),
 &"start": SubResource("Animation_wc255"),

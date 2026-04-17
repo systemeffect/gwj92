@@ -12,17 +12,19 @@ func _ready() -> void:
 	grid_van = grid_screen.find_child("City_Grid").find_child("Van")
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if grid_van == null:
 		return
 
-	# Play start once, when movement actually begins
+	#Don't interrupt
+	if animation_player.is_playing() and current_anim in ["start", "right", "left", "u-turn", "stop"]:
+		return
+
 	if !run_started and grid_van.is_currently_moving and !grid_van.is_turning:
 		run_started = true
 		play_anim("start")
 		return
 
-	# Turning animations
 	if grid_van.is_turning:
 		match grid_van.turn_direction:
 			"right":
@@ -31,13 +33,18 @@ func _process(delta: float) -> void:
 				play_anim("left")
 			"u-turn":
 				play_anim("u-turn")
+		return
 
-	# End of run
-	elif run_started and !grid_van.is_currently_moving and DirectionList.directions.size() <= 0:
+	if run_started and !grid_van.is_currently_moving and DirectionList.directions.size() <= 0:
 		run_started = false
 		play_anim("stop")
-		
-func play_anim(name: String):
+		return
+	
+	#Else
+	play_anim("idle")
+
+
+func play_anim(name: String) -> void:
 	if current_anim != name:
 		current_anim = name
 		animation_player.play(name)
