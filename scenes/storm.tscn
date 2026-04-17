@@ -10,11 +10,11 @@ radius = 25.0
 process_mode = 1
 script = ExtResource("1_dl58t")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=20322094]
+[node name="StormArea" type="Area2D" parent="." unique_id=20322094]
 collision_layer = 8
 monitoring = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1574630093]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StormArea" unique_id=1574630093]
 shape = SubResource("CircleShape2D_i2rct")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1380361334]

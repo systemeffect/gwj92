@@ -1,11 +1,17 @@
 extends CenterContainer
 
 @export var first_level : PackedScene
+@export var second_level : PackedScene
+@export var third_level : PackedScene
+@export var fourth_level : PackedScene
 
 @onready var start_button: Button = $Panel/Menu/StartButton
 @onready var settings_button: Button = $Panel/Menu/SettingsButton
 @onready var quit_button: Button = $Panel/Menu/QuitButton
 @onready var settings_menu: CenterContainer = $"../SettingsMenu"
+
+@onready var level_select: PanelContainer = $LevelSelect
+
 
 func _ready() -> void:
 	# for audio/sfx triggers when hovering over menu buttons
@@ -23,7 +29,6 @@ func _on_mouse_button_entered() -> void:
 	pass
 
 func _on_start_button_pressed() -> void:
-	get_tree().change_scene_to_packed(first_level)
 	pass # Replace with function body.
 
 
@@ -34,3 +39,16 @@ func _on_settings_button_pressed() -> void:
 
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
+
+
+func _on_level_1_button_pressed() -> void:
+	get_tree().change_scene_to_packed(first_level)
+
+func _on_level_2_button_pressed() -> void:
+	get_tree().change_scene_to_packed(second_level)
+	
+func _on_level_3_button_pressed() -> void:
+	get_tree().change_scene_to_packed(third_level)
+
+func _on_level_4_button_pressed() -> void:
+	get_tree().change_scene_to_packed(fourth_level)

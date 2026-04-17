@@ -5,9 +5,18 @@
 [ext_resource type="Texture2D" uid="uid://b4bd1ae7x47et" path="res://assets/station.jpg" id="1_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://bq0h2lblalaia" path="res://scenes/settings_menu.tscn" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://qa0jokklwoos" path="res://City_Grid/city_grid.tscn" id="3_tipki"]
+[ext_resource type="PackedScene" uid="uid://bof25ilvy00bq" path="res://City_Grid/level_2.tscn" id="4_ya4ey"]
+[ext_resource type="PackedScene" uid="uid://cehrec2vtwv63" path="res://City_Grid/level_3.tscn" id="5_eb6dy"]
 [ext_resource type="Texture2D" uid="uid://myaknspuu7av" path="res://assets/radar2.jpg" id="6_tipki"]
+[ext_resource type="PackedScene" uid="uid://bpe21kovn3g80" path="res://City_Grid/level_4.tscn" id="6_trceg"]
 [ext_resource type="Texture2D" uid="uid://kvi4w6fgja61" path="res://assets/radar.jpg" id="7_85g3d"]
 [ext_resource type="Texture2D" uid="uid://b8k41qv03q5gq" path="res://assets/equipment.jpg" id="8_choun"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tipki"]
+bg_color = Color(0.029506553, 0.029506562, 0.029506536, 1)
+
+[sub_resource type="Theme" id="Theme_tipki"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_tipki")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tbgi4"]
 shader = ExtResource("1_jyhfs")
@@ -79,6 +88,9 @@ grow_vertical = 2
 layout_mode = 2
 script = ExtResource("1_o5qli")
 first_level = ExtResource("3_tipki")
+second_level = ExtResource("4_ya4ey")
+third_level = ExtResource("5_eb6dy")
+fourth_level = ExtResource("6_trceg")
 
 [node name="Panel" type="PanelContainer" parent="Menus/Control/Margin/MainMenu" unique_id=1890262896]
 layout_mode = 2
@@ -102,6 +114,49 @@ text = "SETTINGS"
 [node name="QuitButton" type="Button" parent="Menus/Control/Margin/MainMenu/Panel/Menu" unique_id=1721969528]
 layout_mode = 2
 text = "QUIT"
+
+[node name="LevelSelect" type="PanelContainer" parent="Menus/Control/Margin/MainMenu" unique_id=5264775]
+layout_mode = 2
+theme = SubResource("Theme_tipki")
+
+[node name="Margin" type="MarginContainer" parent="Menus/Control/Margin/MainMenu/LevelSelect" unique_id=817891580]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menus/Control/Margin/MainMenu/LevelSelect/Margin" unique_id=134143306]
+layout_mode = 2
+
+[node name="LevelSelectLabel" type="Label" parent="Menus/Control/Margin/MainMenu/LevelSelect/Margin/VBoxContainer" unique_id=1640064527]
+layout_mode = 2
+text = "LEVEL SELECT"
+horizontal_alignment = 1
+
+[node name="LevelContainer" type="GridContainer" parent="Menus/Control/Margin/MainMenu/LevelSelect/Margin/VBoxContainer" unique_id=1825362609]
+layout_mode = 2
+columns = 2
+
+[node name="CityGridButton" type="Button" parent="Menus/Control/Margin/MainMenu/LevelSelect/Margin/VBoxContainer/LevelContainer" unique_id=60565894]
+layout_mode = 2
+text = "City Grid"
+
+[node name="StormLayersButton" type="Button" parent="Menus/Control/Margin/MainMenu/LevelSelect/Margin/VBoxContainer/LevelContainer" unique_id=769555529]
+layout_mode = 2
+text = "Storm Layers"
+
+[node name="LittleFiresButton" type="Button" parent="Menus/Control/Margin/MainMenu/LevelSelect/Margin/VBoxContainer/LevelContainer" unique_id=1203793032]
+layout_mode = 2
+text = "Little Fires"
+
+[node name="BigFloodsButton" type="Button" parent="Menus/Control/Margin/MainMenu/LevelSelect/Margin/VBoxContainer/LevelContainer" unique_id=1143411291]
+layout_mode = 2
+text = "Big Floods"
+
+[node name="TBDButton" type="Button" parent="Menus/Control/Margin/MainMenu/LevelSelect/Margin/VBoxContainer/LevelContainer" unique_id=1184828852]
+layout_mode = 2
+text = "Coming soon"
+
+[node name="TBDButton2" type="Button" parent="Menus/Control/Margin/MainMenu/LevelSelect/Margin/VBoxContainer/LevelContainer" unique_id=1158537226]
+layout_mode = 2
+text = "Coming soon"
 
 [node name="SettingsMenu" parent="Menus/Control/Margin" unique_id=2061315302 instance=ExtResource("2_0wfyh")]
 visible = false
@@ -127,3 +182,7 @@ frame = 1
 [connection signal="pressed" from="Menus/Control/Margin/MainMenu/Panel/Menu/StartButton" to="Menus/Control/Margin/MainMenu" method="_on_start_button_pressed"]
 [connection signal="pressed" from="Menus/Control/Margin/MainMenu/Panel/Menu/SettingsButton" to="Menus/Control/Margin/MainMenu" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="Menus/Control/Margin/MainMenu/Panel/Menu/QuitButton" to="Menus/Control/Margin/MainMenu" method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Menus/Control/Margin/MainMenu/LevelSelect/Margin/VBoxContainer/LevelContainer/CityGridButton" to="Menus/Control/Margin/MainMenu" method="_on_level_1_button_pressed"]
+[connection signal="pressed" from="Menus/Control/Margin/MainMenu/LevelSelect/Margin/VBoxContainer/LevelContainer/StormLayersButton" to="Menus/Control/Margin/MainMenu" method="_on_level_2_button_pressed"]
+[connection signal="pressed" from="Menus/Control/Margin/MainMenu/LevelSelect/Margin/VBoxContainer/LevelContainer/LittleFiresButton" to="Menus/Control/Margin/MainMenu" method="_on_level_3_button_pressed"]
+[connection signal="pressed" from="Menus/Control/Margin/MainMenu/LevelSelect/Margin/VBoxContainer/LevelContainer/BigFloodsButton" to="Menus/Control/Margin/MainMenu" method="_on_level_4_button_pressed"]

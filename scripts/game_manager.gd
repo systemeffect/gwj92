@@ -290,8 +290,10 @@ func status_spread():
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	# triggered when van and storm colliders meet
 	# signal to trigger van shake+sound/storm fx
-	print("WARNING: Proximity to STORM EVENT might cause damage to the vehicle. Exercise caution.")
-	pass # Replace with function body.
+	if area.name == "StormArea":
+		print("WARNING: Proximity to STORM EVENT might cause damage to the vehicle. Exercise caution.")
+	else:
+		print("STATUS TILE CROSSED")
 
 
 func _on_wind_timer_timeout() -> void:
