@@ -6,6 +6,9 @@
 [ext_resource type="Theme" uid="uid://ywdabumyudpa" path="res://themes/details.tres" id="4_p22f0"]
 [ext_resource type="FontFile" uid="uid://bc7s77r5opgfm" path="res://assets/fonts/easvhs.ttf" id="5_lgsi3"]
 
+[sub_resource type="Theme" id="Theme_p22f0"]
+Button/fonts/font = null
+
 [node name="ActionsUI" type="Control" unique_id=24908026]
 layout_mode = 3
 anchors_preset = 15
@@ -16,14 +19,41 @@ grow_vertical = 2
 script = ExtResource("1_cou15")
 current_van_direction = "EAST"
 
-[node name="PanelContainer" type="PanelContainer" parent="." unique_id=53496304]
-custom_minimum_size = Vector2(600, 80)
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1853328187]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -256.0
+grow_horizontal = 0
+grow_vertical = 2
+color = Color(0.050980393, 0.06666667, 0.09019608, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="." unique_id=160088933]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -96.0
 grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.050980393, 0.06666667, 0.09019608, 1)
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=53496304]
+custom_minimum_size = Vector2(480, 80)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -494.0
+offset_top = -84.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
 grow_vertical = 0
 
 [node name="GridContainer" type="GridContainer" parent="PanelContainer" unique_id=303527280]
@@ -36,11 +66,12 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -192.0
+offset_left = -131.0
 offset_top = 95.0
 offset_right = 2.0
 offset_bottom = 285.0
 grow_horizontal = 0
+theme = SubResource("Theme_p22f0")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ActionDebug" unique_id=1097832441]
 layout_mode = 2
@@ -48,7 +79,7 @@ theme_override_constants/separation = 1
 
 [node name="MovementButtons" type="GridContainer" parent="ActionDebug/VBoxContainer" unique_id=761741916]
 layout_mode = 2
-columns = 3
+columns = 2
 
 [node name="Forward1" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=1525385011]
 layout_mode = 2
@@ -97,16 +128,19 @@ layout_mode = 2
 theme_override_constants/separation = 6
 
 [node name="AddActionButton" type="Button" parent="ActionDebug/VBoxContainer" unique_id=1445214600]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Add Action"
 
 [node name="RemoveActionButton" type="Button" parent="ActionDebug/VBoxContainer" unique_id=1187820135]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Remove Action"
 
 [node name="ResetQueue" type="Button" parent="ActionDebug/VBoxContainer" unique_id=845560267]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Reset Queue"
@@ -143,22 +177,15 @@ fit_content = true
 
 [node name="ActionQueue" parent="." unique_id=509091489 instance=ExtResource("2_m8tt6")]
 layout_mode = 1
-offset_bottom = 56.0
+offset_left = -253.0
+offset_right = -3.0
+offset_bottom = -83.0
 
 [node name="GridContainer" parent="ActionQueue" index="0" unique_id=1955789638]
 offset_left = -249.0
-offset_top = -223.0
+offset_top = -84.0
 offset_right = 2.0
-offset_bottom = -140.0
-
-[node name="QueueLabel" type="Label" parent="ActionQueue" unique_id=1055778044]
-layout_mode = 0
-offset_left = 22.0
-offset_top = -22.0
-offset_right = 237.0
-offset_bottom = 1.0
-text = "CREATE YOUR STORM BREW"
-horizontal_alignment = 1
+offset_bottom = -1.0
 
 [node name="MovementQueue" type="Control" parent="." unique_id=451208795]
 layout_mode = 1
@@ -175,11 +202,12 @@ grow_vertical = 0
 
 [node name="QueueLabel" type="Label" parent="MovementQueue" unique_id=1897070013]
 layout_mode = 0
-offset_left = 22.0
-offset_top = -22.0
-offset_right = 237.0
-offset_bottom = 1.0
-text = "SET VAN AUTO-DRIVE"
+offset_left = 14.0
+offset_top = -19.0
+offset_right = 229.0
+offset_bottom = 4.0
+theme_override_fonts/font = ExtResource("5_lgsi3")
+text = "SET STORMRUN-R AUTODRIVE"
 horizontal_alignment = 1
 
 [node name="GridContainer" type="GridContainer" parent="MovementQueue" unique_id=280316430]
@@ -255,6 +283,22 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.40784314, 0.2509804, 1)
 theme_override_fonts/font = ExtResource("5_lgsi3")
 text = "UPDATE MAP"
+
+[node name="QueueLabel" type="Label" parent="." unique_id=1055778044]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -84.0
+offset_right = 165.0
+offset_bottom = -6.0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("5_lgsi3")
+text = "Select 3
+Attribute Cards
+to Influence
+the Tempest"
+horizontal_alignment = 1
 
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Forward1" to="." method="_on_forward_1_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Forward2" to="." method="_on_forward_2_pressed"]

@@ -5,6 +5,9 @@ extends Node2D
 
 @onready var actions_ui: Control = $UI/ActionsUI
 @onready var van: Node2D = $Van
+@onready var sensor_collect: Sprite2D = $Van/SensorCollect
+@onready var collect_animate: AnimationPlayer = $Van/CollectAnimate
+
 @onready var current_turn_label: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/CurrentTurnLabel
 @onready var move_in_progress: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/MoveInProgress
 @onready var actions_queued_label: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/ActionsQueued
@@ -90,6 +93,8 @@ func _ready() -> void:
 	wind_status.status_name = "wind"
 	wind_status.status_type = 3
 	wind_status.status_amount = 3
+	sensor_collect.hide()
+
 
 func _process(delta: float) -> void:
 	if end_of_turn:
@@ -301,8 +306,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	# signal to trigger van shake+sound/storm fx
 	if area.name == "StormArea":
 		print("WARNING: Proximity to STORM EVENT might cause damage to the vehicle. Exercise caution.")
-	if area == sensors:
-		print("STATUS TILE CROSSED")
+
 
 
 func _on_wind_timer_timeout() -> void:
@@ -342,3 +346,30 @@ func _on_spread_pressed(attr_array : Array) -> void:
 func _on_sensors_area_entered(area: Area2D) -> void:
 	#print("STATUS TILE CROSSED")
 	pass # Replace with function body.
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	var pos = van.position
+	var grid = status_effects.local_to_map(pos)
+	var cell_atlas : Vector2 = status_effects.get_cell_atlas_coords(grid)
+	match cell_atlas:
+		Vector2(2,0):
+			# trigger fire damage?
+			pass
+		Vector2(3,0):
+			# trigger flood effect
+			pass
+		Vector2(4,0):
+			#increment sensor collected
+			collect_sensor(grid)
+			pass
+		
+	print("STATUS TILE CROSSED")
+
+func collect_sensor(grid : Vector2):
+	status_effects.set_cell(grid,0,Vector2(1,0))
+	sensor_collect.show()
+	collect_animate.play("collect_sensor")
+	await collect_animate.animation_finished
+	sensor_collect.hide()
+	print("SENSOR COLLECTED")

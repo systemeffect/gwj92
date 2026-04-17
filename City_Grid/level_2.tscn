@@ -10,8 +10,11 @@
 [ext_resource type="Texture2D" uid="uid://qearixph1ud2" path="res://assets/line_dash.png" id="7_cfcxg"]
 [ext_resource type="Texture2D" uid="uid://crtfevg34y4ud" path="res://assets/tilemap_packed.png" id="8_ne0g5"]
 [ext_resource type="Texture2D" uid="uid://duif07oj47yoo" path="res://assets/map_tileset.png" id="9_ckhrp"]
+[ext_resource type="Shader" uid="uid://36rw4b0v4k5g" path="res://shaders/vhs.gdshader" id="9_j0tps"]
 [ext_resource type="Script" uid="uid://dq353aytay8ua" path="res://scripts/status_effects.gd" id="10_1bu1q"]
 [ext_resource type="Script" uid="uid://6geatq1krddx" path="res://City_Grid/van.gd" id="11_1phxx"]
+[ext_resource type="Texture2D" uid="uid://b4lhvbe80cmsp" path="res://assets/sensor.png" id="13_xgc47"]
+[ext_resource type="FontFile" uid="uid://bc7s77r5opgfm" path="res://assets/fonts/easvhs.ttf" id="14_j0tps"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_weyc0"]
 font_size = 8
@@ -21,6 +24,19 @@ shader = ExtResource("6_fshaw")
 shader_parameter/speed = 1.0
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_yiybu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fshaw"]
+shader = ExtResource("9_j0tps")
+shader_parameter/smearing = 0.0710000033725
+shader_parameter/color_offset = 0.005
+shader_parameter/sharpening = 0.4
+shader_parameter/static_noise = 0.08
+shader_parameter/crack_center = Vector2(-0.3, 0.85)
+shader_parameter/crack_intensity = 0.0
+shader_parameter/crack_size = 0.35
+shader_parameter/vertical_jitter = 0.002
+shader_parameter/scanline_opacity = 0.14400000684
+shader_parameter/vignette_intensity = 0.4430000210425
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wkloc"]
 texture = ExtResource("8_ne0g5")
@@ -236,7 +252,6 @@ texture_region_size = Vector2i(32, 32)
 3:0/0 = 0
 4:0/0 = 0
 5:0/0 = 0
-5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 
 [sub_resource type="TileSet" id="TileSet_dyt0r"]
 tile_size = Vector2i(32, 32)
@@ -255,7 +270,7 @@ texture_region_size = Vector2i(32, 32)
 3:0/0/custom_data_0 = true
 3:0/0/custom_data_2 = true
 4:0/0 = 0
-4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4.1422005, -5.098091, -4.1422005, 2.8676758, 4.779461, 3.8235703, 4.4608307, -5.4167233)
 4:0/0/custom_data_0 = true
 4:0/0/custom_data_3 = true
 5:0/0 = 0
@@ -283,6 +298,43 @@ region = Rect2(192, 288, 32, 32)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uq6aa"]
 radius = 6.7412615
+
+[sub_resource type="Animation" id="Animation_fshaw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SensorCollect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_cfcxg"]
+resource_name = "collect_sensor"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SensorCollect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.56666666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -10), Vector2(0, -32)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ne0g5"]
+_data = {
+&"RESET": SubResource("Animation_fshaw"),
+&"collect_sensor": SubResource("Animation_cfcxg")
+}
 
 [node name="City_Grid" type="Node2D" unique_id=81070115]
 process_mode = 1
@@ -377,6 +429,7 @@ theme_override_font_sizes/font_size = 8
 text = "Wind"
 
 [node name="GridOverlay" type="TextureRect" parent="UI" unique_id=869850497]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -402,6 +455,15 @@ shape = SubResource("SegmentShape2D_yiybu")
 [node name="PreviewCont" type="Area2D" parent="UI/PathPreview" unique_id=272044841]
 collision_layer = 16
 collision_mask = 14
+
+[node name="ColorRect" type="ColorRect" parent="UI" unique_id=1667726453]
+material = SubResource("ShaderMaterial_fshaw")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="GridArea" type="Node2D" parent="." unique_id=465513157]
 scale = Vector2(0.99999994, 0.9999999)
@@ -433,7 +495,7 @@ position = Vector2(80.82198, 81.1966)
 position = Vector2(336.25937, 79.19176)
 
 [node name="SensorCollison3" parent="GridArea/Sensors" unique_id=1093546307 instance=ExtResource("3_2knco")]
-position = Vector2(337.2572, 303.73547)
+position = Vector2(127.718735, 374.9078)
 
 [node name="SensorCollison4" parent="GridArea/Sensors" unique_id=827778646 instance=ExtResource("3_2knco")]
 position = Vector2(49.890118, 334.81073)
@@ -451,6 +513,23 @@ collision_mask = 14
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Van/Area2D" unique_id=735445488]
 shape = SubResource("CircleShape2D_uq6aa")
 
+[node name="SensorCollect" type="Sprite2D" parent="Van" unique_id=2016827774]
+visible = false
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("13_xgc47")
+
+[node name="PlusOneLabel" type="Label" parent="Van/SensorCollect" unique_id=827961498]
+offset_left = -36.170338
+offset_top = -12.560699
+offset_right = -14.170338
+offset_bottom = 15.439301
+theme_override_fonts/font = ExtResource("14_j0tps")
+theme_override_font_sizes/font_size = 20
+text = "+1"
+
+[node name="CollectAnimate" type="AnimationPlayer" parent="Van" unique_id=1605435674]
+libraries/ = SubResource("AnimationLibrary_ne0g5")
+
 [node name="StormsContainer" type="Node2D" parent="." unique_id=84711386]
 process_mode = 1
 
@@ -460,47 +539,47 @@ origin_pos = Vector2(280, 240)
 
 [node name="Storm3" parent="StormsContainer" unique_id=778814714 instance=ExtResource("2_2knco")]
 position = Vector2(280.38242, 241.58496)
-origin_pos = Vector2(280, 240)
+origin_pos = Vector2(276, 226)
 
 [node name="Storm4" parent="StormsContainer" unique_id=1649898280 instance=ExtResource("2_2knco")]
 position = Vector2(280.38242, 241.58496)
-origin_pos = Vector2(280, 240)
+origin_pos = Vector2(295, 235)
 
 [node name="Storm5" parent="StormsContainer" unique_id=1659633913 instance=ExtResource("2_2knco")]
 position = Vector2(280.38242, 241.58496)
-origin_pos = Vector2(280, 240)
+origin_pos = Vector2(275, 232)
 
 [node name="Storm2" parent="StormsContainer" unique_id=1099398078 instance=ExtResource("2_2knco")]
 position = Vector2(84.8132, 241.58496)
-origin_pos = Vector2(85, 220)
+origin_pos = Vector2(90, 220)
 
 [node name="Storm6" parent="StormsContainer" unique_id=1972078226 instance=ExtResource("2_2knco")]
 position = Vector2(84.8132, 241.58496)
-origin_pos = Vector2(85, 220)
+origin_pos = Vector2(81, 197)
 
 [node name="Storm7" parent="StormsContainer" unique_id=1402046089 instance=ExtResource("2_2knco")]
 position = Vector2(84.8132, 241.58496)
-origin_pos = Vector2(85, 220)
+origin_pos = Vector2(75, 225)
 
 [node name="Storm8" parent="StormsContainer" unique_id=2123959464 instance=ExtResource("2_2knco")]
 position = Vector2(84.8132, 241.58496)
-origin_pos = Vector2(85, 220)
+origin_pos = Vector2(75, 210)
 
 [node name="Storm9" parent="StormsContainer" unique_id=1913278971 instance=ExtResource("2_2knco")]
 position = Vector2(205.54726, 114.27672)
-origin_pos = Vector2(205, 114)
+origin_pos = Vector2(200, 114)
 
 [node name="Storm10" parent="StormsContainer" unique_id=1561768710 instance=ExtResource("2_2knco")]
 position = Vector2(205.54726, 114.27672)
-origin_pos = Vector2(205, 114)
+origin_pos = Vector2(210, 100)
 
 [node name="Storm11" parent="StormsContainer" unique_id=1698460611 instance=ExtResource("2_2knco")]
 position = Vector2(205.54726, 114.27672)
-origin_pos = Vector2(205, 114)
+origin_pos = Vector2(225, 135)
 
 [node name="Storm12" parent="StormsContainer" unique_id=1314578163 instance=ExtResource("2_2knco")]
 position = Vector2(205.54726, 114.27672)
-origin_pos = Vector2(205, 114)
+origin_pos = Vector2(230, 96)
 
 [node name="WindTimer" type="Timer" parent="." unique_id=801378152]
 process_callback = 0
@@ -515,4 +594,5 @@ autostart = true
 [connection signal="body_entered" from="UI/PathPreview/PreviewCont" to="." method="_on_preview_cont_body_entered"]
 [connection signal="area_entered" from="GridArea/Sensors" to="." method="_on_sensors_area_entered"]
 [connection signal="area_entered" from="Van/Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Van/Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="WindTimer" to="." method="_on_wind_timer_timeout"]

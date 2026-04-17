@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://crbwjblj7in52" path="res://scripts/game_manager.gd" id="1_weyc0"]
 [ext_resource type="PackedScene" uid="uid://h5j3p5m3g7dy" path="res://scenes/actions_ui.tscn" id="2_wkloc"]
 [ext_resource type="PackedScene" uid="uid://yswbr8ngwxvc" path="res://scenes/storm.tscn" id="2_yiybu"]
+[ext_resource type="Shader" uid="uid://36rw4b0v4k5g" path="res://shaders/vhs.gdshader" id="3_m87nk"]
 [ext_resource type="Script" uid="uid://6geatq1krddx" path="res://City_Grid/van.gd" id="3_pjegq"]
 [ext_resource type="Texture2D" uid="uid://fmcvkk6hudgs" path="res://assets/grid_overlay.png" id="4_oknig"]
 [ext_resource type="Texture2D" uid="uid://crtfevg34y4ud" path="res://assets/tilemap_packed.png" id="4_qtupi"]
@@ -11,9 +12,24 @@
 [ext_resource type="Texture2D" uid="uid://qearixph1ud2" path="res://assets/line_dash.png" id="6_2f6ys"]
 [ext_resource type="Texture2D" uid="uid://duif07oj47yoo" path="res://assets/map_tileset.png" id="9_2f6ys"]
 [ext_resource type="Script" uid="uid://dq353aytay8ua" path="res://scripts/status_effects.gd" id="9_yiybu"]
+[ext_resource type="Texture2D" uid="uid://b4lhvbe80cmsp" path="res://assets/sensor.png" id="12_dyt0r"]
+[ext_resource type="FontFile" uid="uid://bc7s77r5opgfm" path="res://assets/fonts/easvhs.ttf" id="13_m87nk"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_weyc0"]
 font_size = 8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vex6x"]
+shader = ExtResource("3_m87nk")
+shader_parameter/smearing = 0.0710000033725
+shader_parameter/color_offset = 0.005
+shader_parameter/sharpening = 0.4
+shader_parameter/static_noise = 0.08
+shader_parameter/crack_center = Vector2(-0.3, 0.85)
+shader_parameter/crack_intensity = 0.0
+shader_parameter/crack_size = 0.35
+shader_parameter/vertical_jitter = 0.002
+shader_parameter/scanline_opacity = 0.14400000684
+shader_parameter/vignette_intensity = 0.4430000210425
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pvxsy"]
 shader = ExtResource("5_yiybu")
@@ -284,6 +300,43 @@ region = Rect2(192, 288, 32, 32)
 [sub_resource type="CircleShape2D" id="CircleShape2D_uq6aa"]
 radius = 6.7412615
 
+[sub_resource type="Animation" id="Animation_fshaw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SensorCollect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_cfcxg"]
+resource_name = "collect_sensor"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SensorCollect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.56666666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -10), Vector2(0, -32)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vex6x"]
+_data = {
+&"RESET": SubResource("Animation_fshaw"),
+&"collect_sensor": SubResource("Animation_cfcxg")
+}
+
 [node name="City_Grid" type="Node2D" unique_id=81070115]
 process_mode = 1
 scale = Vector2(1.0022026, 0.9975787)
@@ -389,6 +442,15 @@ mouse_filter = 2
 texture = ExtResource("4_oknig")
 stretch_mode = 1
 
+[node name="ColorRect" type="ColorRect" parent="UI" unique_id=353293121]
+material = SubResource("ShaderMaterial_vex6x")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
 [node name="PathPreview" type="Node2D" parent="UI" unique_id=758530522]
 
 [node name="QueuePreview" type="Line2D" parent="UI/PathPreview" unique_id=1974875317]
@@ -436,6 +498,23 @@ collision_mask = 14
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Van/Area2D" unique_id=735445488]
 shape = SubResource("CircleShape2D_uq6aa")
+
+[node name="SensorCollect" type="Sprite2D" parent="Van" unique_id=1726472648]
+visible = false
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("12_dyt0r")
+
+[node name="PlusOneLabel" type="Label" parent="Van/SensorCollect" unique_id=813494919]
+offset_left = -36.170338
+offset_top = -12.560699
+offset_right = -14.170338
+offset_bottom = 15.439301
+theme_override_fonts/font = ExtResource("13_m87nk")
+theme_override_font_sizes/font_size = 20
+text = "+1"
+
+[node name="CollectAnimate" type="AnimationPlayer" parent="Van" unique_id=1289461030]
+libraries/ = SubResource("AnimationLibrary_vex6x")
 
 [node name="StormsContainer" type="Node2D" parent="." unique_id=84711386]
 process_mode = 1
