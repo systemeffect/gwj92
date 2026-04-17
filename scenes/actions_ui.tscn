@@ -1,13 +1,33 @@
 [gd_scene format=3 uid="uid://h5j3p5m3g7dy"]
 
 [ext_resource type="Script" uid="uid://1mhyyd4h6qh" path="res://scripts/actions_ui.gd" id="1_cou15"]
+[ext_resource type="FontFile" uid="uid://d24815rprnwhc" path="res://assets/fonts/digital-7 (mono).ttf" id="2_4kk0c"]
 [ext_resource type="PackedScene" uid="uid://34hboxtiso3n" path="res://scenes/action_queue.tscn" id="2_m8tt6"]
 [ext_resource type="PackedScene" uid="uid://kd3dcv0ib57v" path="res://scenes/card_slot.tscn" id="3_cou15"]
+[ext_resource type="FontFile" uid="uid://cfy0j5l2630ix" path="res://assets/fonts/SAIBA-45.ttf" id="4_bxdbe"]
 [ext_resource type="Theme" uid="uid://ywdabumyudpa" path="res://themes/details.tres" id="4_p22f0"]
 [ext_resource type="FontFile" uid="uid://bc7s77r5opgfm" path="res://assets/fonts/easvhs.ttf" id="5_lgsi3"]
+[ext_resource type="FontFile" uid="uid://cajq783h3yufy" path="res://assets/fonts/Blue Screen Personal Use.ttf" id="8_4fi4j"]
+[ext_resource type="Script" uid="uid://c7o1kqxleq5v" path="res://scripts/status_log.gd" id="8_bxdbe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4kk0c"]
+bg_color = Color(0.07475505, 0.09380788, 0.12238719, 1)
+border_color = Color(0.33715466, 0.11214053, 0.03711865, 1)
+border_blend = true
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bxdbe"]
+bg_color = Color(0.050980393, 0.06666667, 0.09019608, 1)
 
 [sub_resource type="Theme" id="Theme_p22f0"]
-Button/fonts/font = null
+Button/constants/outline_size = 2
+Button/font_sizes/font_size = 15
+Button/fonts/font = ExtResource("2_4kk0c")
+Button/styles/normal = SubResource("StyleBoxFlat_4kk0c")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_bxdbe")
 
 [node name="ActionsUI" type="Control" unique_id=24908026]
 layout_mode = 3
@@ -66,10 +86,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -131.0
-offset_top = 95.0
-offset_right = 2.0
-offset_bottom = 285.0
+offset_left = -239.0
+offset_top = 200.0
+offset_right = -19.0
+offset_bottom = 310.0
 grow_horizontal = 0
 theme = SubResource("Theme_p22f0")
 
@@ -79,101 +99,61 @@ theme_override_constants/separation = 1
 
 [node name="MovementButtons" type="GridContainer" parent="ActionDebug/VBoxContainer" unique_id=761741916]
 layout_mode = 2
-columns = 2
+columns = 3
 
 [node name="Forward1" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=1525385011]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.9529412, 0, 1)
-theme_override_font_sizes/font_size = 10
 text = "Forward 1"
+icon_alignment = 1
 
 [node name="Forward2" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=1813818838]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.9529412, 0, 1)
-theme_override_font_sizes/font_size = 10
 text = "Forward 2"
+icon_alignment = 1
 
 [node name="Reverse1" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=601216430]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9882353, 0.18039216, 0.3764706, 1)
-theme_override_font_sizes/font_size = 10
 text = "Reverse 1"
+icon_alignment = 1
 
 [node name="TurnLeft" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=609925964]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9196996, 0.7768806, 0.23211145, 1)
-theme_override_font_sizes/font_size = 10
 text = "Turn Left"
+icon_alignment = 1
 
 [node name="TurnAround" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=1732920319]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9196996, 0.7768806, 0.23211145, 1)
-theme_override_font_sizes/font_size = 10
 text = "Turn Around"
+icon_alignment = 1
 
 [node name="TurnRight" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=970770117]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9196996, 0.7768806, 0.23211145, 1)
-theme_override_font_sizes/font_size = 10
 text = "Turn Right"
+icon_alignment = 1
 
 [node name="ResetMoves" type="Button" parent="ActionDebug/VBoxContainer" unique_id=1540435869]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9882353, 0.18039216, 0.3764706, 1)
-theme_override_font_sizes/font_size = 10
 text = "Reset Move Queue"
 
 [node name="HSeparator" type="HSeparator" parent="ActionDebug/VBoxContainer" unique_id=153859046]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="AddActionButton" type="Button" parent="ActionDebug/VBoxContainer" unique_id=1445214600]
-visible = false
-layout_mode = 2
-theme_override_font_sizes/font_size = 10
-text = "Add Action"
-
-[node name="RemoveActionButton" type="Button" parent="ActionDebug/VBoxContainer" unique_id=1187820135]
-visible = false
-layout_mode = 2
-theme_override_font_sizes/font_size = 10
-text = "Remove Action"
-
-[node name="ResetQueue" type="Button" parent="ActionDebug/VBoxContainer" unique_id=845560267]
-visible = false
-layout_mode = 2
-theme_override_font_sizes/font_size = 10
-text = "Reset Queue"
-
 [node name="Move" type="Button" parent="ActionDebug/VBoxContainer" unique_id=170235260]
 layout_mode = 2
-theme_override_font_sizes/font_size = 10
 disabled = true
 text = "Move"
 
 [node name="VanButton" type="Button" parent="ActionDebug/VBoxContainer" unique_id=202436281]
 layout_mode = 2
-theme_override_font_sizes/font_size = 10
 text = "Inside Van"
-
-[node name="SelCard" type="Label" parent="ActionDebug/VBoxContainer" unique_id=328702552]
-visible = false
-layout_mode = 2
-theme_override_font_sizes/font_size = 10
-text = "SelCard"
-
-[node name="SelAct" type="Label" parent="ActionDebug/VBoxContainer" unique_id=614994489]
-visible = false
-layout_mode = 2
-theme_override_font_sizes/font_size = 10
-text = "SelAct"
-
-[node name="CurrentQueue" type="RichTextLabel" parent="ActionDebug/VBoxContainer" unique_id=89345188]
-visible = false
-layout_mode = 2
-theme_override_font_sizes/normal_font_size = 10
-text = "test"
-fit_content = true
 
 [node name="ActionQueue" parent="." unique_id=509091489 instance=ExtResource("2_m8tt6")]
 layout_mode = 1
@@ -194,20 +174,22 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -249.0
-offset_top = -464.0
-offset_bottom = -385.0
+offset_left = -252.0
+offset_top = -365.0
+offset_right = -3.0
+offset_bottom = -286.0
 grow_horizontal = 0
 grow_vertical = 0
 
 [node name="QueueLabel" type="Label" parent="MovementQueue" unique_id=1897070013]
 layout_mode = 0
 offset_left = 14.0
-offset_top = -19.0
+offset_top = -15.0
 offset_right = 229.0
-offset_bottom = 4.0
-theme_override_fonts/font = ExtResource("5_lgsi3")
-text = "SET STORMRUN-R AUTODRIVE"
+offset_bottom = 8.0
+theme_override_colors/font_color = Color(0.8474744, 0.84747446, 0.84747446, 1)
+theme_override_fonts/font = ExtResource("4_bxdbe")
+text = "STORMRUN-R AUTODRIVE"
 horizontal_alignment = 1
 
 [node name="GridContainer" type="GridContainer" parent="MovementQueue" unique_id=280316430]
@@ -285,6 +267,7 @@ theme_override_fonts/font = ExtResource("5_lgsi3")
 text = "UPDATE MAP"
 
 [node name="QueueLabel" type="Label" parent="." unique_id=1055778044]
+visible = false
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -300,6 +283,22 @@ to Influence
 the Tempest"
 horizontal_alignment = 1
 
+[node name="StatusLogLabel" type="RichTextLabel" parent="." unique_id=210387582]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -93.0
+offset_right = 142.0
+offset_bottom = -3.0
+grow_vertical = 0
+theme_override_fonts/normal_font = ExtResource("8_4fi4j")
+theme_override_font_sizes/normal_font_size = 12
+scroll_active = false
+scroll_following = true
+script = ExtResource("8_bxdbe")
+
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Forward1" to="." method="_on_forward_1_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Forward2" to="." method="_on_forward_2_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Reverse1" to="." method="_on_reverse_1_pressed"]
@@ -307,9 +306,6 @@ horizontal_alignment = 1
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/TurnAround" to="." method="_on_turn_around_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/TurnRight" to="." method="_on_turn_right_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/ResetMoves" to="." method="_on_reset_moves_pressed"]
-[connection signal="pressed" from="ActionDebug/VBoxContainer/AddActionButton" to="." method="_on_add_action_button_pressed"]
-[connection signal="pressed" from="ActionDebug/VBoxContainer/RemoveActionButton" to="." method="_on_remove_action_button_pressed"]
-[connection signal="pressed" from="ActionDebug/VBoxContainer/ResetQueue" to="." method="_on_reset_queue_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/Move" to="." method="_on_move_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/VanButton" to="." method="_on_van_button_pressed"]
 [connection signal="pressed" from="EndOfTurnPrompt/MarginContainer/VBoxContainer/EndOfTurnButton" to="." method="_on_end_of_turn_button_pressed"]

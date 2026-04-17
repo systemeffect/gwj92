@@ -306,7 +306,6 @@ func _on_reset_queue_pressed() -> void:
 	load_cards()
 	current_queue.clear()
 	queue_size = 0
-	refresh_queue()
 	clear_queue_window()
 	reset_queue.emit()
 
@@ -314,27 +313,20 @@ func _on_pressed(card_id: String):
 	if current_queue.has(card_id):
 		#remove from queue
 		if card_id != "":
-			print("erasing " + str(card_id))
 			current_queue.erase(card_id)
 			available_cards.append(card_id)
 			selected_action = ""
-			sel_act.text = "SelAct: " + selected_action
 			print(current_queue.size())
-			refresh_queue()
 			queue_size -= 1
 			action_removed.emit(current_queue)
-			
 			_on_deck_updated()
 			clear_queue_window()
 			update_queue()
 	else:
 		if card_id != "":
-			print("add action pressed")
 			print(str(card_id))
 			if queue_size < max_queue_size:
-				print("room in queue - adding")
 				current_queue.append(card_id)
-				refresh_queue()
 				action_queued.emit(card_id)
 				queue_size += 1
 				var card_index = available_cards.find(card_id, 0)
@@ -344,7 +336,6 @@ func _on_pressed(card_id: String):
 				clear_queue_window()
 				update_queue()
 				selected_card = ""
-				sel_card.text = "SelCard: " + selected_card
 			else:
 				print("Action Queue Full")
 	
@@ -354,31 +345,18 @@ func _on_pressed(card_id: String):
 		# If so, deselect available cards
 		if selected_action != card_id:
 			selected_action = card_id
-			sel_act.text = "SelAct: " + selected_action
 			selected_card = ""
-			sel_card.text = "SelCard: " + selected_card
 			deselect_avail()
 		else:
 			selected_action = ""
-			sel_act.text = "SelAct: " + selected_action
 	else:
 		if selected_card != card_id:
 			#if the selected card is in the available grid, deselect action queue
 			selected_card = card_id
-			sel_card.text = "SelCard: " + selected_card
 			selected_action = ""
-			sel_act.text = "SelAct: " + selected_action
 			deselect_queue()
 		else:
 			selected_card = ""
-			sel_card.text = "SelCard: " + selected_card
-
-
-func refresh_queue():
-	current_queue_debug.text = ""
-	for action in current_queue:
-		current_queue_debug.text += str(action) + " \n"
-#
 
 func _on_move_pressed() -> void:
 	if moves_selected > 0:

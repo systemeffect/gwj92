@@ -7,6 +7,8 @@ extends Node2D
 @onready var van: Node2D = $Van
 @onready var sensor_collect: Sprite2D = $Van/SensorCollect
 @onready var collect_animate: AnimationPlayer = $Van/CollectAnimate
+@onready var status_log_label: RichTextLabel = $UI/ActionsUI/StatusLogLabel
+
 
 @onready var current_turn_label: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/CurrentTurnLabel
 @onready var move_in_progress: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/MoveInProgress
@@ -62,6 +64,7 @@ func _ready() -> void:
 	actions_ui.movement_queued.connect(_on_movement_queued)
 	actions_ui.end_of_turn.connect(update_map_interface)
 	action_queue = actions_ui.current_queue
+	status_effects.update_status_log.connect(_on_update_status_log)
 	movement_queue = actions_ui.current_movement_queue
 	current_turn_label.text = "Current turn: " + str(current_turn)
 	
@@ -240,29 +243,7 @@ func _on_add_status_pressed() -> void:
 		
 		#status_type.init_coord = storm_loc
 		status_effects.add_status_effect(random, storm_loc)
-	
-	
-	#
-	#var storms = storms_container.get_children()
-	#for storm in storms:
-		#var storm_loc = storm.position
-		#storm_loc = city_grid.local_to_map(storm_loc)
-		#var status_type = Status.new()
-		#status_type.status_name = "fire"
-		#status_type.status_type = 1
-		#status_type.status_amount = 1
-		#status_type.init_coord = storm_loc
-		#status_effects.add_status_effect(status_type, storm_loc)
-		
-	#var first_storm = storms_container.get_child(0)
-	#var storm_loc = first_storm.position
-	#print("STATUS AT " + str(storm_loc))
-	#storm_loc = city_grid.local_to_map(storm_loc)
-	#var status_type = Status.new()
-	#status_type.status_type = 1
-	#status_type.init_coord = storm_loc
-	#status_effects.add_status_effect(status_type, storm_loc)
-	#status_effects.set_cell(storm_loc, 0 , Vector2(16,4))
+
 
 
 func _on_change_wind_pressed() -> void:
@@ -290,8 +271,8 @@ func _on_change_wind_pressed() -> void:
 	change_wind = false
 	wind_timer.start()
 		
-func status_spread():
-	var new_statuses = []
+func get_van_grid_coords() -> Vector2:
+	return van_grid_coords
 
 func set_sensor_collisions():
 	var sensor_array = status_effects.get_sensor_zones()
@@ -305,18 +286,16 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	# triggered when van and storm colliders meet
 	# signal to trigger van shake+sound/storm fx
 	if area.name == "StormArea":
-		print("WARNING: Proximity to STORM EVENT might cause damage to the vehicle. Exercise caution.")
+		status_log_label.update_text("WARNING: Proximity to STORM EVENT might cause damage to the vehicle. Exercise caution.")
 
-
+func _on_update_status_log(status : Status):
+	var type = status.status_type
+	var amt = status.status_amount
+	status_log_label.update_text(amt + " " + type + " brew-charges expended...")
 
 func _on_wind_timer_timeout() -> void:
 	_on_change_wind_pressed()
 	
-	pass # Replace with function body.
-	
-func get_van_grid_coords() -> Vector2:
-	return van_grid_coords
-
 
 func _on_spread_pressed(attr_array : Array) -> void:
 	var statuses = []
@@ -343,11 +322,6 @@ func _on_spread_pressed(attr_array : Array) -> void:
 			status_effects.add_status_effect(cur_status, storm_loc)
 
 
-func _on_sensors_area_entered(area: Area2D) -> void:
-	#print("STATUS TILE CROSSED")
-	pass # Replace with function body.
-
-
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	var pos = van.position
 	var grid = status_effects.local_to_map(pos)
@@ -362,8 +336,6 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		Vector2(4,0):
 			#increment sensor collected
 			collect_sensor(grid)
-			pass
-		
 	print("STATUS TILE CROSSED")
 
 func collect_sensor(grid : Vector2):
