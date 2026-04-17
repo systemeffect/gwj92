@@ -19,6 +19,8 @@ var path: Array[Direction]
 var internal_map_van_enabled: bool = false
 var turn_direction: String = ""
 var is_turning: bool = false
+var is_currently_moving: bool = false
+var has_started_run: bool = false
 var direction_copy = DirectionList.directions
 
 @export var TURN_DURATION: float = 2
@@ -33,22 +35,28 @@ func _physics_process(delta: float) -> void:
 	if internal_map_van_enabled == false:
 		# CityGrid Van
 		if current_axis == "x":
+			is_currently_moving = true
 			pos.x = lerp(pos.x, target_loc_x, VAN_SPEED * delta)
 			is_moving.emit()
 
 			if abs(pos.x - target_loc_x) < 0.5:
 				pos.x = target_loc_x
 				current_axis = ""
+				is_currently_moving = false
 				is_not_moving.emit()
 
 		elif current_axis == "y":
+			is_currently_moving = true
 			pos.y = lerp(pos.y, target_loc_y, VAN_SPEED * delta)
 			is_moving.emit()
 
 			if abs(pos.y - target_loc_y) < 0.5:
 				pos.y = target_loc_y
 				current_axis = ""
+				is_currently_moving = false
 				is_not_moving.emit()
+		else:
+			is_currently_moving = false
 
 		global_position = pos
 		
@@ -57,23 +65,29 @@ func _physics_process(delta: float) -> void:
 		VAN_SPEED = 4.0
 		
 		if current_axis == "x":
+			is_currently_moving = true
 			pos.x = move_toward(pos.x, target_loc_x, VAN_SPEED * delta)
 			is_moving.emit()
 			
-			if is_equal_approx(pos.x, target_loc_x):
+			if abs(pos.x - target_loc_x) < 0.5:
 				pos.x = target_loc_x
 				current_axis = ""
+				is_currently_moving = false
 				is_not_moving.emit()
 				
 		elif current_axis == "y":
+			is_currently_moving = true
 			pos.y = move_toward(pos.y, target_loc_y, VAN_SPEED * delta)
 			is_moving.emit()
 			
-			if is_equal_approx(pos.y, target_loc_y):
+			if abs(pos.y - target_loc_y) < 0.5:
 				pos.y = target_loc_y
 				current_axis = ""
+				is_currently_moving = false
 				is_not_moving.emit()
-				
+		else:
+			is_currently_moving = false
+			
 		global_position = pos
 
 func move(dir: String, amt: int) -> void:

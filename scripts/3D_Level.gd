@@ -17,7 +17,10 @@ func _on_grid_screen_pressed() -> void:
 	#Grabbing Van Location and shit
 	van_grid_loc = city_grid.get_van_grid_coords()
 	van_global_loc = van.global_position
-	van_dir = van.direction_copy.back().move_direction
+	if van.direction_copy.back() == null:
+		van_dir = city_grid.find_child("ActionsUI").current_van_direction
+	else:
+		van_dir = van.direction_copy.back().move_direction
 	#clear the copy just to avoid anything growing
 	van.direction_copy.clear()
 	
