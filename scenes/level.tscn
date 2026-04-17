@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://b2dlm2l3abg70" path="res://assets/3D/stool.glb" id="8_olg7q"]
 [ext_resource type="PackedScene" uid="uid://dupbggjmksgpi" path="res://assets/3D/lever.glb" id="10_olg7q"]
 [ext_resource type="PackedScene" uid="uid://tssxmmxih71r" path="res://assets/3D/weather_gear.glb" id="11_t1rx8"]
+[ext_resource type="Script" uid="uid://c8f4q8hrgayng" path="res://scripts/steering_wheel.gd" id="11_wc255"]
 [ext_resource type="PackedScene" uid="uid://elw6yw4pjr6x" path="res://assets/3D/Dummy_Base.gltf" id="12_64w2a"]
 [ext_resource type="Texture2D" uid="uid://donf8t5wd65vj" path="res://assets/3D/prototypebits_texture.png" id="13_fpun6"]
 
@@ -216,7 +217,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Player" parent="." unique_id=63880466 instance=ExtResource("2_w8frs")]
-transform = Transform3D(0.23668557, 0, -0.9715863, 0, 1, 0, 0.9715863, 0, 0.23668557, -0.80212635, 2.176927, 1.2719826)
+transform = Transform3D(0.23668557, 0, -0.9715863, 0, 1, 0, 0.9715863, 0, 0.23668557, -0.80212635, 2.176927, 1.3804743)
 
 [node name="Van" type="Node3D" parent="." unique_id=81167758]
 script = ExtResource("4_fpun6")
@@ -269,13 +270,15 @@ transform = Transform3D(1.0000002, 0, 0, 0, 1, 0, 1.6940659e-21, 0, 1, 0.0140686
 shape = SubResource("BoxShape3D_2r41h")
 
 [node name="stool" parent="Van/Van Model" unique_id=207635027 instance=ExtResource("8_olg7q")]
-transform = Transform3D(-6.5567094e-09, 0, -0.15, 0, 0.15, 0, 0.15000002, 0, -6.556709e-09, 0.15907139, 0.18053675, -0.31778818)
+transform = Transform3D(-6.556709e-09, 0, -0.14999999, -8.951444e-18, 0.14999999, 0, 0.15000002, 2.7755576e-17, -6.556708e-09, 0.115686715, 0.18155916, -0.31778818)
 
-[node name="steering_wheel" parent="Van/Van Model" unique_id=1401477796 instance=ExtResource("7_klq6b")]
-transform = Transform3D(-0.16000001, 1.3598664e-08, 2.2999191e-09, 2.2999196e-09, 0.05261602, -0.15110116, -1.3598662e-08, -0.15110116, -0.052616015, 0.35930535, 0.7094046, 0.7214867)
+[node name="steering_wheel" parent="Van/Van Model" unique_id=711148209 node_paths=PackedStringArray("van_body") instance=ExtResource("7_klq6b")]
+transform = Transform3D(0.15998717, -0.0005445555, -0.0019518904, -0.00054454687, 0.13689284, -0.0828255, 0.0019518926, 0.082825504, 0.13687998, 0.32308397, 0.7102584, 0.71555954)
+script = ExtResource("11_wc255")
+van_body = NodePath("..")
 
 [node name="Steering_column" type="CSGCylinder3D" parent="Van/Van Model" unique_id=362756844]
-transform = Transform3D(-1.0682377e-08, 1.3841845e-08, -0.39999995, 0.31666443, 0.24438429, -7.5270365e-16, 0.24438427, -0.31666443, -1.748455e-08, 0.3535127, 0.47477034, 1.0271926)
+transform = Transform3D(-9.778887e-09, 1.3504177e-08, -0.39999995, 0.31666446, 0.24438427, 0, 0.24438427, -0.31666443, -1.7484549e-08, 0.3172913, 0.47562394, 1.0271926)
 radius = 0.064
 height = 1.8908691
 
@@ -326,10 +329,12 @@ material_override = SubResource("StandardMaterial3D_arp2o")
 
 [node name="Dummy_ArmLeft" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="0" unique_id=1783820677]
 transform = Transform3D(0.41769266, 0, -0.9085884, 0, 1, 0, 0.9085884, 0, 0.41769266, 0.2000122, 0.6999999, 0)
+visible = false
 material_override = SubResource("StandardMaterial3D_ux5qa")
 
 [node name="Dummy_ArmRight" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="1" unique_id=1791929823]
 transform = Transform3D(0.413756, 0, 0.91038775, 0, 1, 0, -0.91038775, 0, 0.413756, -0.2000122, 0.6999999, -1.1920929e-07)
+visible = false
 material_override = SubResource("StandardMaterial3D_82cfe")
 
 [node name="Dummy_Head" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="2" unique_id=1056717580]
