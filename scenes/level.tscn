@@ -216,7 +216,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Player" parent="." unique_id=63880466 instance=ExtResource("2_w8frs")]
-transform = Transform3D(0.9873059, -0.15827586, -0.013260633, 0.15532517, 0.94470304, 0.28880823, -0.033183992, -0.2872018, 0.9572951, -0.80212635, 2.176927, 1.2719826)
+transform = Transform3D(0.5394764, 0, -0.8420007, 0, 1, 0, 0.8420007, 0, 0.5394764, -0.80212635, 2.176927, 1.2719826)
 
 [node name="Van" type="Node3D" parent="." unique_id=81167758]
 script = ExtResource("4_fpun6")
