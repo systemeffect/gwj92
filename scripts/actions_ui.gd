@@ -373,49 +373,12 @@ func _on_pressed(card_id: String):
 			selected_card = ""
 			sel_card.text = "SelCard: " + selected_card
 
-# Adding/removing actions to the queue
-func _on_add_action_button_pressed() -> void:
-	if selected_card != "":
-		print("add action pressed")
-		print(str(selected_card))
-		if queue_size < max_queue_size:
-			print("room in queue - adding")
-			current_queue.append(selected_card)
-			refresh_queue()
-			action_queued.emit(selected_card)
-			queue_size += 1
-			var card_index = available_cards.find(selected_card, 0)
-			available_cards.remove_at(card_index)
-			#Util remove script
-			_on_deck_updated()
-			clear_queue_window()
-			update_queue()
-			selected_card = ""
-			sel_card.text = "SelCard: " + selected_card
-		else:
-			print("Action Queue Full")
 
 func refresh_queue():
 	current_queue_debug.text = ""
 	for action in current_queue:
 		current_queue_debug.text += str(action) + " \n"
-
-func _on_remove_action_button_pressed() -> void:
-	#action_removed.emit(selected_card)
-	if selected_action != "":
-		print("erasing " + str(selected_action))
-		current_queue.erase(selected_action)
-		available_cards.append(selected_action)
-		selected_action = ""
-		sel_act.text = "SelAct: " + selected_action
-		print(current_queue.size())
-		refresh_queue()
-		queue_size -= 1
-		action_removed.emit(current_queue)
-		
-		_on_deck_updated()
-		clear_queue_window()
-		update_queue()
+#
 
 func _on_move_pressed() -> void:
 	if moves_selected > 0:

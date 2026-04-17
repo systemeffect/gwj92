@@ -40,6 +40,10 @@ func add_status_effect(status : Status, pos : Vector2):
 			#available_neighbors.erase(pos)
 		status_affected_tiles.append(pos)
 
+func get_sensor_zones() -> Array:
+	var cells_in_use = get_used_cells_by_id(0,Vector2(4,0))
+	return cells_in_use
+	
 
 func get_available_cells(status_type : Status) -> Array:
 	var type = status_type.status_name

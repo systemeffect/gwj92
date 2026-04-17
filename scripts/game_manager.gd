@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var storm_scene : PackedScene
+@export var sensor_collider : PackedScene
 
 @onready var actions_ui: Control = $UI/ActionsUI
 @onready var van: Node2D = $Van
@@ -12,6 +13,7 @@ extends Node2D
 @onready var grid_overlay: TextureRect = $UI/GridOverlay
 @onready var city_grid: TileMapLayer = $GridArea/Tilemaps/CityGrid
 @onready var status_effects: TileMapLayer = $GridArea/Tilemaps/StatusEffects
+@onready var sensors: Area2D = $GridArea/Sensors
 
 # Movement Preview Lines
 @onready var queue_preview: Line2D = $UI/PathPreview/QueuePreview
@@ -285,6 +287,13 @@ func _on_change_wind_pressed() -> void:
 		
 func status_spread():
 	var new_statuses = []
+
+func set_sensor_collisions():
+	var sensor_array = status_effects.get_sensor_zones()
+	for sensor in sensor_array:
+		var new_collider = sensor_collider.instantiate()
+		new_collider.global_position = sensor.global_position
+		sensors.add_child(new_collider)
 	
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
@@ -292,7 +301,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	# signal to trigger van shake+sound/storm fx
 	if area.name == "StormArea":
 		print("WARNING: Proximity to STORM EVENT might cause damage to the vehicle. Exercise caution.")
-	else:
+	if area == sensors:
 		print("STATUS TILE CROSSED")
 
 
@@ -328,3 +337,8 @@ func _on_spread_pressed(attr_array : Array) -> void:
 			
 			#status_type.init_coord = storm_loc
 			status_effects.add_status_effect(cur_status, storm_loc)
+
+
+func _on_sensors_area_entered(area: Area2D) -> void:
+	#print("STATUS TILE CROSSED")
+	pass # Replace with function body.
