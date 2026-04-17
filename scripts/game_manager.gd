@@ -10,6 +10,7 @@ extends Node2D
 @onready var status_log_label: RichTextLabel = $UI/ActionsUI/StatusLogLabel
 
 
+
 @onready var current_turn_label: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/CurrentTurnLabel
 @onready var move_in_progress: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/MoveInProgress
 @onready var actions_queued_label: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/ActionsQueued
@@ -18,7 +19,6 @@ extends Node2D
 @onready var grid_overlay: TextureRect = $UI/GridOverlay
 @onready var city_grid: TileMapLayer = $GridArea/Tilemaps/CityGrid
 @onready var status_effects: TileMapLayer = $GridArea/Tilemaps/StatusEffects
-@onready var sensors: Area2D = $GridArea/Sensors
 
 # Movement Preview Lines
 @onready var queue_preview: Line2D = $UI/PathPreview/QueuePreview
@@ -66,7 +66,8 @@ func _ready() -> void:
 	action_queue = actions_ui.current_queue
 	status_effects.update_status_log.connect(_on_update_status_log)
 	movement_queue = actions_ui.current_movement_queue
-	current_turn_label.text = "Current turn: " + str(current_turn)
+	#turn_num.text = str(current_turn)
+	
 	
 	van.is_moving.connect(_on_van_is_moving)
 	van.is_not_moving.connect(_on_van_is_not_moving)
@@ -274,12 +275,12 @@ func _on_change_wind_pressed() -> void:
 func get_van_grid_coords() -> Vector2:
 	return van_grid_coords
 
-func set_sensor_collisions():
-	var sensor_array = status_effects.get_sensor_zones()
-	for sensor in sensor_array:
-		var new_collider = sensor_collider.instantiate()
-		new_collider.global_position = sensor.global_position
-		sensors.add_child(new_collider)
+#func set_sensor_collisions():
+	#var sensor_array = status_effects.get_sensor_zones()
+	#for sensor in sensor_array:
+		#var new_collider = sensor_collider.instantiate()
+		#new_collider.global_position = sensor.global_position
+		#sensors.add_child(new_collider)
 	
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
@@ -291,7 +292,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 func _on_update_status_log(status : Status):
 	var type = status.status_type
 	var amt = status.status_amount
-	status_log_label.update_text(amt + " " + type + " brew-charges expended...")
+	status_log_label.update_text(str(amt) + " " + str(type) + " brew-charges expended...")
 
 func _on_wind_timer_timeout() -> void:
 	_on_change_wind_pressed()
@@ -323,15 +324,18 @@ func _on_spread_pressed(attr_array : Array) -> void:
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
+	# Triggers when van hits a status tile (fire, sensor,...)
 	var pos = van.position
 	var grid = status_effects.local_to_map(pos)
 	var cell_atlas : Vector2 = status_effects.get_cell_atlas_coords(grid)
 	match cell_atlas:
 		Vector2(2,0):
+			take_damage()
 			# trigger fire damage?
 			pass
 		Vector2(3,0):
 			# trigger flood effect
+			take_damage()
 			pass
 		Vector2(4,0):
 			#increment sensor collected
@@ -340,8 +344,18 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 func collect_sensor(grid : Vector2):
 	status_effects.set_cell(grid,0,Vector2(1,0))
+	actions_ui.collect_sensor()
 	sensor_collect.show()
 	collect_animate.play("collect_sensor")
 	await collect_animate.animation_finished
 	sensor_collect.hide()
 	print("SENSOR COLLECTED")
+	
+func take_damage():
+	var new_integrity = van.take_damage()
+	actions_ui.set_integrity(new_integrity)
+	print("taking damage here!")
+	if new_integrity < 1:
+		# queue death/round end
+		print("You dead. This is where the game/round would end")
+	

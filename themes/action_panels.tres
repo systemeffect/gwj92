@@ -1,0 +1,25 @@
+[gd_resource type="Theme" format=3 uid="uid://bb5mbau8xj21x"]
+
+[ext_resource type="FontFile" uid="uid://d24815rprnwhc" path="res://assets/fonts/digital-7 (mono).ttf" id="1_urg7c"]
+[ext_resource type="FontFile" uid="uid://b7bp784uor2i1" path="res://assets/fonts/digital-7 (mono italic).ttf" id="2_ph8b5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4kk0c"]
+bg_color = Color(0.07475505, 0.09380788, 0.12238719, 1)
+border_color = Color(0.33715466, 0.11214053, 0.03711865, 1)
+border_blend = true
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bxdbe"]
+bg_color = Color(0.050980393, 0.06666667, 0.09019608, 1)
+
+[resource]
+Button/constants/outline_size = 2
+Button/font_sizes/font_size = 15
+Button/fonts/font = ExtResource("1_urg7c")
+Button/styles/normal = SubResource("StyleBoxFlat_4kk0c")
+Label/font_sizes/font_size = 24
+Label/fonts/font = ExtResource("2_ph8b5")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_bxdbe")

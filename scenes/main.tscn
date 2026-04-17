@@ -6,9 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bq0h2lblalaia" path="res://scenes/settings_menu.tscn" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://qa0jokklwoos" path="res://City_Grid/city_grid.tscn" id="3_tipki"]
 [ext_resource type="PackedScene" uid="uid://bof25ilvy00bq" path="res://City_Grid/level_2.tscn" id="4_ya4ey"]
-[ext_resource type="PackedScene" uid="uid://cehrec2vtwv63" path="res://City_Grid/level_3.tscn" id="5_eb6dy"]
 [ext_resource type="Texture2D" uid="uid://myaknspuu7av" path="res://assets/radar2.jpg" id="6_tipki"]
-[ext_resource type="PackedScene" uid="uid://bpe21kovn3g80" path="res://City_Grid/level_4.tscn" id="6_trceg"]
 [ext_resource type="Texture2D" uid="uid://kvi4w6fgja61" path="res://assets/radar.jpg" id="7_85g3d"]
 [ext_resource type="Texture2D" uid="uid://b8k41qv03q5gq" path="res://assets/equipment.jpg" id="8_choun"]
 
@@ -89,8 +87,6 @@ layout_mode = 2
 script = ExtResource("1_o5qli")
 first_level = ExtResource("3_tipki")
 second_level = ExtResource("4_ya4ey")
-third_level = ExtResource("5_eb6dy")
-fourth_level = ExtResource("6_trceg")
 
 [node name="Panel" type="PanelContainer" parent="Menus/Control/Margin/MainMenu" unique_id=1890262896]
 layout_mode = 2

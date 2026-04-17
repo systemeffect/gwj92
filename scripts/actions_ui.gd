@@ -13,13 +13,15 @@ signal end_of_turn
 @onready var move_button: Button = $ActionDebug/VBoxContainer/Move
 @onready var end_of_turn_prompt: PanelContainer = $EndOfTurnPrompt
 
+# Resource panel labels
+@onready var turn_num: Label = $ResourcesPanel/Margin/GridContainer/TurnNum
+@onready var integrity_num: Label = $ResourcesPanel/Margin/GridContainer/IntegrityNum
+@onready var sensors_num: Label = $ResourcesPanel/Margin/GridContainer/SensorsNum
+
+
 # Stormbrew/Action Queue
 @onready var grid_container: GridContainer = $PanelContainer/GridContainer
 @onready var queue_grid_container: GridContainer = $ActionQueue/GridContainer
-@onready var current_queue_debug: RichTextLabel = $ActionDebug/VBoxContainer/CurrentQueue
-@onready var sel_card: Label = $ActionDebug/VBoxContainer/SelCard
-@onready var sel_act: Label = $ActionDebug/VBoxContainer/SelAct
-@onready var action_queue: Control = $ActionQueue
 
 # Action Queue Slots
 @onready var action_1: Control = $ActionQueue/GridContainer/Action_1
@@ -55,6 +57,8 @@ var cur_deck_size : int = 0
 var selected_card : String
 var selected_action : String
 
+var cur_sensors : int = 0
+
 var json_file_path = "res://data/gwj92 - Card Brewing.json"
 # All available CARDS/ACTIONS in the game
 var all_cards = {}
@@ -78,6 +82,7 @@ func _ready() -> void:
 	print(current_deck)
 	load_cards()
 	set_van_direction_index()
+	set_integrity(3)
 	
 func _process(delta: float) -> void:
 	if queue_size == 3:
@@ -478,3 +483,19 @@ func set_attribute_status_array() -> Array:
 		new_attribute.set_attribute(attr_type, attr_value)
 		attribute_array.append(new_attribute)
 	return attribute_array
+
+func set_integrity(new_int : int):
+	match new_int:
+		0:
+			integrity_num.text = "0%"
+		1:
+			integrity_num.text = "33%"
+		2:
+			integrity_num.text = "66%"
+		3:
+			integrity_num.text = "100%"
+
+func collect_sensor():
+	cur_sensors += 1
+	sensors_num.text = str(cur_sensors)
+	

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://h5j3p5m3g7dy"]
 
 [ext_resource type="Script" uid="uid://1mhyyd4h6qh" path="res://scripts/actions_ui.gd" id="1_cou15"]
-[ext_resource type="FontFile" uid="uid://d24815rprnwhc" path="res://assets/fonts/digital-7 (mono).ttf" id="2_4kk0c"]
+[ext_resource type="Theme" uid="uid://bb5mbau8xj21x" path="res://themes/action_panels.tres" id="2_4fi4j"]
 [ext_resource type="PackedScene" uid="uid://34hboxtiso3n" path="res://scenes/action_queue.tscn" id="2_m8tt6"]
 [ext_resource type="PackedScene" uid="uid://kd3dcv0ib57v" path="res://scenes/card_slot.tscn" id="3_cou15"]
 [ext_resource type="FontFile" uid="uid://cfy0j5l2630ix" path="res://assets/fonts/SAIBA-45.ttf" id="4_bxdbe"]
@@ -9,25 +9,6 @@
 [ext_resource type="FontFile" uid="uid://bc7s77r5opgfm" path="res://assets/fonts/easvhs.ttf" id="5_lgsi3"]
 [ext_resource type="FontFile" uid="uid://cajq783h3yufy" path="res://assets/fonts/Blue Screen Personal Use.ttf" id="8_4fi4j"]
 [ext_resource type="Script" uid="uid://c7o1kqxleq5v" path="res://scripts/status_log.gd" id="8_bxdbe"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4kk0c"]
-bg_color = Color(0.07475505, 0.09380788, 0.12238719, 1)
-border_color = Color(0.33715466, 0.11214053, 0.03711865, 1)
-border_blend = true
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bxdbe"]
-bg_color = Color(0.050980393, 0.06666667, 0.09019608, 1)
-
-[sub_resource type="Theme" id="Theme_p22f0"]
-Button/constants/outline_size = 2
-Button/font_sizes/font_size = 15
-Button/fonts/font = ExtResource("2_4kk0c")
-Button/styles/normal = SubResource("StyleBoxFlat_4kk0c")
-PanelContainer/styles/panel = SubResource("StyleBoxFlat_bxdbe")
 
 [node name="ActionsUI" type="Control" unique_id=24908026]
 layout_mode = 3
@@ -91,7 +72,7 @@ offset_top = 200.0
 offset_right = -19.0
 offset_bottom = 310.0
 grow_horizontal = 0
-theme = SubResource("Theme_p22f0")
+theme = ExtResource("2_4fi4j")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ActionDebug" unique_id=1097832441]
 layout_mode = 2
@@ -115,31 +96,31 @@ icon_alignment = 1
 
 [node name="Reverse1" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=601216430]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9882353, 0.18039216, 0.3764706, 1)
+theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "Reverse 1"
 icon_alignment = 1
 
 [node name="TurnLeft" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=609925964]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9196996, 0.7768806, 0.23211145, 1)
+theme_override_colors/font_color = Color(1, 0.7529412, 0.03137255, 1)
 text = "Turn Left"
 icon_alignment = 1
 
 [node name="TurnAround" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=1732920319]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9196996, 0.7768806, 0.23211145, 1)
+theme_override_colors/font_color = Color(1, 0.7529412, 0.03137255, 1)
 text = "Turn Around"
 icon_alignment = 1
 
 [node name="TurnRight" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=970770117]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9196996, 0.7768806, 0.23211145, 1)
+theme_override_colors/font_color = Color(1, 0.7529412, 0.03137255, 1)
 text = "Turn Right"
 icon_alignment = 1
 
 [node name="ResetMoves" type="Button" parent="ActionDebug/VBoxContainer" unique_id=1540435869]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9882353, 0.18039216, 0.3764706, 1)
+theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "Reset Move Queue"
 
 [node name="HSeparator" type="HSeparator" parent="ActionDebug/VBoxContainer" unique_id=153859046]
@@ -298,6 +279,66 @@ theme_override_font_sizes/normal_font_size = 12
 scroll_active = false
 scroll_following = true
 script = ExtResource("8_bxdbe")
+
+[node name="ResourcesPanel" type="PanelContainer" parent="." unique_id=858528389]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -256.0
+offset_top = 8.0
+offset_bottom = 100.0
+grow_horizontal = 0
+theme = ExtResource("2_4fi4j")
+
+[node name="Margin" type="MarginContainer" parent="ResourcesPanel" unique_id=100439099]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+
+[node name="Resources" type="HBoxContainer" parent="ResourcesPanel/Margin" unique_id=464548021]
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="Column1" type="VBoxContainer" parent="ResourcesPanel/Margin/Resources" unique_id=1887779178]
+layout_mode = 2
+
+[node name="TurnLabel" type="Label" parent="ResourcesPanel/Margin/Resources/Column1" unique_id=94860549]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.7529412, 0.03137255, 1)
+text = "TURN:"
+
+[node name="IntegrityLabel" type="Label" parent="ResourcesPanel/Margin/Resources/Column1" unique_id=1025829520]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "VAN INTEGRITY:"
+
+[node name="SensorsLabel" type="Label" parent="ResourcesPanel/Margin/Resources/Column1" unique_id=703495412]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.9529412, 0, 1)
+text = "SENSOR DATA:"
+
+[node name="Column2" type="VBoxContainer" parent="ResourcesPanel/Margin/Resources" unique_id=1064292432]
+layout_mode = 2
+
+[node name="TurnNum" type="Label" parent="ResourcesPanel/Margin/Resources/Column2" unique_id=1317686084]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.7529412, 0.03137255, 1)
+text = "0"
+horizontal_alignment = 1
+
+[node name="IntegrityNum" type="Label" parent="ResourcesPanel/Margin/Resources/Column2" unique_id=1630299681]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "100%"
+horizontal_alignment = 1
+
+[node name="SensorsNum" type="Label" parent="ResourcesPanel/Margin/Resources/Column2" unique_id=1712044431]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.9529412, 0, 1)
+text = "0"
+horizontal_alignment = 1
 
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Forward1" to="." method="_on_forward_1_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Forward2" to="." method="_on_forward_2_pressed"]
