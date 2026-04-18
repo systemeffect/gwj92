@@ -73,3 +73,7 @@ func dropped_status(status: Status):
 	label_anim.play("zone_dropped")
 	await label_anim.animation_finished
 	zone_label.hide()
+	
+func set_origin(pos : Vector2):
+	origin_pos = pos
+	position = pos

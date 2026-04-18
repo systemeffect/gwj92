@@ -12,12 +12,15 @@ signal end_of_turn
 
 @onready var move_button: Button = $ActionDebug/VBoxContainer/Move
 @onready var end_of_turn_prompt: PanelContainer = $EndOfTurnPrompt
+@onready var end_of_turn_prompt_2d: PanelContainer = $EndOfTurnPrompt2D
+@onready var end_of_turn_prompt_2: PanelContainer = $EndOfTurnPrompt2
 
 # Resource panel labels
 @onready var turn_num: Label = $ResourcesPanel/Margin/TopBar/Turn/TurnNum
 @onready var integrity_num: Label = $ResourcesPanel/Margin/TopBar/Resources/Column2/IntegrityNum
 @onready var sensors_num: Label = $ResourcesPanel/Margin/TopBar/Resources/Column2/SensorsNum
 
+@onready var status_log_label: RichTextLabel = $StatusLogLabel
 
 
 # Stormbrew/Action Queue
@@ -80,10 +83,12 @@ func _ready() -> void:
 		current_van_direction = GlobalLocations.van_global_dir
 	load_card_data()
 	current_deck = ["0","1","2","3","4","5","6","7","8","9","10","11"]
+	current_queue = GlobalLocations.current_queue
 	print(current_deck)
 	load_cards()
 	set_van_direction_index()
 	set_integrity(3)
+	cur_sensors = GlobalLocations.sensors_collected
 	
 func _process(delta: float) -> void:
 	if queue_size == 3:
@@ -92,8 +97,8 @@ func _process(delta: float) -> void:
 		move_button.disabled = true
 
 func process_turn():
-	get_tree().paused = true
-	end_of_turn_prompt.show()
+	#get_tree().paused = true
+	end_of_turn_prompt_2.show()
 	
 
 func set_van_direction_index():
@@ -230,7 +235,6 @@ func clear_queue_window():
 	queue_item_2 = {}
 	queue_item_3 = {}
 
-
 func clear_movement_queue_window():
 	move_1.set_empty()
 	if move_1.pressed.is_connected(_on_pressed):
@@ -358,6 +362,9 @@ func _on_pressed(card_id: String):
 			selected_card = ""
 
 func _on_move_pressed() -> void:
+	var parent = find_parent("Level")
+	if parent == null:
+		status_log_label.update_text("[SETTING AUTODRIVE PATH]")
 	if moves_selected > 0:
 		var result = MovementPlanner.build_directions(current_movement_queue, current_van_direction, Util.all_cards)
 
@@ -365,6 +372,7 @@ func _on_move_pressed() -> void:
 		DirectionList.directions.append_array(result["directions"])
 		for d in DirectionList.directions:
 			print("Direction:", d.move_direction, "| Amount:", d.move_amount)
+			status_log_label.update_text("Direction: " + str(d.move_direction) + "| Amount: " + str(d.move_amount))
 		current_van_direction = result["final_facing"]
 		round_initiated.emit()
 	else:
@@ -379,6 +387,8 @@ func build_preview_directions():
 		#current_van_direction = result["final_facing"]
 
 func _on_van_button_pressed() -> void:
+	GlobalLocations.current_queue = current_queue
+	GlobalLocations.status_log = status_log_label.text
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/level.tscn")
 
@@ -462,7 +472,7 @@ func _on_end_of_turn_button_pressed() -> void:
 	_on_reset_queue_pressed()
 	_on_reset_moves_pressed()
 
-	end_of_turn_prompt.hide()
+	end_of_turn_prompt_2d.hide()
 
 func set_attribute_status_array() -> Array:
 	var attribute_array = []

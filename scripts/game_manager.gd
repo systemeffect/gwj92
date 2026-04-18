@@ -10,6 +10,7 @@ extends Node2D
 @onready var status_log_label: RichTextLabel = $UI/ActionsUI/StatusLogLabel
 @onready var turn_num: Label = $UI/ActionsUI/ResourcesPanel/Margin/TopBar/Turn/TurnNum
 
+@onready var end_of_turn_prompt_2d: PanelContainer = $UI/ActionsUI/EndOfTurnPrompt2D
 
 
 @onready var current_turn_label: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/CurrentTurnLabel
@@ -27,11 +28,13 @@ extends Node2D
 @onready var queue_preview: Line2D = $UI/PathPreview/QueuePreview
 @onready var preview_collider: CollisionShape2D = $UI/PathPreview/PreviewCollider
 @onready var preview_cont: Area2D = $UI/PathPreview/PreviewCont
+var turn_end_coords : Vector2
 
 # Storm
 @onready var storms_container: Node2D = $StormsContainer
 @onready var wind_timer: Timer = $WindTimer
 var change_wind : bool = true
+var storm_locs
 
 var fire_status = Status
 var flood_status = Status
@@ -54,15 +57,15 @@ var van_position : Vector2
 var van_grid_coords : Vector2
 var van_start_pos: Vector2
 
+var sensors_total : int = 5
+var sensors_collected : int = 0
+
 # Storm variables
 var wind_direction : Direction
 
 func _ready() -> void:
 	get_tree().paused = true
 	actions_ui.round_initiated.connect(_on_round_initiated)
-	#actions_ui.action_queued.connect(_on_action_queued)
-	#actions_ui.action_removed.connect(_on_action_removed)
-
 	actions_ui.reset_movement_queue.connect(_on_reset_movement_queue)
 	actions_ui.movement_queued.connect(_on_movement_queued)
 	actions_ui.end_of_turn.connect(update_map_interface)
@@ -70,7 +73,8 @@ func _ready() -> void:
 	status_effects.update_status_log.connect(_on_update_status_log)
 	movement_queue = actions_ui.current_movement_queue
 	#turn_num.text = str(current_turn)
-	
+	current_turn = GlobalLocations.current_turn
+	turn_num.text = str(current_turn)
 	
 	van.is_moving.connect(_on_van_is_moving)
 	van.is_not_moving.connect(_on_van_is_not_moving)
@@ -87,7 +91,25 @@ func _ready() -> void:
 	
 	if GlobalLocations.van_global_loc != Vector2(0,0):
 		van.global_position = GlobalLocations.van_global_loc
-		
+	if GlobalLocations.current_turn > 0:
+		#clear_storms()
+		var storms_array = GlobalLocations.storm_locs
+		load_storms(storms_array)
+		var fires_array = GlobalLocations.fire_locs
+		var floods_array = GlobalLocations.flood_locs
+		load_fires_floods(fires_array, floods_array)
+		var parent = find_parent("Level")
+		if parent == null:
+			end_of_turn_prompt_2d.show()
+		status_log_label.text = GlobalLocations.status_log
+	
+	var cur_sensors = status_effects.get_used_cells_by_id(0,Vector2(4,0))
+	
+	sensors_collected = sensors_total - cur_sensors.size()
+	set_sensors()
+	
+	if GlobalLocations.current_turn > 0:
+		status_log_label.text = GlobalLocations.status_log
 	fire_status = Status.new()
 	fire_status.status_name = "fire"
 	fire_status.status_type = 1
@@ -103,18 +125,40 @@ func _ready() -> void:
 	sensor_collect.hide()
 
 func _process(delta: float) -> void:
+	#check_end_of_path()
 	if end_of_turn:
 		check_end_of_movement()
 		
+#func check_end_of_path():
+	#van_grid_coords = status_effects.local_to_map(van.position)
+	#if van_grid_coords == turn_end_coords:
+		#print("we cooking")
+
+
 func check_end_of_movement():
 	if van.is_not_moving:
-		actions_ui.process_turn()
+		get_tree().paused = true
+		var parent = find_parent("Level")
+		if parent != null:
+			actions_ui.process_turn()
+
+#func process_turn():
+	#action_ui.process_turn()
 
 func update_map_interface(attr_array : Array):
 	_on_change_wind_pressed()
 	_on_spread_pressed(attr_array)
+	var fire_array = status_effects.get_used_cells_by_id(0,Vector2(2,0))
+	var flood_array = status_effects.get_used_cells_by_id(0, Vector2(3,0))
+	GlobalLocations.fire_locs = fire_array
+	GlobalLocations.flood_locs = flood_array
 	end_of_turn = false
 
+func load_fires_floods(fires : Array, floods : Array):
+	for fire in fires:
+		status_effects.set_cell(fire, 0, Vector2(2,0))
+	for flood in floods:
+		status_effects.set_cell(flood, 0, Vector2(3,0))
 
 func _on_movement_queued():
 	print("movement queued")
@@ -159,10 +203,12 @@ func find_path():
 		# checks to make sure point is in bounds, resets movement if not
 		if last_point.x < 0 or last_point.x > 11 or last_point.y < 0 or last_point.y > 11:
 			status_log_label.update_text("Path Out of Bounds, resetting autodrive...")
-			actions_ui.clear_movement_queue_window()
+			actions_ui._on_reset_moves_pressed()
 			queue_preview.clear_points()
-			queue_preview.add_point(van.global_position)
+			queue_preview.add_point(van.position)
 			clear_collider_container()
+	turn_end_coords = last_point
+	GlobalLocations.turn_end_coords = turn_end_coords
 		
 func clear_collider_container():
 	while preview_cont.get_child_count() > 0:
@@ -199,7 +245,7 @@ func _on_round_initiated():
 			print("card is null")
 	if dir_array.size() == 0:
 		end_of_turn = true
-	current_turn += 1
+	
 	turn_num.text = str(current_turn)
 	turn_in_progress = true
 
@@ -210,6 +256,18 @@ func set_wind_direction(dir : Direction):
 	wind_label.text = "WIND: " + direction
 	# emit signal if needed?
 
+func load_storms(locs : Array):
+	if locs.size() > 0:
+		print("loadin storms")
+		var all_locs = locs
+		var storms = storms_container.get_children()
+		for storm in storms:
+			var loc = all_locs.pop_front()
+			storm.set_origin(loc)
+			#
+	else:
+		print('no storms to load')
+
 func create_storms(origin: Vector2, amt : int):
 	var storms = 0
 	while storms < amt:
@@ -217,6 +275,12 @@ func create_storms(origin: Vector2, amt : int):
 		storm.origin_pos = origin
 		storms_container.add_child(storm)
 		storms += 1
+		
+func clear_storms():
+	while storms_container.get_child_count() > 0:
+		var child = storms_container.get_child(0)
+		storms_container.remove_child(child)
+		child.queue_free()
 
 func _on_show_grid_pressed() -> void:
 	if grid_overlay.visible:
@@ -358,3 +422,21 @@ func take_damage():
 func _on_preview_cont_area_entered(area: Area2D) -> void:
 	if area.name == "Boundaries":
 		status_log_label.update_text("Path Out of Bounds, resetting autodrive...")
+
+func set_sensors():
+	if current_turn > 0:
+		var sensor_locs = GlobalLocations.sensor_locs
+		var cur_sensor_locs = status_effects.get_used_cells_by_id(0,Vector2(4,0))
+		for loc in sensor_locs:
+			if cur_sensor_locs.has(loc):
+				cur_sensor_locs.erase(loc)
+		for loc in cur_sensor_locs:
+			status_effects.set_cell(loc,0,Vector2(1,0))
+			var parent = find_parent("Level")
+			if parent == null:
+			#	GlobalLocations.sensors_collected += 1
+				actions_ui.collect_sensor()
+
+func _on_signal_events_area_entered(area: Area2D) -> void:
+	print("TRIGGER SIGNAL")
+	pass # Replace with function body.

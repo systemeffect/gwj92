@@ -40,6 +40,7 @@ window/stretch/mode="viewport"
 2d_physics/layer_3="ground_status"
 2d_physics/layer_4="storm"
 2d_physics/layer_5="preview_lines"
+2d_physics/layer_6="signal_events"
 
 [physics]
 
