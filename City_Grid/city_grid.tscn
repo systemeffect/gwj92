@@ -154,9 +154,6 @@ process_mode = 2
 theme_override_fonts/normal_font = ExtResource("4_vex6x")
 theme_override_font_sizes/normal_font_size = 10
 bbcode_enabled = true
-text = "[center]FOLTA STORMRUN-R
-----// \\\\----[/center]
-Select 3 Attributes to Begin Tempest Manipulation"
 
 [node name="EndOfTurnPrompt" parent="UI/ActionsUI" index="9" unique_id=256923231]
 anchors_preset = 15

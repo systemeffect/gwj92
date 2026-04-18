@@ -33,6 +33,15 @@ func check_end_of_path():
 		action_ui.process_turn()
 	
 func _on_grid_screen_pressed() -> void:
+	get_van_loc()
+	var cur_storm_locs = get_storm_locs()
+	GlobalLocations.storm_locs = cur_storm_locs
+	get_sensors()
+	get_fires_floods()
+	DirectionList.directions.clear()
+	get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
+	
+func get_van_loc():
 	#Grabbing Van Location and shit
 	van_grid_loc = city_grid.get_van_grid_coords()
 	van_global_loc = van.global_position
@@ -46,13 +55,7 @@ func _on_grid_screen_pressed() -> void:
 	GlobalLocations.van_grid_loc = van_grid_loc
 	GlobalLocations.van_global_loc = van_global_loc
 	GlobalLocations.van_global_dir = van_dir
-	var cur_storm_locs = get_storm_locs()
-	GlobalLocations.storm_locs = cur_storm_locs
-	get_sensors()
-	get_fires_floods()
-	DirectionList.directions.clear()
-	get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
-	
+
 func get_fires_floods():
 	var tilemap = city_grid.status_effects
 	var fire_array = tilemap.get_used_cells_by_id(0,Vector2(2,0))

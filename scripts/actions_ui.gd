@@ -90,6 +90,7 @@ func _ready() -> void:
 	set_integrity(3)
 	cur_sensors = GlobalLocations.sensors_collected
 	
+	
 func _process(delta: float) -> void:
 	if queue_size == 3:
 		move_button.disabled = false
@@ -366,14 +367,9 @@ func _on_move_pressed() -> void:
 	if parent == null:
 		status_log_label.update_text("[SETTING AUTODRIVE PATH]")
 	if moves_selected > 0:
-		var result = MovementPlanner.build_directions(current_movement_queue, current_van_direction, Util.all_cards)
-
-		DirectionList.directions.clear()
-		DirectionList.directions.append_array(result["directions"])
-		for d in DirectionList.directions:
-			print("Direction:", d.move_direction, "| Amount:", d.move_amount)
-			status_log_label.update_text("Direction: " + str(d.move_direction) + "| Amount: " + str(d.move_amount))
-		current_van_direction = result["final_facing"]
+		build_preview_directions()
+		for d in DirectionList.previewer_directions:
+			status_log_label.update_text("Direction: " + str(d.move_direction) + " | Amount: " + str(d.move_amount))
 		round_initiated.emit()
 	else:
 		print("max moves reached")
@@ -387,6 +383,10 @@ func build_preview_directions():
 		#current_van_direction = result["final_facing"]
 
 func _on_van_button_pressed() -> void:
+	var result = MovementPlanner.build_directions(current_movement_queue, current_van_direction, Util.all_cards)
+	DirectionList.directions.clear()
+	DirectionList.directions.append_array(result["directions"])
+	GlobalLocations.van_global_dir = result["final_facing"]
 	GlobalLocations.current_queue = current_queue
 	GlobalLocations.status_log = status_log_label.text
 	get_tree().paused = false
@@ -498,4 +498,3 @@ func set_integrity(new_int : int):
 func collect_sensor():
 	cur_sensors += 1
 	sensors_num.text = str(cur_sensors)
-	

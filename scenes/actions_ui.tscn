@@ -111,11 +111,11 @@ theme_override_constants/separation = 6
 [node name="Move" type="Button" parent="ActionDebug/VBoxContainer" unique_id=170235260]
 layout_mode = 2
 disabled = true
-text = "Move"
+text = "Preview Run"
 
 [node name="VanButton" type="Button" parent="ActionDebug/VBoxContainer" unique_id=202436281]
 layout_mode = 2
-text = "Inside Van"
+text = "Rollout"
 
 [node name="ActionQueue" parent="." unique_id=509091489 instance=ExtResource("2_m8tt6")]
 layout_mode = 1

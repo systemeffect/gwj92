@@ -168,6 +168,7 @@ func _on_reset_movement_queue():
 	queue_preview.clear_points()
 	queue_preview.add_point(van_position)
 	clear_collider_container()
+	reset_preview_van()
 
 func find_path():
 	var last_point: Vector2 = city_grid.local_to_map(van.global_position)
@@ -229,23 +230,18 @@ func _on_van_is_not_moving():
 # Needs to be rebuilt
 func _on_round_initiated():
 	get_tree().paused = false
-	var dir_array = DirectionList.directions.duplicate()
-
+	reset_preview_van()
+	var dir_array = DirectionList.previewer_directions.duplicate()
 	while dir_array.size() > 0:
 		var current_move = dir_array.pop_front()
-
 		if current_move != null:
 			var move_dir = current_move.move_direction
 			var move_amt = current_move.move_amount
-
 			van.move(move_dir, move_amt)
 			await van.is_not_moving
-
 		else:
 			print("card is null")
-	if dir_array.size() == 0:
-		end_of_turn = true
-	
+	end_of_turn = true
 	turn_num.text = str(current_turn)
 	turn_in_progress = true
 
@@ -440,3 +436,16 @@ func set_sensors():
 func _on_signal_events_area_entered(area: Area2D) -> void:
 	print("TRIGGER SIGNAL")
 	pass # Replace with function body.
+
+func reset_preview_van() -> void:
+	van.global_position = van_start_pos
+	van.target_loc_x = van.global_position.x
+	van.target_loc_y = van.global_position.y
+	van.current_axis = ""
+	van.is_turning = false
+	van.turn_direction = "none"
+	van.is_currently_moving = false
+	
+	current_turn = 0
+	turn_in_progress = false
+	end_of_turn = false
