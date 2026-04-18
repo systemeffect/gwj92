@@ -12,6 +12,7 @@ signal end_of_turn
 
 @onready var move_button: Button = $ActionDebug/VBoxContainer/Move
 @onready var end_of_turn_prompt: PanelContainer = $EndOfTurnPrompt
+@onready var end_of_turn_prompt_2d: PanelContainer = $EndOfTurnPrompt2D
 
 # Resource panel labels
 @onready var turn_num: Label = $ResourcesPanel/Margin/TopBar/Turn/TurnNum
@@ -80,6 +81,7 @@ func _ready() -> void:
 		current_van_direction = GlobalLocations.van_global_dir
 	load_card_data()
 	current_deck = ["0","1","2","3","4","5","6","7","8","9","10","11"]
+	current_queue = GlobalLocations.current_queue
 	print(current_deck)
 	load_cards()
 	set_van_direction_index()
@@ -93,7 +95,7 @@ func _process(delta: float) -> void:
 		move_button.disabled = true
 
 func process_turn():
-	get_tree().paused = true
+	#get_tree().paused = true
 	end_of_turn_prompt.show()
 	
 
@@ -230,7 +232,6 @@ func clear_queue_window():
 	queue_item_1 = {}
 	queue_item_2 = {}
 	queue_item_3 = {}
-
 
 func clear_movement_queue_window():
 	move_1.set_empty()
@@ -380,6 +381,7 @@ func build_preview_directions():
 		#current_van_direction = result["final_facing"]
 
 func _on_van_button_pressed() -> void:
+	GlobalLocations.current_queue = current_queue
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/level.tscn")
 
@@ -463,7 +465,7 @@ func _on_end_of_turn_button_pressed() -> void:
 	_on_reset_queue_pressed()
 	_on_reset_moves_pressed()
 
-	end_of_turn_prompt.hide()
+	end_of_turn_prompt_2d.hide()
 
 func set_attribute_status_array() -> Array:
 	var attribute_array = []

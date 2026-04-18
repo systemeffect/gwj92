@@ -8,3 +8,7 @@ var storm_locs : Array
 var sensor_locs : Array
 var sensors_collected : int
 var current_turn = 0
+var current_queue : Array
+var turn_end_coords : Vector2
+var fire_locs : Array
+var flood_locs : Array
