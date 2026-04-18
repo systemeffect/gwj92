@@ -62,7 +62,7 @@ func _ready() -> void:
 	actions_ui.round_initiated.connect(_on_round_initiated)
 	#actions_ui.action_queued.connect(_on_action_queued)
 	#actions_ui.action_removed.connect(_on_action_removed)
-	actions_ui.reset_queue.connect(_on_reset_queue)
+
 	actions_ui.reset_movement_queue.connect(_on_reset_movement_queue)
 	actions_ui.movement_queued.connect(_on_movement_queued)
 	actions_ui.end_of_turn.connect(update_map_interface)
@@ -102,7 +102,6 @@ func _ready() -> void:
 	wind_status.status_amount = 3
 	sensor_collect.hide()
 
-
 func _process(delta: float) -> void:
 	if end_of_turn:
 		check_end_of_movement()
@@ -116,13 +115,6 @@ func update_map_interface(attr_array : Array):
 	_on_spread_pressed(attr_array)
 	end_of_turn = false
 
-func _on_reset_queue():
-	# reset wind preview line at end (if applies)
-	pass
-
-#func _on_action_queued(card_id : String):
-	#actions_queued_label.text = "Actions queued: " + str(action_queue.size())
-	##find_path()
 
 func _on_movement_queued():
 	print("movement queued")
@@ -178,11 +170,6 @@ func clear_collider_container():
 		preview_cont.remove_child(child)
 		child.queue_free()
 
-#func _on_action_removed(current_queue : Array):
-	#actions_queued = action_queue.size()
-	#actions_queued_label.text = "Actions queued: " + str(actions_queued)
-	#find_path()
-
 func _on_van_is_moving():
 	movement_in_progress = true
 	move_in_progress.text = "Move in Progress: true"
@@ -215,7 +202,6 @@ func _on_round_initiated():
 	current_turn += 1
 	turn_num.text = str(current_turn)
 	turn_in_progress = true
-	
 
 func set_wind_direction(dir : Direction):
 	wind_direction = dir
@@ -238,17 +224,11 @@ func _on_show_grid_pressed() -> void:
 	else:
 		grid_overlay.show()
 
-
-func _on_preview_cont_body_entered(body: Node2D) -> void:
-	print("body entered!")
-
-
 func _on_brew_storm_pressed() -> void:
 	var current_pos = van.position
 	var storm = storm_scene.instantiate()
 	storm.origin_pos = current_pos
 	storms_container.add_child(storm)
-
 
 func _on_add_status_pressed() -> void:
 	var statuses = []
@@ -293,13 +273,6 @@ func _on_change_wind_pressed() -> void:
 func get_van_grid_coords() -> Vector2:
 	return van_grid_coords
 
-#func set_sensor_collisions():
-	#var sensor_array = status_effects.get_sensor_zones()
-	#for sensor in sensor_array:
-		#var new_collider = sensor_collider.instantiate()
-		#new_collider.global_position = sensor.global_position
-		#sensors.add_child(new_collider)
-	
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	# triggered when van and storm colliders meet
@@ -310,12 +283,10 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		print("path out of bounds")
 
 func _on_update_status_log(status : Status):
-	var name = status.status_name
+	var status_name = status.status_name
 	var amt = status.status_amount
-	status_log_label.update_text(str(amt) + " " + str(name) + " brew-charges expended...")
+	status_log_label.update_text(str(amt) + " " + str(status_name) + " brew-charges expended...")
 
-
-	
 
 func _on_spread_pressed(attr_array : Array) -> void:
 	var statuses = []
@@ -384,23 +355,6 @@ func take_damage():
 		# queue death/round end
 		print("You dead. This is where the game/round would end")
 	
-
-
 func _on_preview_cont_area_entered(area: Area2D) -> void:
 	if area.name == "Boundaries":
 		status_log_label.update_text("Path Out of Bounds, resetting autodrive...")
-
-
-func _on_preview_cont_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
-	if area.name == "Boundaries":
-		print("auto-drive path out of bounds")
-
-
-func _on_boundaries_area_entered(area: Area2D) -> void:
-	print("auto-drive path out of bounds")
-	pass # Replace with function body.
-
-
-func _on_boundaries_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
-	print("auto-drive path out of bounds")
-	pass # Replace with function body.

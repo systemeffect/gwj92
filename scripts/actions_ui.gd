@@ -225,13 +225,11 @@ func clear_queue_window():
 	action_3.set_empty()
 	if action_3.pressed.is_connected(_on_pressed):
 		action_3.pressed.disconnect(_on_pressed)
-	action_4.set_empty()
-	if action_4.pressed.is_connected(_on_pressed):
-		action_4.pressed.disconnect(_on_pressed)
+
 	queue_item_1 = {}
 	queue_item_2 = {}
 	queue_item_3 = {}
-	queue_item_4 = {}
+
 
 func clear_movement_queue_window():
 	move_1.set_empty()
@@ -265,10 +263,6 @@ func update_queue():
 					action_3.set_card(card_data)
 					action_3.pressed.connect(_on_pressed.bind(card_id))
 					queue_item_3 = card_data
-				#3:
-					#action_4.set_card(card_data)
-					#action_4.pressed.connect(_on_pressed.bind(card_id))
-					#queue_item_4 = card_data
 			slot += 1
 
 func update_movement_queue():
@@ -345,7 +339,6 @@ func _on_pressed(card_id: String):
 			else:
 				print("Action Queue Full")
 	
-	
 	# Checks to see if the selected card is in the action queue
 	if current_queue.has(card_id):
 		# If so, deselect available cards
@@ -372,9 +365,7 @@ func _on_move_pressed() -> void:
 		DirectionList.directions.append_array(result["directions"])
 		for d in DirectionList.directions:
 			print("Direction:", d.move_direction, "| Amount:", d.move_amount)
-
 		current_van_direction = result["final_facing"]
-
 		round_initiated.emit()
 	else:
 		print("max moves reached")
@@ -385,9 +376,7 @@ func build_preview_directions():
 	DirectionList.previewer_directions.append_array(result["directions"])
 	for d in DirectionList.previewer_directions:
 		print("Direction:", d.move_direction, "| Amount:", d.move_amount)
-
 		#current_van_direction = result["final_facing"]
-
 
 func _on_van_button_pressed() -> void:
 	get_tree().paused = false
