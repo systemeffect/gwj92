@@ -135,7 +135,6 @@ func _process(delta: float) -> void:
 	#if van_grid_coords == turn_end_coords:
 		#print("we cooking")
 
-
 func check_end_of_movement():
 	if van.is_not_moving:
 		get_tree().paused = true
@@ -330,6 +329,11 @@ func _on_change_wind_pressed() -> void:
 	for storm in storms:
 		storm.set_storm_direction(wind_direction)
 	change_wind = false
+	var wind = GlobalLocations.cur_wind_attr
+	status_log_label.update_text("Detecting change in Wind Speed!")
+	var speed : float = snapped(wind * randf_range(24.6,36.2), 0.1)
+	await get_tree().create_timer(0.6).timeout
+	status_log_label.update_text("Gusts up to " + str(speed) + " MPH...")
 		
 func get_van_grid_coords() -> Vector2:
 	return van_grid_coords
@@ -448,6 +452,12 @@ func take_damage():
 func _on_preview_cont_area_entered(area: Area2D) -> void:
 	if area.name == "Boundaries":
 		status_log_label.update_text("Path Out of Bounds, resetting autodrive...")
+
+#func _on_update_wind_speed(wind: int):
+	#status_log_label.update_text("Detecting change in Wind Speed!")
+	#var speed : float = wind * 31.8
+	#await get_tree().create_timer(0.6).timeout
+	#status_log_label.update_text("Gusts up to " + str(speed) + " MPH...")
 
 func set_sensors():
 	if current_turn > 0:
