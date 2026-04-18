@@ -18,6 +18,8 @@ var screen_view_active: bool = false
 var is_camera_lerping: bool = false
 var lerp_rotation: bool = false
 var last_van_body_transform: Transform3D
+var default_target_position: Vector3
+var default_target_rotation: Vector3
 
 var turn_ended : bool = false
 
@@ -31,6 +33,8 @@ func _ready() -> void:
 	var ui = city_grid.find_child("UI")
 	action_ui = ui.find_child("ActionsUI")
 	last_van_body_transform = van_model.global_transform
+	default_target_position = target_position
+	default_target_rotation = target_rotation
 	
 func _process(delta: float) -> void:
 	if is_camera_lerping:
@@ -76,7 +80,9 @@ func _on_grid_screen_pressed() -> void:
 		get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
 	else:
 		if !screen_view_active:
-			player_last_pos = player.transform
+			player_last_pos = player.global_transform
+			target_position = default_target_position
+			target_rotation = default_target_rotation
 			lerp_rotation = true
 			player.find_child("CenterContainer").find_child("Crosshair").visible = false
 			player.set_physics_process(false)
