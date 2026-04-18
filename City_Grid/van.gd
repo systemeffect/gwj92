@@ -7,6 +7,7 @@ signal is_not_moving
 
 # van collider
 @onready var area_2d: Area2D = $Area2D
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
 # Match these to TileMapLayer grid size
 const TILE_SIZE: Vector2 = Vector2(32, 32)
@@ -93,21 +94,25 @@ func _physics_process(delta: float) -> void:
 
 func move(dir: String, amt: int) -> void:
 	if dir == "WEST":
+		animated_sprite_2d.animation = "WEST"
 		target_loc_x = global_position.x - (amt * MOVE_UNIT)
 		target_loc_y = global_position.y
 		current_axis = "x"
 		
 	elif dir == "EAST":
+		animated_sprite_2d.animation = "EAST"
 		target_loc_x = global_position.x + (amt * MOVE_UNIT)
 		target_loc_y = global_position.y
 		current_axis = "x"
 		
 	elif dir == "NORTH":
+		animated_sprite_2d.animation = "NORTH"
 		target_loc_y = global_position.y - (amt * MOVE_UNIT)
 		target_loc_x = global_position.x
 		current_axis = "y"
 		
 	elif dir == "SOUTH":
+		animated_sprite_2d.animation = "SOUTH"
 		target_loc_y = global_position.y + (amt * MOVE_UNIT)
 		target_loc_x = global_position.x
 		current_axis = "y"

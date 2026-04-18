@@ -99,6 +99,57 @@ size = Vector2(62.368156, 25.54971)
 atlas = ExtResource("4_qtupi")
 region = Rect2(192, 288, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_vex6x"]
+atlas = ExtResource("4_qtupi")
+region = Rect2(224, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gwcqw"]
+atlas = ExtResource("4_qtupi")
+region = Rect2(128, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t7hso"]
+atlas = ExtResource("4_qtupi")
+region = Rect2(128, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_giv51"]
+atlas = ExtResource("4_qtupi")
+region = Rect2(160, 64, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ss1pu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vex6x")
+}],
+"loop": false,
+"name": &"EAST",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gwcqw")
+}],
+"loop": false,
+"name": &"NORTH",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t7hso")
+}],
+"loop": false,
+"name": &"SOUTH",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_giv51")
+}],
+"loop": false,
+"name": &"WEST",
+"speed": 1.0
+}]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_uq6aa"]
 radius = 6.7412615
 
@@ -358,7 +409,13 @@ position = Vector2(112, 80)
 script = ExtResource("3_pjegq")
 
 [node name="Sprite2D" type="Sprite2D" parent="Van" unique_id=133699846]
+visible = false
 texture = SubResource("AtlasTexture_weyc0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Van" unique_id=2043017186]
+scale = Vector2(0.9999998, 0.99999976)
+sprite_frames = SubResource("SpriteFrames_ss1pu")
+animation = &"EAST"
 
 [node name="Area2D" type="Area2D" parent="Van" unique_id=1962811357]
 collision_mask = 46
