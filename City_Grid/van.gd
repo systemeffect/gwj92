@@ -93,26 +93,23 @@ func _physics_process(delta: float) -> void:
 		global_position = pos
 
 func move(dir: String, amt: int) -> void:
+	animated_sprite_2d.animation = dir
 	if dir == "WEST":
-		animated_sprite_2d.animation = "WEST"
 		target_loc_x = global_position.x - (amt * MOVE_UNIT)
 		target_loc_y = global_position.y
 		current_axis = "x"
 		
 	elif dir == "EAST":
-		animated_sprite_2d.animation = "EAST"
 		target_loc_x = global_position.x + (amt * MOVE_UNIT)
 		target_loc_y = global_position.y
 		current_axis = "x"
 		
 	elif dir == "NORTH":
-		animated_sprite_2d.animation = "NORTH"
 		target_loc_y = global_position.y - (amt * MOVE_UNIT)
 		target_loc_x = global_position.x
 		current_axis = "y"
 		
 	elif dir == "SOUTH":
-		animated_sprite_2d.animation = "SOUTH"
 		target_loc_y = global_position.y + (amt * MOVE_UNIT)
 		target_loc_x = global_position.x
 		current_axis = "y"

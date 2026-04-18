@@ -5,6 +5,7 @@ extends Node2D
 
 @onready var actions_ui: Control = $UI/ActionsUI
 @onready var van: Node2D = $Van
+@onready var animated_sprite_2d: AnimatedSprite2D = $Van/AnimatedSprite2D
 @onready var sensor_collect: Sprite2D = $Van/SensorCollect
 @onready var collect_animate: AnimationPlayer = $Van/CollectAnimate
 @onready var status_log_label: RichTextLabel = $UI/ActionsUI/StatusLogLabel
@@ -56,6 +57,7 @@ var grid_size = Vector2(12,12)
 var van_position : Vector2
 var van_grid_coords : Vector2
 var van_start_pos: Vector2
+var van_starting_anim: String
 
 var sensors_total : int = 5
 var sensors_collected : int = 0
@@ -89,6 +91,7 @@ func _ready() -> void:
 	van_position = van.global_position
 	van_start_pos = van.global_position
 	van_grid_coords = city_grid.local_to_map(van_position)
+	van_starting_anim = animated_sprite_2d.animation
 	
 	print(van_grid_coords)
 	
@@ -453,6 +456,7 @@ func reset_preview_van() -> void:
 	van.is_turning = false
 	van.turn_direction = "none"
 	van.is_currently_moving = false
+	animated_sprite_2d.animation = van_starting_anim
 	
 	current_turn = 0
 	turn_in_progress = false
