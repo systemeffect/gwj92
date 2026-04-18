@@ -14,9 +14,10 @@ signal end_of_turn
 @onready var end_of_turn_prompt: PanelContainer = $EndOfTurnPrompt
 
 # Resource panel labels
-@onready var turn_num: Label = $ResourcesPanel/Margin/GridContainer/TurnNum
-@onready var integrity_num: Label = $ResourcesPanel/Margin/GridContainer/IntegrityNum
-@onready var sensors_num: Label = $ResourcesPanel/Margin/GridContainer/SensorsNum
+@onready var turn_num: Label = $ResourcesPanel/Margin/TopBar/Turn/TurnNum
+@onready var integrity_num: Label = $ResourcesPanel/Margin/TopBar/Resources/Column2/IntegrityNum
+@onready var sensors_num: Label = $ResourcesPanel/Margin/TopBar/Resources/Column2/SensorsNum
+
 
 
 # Stormbrew/Action Queue

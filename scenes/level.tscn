@@ -259,7 +259,7 @@ size = Vector3(0.48083496, 0.9135132, 0.2901001)
 [node name="RedButton" parent="Van/Van Model" unique_id=165692526 instance=ExtResource("6_2r41h")]
 transform = Transform3D(-6.993823e-09, 0, -0.16000001, 0, 0.16000001, 0, 0.16000001, 0, -6.9938224e-09, 0.37777308, 0.69267815, -0.37715146)
 
-[node name="Button" parent="Van/Van Model/RedButton" index="1" unique_id=240862583]
+[node name="Button" parent="Van/Van Model/RedButton" index="1" unique_id=846765457]
 surface_material_override/0 = SubResource("StandardMaterial3D_2r41h")
 
 [node name="ButtonArea" type="Area3D" parent="Van/Van Model/RedButton" unique_id=904083176]
@@ -282,10 +282,10 @@ height = 1.8908691
 [node name="lever" parent="Van/Van Model" unique_id=895298980 instance=ExtResource("10_olg7q")]
 transform = Transform3D(-0.040000003, 0, 3.4969112e-09, 0, 0.040000003, 0, -3.4969108e-09, 0, -0.040000003, 0.38003042, 0.6910631, -0.49758738)
 
-[node name="LeverBase" parent="Van/Van Model/lever" index="0" unique_id=334275877]
+[node name="LeverBase" parent="Van/Van Model/lever" index="0" unique_id=1831636194]
 mesh = SubResource("ArrayMesh_t1rx8")
 
-[node name="Lever" parent="Van/Van Model/lever" index="1" unique_id=1224500124]
+[node name="Lever" parent="Van/Van Model/lever" index="1" unique_id=2241332]
 surface_material_override/0 = SubResource("StandardMaterial3D_8iemx")
 
 [node name="Lamp" type="CSGSphere3D" parent="Van/Van Model" unique_id=1292451607]
@@ -318,21 +318,21 @@ transform = Transform3D(-0.049999844, -8.726857e-05, 8.726642e-05, 8.72687e-05, 
 [node name="Dummy_Base2" parent="Van/Van Model" unique_id=944066257 instance=ExtResource("12_64w2a")]
 transform = Transform3D(0.32000002, 0, -8.881784e-16, 0, 0.32000002, 0, -8.881784e-16, 0, 0.32000002, 0.35029626, 0.34403557, 0.46559176)
 
-[node name="Dummy_Base" parent="Van/Van Model/Dummy_Base2" index="0" unique_id=1553684100]
+[node name="Dummy_Base" parent="Van/Van Model/Dummy_Base2" index="0" unique_id=754502349]
 material_override = SubResource("StandardMaterial3D_wc255")
 
-[node name="Dummy_Body" parent="Van/Van Model/Dummy_Base2/Dummy_Base" index="0" unique_id=1800009593]
+[node name="Dummy_Body" parent="Van/Van Model/Dummy_Base2/Dummy_Base" index="0" unique_id=649228832]
 material_override = SubResource("StandardMaterial3D_arp2o")
 
-[node name="Dummy_ArmLeft" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="0" unique_id=1783820677]
+[node name="Dummy_ArmLeft" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="0" unique_id=1475211776]
 transform = Transform3D(0.41769266, 0, -0.9085884, 0, 1, 0, 0.9085884, 0, 0.41769266, 0.2000122, 0.6999999, 0)
 material_override = SubResource("StandardMaterial3D_ux5qa")
 
-[node name="Dummy_ArmRight" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="1" unique_id=1791929823]
+[node name="Dummy_ArmRight" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="1" unique_id=538190487]
 transform = Transform3D(0.413756, 0, 0.91038775, 0, 1, 0, -0.91038775, 0, 0.413756, -0.2000122, 0.6999999, -1.1920929e-07)
 material_override = SubResource("StandardMaterial3D_82cfe")
 
-[node name="Dummy_Head" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="2" unique_id=1056717580]
+[node name="Dummy_Head" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="2" unique_id=706167384]
 material_override = SubResource("StandardMaterial3D_gunhw")
 
 [editable path="Van/Van Model/RedButton"]

@@ -4,6 +4,8 @@ extends Node2D
 @export var origin_pos : Vector2
 
 @onready var sprite: Sprite2D = $Sprite
+@onready var zone_label: Label = $ZoneLabel
+@onready var label_anim: AnimationPlayer = $LabelAnim
 
 
 var direction : Vector2
@@ -57,6 +59,17 @@ func set_storm_status(status):
 	# receives the status and adds it to the current status array
 	status_attributes.append(status)
 
-func spawn_status_tile(status):
-	#trigger the storm to change the status of the tile under the center
-	pass
+func dropped_status(status: Status):
+	zone_label.show()
+	match status.status_type:
+		1:
+			#fire
+			zone_label.text = "Fire Zone Created!"
+			pass
+		2:
+			#flood
+			zone_label.text = "Flood Zone Created!"
+			pass
+	label_anim.play("zone_dropped")
+	await label_anim.animation_finished
+	zone_label.hide()
