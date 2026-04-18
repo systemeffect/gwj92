@@ -12,3 +12,4 @@ var current_queue : Array
 var turn_end_coords : Vector2
 var fire_locs : Array
 var flood_locs : Array
+var status_log : String = "[center]FOLTA STORMRUN-R\n-----------[/center]\nSelect 3 Attributes to Begin\n Tempest Manipulation"

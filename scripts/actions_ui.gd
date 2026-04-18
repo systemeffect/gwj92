@@ -13,12 +13,14 @@ signal end_of_turn
 @onready var move_button: Button = $ActionDebug/VBoxContainer/Move
 @onready var end_of_turn_prompt: PanelContainer = $EndOfTurnPrompt
 @onready var end_of_turn_prompt_2d: PanelContainer = $EndOfTurnPrompt2D
+@onready var end_of_turn_prompt_2: PanelContainer = $EndOfTurnPrompt2
 
 # Resource panel labels
 @onready var turn_num: Label = $ResourcesPanel/Margin/TopBar/Turn/TurnNum
 @onready var integrity_num: Label = $ResourcesPanel/Margin/TopBar/Resources/Column2/IntegrityNum
 @onready var sensors_num: Label = $ResourcesPanel/Margin/TopBar/Resources/Column2/SensorsNum
 
+@onready var status_log_label: RichTextLabel = $StatusLogLabel
 
 
 # Stormbrew/Action Queue
@@ -96,7 +98,7 @@ func _process(delta: float) -> void:
 
 func process_turn():
 	#get_tree().paused = true
-	end_of_turn_prompt.show()
+	end_of_turn_prompt_2.show()
 	
 
 func set_van_direction_index():
@@ -382,6 +384,7 @@ func build_preview_directions():
 
 func _on_van_button_pressed() -> void:
 	GlobalLocations.current_queue = current_queue
+	GlobalLocations.status_log = status_log_label.text
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/level.tscn")
 

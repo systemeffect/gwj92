@@ -98,15 +98,18 @@ func _ready() -> void:
 		var fires_array = GlobalLocations.fire_locs
 		var floods_array = GlobalLocations.flood_locs
 		load_fires_floods(fires_array, floods_array)
-		end_of_turn_prompt_2d.show()
+		var parent = find_parent("Level")
+		if parent == null:
+			end_of_turn_prompt_2d.show()
+		status_log_label.text = GlobalLocations.status_log
 	
 	var cur_sensors = status_effects.get_used_cells_by_id(0,Vector2(4,0))
 	
 	sensors_collected = sensors_total - cur_sensors.size()
 	set_sensors()
 	
-	#if GlobalLocations.current_turn > 0:
-		#actions_ui.process_turn()
+	if GlobalLocations.current_turn > 0:
+		status_log_label.text = GlobalLocations.status_log
 	fire_status = Status.new()
 	fire_status.status_name = "fire"
 	fire_status.status_type = 1
@@ -122,14 +125,14 @@ func _ready() -> void:
 	sensor_collect.hide()
 
 func _process(delta: float) -> void:
-	check_end_of_path()
+	#check_end_of_path()
 	if end_of_turn:
 		check_end_of_movement()
 		
-func check_end_of_path():
-	van_grid_coords = status_effects.local_to_map(van.position)
-	if van_grid_coords == turn_end_coords:
-		print("we cooking")
+#func check_end_of_path():
+	#van_grid_coords = status_effects.local_to_map(van.position)
+	#if van_grid_coords == turn_end_coords:
+		#print("we cooking")
 
 
 func check_end_of_movement():
@@ -200,9 +203,9 @@ func find_path():
 		# checks to make sure point is in bounds, resets movement if not
 		if last_point.x < 0 or last_point.x > 11 or last_point.y < 0 or last_point.y > 11:
 			status_log_label.update_text("Path Out of Bounds, resetting autodrive...")
-			actions_ui.clear_movement_queue_window()
+			actions_ui._on_reset_moves_pressed()
 			queue_preview.clear_points()
-			queue_preview.add_point(van.global_position)
+			queue_preview.add_point(van.position)
 			clear_collider_container()
 	turn_end_coords = last_point
 	GlobalLocations.turn_end_coords = turn_end_coords
@@ -434,4 +437,7 @@ func set_sensors():
 			if parent == null:
 			#	GlobalLocations.sensors_collected += 1
 				actions_ui.collect_sensor()
-		
+
+func _on_signal_events_area_entered(area: Area2D) -> void:
+	print("TRIGGER SIGNAL")
+	pass # Replace with function body.

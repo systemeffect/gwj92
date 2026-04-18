@@ -214,6 +214,9 @@ offset_bottom = -3.0
 grow_vertical = 0
 theme_override_fonts/normal_font = ExtResource("8_4fi4j")
 theme_override_font_sizes/normal_font_size = 12
+text = "[center]FOLTA STORMRUN-R
+----// \\\\----[/center]
+Select 3 Attributes to Begin Tempest Manipulation"
 scroll_active = false
 scroll_following = true
 script = ExtResource("8_bxdbe")
