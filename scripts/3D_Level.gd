@@ -2,6 +2,9 @@ extends Node3D
 
 @export var player: CharacterBody3D
 @export var camera_lerp_speed: float = 5.0
+@export var van_model: Node3D
+@export var target_position: Vector3
+@export var target_rotation: Vector3
 @onready var grid_screen: Node3D = $"Van/Van Model/GridScreen"
 
 var van_grid_loc: Vector2
@@ -12,14 +15,14 @@ var van: Node2D
 var action_ui : Control
 var player_last_pos: Transform3D
 var screen_view_active: bool = false
-var target_position: Vector3
-var target_rotation: Vector3
 var is_camera_lerping: bool = false
 var lerp_rotation: bool = false
+var last_van_body_transform: Transform3D
 
 var turn_ended : bool = false
 
 func _ready() -> void:
+	turn_ended = false
 	get_tree().paused = false
 	GlobalSignals.grid_screen_pressed.connect(_on_grid_screen_pressed)
 	city_grid = grid_screen.find_child("City_Grid")
@@ -27,6 +30,7 @@ func _ready() -> void:
 	van.is_not_moving.connect(check_end_of_path)
 	var ui = city_grid.find_child("UI")
 	action_ui = ui.find_child("ActionsUI")
+	last_van_body_transform = van_model.global_transform
 	
 func _process(delta: float) -> void:
 	if is_camera_lerping:
@@ -42,6 +46,15 @@ func _process(delta: float) -> void:
 				player.rotation = target_rotation
 			is_camera_lerping = false
 	
+	# While screen view is active, follow the van body's animation movement
+	if screen_view_active and !is_camera_lerping:
+		var current_van_transform = van_model.global_transform
+		var delta_transform = current_van_transform * last_van_body_transform.affine_inverse()
+		player.global_transform = delta_transform * player.global_transform
+		last_van_body_transform = current_van_transform
+	else:
+		last_van_body_transform = van_model.global_transform
+		
 func check_end_of_path():
 	var status_grid = city_grid.status_effects
 	GlobalLocations.van_grid_loc = status_grid.local_to_map(van.position)
@@ -64,13 +77,12 @@ func _on_grid_screen_pressed() -> void:
 	else:
 		if !screen_view_active:
 			player_last_pos = player.transform
-			target_position = Vector3(-0.53, 2.2, 1.0)
-			target_rotation = Vector3.ZERO
 			lerp_rotation = true
 			player.find_child("CenterContainer").find_child("Crosshair").visible = false
 			player.set_physics_process(false)
 			screen_view_active = true
 			is_camera_lerping = true
+			last_van_body_transform = van_model.global_transform
 		else:
 			target_position = player_last_pos.origin
 			lerp_rotation = false

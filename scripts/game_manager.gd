@@ -72,27 +72,30 @@ func _ready() -> void:
 	action_queue = actions_ui.current_queue
 	status_effects.update_status_log.connect(_on_update_status_log)
 	movement_queue = actions_ui.current_movement_queue
-	#turn_num.text = str(current_turn)
 	current_turn = GlobalLocations.current_turn
 	turn_num.text = str(current_turn)
 	
 	van.is_moving.connect(_on_van_is_moving)
 	van.is_not_moving.connect(_on_van_is_not_moving)
 	
-	van_position = van.global_position
-	van_start_pos = van.global_position
-	van_grid_coords = city_grid.local_to_map(van_position)
-	print(van_grid_coords)
-	current_preview_coords = van_grid_coords
-	current_preview_position = van_position
-	
+	# Restore saved van state first
 	if GlobalLocations.van_grid_loc != Vector2(0, 0):
 		van_grid_coords = GlobalLocations.van_grid_loc
 	
-	if GlobalLocations.van_global_loc != Vector2(0,0):
+	if GlobalLocations.van_global_loc != Vector2(0, 0):
 		van.global_position = GlobalLocations.van_global_loc
+	
+	# Now cache the scene-entry position for preview resets
+	van_position = van.global_position
+	van_start_pos = van.global_position
+	van_grid_coords = city_grid.local_to_map(van_position)
+	
+	print(van_grid_coords)
+	
+	current_preview_coords = van_grid_coords
+	current_preview_position = van_position
+	
 	if GlobalLocations.current_turn > 0:
-		#clear_storms()
 		var storms_array = GlobalLocations.storm_locs
 		load_storms(storms_array)
 		var fires_array = GlobalLocations.fire_locs
@@ -103,25 +106,29 @@ func _ready() -> void:
 			end_of_turn_prompt_2d.show()
 		status_log_label.text = GlobalLocations.status_log
 	
-	var cur_sensors = status_effects.get_used_cells_by_id(0,Vector2(4,0))
+	var cur_sensors = status_effects.get_used_cells_by_id(0, Vector2(4,0))
 	
 	sensors_collected = sensors_total - cur_sensors.size()
 	set_sensors()
 	
 	if GlobalLocations.current_turn > 0:
 		status_log_label.text = GlobalLocations.status_log
+	
 	fire_status = Status.new()
 	fire_status.status_name = "fire"
 	fire_status.status_type = 1
 	fire_status.status_amount = 3
+	
 	flood_status = Status.new()
 	flood_status.status_name = "flood"
 	flood_status.status_type = 2
 	flood_status.status_amount = 3
+	
 	wind_status = Status.new()
 	wind_status.status_name = "wind"
 	wind_status.status_type = 3
 	wind_status.status_amount = 3
+	
 	sensor_collect.hide()
 
 func _process(delta: float) -> void:
@@ -168,7 +175,8 @@ func _on_reset_movement_queue():
 	queue_preview.clear_points()
 	queue_preview.add_point(van_position)
 	clear_collider_container()
-	reset_preview_van()
+	if DirectionList.previewer_directions.size() <= 0 or DirectionList.previewer_directions.size() > 0:
+		reset_preview_van()
 
 func find_path():
 	var last_point: Vector2 = city_grid.local_to_map(van.global_position)
