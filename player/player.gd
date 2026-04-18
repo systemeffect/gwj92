@@ -39,6 +39,7 @@ func _input(event: InputEvent) -> void:
 				if ray_cast_3d.get_collider().name == "ButtonArea":
 					GlobalSignals.red_button_pressed.emit()
 					button_anim_player.play("button_press")
+					AudioManager.sfx_button.play()
 				if ray_cast_3d.get_collider().name == "GridScreenArea":
 					GlobalSignals.grid_screen_pressed.emit()
 

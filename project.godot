@@ -26,6 +26,7 @@ Util="*uid://dex2y86u5wl4n"
 DirectionList="*uid://dmlac1p1yb6u5"
 GlobalLocations="*uid://dt0ljyfexou45"
 GlobalSignals="*uid://do68a770j1li7"
+AudioManager="*uid://c7rr0yoh715lw"
 
 [display]
 

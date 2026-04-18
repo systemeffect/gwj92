@@ -1,6 +1,31 @@
 [gd_scene format=3 uid="uid://c7rr0yoh715lw"]
 
 [ext_resource type="Script" uid="uid://bb4wrtl377805" path="res://scripts/audio_manager.gd" id="1_8qd8g"]
+[ext_resource type="AudioStream" uid="uid://dj7cn2xqt4587" path="res://assets/audio/SFX/sfx_button.wav" id="2_njtn3"]
+[ext_resource type="AudioStream" uid="uid://6jv4d4j5ylav" path="res://assets/audio/SFX/sfx_engine_idle.wav" id="3_kq7b2"]
+[ext_resource type="AudioStream" uid="uid://bmf47vwfu5wep" path="res://assets/audio/SFX/sfx_engine_rev_down.wav" id="4_02gw7"]
+[ext_resource type="AudioStream" uid="uid://0weulyyowuyl" path="res://assets/audio/SFX/sfx_engine_rev_up.wav" id="5_ujhup"]
+[ext_resource type="AudioStream" uid="uid://q27egilxmjih" path="res://assets/audio/SFX/sfx_engine_running.wav" id="6_064dn"]
 
 [node name="AudioManager" type="Node" unique_id=889789333]
 script = ExtResource("1_8qd8g")
+
+[node name="SfxButton" type="AudioStreamPlayer" parent="." unique_id=2021324655]
+stream = ExtResource("2_njtn3")
+bus = &"SFX"
+
+[node name="SfxEngineIdle" type="AudioStreamPlayer" parent="." unique_id=1029140965]
+stream = ExtResource("3_kq7b2")
+bus = &"SFX"
+
+[node name="SfxEngineRevDown" type="AudioStreamPlayer" parent="." unique_id=569493975]
+stream = ExtResource("4_02gw7")
+bus = &"SFX"
+
+[node name="SfxEngineRevUp" type="AudioStreamPlayer" parent="." unique_id=1820254111]
+stream = ExtResource("5_ujhup")
+bus = &"SFX"
+
+[node name="SfxEngineRunning" type="AudioStreamPlayer" parent="." unique_id=442807427]
+stream = ExtResource("6_064dn")
+bus = &"SFX"

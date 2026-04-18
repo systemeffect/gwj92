@@ -39,7 +39,7 @@ func _process(delta: float) -> void:
 			player.rotation = player.rotation.lerp(target_rotation, camera_lerp_speed * delta)
 		
 		var pos_done = player.position.distance_to(target_position) < 0.01
-		
+
 		if pos_done:
 			player.position = target_position
 			if lerp_rotation:
@@ -90,8 +90,7 @@ func _on_grid_screen_pressed() -> void:
 			player.set_physics_process(true)
 			screen_view_active = false
 			is_camera_lerping = true
-		
-	
+
 func get_van_loc():
 	#Grabbing Van Location and shit
 	van_grid_loc = city_grid.get_van_grid_coords()
