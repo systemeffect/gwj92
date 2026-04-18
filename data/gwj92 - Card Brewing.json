@@ -495,22 +495,13 @@
     "0": {
       "CARD_TYPE": "ATTRIBUTE",
       "ATTRIBUTE_TYPE": "TEMPERATURE",
-      "VALUE": 0,
-      "DESCRIPTION_HEADING": "Temperature 0",
-      "DESCRIPTION_SUBHEADING": "Spawns Fire",
-      "STORM_EFFECT": "Spreads fire",
-      "CARD_ICON": "att_t0.png"
-    },
-    "1": {
-      "CARD_TYPE": "ATTRIBUTE",
-      "ATTRIBUTE_TYPE": "TEMPERATURE",
       "VALUE": 1,
       "DESCRIPTION_HEADING": "Temperature 1",
       "DESCRIPTION_SUBHEADING": "Spawns and Spreads Fire",
       "STORM_EFFECT": "Spreads fire",
       "CARD_ICON": "att_t1.png"
     },
-    "2": {
+    "1": {
       "CARD_TYPE": "ATTRIBUTE",
       "ATTRIBUTE_TYPE": "TEMPERATURE",
       "VALUE": 2,
@@ -519,7 +510,7 @@
       "STORM_EFFECT": "Spreads fire",
       "CARD_ICON": "att_t2.png"
     },
-    "3": {
+    "2": {
       "CARD_TYPE": "ATTRIBUTE",
       "ATTRIBUTE_TYPE": "TEMPERATURE",
       "VALUE": 3,
@@ -528,16 +519,7 @@
       "STORM_EFFECT": "Spreads fire",
       "CARD_ICON": "att_t3.png"
     },
-    "4": {
-      "CARD_TYPE": "ATTRIBUTE",
-      "ATTRIBUTE_TYPE": "HUMIDITY",
-      "VALUE": 0,
-      "DESCRIPTION_HEADING": "Humidity 0",
-      "DESCRIPTION_SUBHEADING": "Spawns Flooding",
-      "STORM_EFFECT": "Spreads flooding",
-      "CARD_ICON": "att_h0.png"
-    },
-    "5": {
+    "3": {
       "CARD_TYPE": "ATTRIBUTE",
       "ATTRIBUTE_TYPE": "HUMIDITY",
       "VALUE": 1,
@@ -546,7 +528,7 @@
       "STORM_EFFECT": "Spreads flooding",
       "CARD_ICON": "att_h1.png"
     },
-    "6": {
+    "4": {
       "CARD_TYPE": "ATTRIBUTE",
       "ATTRIBUTE_TYPE": "HUMIDITY",
       "VALUE": 2,
@@ -555,7 +537,7 @@
       "STORM_EFFECT": "Spreads flooding",
       "CARD_ICON": "att_h2.png"
     },
-    "7": {
+    "5": {
       "CARD_TYPE": "ATTRIBUTE",
       "ATTRIBUTE_TYPE": "HUMIDITY",
       "VALUE": 3,
@@ -564,16 +546,7 @@
       "STORM_EFFECT": "Spreads flooding",
       "CARD_ICON": "att_h3.png"
     },
-    "8": {
-      "CARD_TYPE": "ATTRIBUTE",
-      "ATTRIBUTE_TYPE": "PRESSURE",
-      "VALUE": 0,
-      "DESCRIPTION_HEADING": "Pressure 0",
-      "DESCRIPTION_SUBHEADING": "Spawns Fire and/or Flooding",
-      "STORM_EFFECT": "Spreads fire and flooding",
-      "CARD_ICON": "att_p0.png"
-    },
-    "9": {
+    "6": {
       "CARD_TYPE": "ATTRIBUTE",
       "ATTRIBUTE_TYPE": "PRESSURE",
       "VALUE": 1,
@@ -582,7 +555,7 @@
       "STORM_EFFECT": "Spreads fire and flooding",
       "CARD_ICON": "att_p1.png"
     },
-    "10": {
+    "7": {
       "CARD_TYPE": "ATTRIBUTE",
       "ATTRIBUTE_TYPE": "PRESSURE",
       "VALUE": 2,
@@ -591,7 +564,7 @@
       "STORM_EFFECT": "Spreads fire and flooding",
       "CARD_ICON": "att_p2.png"
     },
-    "11": {
+    "8": {
       "CARD_TYPE": "ATTRIBUTE",
       "ATTRIBUTE_TYPE": "PRESSURE",
       "VALUE": 3,
@@ -600,16 +573,7 @@
       "STORM_EFFECT": "Spreads fire and flooding",
       "CARD_ICON": "att_p3.png"
     },
-    "12": {
-      "CARD_TYPE": "ATTRIBUTE",
-      "ATTRIBUTE_TYPE": "WIND",
-      "VALUE": 0,
-      "DESCRIPTION_HEADING": "Wind 0",
-      "DESCRIPTION_SUBHEADING": "Pushes Van",
-      "STORM_EFFECT": "Pushes storms",
-      "CARD_ICON": "att_w0.png"
-    },
-    "13": {
+    "9": {
       "CARD_TYPE": "ATTRIBUTE",
       "ATTRIBUTE_TYPE": "WIND",
       "VALUE": 1,
@@ -618,7 +582,7 @@
       "STORM_EFFECT": "Pushes storms",
       "CARD_ICON": "att_w1.png"
     },
-    "14": {
+    "10": {
       "CARD_TYPE": "ATTRIBUTE",
       "ATTRIBUTE_TYPE": "WIND",
       "VALUE": 2,
@@ -627,7 +591,7 @@
       "STORM_EFFECT": "Pushes storms",
       "CARD_ICON": "att_w2.png"
     },
-    "15": {
+    "11": {
       "CARD_TYPE": "ATTRIBUTE",
       "ATTRIBUTE_TYPE": "WIND",
       "VALUE": 3,
@@ -636,7 +600,7 @@
       "STORM_EFFECT": "Pushes storms",
       "CARD_ICON": "att_w3.png"
     },
-    "16": {
+    "12": {
       "CARD_TYPE": "MOVEMENT",
       "ATTRIBUTE_TYPE": "FORWARD",
       "VALUE": 1,
@@ -645,7 +609,7 @@
       "STORM_EFFECT": null,
       "CARD_ICON": "forward_1.png"
     },
-    "17": {
+    "13": {
       "CARD_TYPE": "MOVEMENT",
       "ATTRIBUTE_TYPE": "FORWARD",
       "VALUE": 2,
@@ -654,7 +618,7 @@
       "STORM_EFFECT": null,
       "CARD_ICON": "forward_2.png"
     },
-    "18": {
+    "14": {
       "CARD_TYPE": "MOVEMENT",
       "ATTRIBUTE_TYPE": "REVERSE",
       "VALUE": 1,
@@ -663,7 +627,7 @@
       "STORM_EFFECT": null,
       "CARD_ICON": "reverse_1.png"
     },
-    "19": {
+    "15": {
       "CARD_TYPE": "MOVEMENT",
       "ATTRIBUTE_TYPE": "TURNLEFT",
       "VALUE": 0,
@@ -672,7 +636,7 @@
       "STORM_EFFECT": null,
       "CARD_ICON": "turn_left.png"
     },
-    "20": {
+    "16": {
       "CARD_TYPE": "MOVEMENT",
       "ATTRIBUTE_TYPE": "TURNRIGHT",
       "VALUE": 0,
@@ -681,7 +645,7 @@
       "STORM_EFFECT": null,
       "CARD_ICON": "turn_right.png"
     },
-    "21": {
+    "17": {
       "CARD_TYPE": "MOVEMENT",
       "ATTRIBUTE_TYPE": "UTURN",
       "VALUE": 0,

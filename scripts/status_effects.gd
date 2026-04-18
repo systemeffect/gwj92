@@ -1,5 +1,7 @@
 extends TileMapLayer
 
+signal update_status_log
+
 var cur_fires : int
 var cur_floods : int
 # Arrays containing the affected tile info
@@ -40,6 +42,10 @@ func add_status_effect(status : Status, pos : Vector2):
 			#available_neighbors.erase(pos)
 		status_affected_tiles.append(pos)
 
+func get_sensor_zones() -> Array:
+	var cells_in_use = get_used_cells_by_id(0,Vector2(4,0))
+	return cells_in_use
+	
 
 func get_available_cells(status_type : Status) -> Array:
 	var type = status_type.status_name
@@ -70,6 +76,7 @@ func spread_available_cell(status : Status):
 		var spread = available.pick_random()
 		if spread != null:
 			add_status_effect(status, spread)
+			update_status_log.emit(status)
 			print("spread " + status.status_name)
 			available.erase(spread)
 	if count > 1:
@@ -78,6 +85,7 @@ func spread_available_cell(status : Status):
 			var spread = available.pick_random()
 			if spread != null:
 				add_status_effect(status, spread)
+				update_status_log.emit(status)
 				print("spread " + status.status_name)
 				available.erase(spread)
 	if count > 2:
@@ -86,5 +94,6 @@ func spread_available_cell(status : Status):
 			var spread = available.pick_random()
 			if spread != null:
 				add_status_effect(status, spread)
+				update_status_log.emit(status)
 				print("spread " + status.status_name)
 				available.erase(spread)

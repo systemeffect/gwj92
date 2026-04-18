@@ -13,6 +13,7 @@ config_version=5
 config/name="GWJ92"
 run/main_scene="uid://bc8j3h6wl5122"
 config/features=PackedStringArray("4.6", "Forward Plus")
+boot_splash/image="uid://bs4wjlhw520wo"
 config/icon="res://icon.svg"
 
 [audio]

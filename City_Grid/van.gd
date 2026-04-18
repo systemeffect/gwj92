@@ -22,6 +22,7 @@ var is_turning: bool = false
 var is_currently_moving: bool = false
 var has_started_run: bool = false
 var direction_copy = DirectionList.directions
+var integrity : int = 3
 
 @export var TURN_DURATION: float = 2
 
@@ -198,3 +199,6 @@ func _on_red_button_pressed() -> void:
 			if next_turn != "straight" and next_turn != "none":
 				await do_turn(next_turn)
 				
+func take_damage() -> int:
+	integrity -= 1
+	return integrity

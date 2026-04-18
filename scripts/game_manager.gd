@@ -1,17 +1,27 @@
 extends Node2D
 
 @export var storm_scene : PackedScene
+@export var sensor_collider : PackedScene
 
 @onready var actions_ui: Control = $UI/ActionsUI
 @onready var van: Node2D = $Van
+@onready var sensor_collect: Sprite2D = $Van/SensorCollect
+@onready var collect_animate: AnimationPlayer = $Van/CollectAnimate
+@onready var status_log_label: RichTextLabel = $UI/ActionsUI/StatusLogLabel
+@onready var turn_num: Label = $UI/ActionsUI/ResourcesPanel/Margin/TopBar/Turn/TurnNum
+
+
+
 @onready var current_turn_label: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/CurrentTurnLabel
 @onready var move_in_progress: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/MoveInProgress
 @onready var actions_queued_label: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/ActionsQueued
 @onready var wind_dir: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/WindDir
+@onready var wind_label: Label = $UI/ActionsUI/ResourcesPanel/Margin/TopBar/Turn/WindLabel
 
 @onready var grid_overlay: TextureRect = $UI/GridOverlay
 @onready var city_grid: TileMapLayer = $GridArea/Tilemaps/CityGrid
 @onready var status_effects: TileMapLayer = $GridArea/Tilemaps/StatusEffects
+@onready var level_2: TileMapLayer = $GridArea/Tilemaps/level2
 
 # Movement Preview Lines
 @onready var queue_preview: Line2D = $UI/PathPreview/QueuePreview
@@ -25,6 +35,7 @@ var change_wind : bool = true
 
 var fire_status = Status
 var flood_status = Status
+var wind_status = Status
 
 var current_turn : int = 0
 var end_of_turn : bool = false
@@ -47,16 +58,19 @@ var van_start_pos: Vector2
 var wind_direction : Direction
 
 func _ready() -> void:
+	get_tree().paused = true
 	actions_ui.round_initiated.connect(_on_round_initiated)
-	actions_ui.action_queued.connect(_on_action_queued)
-	actions_ui.action_removed.connect(_on_action_removed)
-	actions_ui.reset_queue.connect(_on_reset_queue)
+	#actions_ui.action_queued.connect(_on_action_queued)
+	#actions_ui.action_removed.connect(_on_action_removed)
+
 	actions_ui.reset_movement_queue.connect(_on_reset_movement_queue)
 	actions_ui.movement_queued.connect(_on_movement_queued)
 	actions_ui.end_of_turn.connect(update_map_interface)
 	action_queue = actions_ui.current_queue
+	status_effects.update_status_log.connect(_on_update_status_log)
 	movement_queue = actions_ui.current_movement_queue
-	current_turn_label.text = "Current turn: " + str(current_turn)
+	#turn_num.text = str(current_turn)
+	
 	
 	van.is_moving.connect(_on_van_is_moving)
 	van.is_not_moving.connect(_on_van_is_not_moving)
@@ -82,6 +96,11 @@ func _ready() -> void:
 	flood_status.status_name = "flood"
 	flood_status.status_type = 2
 	flood_status.status_amount = 3
+	wind_status = Status.new()
+	wind_status.status_name = "wind"
+	wind_status.status_type = 3
+	wind_status.status_amount = 3
+	sensor_collect.hide()
 
 func _process(delta: float) -> void:
 	if end_of_turn:
@@ -91,17 +110,11 @@ func check_end_of_movement():
 	if van.is_not_moving:
 		actions_ui.process_turn()
 
-func update_map_interface():
-		_on_spread_pressed()
-		end_of_turn = false
+func update_map_interface(attr_array : Array):
+	_on_change_wind_pressed()
+	_on_spread_pressed(attr_array)
+	end_of_turn = false
 
-func _on_reset_queue():
-	# reset wind preview line at end (if applies)
-	pass
-
-func _on_action_queued(card_id : String):
-	actions_queued_label.text = "Actions queued: " + str(action_queue.size())
-	#find_path()
 
 func _on_movement_queued():
 	print("movement queued")
@@ -110,6 +123,7 @@ func _on_movement_queued():
 func _on_reset_movement_queue():
 	queue_preview.clear_points()
 	queue_preview.add_point(van_position)
+	clear_collider_container()
 
 func find_path():
 	var last_point: Vector2 = city_grid.local_to_map(van.global_position)
@@ -142,19 +156,19 @@ func find_path():
 		new_collider.shape.b = city_grid.map_to_local(new_point)
 		preview_cont.add_child(new_collider, true)
 		last_point = new_point
-		if preview_cont.has_overlapping_bodies():
-			print("collision!")
+		# checks to make sure point is in bounds, resets movement if not
+		if last_point.x < 0 or last_point.x > 11 or last_point.y < 0 or last_point.y > 11:
+			status_log_label.update_text("Path Out of Bounds, resetting autodrive...")
+			actions_ui.clear_movement_queue_window()
+			queue_preview.clear_points()
+			queue_preview.add_point(van.global_position)
+			clear_collider_container()
 		
 func clear_collider_container():
 	while preview_cont.get_child_count() > 0:
 		var child = preview_cont.get_child(0)
 		preview_cont.remove_child(child)
 		child.queue_free()
-
-func _on_action_removed(current_queue : Array):
-	actions_queued = action_queue.size()
-	actions_queued_label.text = "Actions queued: " + str(actions_queued)
-	find_path()
 
 func _on_van_is_moving():
 	movement_in_progress = true
@@ -168,6 +182,7 @@ func _on_van_is_not_moving():
 	
 # Needs to be rebuilt
 func _on_round_initiated():
+	get_tree().paused = false
 	var dir_array = DirectionList.directions.duplicate()
 
 	while dir_array.size() > 0:
@@ -180,19 +195,28 @@ func _on_round_initiated():
 			van.move(move_dir, move_amt)
 			await van.is_not_moving
 
-			current_turn += 1
-			current_turn_label.text = "Current turn: " + str(current_turn)
-			turn_in_progress = true
 		else:
 			print("card is null")
 	if dir_array.size() == 0:
 		end_of_turn = true
-	
+	current_turn += 1
+	turn_num.text = str(current_turn)
+	turn_in_progress = true
 
 func set_wind_direction(dir : Direction):
 	wind_direction = dir
+	var direction = wind_direction.move_direction
+	direction = direction.to_upper()
+	wind_label.text = "WIND: " + direction
 	# emit signal if needed?
 
+func create_storms(origin: Vector2, amt : int):
+	var storms = 0
+	while storms < amt:
+		var storm = storm_scene.instantiate()
+		storm.origin_pos = origin
+		storms_container.add_child(storm)
+		storms += 1
 
 func _on_show_grid_pressed() -> void:
 	if grid_overlay.visible:
@@ -200,17 +224,11 @@ func _on_show_grid_pressed() -> void:
 	else:
 		grid_overlay.show()
 
-
-func _on_preview_cont_body_entered(body: Node2D) -> void:
-	print("body entered!")
-
-
 func _on_brew_storm_pressed() -> void:
 	var current_pos = van.position
 	var storm = storm_scene.instantiate()
 	storm.origin_pos = current_pos
 	storms_container.add_child(storm)
-
 
 func _on_add_status_pressed() -> void:
 	var statuses = []
@@ -226,30 +244,6 @@ func _on_add_status_pressed() -> void:
 		
 		#status_type.init_coord = storm_loc
 		status_effects.add_status_effect(random, storm_loc)
-	
-	
-	#
-	#var storms = storms_container.get_children()
-	#for storm in storms:
-		#var storm_loc = storm.position
-		#storm_loc = city_grid.local_to_map(storm_loc)
-		#var status_type = Status.new()
-		#status_type.status_name = "fire"
-		#status_type.status_type = 1
-		#status_type.status_amount = 1
-		#status_type.init_coord = storm_loc
-		#status_effects.add_status_effect(status_type, storm_loc)
-		
-	#var first_storm = storms_container.get_child(0)
-	#var storm_loc = first_storm.position
-	#print("STATUS AT " + str(storm_loc))
-	#storm_loc = city_grid.local_to_map(storm_loc)
-	#var status_type = Status.new()
-	#status_type.status_type = 1
-	#status_type.init_coord = storm_loc
-	#status_effects.add_status_effect(status_type, storm_loc)
-	#status_effects.set_cell(storm_loc, 0 , Vector2(16,4))
-
 
 func _on_change_wind_pressed() -> void:
 	wind_direction = Direction.new()
@@ -257,7 +251,7 @@ func _on_change_wind_pressed() -> void:
 	match ran:
 		0:
 			wind_direction.move_direction = "NORTH"
-			wind_dir.text = "WindDir: ^N^" 
+			wind_dir.text = "WindDir: ^N^"
 		1:
 			wind_direction.move_direction = "EAST"
 			wind_dir.text = "WindDir: >E>" 
@@ -268,45 +262,99 @@ func _on_change_wind_pressed() -> void:
 			wind_direction.move_direction = "WEST"
 			wind_dir.text = "WindDir: <W<"
 		4:
-			wind_direction.move_direction = "NONE"
+			wind_direction.move_direction = "CALM"
 			wind_dir.text = "WindDir: calm"
+	wind_label.text = "WIND: " + wind_direction.move_direction
 	var storms = storms_container.get_children()
 	for storm in storms:
 		storm.set_storm_direction(wind_direction)
 	change_wind = false
-	wind_timer.start()
 		
-func status_spread():
-	var new_statuses = []
-	
-
-func _on_area_2d_area_entered(area: Area2D) -> void:
-	# triggered when van and storm colliders meet
-	# signal to trigger van shake+sound/storm fx
-	print("WARNING: Proximity to STORM EVENT might cause damage to the vehicle. Exercise caution.")
-	pass # Replace with function body.
-
-
-func _on_wind_timer_timeout() -> void:
-	_on_change_wind_pressed()
-	
-	pass # Replace with function body.
-	
 func get_van_grid_coords() -> Vector2:
 	return van_grid_coords
 
 
-func _on_spread_pressed() -> void:
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	# triggered when van and storm colliders meet
+	# signal to trigger van shake+sound/storm fx
+	if area.name == "StormArea":
+		status_log_label.update_text("WARNING: Proximity to STORM EVENT might cause damage to the vehicle. Exercise caution.")
+	elif area.name == "Boundaries":
+		print("path out of bounds")
+
+func _on_update_status_log(status : Status):
+	var status_name = status.status_name
+	var amt = status.status_amount
+	status_log_label.update_text(str(amt) + " " + str(status_name) + " brew-charges expended...")
+
+
+func _on_spread_pressed(attr_array : Array) -> void:
 	var statuses = []
-	statuses.append(fire_status)
-	statuses.append(flood_status)
-	var random = statuses.pick_random()
-	status_effects.spread_available_cell(random)
-	#_on_add_status_pressed()
-	var storms = storms_container.get_children()
-	for storm in storms:
-		var storm_loc = storm.position
-		storm_loc = city_grid.local_to_map(storm_loc)
-		
-		#status_type.init_coord = storm_loc
-		status_effects.add_status_effect(random, storm_loc)
+	for attr in attr_array:
+		if attr.spawns_fire:
+			fire_status.status_amount = attr.attr_value
+			statuses.append(fire_status)
+		if attr.spawns_flood:
+			flood_status.status_amount = attr.attr_value
+			statuses.append(flood_status)
+		if attr.spawns_wind:
+			wind_status.status_amount = attr.attr_value
+			# store/trigger wind
+	for status in statuses:
+		var cur_status = statuses.pop_front()
+		status_effects.spread_available_cell(cur_status)
+		#_on_add_status_pressed()
+		var storms = storms_container.get_children()
+		for storm in storms:
+			var storm_loc = storm.position
+			storm_loc = city_grid.local_to_map(storm_loc)
+			
+			#status_type.init_coord = storm_loc
+			status_effects.add_status_effect(cur_status, storm_loc)
+			storm.dropped_status(cur_status)
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	# Triggers when van hits a status tile (fire, sensor,...)
+	var pos = van.position
+	var grid = status_effects.local_to_map(pos)
+	var cell_atlas : Vector2 = status_effects.get_cell_atlas_coords(grid)
+	match cell_atlas:
+		Vector2(2,0):
+			take_damage()
+			status_log_label.update_text("Fire damage - van integrity weakened...")
+			# trigger fire damage?
+			pass
+		Vector2(3,0):
+			# trigger flood effect
+			#take_damage()
+			status_log_label.update_text("Flooded area, new storm brewed by the TEMPEST Drive!")
+			create_storms(pos, 1)
+			pass
+		Vector2(4,0):
+			#increment sensor collected
+			var ran = randi_range(189, 69420)
+			status_log_label.update_text("Sensor data gathered! " + str(ran) + " anomalies detected!")
+			collect_sensor(grid)
+	print("STATUS TILE CROSSED")
+
+func collect_sensor(grid : Vector2):
+	status_effects.set_cell(grid,0,Vector2(1,0))
+	actions_ui.collect_sensor()
+	sensor_collect.show()
+	collect_animate.play("collect_sensor")
+	await collect_animate.animation_finished
+	sensor_collect.hide()
+	print("SENSOR COLLECTED")
+	
+func take_damage():
+	var new_integrity = van.take_damage()
+	actions_ui.set_integrity(new_integrity)
+	print("taking damage here!")
+	if new_integrity < 1:
+		# queue death/round end
+		print("You dead. This is where the game/round would end")
+	
+func _on_preview_cont_area_entered(area: Area2D) -> void:
+	if area.name == "Boundaries":
+		status_log_label.update_text("Path Out of Bounds, resetting autodrive...")

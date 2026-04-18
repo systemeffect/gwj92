@@ -9,6 +9,7 @@ var city_grid: Node2D
 var van: Node2D
 
 func _ready() -> void:
+	get_tree().paused = false
 	GlobalSignals.grid_screen_pressed.connect(_on_grid_screen_pressed)
 	city_grid = grid_screen.find_child("City_Grid")
 	van = city_grid.find_child("Van")
