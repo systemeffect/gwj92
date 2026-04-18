@@ -32,6 +32,7 @@ extends Node2D
 @onready var storms_container: Node2D = $StormsContainer
 @onready var wind_timer: Timer = $WindTimer
 var change_wind : bool = true
+var storm_locs
 
 var fire_status = Status
 var flood_status = Status
@@ -70,7 +71,8 @@ func _ready() -> void:
 	status_effects.update_status_log.connect(_on_update_status_log)
 	movement_queue = actions_ui.current_movement_queue
 	#turn_num.text = str(current_turn)
-	
+	current_turn = GlobalLocations.current_turn
+	turn_num.text = str(current_turn)
 	
 	van.is_moving.connect(_on_van_is_moving)
 	van.is_not_moving.connect(_on_van_is_not_moving)
@@ -87,6 +89,12 @@ func _ready() -> void:
 	
 	if GlobalLocations.van_global_loc != Vector2(0,0):
 		van.global_position = GlobalLocations.van_global_loc
+	if GlobalLocations.current_turn > 0:
+		#clear_storms()
+		var storms_array = GlobalLocations.storm_locs
+		load_storms(storms_array)
+	set_sensors()
+	
 		
 	fire_status = Status.new()
 	fire_status.status_name = "fire"
@@ -113,6 +121,7 @@ func check_end_of_movement():
 func update_map_interface(attr_array : Array):
 	_on_change_wind_pressed()
 	_on_spread_pressed(attr_array)
+	
 	end_of_turn = false
 
 
@@ -199,7 +208,7 @@ func _on_round_initiated():
 			print("card is null")
 	if dir_array.size() == 0:
 		end_of_turn = true
-	current_turn += 1
+	
 	turn_num.text = str(current_turn)
 	turn_in_progress = true
 
@@ -210,6 +219,18 @@ func set_wind_direction(dir : Direction):
 	wind_label.text = "WIND: " + direction
 	# emit signal if needed?
 
+func load_storms(locs : Array):
+	if locs.size() > 0:
+		print("loadin storms")
+		var all_locs = locs
+		var storms = storms_container.get_children()
+		for storm in storms:
+			var loc = all_locs.pop_front()
+			storm.set_origin(loc)
+			#
+	else:
+		print('no storms to load')
+
 func create_storms(origin: Vector2, amt : int):
 	var storms = 0
 	while storms < amt:
@@ -217,6 +238,12 @@ func create_storms(origin: Vector2, amt : int):
 		storm.origin_pos = origin
 		storms_container.add_child(storm)
 		storms += 1
+		
+func clear_storms():
+	while storms_container.get_child_count() > 0:
+		var child = storms_container.get_child(0)
+		storms_container.remove_child(child)
+		child.queue_free()
 
 func _on_show_grid_pressed() -> void:
 	if grid_overlay.visible:
@@ -358,3 +385,16 @@ func take_damage():
 func _on_preview_cont_area_entered(area: Area2D) -> void:
 	if area.name == "Boundaries":
 		status_log_label.update_text("Path Out of Bounds, resetting autodrive...")
+
+func set_sensors():
+	if current_turn > 0:
+		var sensor_locs = GlobalLocations.sensor_locs
+		var cur_sensor_locs = status_effects.get_used_cells_by_id(0,Vector2(4,0))
+		for loc in sensor_locs:
+			if cur_sensor_locs.has(loc):
+				cur_sensor_locs.erase(loc)
+		for loc in cur_sensor_locs:
+			status_effects.set_cell(loc,0,Vector2(1,0))
+			GlobalLocations.sensors_collected += 1
+			actions_ui.collect_sensor()
+		

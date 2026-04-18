@@ -84,6 +84,7 @@ func _ready() -> void:
 	load_cards()
 	set_van_direction_index()
 	set_integrity(3)
+	cur_sensors = GlobalLocations.sensors_collected
 	
 func _process(delta: float) -> void:
 	if queue_size == 3:

@@ -21,10 +21,27 @@ func _on_grid_screen_pressed() -> void:
 	van_dir = van.direction_copy.back().move_direction
 	#clear the copy just to avoid anything growing
 	van.direction_copy.clear()
-	
+	GlobalLocations.current_turn += 1
 	GlobalLocations.van_grid_loc = van_grid_loc
 	GlobalLocations.van_global_loc = van_global_loc
 	GlobalLocations.van_global_dir = van_dir
-	
+	var cur_storm_locs = get_storm_locs()
+	GlobalLocations.storm_locs = cur_storm_locs
+	get_sensors()
 	DirectionList.directions.clear()
 	get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
+	
+func get_storm_locs() -> Array:
+	var storms_array = []
+	var container = city_grid.storms_container
+	var storms = container.get_children()
+	for storm in storms:
+		var loc = storm.global_position
+		storms_array.append(loc)
+	return storms_array
+	
+func get_sensors():
+	var tilemap = city_grid.status_effects
+	var sensor_array = tilemap.get_used_cells_by_id(0,Vector2(4,0))
+	GlobalLocations.sensor_locs = sensor_array
+	

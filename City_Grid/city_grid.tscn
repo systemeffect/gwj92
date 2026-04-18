@@ -22,7 +22,7 @@ font_size = 8
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vex6x"]
 shader = ExtResource("3_m87nk")
 shader_parameter/smearing = 0.09600000456
-shader_parameter/color_offset = -0.0019999984650600003
+shader_parameter/color_offset = -0.00199999846506
 shader_parameter/sharpening = 0.4790000227525
 shader_parameter/static_noise = 0.12400000589
 shader_parameter/crack_center = Vector2(-0.3, 0.85)

@@ -208,6 +208,7 @@ script = ExtResource("1_fpun6")
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=27209454]
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=780138220]
+visible = false
 material = SubResource("ShaderMaterial_w7c3h")
 anchors_preset = 15
 anchor_right = 1.0
