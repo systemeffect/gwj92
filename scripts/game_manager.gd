@@ -33,6 +33,7 @@ var turn_end_coords : Vector2
 # Storm
 @onready var storms_container: Node2D = $StormsContainer
 @onready var wind_timer: Timer = $WindTimer
+var wind_speed : int
 var change_wind : bool = true
 var storm_locs
 
@@ -352,7 +353,7 @@ func _on_spread_pressed(attr_array : Array) -> void:
 	var fire_attr = GlobalLocations.cur_fire_attr
 	var flood_attr = GlobalLocations.cur_flood_attr
 	var wind_attr = GlobalLocations.cur_wind_attr
-	
+	wind_speed = wind_attr
 	var top_attr_flood : bool
 	if flood_attr >= fire_attr:
 		top_attr_flood = true
@@ -369,6 +370,7 @@ func _on_spread_pressed(attr_array : Array) -> void:
 			cur_status = fire_status
 			#status_type.init_coord = storm_loc
 		status_effects.add_status_effect(cur_status, storm_loc)
+		storm.set_storm_speed(wind_attr)
 		storm.dropped_status(cur_status)
 	
 	if fire_attr > 0:
