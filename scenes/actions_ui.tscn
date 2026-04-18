@@ -9,6 +9,7 @@
 [ext_resource type="FontFile" uid="uid://bc7s77r5opgfm" path="res://assets/fonts/easvhs.ttf" id="5_lgsi3"]
 [ext_resource type="FontFile" uid="uid://cajq783h3yufy" path="res://assets/fonts/Blue Screen Personal Use.ttf" id="8_4fi4j"]
 [ext_resource type="Script" uid="uid://c7o1kqxleq5v" path="res://scripts/status_log.gd" id="8_bxdbe"]
+[ext_resource type="Script" uid="uid://0f8h6vxa42id" path="res://scripts/end_of_round.gd" id="10_m6jc7"]
 
 [node name="ActionsUI" type="Control" unique_id=24908026]
 layout_mode = 3
@@ -373,6 +374,108 @@ theme_override_colors/font_color = Color(0.9098039, 0.40784314, 0.2509804, 1)
 theme_override_fonts/font = ExtResource("5_lgsi3")
 text = "UPDATE MAP"
 
+[node name="EndOfRound" type="PanelContainer" parent="." unique_id=848322876]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -66.5
+offset_top = -40.5
+offset_right = 66.5
+offset_bottom = 40.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_p22f0")
+script = ExtResource("10_m6jc7")
+
+[node name="Margin" type="MarginContainer" parent="EndOfRound" unique_id=1092342204]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBox" type="VBoxContainer" parent="EndOfRound/Margin" unique_id=1149659614]
+layout_mode = 2
+
+[node name="TurnRoundLabel" type="Label" parent="EndOfRound/Margin/VBox" unique_id=165070182]
+layout_mode = 2
+text = "END OF ROUND"
+horizontal_alignment = 1
+
+[node name="EndCauseLabel" type="Label" parent="EndOfRound/Margin/VBox" unique_id=943244529]
+layout_mode = 2
+text = "Cause: Extraction or Death"
+horizontal_alignment = 1
+
+[node name="Scorecard" type="GridContainer" parent="EndOfRound/Margin/VBox" unique_id=1511305562]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+columns = 2
+
+[node name="StormsCreated" type="Label" parent="EndOfRound/Margin/VBox/Scorecard" unique_id=1283734420]
+layout_mode = 2
+text = "Storms Created: "
+
+[node name="StormsCreatedNum" type="Label" parent="EndOfRound/Margin/VBox/Scorecard" unique_id=1619296946]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+
+[node name="SensorsCollected" type="Label" parent="EndOfRound/Margin/VBox/Scorecard" unique_id=936833107]
+layout_mode = 2
+text = "Sensors Collected: "
+
+[node name="SensorsCollectedNum" type="Label" parent="EndOfRound/Margin/VBox/Scorecard" unique_id=1427251231]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+
+[node name="FireTiles" type="Label" parent="EndOfRound/Margin/VBox/Scorecard" unique_id=1240698835]
+layout_mode = 2
+text = "Burning Tiles: "
+
+[node name="FireTilesNum" type="Label" parent="EndOfRound/Margin/VBox/Scorecard" unique_id=1279999890]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+
+[node name="FloodTiles" type="Label" parent="EndOfRound/Margin/VBox/Scorecard" unique_id=1209942336]
+layout_mode = 2
+text = "Flooded Tiles: "
+
+[node name="FloodTilesNum" type="Label" parent="EndOfRound/Margin/VBox/Scorecard" unique_id=1079696230]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+
+[node name="VanIntegrity" type="Label" parent="EndOfRound/Margin/VBox/Scorecard" unique_id=984720883]
+layout_mode = 2
+text = "Van Integrity:"
+
+[node name="VanIntegrityNum" type="Label" parent="EndOfRound/Margin/VBox/Scorecard" unique_id=127849540]
+layout_mode = 2
+text = "x 0"
+horizontal_alignment = 1
+
+[node name="TotalScore" type="Label" parent="EndOfRound/Margin/VBox/Scorecard" unique_id=1934455667]
+layout_mode = 2
+text = "Total Score: "
+
+[node name="TotalScoreNum" type="Label" parent="EndOfRound/Margin/VBox/Scorecard" unique_id=932900149]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+
+[node name="EndOfTurnButton" type="Button" parent="EndOfRound/Margin/VBox" unique_id=2138152164]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9098039, 0.40784314, 0.2509804, 1)
+theme_override_fonts/font = ExtResource("5_lgsi3")
+text = "MAIN MENU"
+
 [node name="EndOfTurnPrompt2D" type="PanelContainer" parent="." unique_id=1913877453]
 process_mode = 3
 visible = false
@@ -466,6 +569,7 @@ TO UPDATE MAP"
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Move" to="." method="_on_move_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/VanButton" to="." method="_on_van_button_pressed"]
 [connection signal="pressed" from="EndOfTurnPrompt/MarginContainer/VBoxContainer/EndOfTurnButton" to="." method="_on_end_of_turn_button_pressed"]
+[connection signal="pressed" from="EndOfRound/Margin/VBox/EndOfTurnButton" to="EndOfRound" method="_on_end_of_turn_button_pressed"]
 [connection signal="pressed" from="EndOfTurnPrompt2D/MarginContainer/VBoxContainer/EndOfTurnButton" to="." method="_on_end_of_turn_button_pressed"]
 
 [editable path="ActionQueue"]

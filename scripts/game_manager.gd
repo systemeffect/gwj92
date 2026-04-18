@@ -446,7 +446,16 @@ func take_damage():
 	actions_ui.set_integrity(new_integrity)
 	print("taking damage here!")
 	if new_integrity < 1:
-		# queue death/round end
+		GlobalLocations.fire_locs = status_effects.get_used_cells_by_id(0, Vector2(2,0))
+		GlobalLocations.flood_locs = status_effects.get_used_cells_by_id(0, Vector2(3,0))
+		GlobalLocations.sensor_locs = status_effects.get_used_cells_by_id(0, Vector2(4,0))
+		var sensors_left = GlobalLocations.sensor_locs
+		var sens_col = sensors_total - sensors_left.size()
+		GlobalLocations.sensors_collected = sens_col
+		var storm_num = storms_container.get_child_count()
+		GlobalLocations.cur_storm_count = storm_num
+		GlobalLocations.van_integrity = 0
+		_on_round_end()
 		print("You dead. This is where the game/round would end")
 	
 func _on_preview_cont_area_entered(area: Area2D) -> void:
@@ -489,3 +498,7 @@ func reset_preview_van() -> void:
 	current_turn = 0
 	turn_in_progress = false
 	end_of_turn = false
+
+func _on_round_end():
+	# responds to signal signalling the end of the game (death or extraction)
+	pass
