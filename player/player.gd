@@ -40,9 +40,6 @@ func _input(event: InputEvent) -> void:
 					GlobalSignals.red_button_pressed.emit()
 					button_anim_player.play("button_press")
 				if ray_cast_3d.get_collider().name == "GridScreenArea":
-					if !is_mouse_visible:
-						Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-						is_mouse_visible = true
 					GlobalSignals.grid_screen_pressed.emit()
 
 func handle_camera_rotation() -> void:
@@ -51,3 +48,8 @@ func handle_camera_rotation() -> void:
 	# Clamp the camera's vertical rotation.
 	camera_pivot.rotation_degrees.x = clampf(camera_pivot.rotation_degrees.x, -90.0, 90.0)
 	mouse_motion = Vector2.ZERO
+
+func make_mouse_visible() -> void:
+	if !is_mouse_visible:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		is_mouse_visible = true

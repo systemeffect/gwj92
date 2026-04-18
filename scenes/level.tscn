@@ -249,8 +249,9 @@ albedo_texture = ExtResource("13_fpun6")
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gunhw"]
 albedo_texture = ExtResource("13_fpun6")
 
-[node name="Level" type="Node3D" unique_id=824859054]
+[node name="Level" type="Node3D" unique_id=824859054 node_paths=PackedStringArray("player")]
 script = ExtResource("1_klq6b")
+player = NodePath("Player")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=27209454]
 
