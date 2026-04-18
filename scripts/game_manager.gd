@@ -245,7 +245,6 @@ func _on_round_initiated():
 			print("card is null")
 	if dir_array.size() == 0:
 		end_of_turn = true
-		print("does this happen?")
 	
 	turn_num.text = str(current_turn)
 	turn_in_progress = true

@@ -362,6 +362,9 @@ func _on_pressed(card_id: String):
 			selected_card = ""
 
 func _on_move_pressed() -> void:
+	var parent = find_parent("Level")
+	if parent == null:
+		status_log_label.update_text("[SETTING AUTODRIVE PATH]")
 	if moves_selected > 0:
 		var result = MovementPlanner.build_directions(current_movement_queue, current_van_direction, Util.all_cards)
 
@@ -369,6 +372,7 @@ func _on_move_pressed() -> void:
 		DirectionList.directions.append_array(result["directions"])
 		for d in DirectionList.directions:
 			print("Direction:", d.move_direction, "| Amount:", d.move_amount)
+			status_log_label.update_text("Direction: " + str(d.move_direction) + "| Amount: " + str(d.move_amount))
 		current_van_direction = result["final_facing"]
 		round_initiated.emit()
 	else:
