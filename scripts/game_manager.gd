@@ -349,6 +349,10 @@ func _on_update_status_log(status : Status):
 
 
 func _on_spread_pressed(attr_array : Array) -> void:
+	var fire_attr = GlobalLocations.cur_fire_attr
+	var flood_attr = GlobalLocations.cur_flood_attr
+	var wind_attr = GlobalLocations.cur_wind_attr
+	
 	var statuses = []
 	for attr in attr_array:
 		if attr.spawns_fire:

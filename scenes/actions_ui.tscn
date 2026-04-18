@@ -61,6 +61,7 @@ theme_override_constants/separation = 1
 
 [node name="MovementButtons" type="GridContainer" parent="ActionDebug/VBoxContainer" unique_id=761741916]
 layout_mode = 2
+theme_override_constants/v_separation = 2
 columns = 3
 
 [node name="Forward1" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=1525385011]
@@ -99,35 +100,48 @@ theme_override_colors/font_color = Color(1, 0.7529412, 0.03137255, 1)
 text = "Turn Right"
 icon_alignment = 1
 
-[node name="ResetMoves" type="Button" parent="ActionDebug/VBoxContainer" unique_id=1540435869]
+[node name="ResetMoves" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=1540435869]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
-text = "Reset Move Queue"
+text = "Reset RUN"
 
-[node name="HSeparator" type="HSeparator" parent="ActionDebug/VBoxContainer" unique_id=153859046]
+[node name="Move" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=170235260]
 layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="Move" type="Button" parent="ActionDebug/VBoxContainer" unique_id=170235260]
-layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.7529412, 0.03137255, 1)
 disabled = true
 text = "Preview Run"
 
-[node name="VanButton" type="Button" parent="ActionDebug/VBoxContainer" unique_id=202436281]
+[node name="VanButton" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=202436281]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.9529412, 0, 1)
 text = "Rollout"
 
 [node name="ActionQueue" parent="." unique_id=509091489 instance=ExtResource("2_m8tt6")]
 layout_mode = 1
 offset_left = -253.0
+offset_top = -216.0
 offset_right = -3.0
-offset_bottom = -83.0
+offset_bottom = -96.0
 
-[node name="GridContainer" parent="ActionQueue" index="0" unique_id=1955789638]
-offset_left = -249.0
-offset_top = -84.0
-offset_right = 2.0
-offset_bottom = -1.0
+[node name="VBox" parent="ActionQueue" index="0" unique_id=1059247839]
+offset_right = 248.0
+theme_override_constants/separation = 3
+
+[node name="StormbrewLabel" type="Label" parent="ActionQueue/VBox" index="0" unique_id=753881490]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8474744, 0.84747446, 0.84747446, 1)
+theme_override_fonts/font = ExtResource("4_bxdbe")
+text = "STORMBREW CONSOLE"
+horizontal_alignment = 1
+
+[node name="CurFireAttr" parent="ActionQueue/VBox/HBox" parent_id_path=PackedInt32Array(509091489, 1087696826) index="0" unique_id=462033445]
+theme_override_font_sizes/font_size = 14
+
+[node name="CurFloodAttr" parent="ActionQueue/VBox/HBox" parent_id_path=PackedInt32Array(509091489, 1087696826) index="1" unique_id=844112188]
+theme_override_font_sizes/font_size = 14
+
+[node name="CurWindAttr" parent="ActionQueue/VBox/HBox" parent_id_path=PackedInt32Array(509091489, 1087696826) index="2" unique_id=1415679961]
+theme_override_font_sizes/font_size = 14
 
 [node name="MovementQueue" type="Control" parent="." unique_id=451208795]
 layout_mode = 1
@@ -448,9 +462,9 @@ TO UPDATE MAP"
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/TurnLeft" to="." method="_on_turn_left_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/TurnAround" to="." method="_on_turn_around_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/TurnRight" to="." method="_on_turn_right_pressed"]
-[connection signal="pressed" from="ActionDebug/VBoxContainer/ResetMoves" to="." method="_on_reset_moves_pressed"]
-[connection signal="pressed" from="ActionDebug/VBoxContainer/Move" to="." method="_on_move_pressed"]
-[connection signal="pressed" from="ActionDebug/VBoxContainer/VanButton" to="." method="_on_van_button_pressed"]
+[connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/ResetMoves" to="." method="_on_reset_moves_pressed"]
+[connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Move" to="." method="_on_move_pressed"]
+[connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/VanButton" to="." method="_on_van_button_pressed"]
 [connection signal="pressed" from="EndOfTurnPrompt/MarginContainer/VBoxContainer/EndOfTurnButton" to="." method="_on_end_of_turn_button_pressed"]
 [connection signal="pressed" from="EndOfTurnPrompt2D/MarginContainer/VBoxContainer/EndOfTurnButton" to="." method="_on_end_of_turn_button_pressed"]
 

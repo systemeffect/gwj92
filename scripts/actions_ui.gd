@@ -10,7 +10,8 @@ signal end_of_turn
 
 @export_enum("NORTH", "EAST", "SOUTH", "WEST") var current_van_direction : String
 
-@onready var move_button: Button = $ActionDebug/VBoxContainer/Move
+@onready var move_button: Button = $ActionDebug/VBoxContainer/MovementButtons/Move
+
 @onready var end_of_turn_prompt: PanelContainer = $EndOfTurnPrompt
 @onready var end_of_turn_prompt_2d: PanelContainer = $EndOfTurnPrompt2D
 @onready var end_of_turn_prompt_2: PanelContainer = $EndOfTurnPrompt2
@@ -21,17 +22,20 @@ signal end_of_turn
 @onready var sensors_num: Label = $ResourcesPanel/Margin/TopBar/Resources/Column2/SensorsNum
 
 @onready var status_log_label: RichTextLabel = $StatusLogLabel
+@onready var cur_fire_attr: Label = $ActionQueue/VBox/HBox/CurFireAttr
+@onready var cur_flood_attr: Label = $ActionQueue/VBox/HBox/CurFloodAttr
+@onready var cur_wind_attr: Label = $ActionQueue/VBox/HBox/CurWindAttr
 
 
 # Stormbrew/Action Queue
 @onready var grid_container: GridContainer = $PanelContainer/GridContainer
-@onready var queue_grid_container: GridContainer = $ActionQueue/GridContainer
+@onready var queue_grid_container: GridContainer = $ActionQueue/VBox/GridContainer
+
 
 # Action Queue Slots
-@onready var action_1: Control = $ActionQueue/GridContainer/Action_1
-@onready var action_2: Control = $ActionQueue/GridContainer/Action_2
-@onready var action_3: Control = $ActionQueue/GridContainer/Action_3
-@onready var action_4: Control = $ActionQueue/GridContainer/Action_4
+@onready var action_1: Control = $ActionQueue/VBox/GridContainer/Action_1
+@onready var action_2: Control = $ActionQueue/VBox/GridContainer/Action_2
+@onready var action_3: Control = $ActionQueue/VBox/GridContainer/Action_3
 
 # Movement Queue
 @onready var movement_grid_container: GridContainer = $MovementQueue/GridContainer
@@ -51,10 +55,12 @@ var van_direction_index_default : int
 var queue_size : int = 0
 var max_queue_size : int = 3
 var current_queue : Array
-var queue_item_1 : Dictionary
-var queue_item_2 : Dictionary
-var queue_item_3 : Dictionary
-var queue_item_4 : Dictionary
+var flood_attr : int = 0
+var wind_attr : int = 0
+var fire_attr : int = 0
+var queue_item_1 : Attribute
+var queue_item_2 : Attribute
+var queue_item_3 : Attribute
 var nullify_set : bool = false
 
 var cur_deck_size : int = 0
@@ -154,6 +160,14 @@ func parse_card_data_from_json(id, json_data : Dictionary):
 	card_attributes["CARD_ICON"] = json_data.get("CARD_ICON")
 	
 	return card_attributes
+
+func get_attr_by_id(card_id: String) -> Attribute:
+	var card = get_card_by_id(card_id)
+	var type = card.get("ATTRIBUTE_TYPE")
+	var value = card.get("VALUE")
+	var new_attr = Attribute.new()
+	new_attr.set_attribute(type, value)
+	return new_attr
 	
 func get_card_by_id(card_id: String) -> Dictionary:
 	if all_cards.has(card_id):
@@ -232,9 +246,13 @@ func clear_queue_window():
 	if action_3.pressed.is_connected(_on_pressed):
 		action_3.pressed.disconnect(_on_pressed)
 
-	queue_item_1 = {}
-	queue_item_2 = {}
-	queue_item_3 = {}
+	queue_item_1 = null
+	queue_item_2 = null
+	queue_item_3 = null
+	fire_attr = 0
+	flood_attr = 0
+	wind_attr = 0
+	reset_attr_labels()
 
 func clear_movement_queue_window():
 	move_1.set_empty()
@@ -259,16 +277,33 @@ func update_queue():
 				0:
 					action_1.set_card(card_data)
 					action_1.pressed.connect(_on_pressed.bind(card_id))
-					queue_item_1 = card_data
+					queue_item_1 = get_attr_by_id(card_id)
+					update_cur_attr(queue_item_1)
 				1:
 					action_2.set_card(card_data)
 					action_2.pressed.connect(_on_pressed.bind(card_id))
-					queue_item_2 = card_data
+					queue_item_2 = get_attr_by_id(card_id)
+					update_cur_attr(queue_item_2)
 				2:
 					action_3.set_card(card_data)
 					action_3.pressed.connect(_on_pressed.bind(card_id))
-					queue_item_3 = card_data
+					queue_item_3 = get_attr_by_id(card_id)
+					update_cur_attr(queue_item_3)
 			slot += 1
+
+func update_cur_attr(attr : Attribute):
+	if attr.spawns_fire:
+		fire_attr += attr.attr_value
+	if attr.spawns_flood:
+		flood_attr += attr.attr_value
+	if attr.spawns_wind:
+		wind_attr += attr.attr_value
+	reset_attr_labels()
+	
+func reset_attr_labels():
+	cur_fire_attr.text = "Fire: " + str(fire_attr)
+	cur_flood_attr.text = "flood: " + str(flood_attr)
+	cur_wind_attr.text = "wind: " + str(wind_attr)
 
 func update_movement_queue():
 	var slot = 0
@@ -294,7 +329,6 @@ func highlight_active_slot(slot : int):
 	action_1.set_default_border_color()
 	action_2.set_default_border_color()
 	action_3.set_default_border_color()
-	action_4.set_default_border_color()
 	match slot:
 		0:
 			action_1.set_active_border_color()
@@ -302,8 +336,7 @@ func highlight_active_slot(slot : int):
 			action_2.set_active_border_color()
 		2:
 			action_3.set_active_border_color()
-		3:
-			action_4.set_active_border_color()
+
 
 func _on_reset_queue_pressed() -> void:
 	available_cards.append_array(current_queue)
@@ -389,6 +422,9 @@ func _on_van_button_pressed() -> void:
 	GlobalLocations.van_global_dir = result["final_facing"]
 	GlobalLocations.current_queue = current_queue
 	GlobalLocations.status_log = status_log_label.text
+	GlobalLocations.cur_fire_attr = fire_attr
+	GlobalLocations.cur_flood_attr = flood_attr
+	GlobalLocations.cur_wind_attr = wind_attr
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/level.tscn")
 
