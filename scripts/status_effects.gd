@@ -73,27 +73,40 @@ func spread_available_cell(status : Status):
 	var available = get_available_cells(status)
 	var count = status.status_amount
 	if available != null and available.size() > 0:
-		var spread = available.pick_random()
-		if spread != null:
-			add_status_effect(status, spread)
-			update_status_log.emit(status)
-			print("spread " + status.status_name)
-			available.erase(spread)
-	if count > 1:
-		print('triggering count 2!')
-		if available != null and available.size() > 0:
+		while count > 0:
 			var spread = available.pick_random()
 			if spread != null:
 				add_status_effect(status, spread)
 				update_status_log.emit(status)
 				print("spread " + status.status_name)
 				available.erase(spread)
-	if count > 2:
-		print('triggering count 3!')
-		if available != null and available.size() > 0:
-			var spread = available.pick_random()
-			if spread != null:
-				add_status_effect(status, spread)
-				update_status_log.emit(status)
-				print("spread " + status.status_name)
-				available.erase(spread)
+			else:
+				break
+			count -= 1
+		
+		#
+		#
+		#var spread = available.pick_random()
+		#if spread != null:
+			#add_status_effect(status, spread)
+			#update_status_log.emit(status)
+			#print("spread " + status.status_name)
+			#available.erase(spread)
+	#if count > 1:
+		#print('triggering count 2!')
+		#if available != null and available.size() > 0:
+			#var spread = available.pick_random()
+			#if spread != null:
+				#add_status_effect(status, spread)
+				#update_status_log.emit(status)
+				#print("spread " + status.status_name)
+				#available.erase(spread)
+	#if count > 2:
+		#print('triggering count 3!')
+		#if available != null and available.size() > 0:
+			#var spread = available.pick_random()
+			#if spread != null:
+				#add_status_effect(status, spread)
+				#update_status_log.emit(status)
+				#print("spread " + status.status_name)
+				#available.erase(spread)

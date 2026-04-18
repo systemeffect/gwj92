@@ -113,15 +113,15 @@ func _ready() -> void:
 	fire_status = Status.new()
 	fire_status.status_name = "fire"
 	fire_status.status_type = 1
-	fire_status.status_amount = 3
+	fire_status.status_amount = 0
 	flood_status = Status.new()
 	flood_status.status_name = "flood"
 	flood_status.status_type = 2
-	flood_status.status_amount = 3
+	flood_status.status_amount = 0
 	wind_status = Status.new()
 	wind_status.status_name = "wind"
 	wind_status.status_type = 3
-	wind_status.status_amount = 3
+	wind_status.status_amount = 0
 	sensor_collect.hide()
 
 func _process(delta: float) -> void:
@@ -353,29 +353,53 @@ func _on_spread_pressed(attr_array : Array) -> void:
 	var flood_attr = GlobalLocations.cur_flood_attr
 	var wind_attr = GlobalLocations.cur_wind_attr
 	
-	var statuses = []
-	for attr in attr_array:
-		if attr.spawns_fire:
-			fire_status.status_amount = attr.attr_value
-			statuses.append(fire_status)
-		if attr.spawns_flood:
-			flood_status.status_amount = attr.attr_value
-			statuses.append(flood_status)
-		if attr.spawns_wind:
-			wind_status.status_amount = attr.attr_value
-			# store/trigger wind
-	for status in statuses:
-		var cur_status = statuses.pop_front()
-		status_effects.spread_available_cell(cur_status)
-		#_on_add_status_pressed()
-		var storms = storms_container.get_children()
-		for storm in storms:
-			var storm_loc = storm.position
-			storm_loc = city_grid.local_to_map(storm_loc)
-			
+	var top_attr_flood : bool
+	if flood_attr >= fire_attr:
+		top_attr_flood = true
+	else:
+		top_attr_flood = false
+	var storms = storms_container.get_children()
+	for storm in storms:
+		var storm_loc = storm.position
+		storm_loc = city_grid.local_to_map(storm_loc)
+		var cur_status : Status
+		if top_attr_flood:
+			cur_status = flood_status
+		else:
+			cur_status = fire_status
 			#status_type.init_coord = storm_loc
-			status_effects.add_status_effect(cur_status, storm_loc)
-			storm.dropped_status(cur_status)
+		status_effects.add_status_effect(cur_status, storm_loc)
+		storm.dropped_status(cur_status)
+	
+	if fire_attr > 0:
+		fire_status.status_amount = fire_attr
+		status_effects.spread_available_cell(fire_status)
+	if flood_attr > 0:
+		flood_status.status_amount = flood_attr
+		status_effects.spread_available_cell(flood_status)
+	#var statuses = []
+	#for attr in attr_array:
+		#if attr.spawns_fire:
+			#fire_status.status_amount = attr.attr_value
+			#statuses.append(fire_status)
+		#if attr.spawns_flood:
+			#flood_status.status_amount = attr.attr_value
+			#statuses.append(flood_status)
+		#if attr.spawns_wind:
+			#wind_status.status_amount = attr.attr_value
+			## store/trigger wind
+	#for status in statuses:
+		#var cur_status = statuses.pop_front()
+		#status_effects.spread_available_cell(cur_status)
+		##_on_add_status_pressed()
+		#var storms = storms_container.get_children()
+		#for storm in storms:
+			#var storm_loc = storm.position
+			#storm_loc = city_grid.local_to_map(storm_loc)
+			#
+			##status_type.init_coord = storm_loc
+			#status_effects.add_status_effect(cur_status, storm_loc)
+			#storm.dropped_status(cur_status)
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
