@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://in4feywdsadp"
-path="res://.godot/imported/keyboard.glb-e45886b39a276600d03df99c75320a17.scn"
+uid="uid://54ak73n85rdh"
+path="res://.godot/imported/coffee_cup.glb-540efa9bba01c5ac46f8d8f427d630a8.scn"
 
 [deps]
 
-source_file="res://assets/3D/keyboard.glb"
-dest_files=["res://.godot/imported/keyboard.glb-e45886b39a276600d03df99c75320a17.scn"]
+source_file="res://assets/3D/coffee_cup.glb"
+dest_files=["res://.godot/imported/coffee_cup.glb-540efa9bba01c5ac46f8d8f427d630a8.scn"]
 
 [params]
 

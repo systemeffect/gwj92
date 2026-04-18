@@ -15,7 +15,8 @@
 [ext_resource type="PackedScene" uid="uid://elw6yw4pjr6x" path="res://assets/3D/Dummy_Base.gltf" id="12_64w2a"]
 [ext_resource type="Texture2D" uid="uid://donf8t5wd65vj" path="res://assets/3D/prototypebits_texture.png" id="13_fpun6"]
 [ext_resource type="PackedScene" uid="uid://dnsmn8sqjc6yn" path="res://assets/3D/main_display.glb" id="15_arp2o"]
-[ext_resource type="PackedScene" uid="uid://pwart0608pyd" path="res://assets/3D/keyboard.glb" id="16_ux5qa"]
+[ext_resource type="PackedScene" uid="uid://54ak73n85rdh" path="res://assets/3D/coffee_cup.glb" id="16_82cfe"]
+[ext_resource type="PackedScene" uid="uid://in4feywdsadp" path="res://assets/3D/keyboard.glb" id="16_ux5qa"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w7c3h"]
 shader = ExtResource("1_2q6dc")
@@ -352,8 +353,14 @@ material_override = SubResource("StandardMaterial3D_gunhw")
 [node name="main_display" parent="Van/Van Model" unique_id=451486922 instance=ExtResource("15_arp2o")]
 transform = Transform3D(0.44000003, 0, 0, 0, 0.44000003, 0, 0, 0, 0.44, 0.4226957, 0.6421033, -0.21813644)
 
-[node name="keyboard" parent="Van/Van Model" unique_id=1371810983 instance=ExtResource("16_ux5qa")]
-transform = Transform3D(-1.7484552e-08, 0, 0.39999998, 0, 0.39999998, 0, -0.39999995, 0, -1.7484554e-08, 0.3162753, 0.6956415, -0.2412325)
+[node name="main_display2" parent="Van/Van Model" unique_id=992780757 instance=ExtResource("15_arp2o")]
+transform = Transform3D(0.29093847, 0, -1.7763568e-15, 0, 0.29093847, 0, 0, 0, 0.29093847, 0.411468, 0.769089, -0.3875766)
+
+[node name="coffee_cup" parent="Van/Van Model" unique_id=1693292606 instance=ExtResource("16_82cfe")]
+transform = Transform3D(-1.7484556e-08, 0, -0.4, 0, 0.4, 0, 0.39999998, 0, -1.7484554e-08, 0.35381737, 0.69688916, -0.07788029)
+
+[node name="keyboard" parent="Van/Van Model" unique_id=729527796 instance=ExtResource("16_ux5qa")]
+transform = Transform3D(-1.7484556e-08, 0, -0.4, 0, 0.4, 0, 0.39999998, 0, -1.748455e-08, 0.3189893, 0.6911699, -0.20979099)
 
 [editable path="Van/Van Model/RedButton"]
 [editable path="Van/Van Model/Dummy_Base2"]

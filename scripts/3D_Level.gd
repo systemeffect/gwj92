@@ -73,10 +73,13 @@ func _on_grid_screen_pressed() -> void:
 		get_van_loc()
 		var cur_storm_locs = get_storm_locs()
 		GlobalLocations.storm_locs = cur_storm_locs
+		GlobalLocations.current_queue.clear()
 		get_sensors()
 		get_fires_floods()
 		DirectionList.directions.clear()
 		player.make_mouse_visible()
+		if AudioManager.sfx_engine_idle.playing:
+			AudioManager.sfx_engine_idle.stop()
 		get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
 	else:
 		if !screen_view_active:
