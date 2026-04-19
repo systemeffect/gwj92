@@ -12,6 +12,7 @@ signal extraction
 @export_enum("NORTH", "EAST", "SOUTH", "WEST") var current_van_direction : String
 
 @onready var move_button: Button = $ActionDebug/VBoxContainer/MovementButtons/Move
+@onready var van_button: Button = $ActionDebug/VBoxContainer/MovementButtons/VanButton
 
 @onready var end_of_turn_prompt: PanelContainer = $EndOfTurnPrompt
 @onready var end_of_turn_prompt_2d: PanelContainer = $EndOfTurnPrompt2D
@@ -94,15 +95,17 @@ func _ready() -> void:
 	print(current_deck)
 	load_cards()
 	set_van_direction_index()
-	set_integrity(3)
+	set_integrity(GlobalLocations.van_integrity)
 	cur_sensors = GlobalLocations.sensors_collected
 	
 	
 func _process(delta: float) -> void:
-	if queue_size == 3:
+	if queue_size == 3 and moves_selected == 3:
 		move_button.disabled = false
+		van_button.disabled = false
 	else:
 		move_button.disabled = true
+		van_button.disabled = true
 
 func process_turn():
 	#get_tree().paused = true

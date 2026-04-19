@@ -22,16 +22,21 @@ var speed_incr : float = 4.0
 var status_attributes = []
 
 func _ready() -> void:
+	var rand = randf_range(1.3, 2.7)
+	sprite.scale = Vector2(rand, rand)
 	self.position = origin_pos
 	direction = Vector2.from_angle((randf_range(0, TAU)))
-	pass
+	var rand_rot = randf_range(0.0, 359.9)
+	rotation = rand_rot
 	
 func _process(delta: float) -> void:
-	self.position += direction * storm_speed * delta
-	variance = randf_range(-0.1, 0.1)
-	direction = direction.rotated(variance)
-	sprite.rotation += 1 * delta
-	pass
+	var parent = find_parent("Level")
+	if parent != null:
+		self.position += direction * storm_speed * delta
+		variance = randf_range(-0.1, 0.1)
+		direction = direction.rotated(variance)
+		sprite.rotation += 1 * delta
+
 	# Write function to determine storm direction with drift
 	# Move the storm in new direction at set speed
 

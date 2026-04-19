@@ -141,6 +141,146 @@
       "PAIR": false,
       "PAIR_TEXT": null,
       "PAIR_SOURCE": null
+    },
+    "8": {
+      "TEXT": "Red Rooster checkin in from I-10, just ran over somethin that looks like a coyote but with a cactus head.",
+      "SOURCE": "BLYTHE",
+      "PAIR": true,
+      "PAIR_TEXT": "the new evolution is here and they are hungry",
+      "PAIR_SOURCE": "EL PASO"
+    },
+    "9": {
+      "TEXT": "do any of yall think the deadzone is like growing?",
+      "SOURCE": "CORPUS CHRISTI",
+      "PAIR": false,
+      "PAIR_TEXT": null,
+      "PAIR_SOURCE": null
+    },
+    "10": {
+      "TEXT": "angellic forces out tonight, im picking up a ton of readings just off the coast",
+      "SOURCE": "MYRTLE BEACH",
+      "PAIR": false,
+      "PAIR_TEXT": null,
+      "PAIR_SOURCE": null
+    },
+    "11": {
+      "TEXT": "one hell of a storm brewing out in what used to be kansas, that one of you jokesters?",
+      "SOURCE": "NEW BRUNSWICK",
+      "PAIR": true,
+      "PAIR_TEXT": "Go STORMRUN-R Go! we <3 you!!!",
+      "PAIR_SOURCE": "CALGARY"
+    },
+    "12": {
+      "TEXT": "ever get the feeling that every thought you've ever had was just some dude typing in a spreadsheet?",
+      "SOURCE": "SPOKANE",
+      "PAIR": true,
+      "PAIR_TEXT": "Go to sleep, SS. For the love of the gods please go offline",
+      "PAIR_SOURCE": "CIRCLE CITY"
+    },
+    "13": {
+      "TEXT": "this is the wildest thing ive seen, WHAT ARE THEY DOIN OUT THERE?!",
+      "SOURCE": "IDAHO FALLS",
+      "PAIR": false,
+      "PAIR_TEXT": null,
+      "PAIR_SOURCE": null
+    },
+    "14": {
+      "TEXT": "just pulled a tarot card...three of swords. thats not a fun one, is it?",
+      "SOURCE": "GLASGOW",
+      "PAIR": true,
+      "PAIR_TEXT": "dont be disheartened, anything can be a positive",
+      "PAIR_SOURCE": "EL PASO"
+    },
+    "15": {
+      "TEXT": "Whatever happened to that expert BBD had on a while back who was talking about exploring the Impact site in Colorado?",
+      "SOURCE": "MANCHESTER",
+      "PAIR": true,
+      "PAIR_TEXT": "i heard she went over the Rim and never came back O__O",
+      "PAIR_SOURCE": "PISMO BEACH"
+    },
+    "16": {
+      "TEXT": "not seeing what the big fuss is, just more destruction for destructions sake. do something better with your life!",
+      "SOURCE": "IRVINE",
+      "PAIR": false,
+      "PAIR_TEXT": null,
+      "PAIR_SOURCE": null
+    },
+    "17": {
+      "TEXT": "I mean, if I was going to go out in a blaze of thunder and fire, that would be the one.",
+      "SOURCE": "VIKING LAKE",
+      "PAIR": false,
+      "PAIR_TEXT": null,
+      "PAIR_SOURCE": null
+    },
+    "18": {
+      "TEXT": "what is sleep? not something im allowed to experience, i guess",
+      "SOURCE": "SPOKANE",
+      "PAIR": true,
+      "PAIR_TEXT": "Try turning your computer off!",
+      "PAIR_SOURCE": "CIRCLE CITY"
+    },
+    "19": {
+      "TEXT": "Northern lights coming further and further south. Sign of the end times maybe?",
+      "SOURCE": "LONG ISLAND",
+      "PAIR": true,
+      "PAIR_TEXT": "You think that would be the giant rock that destroyed Colorado...",
+      "PAIR_SOURCE": "TRUCKEE"
+    },
+    "20": {
+      "TEXT": "Late night jams, what are people listening to?",
+      "SOURCE": "CIRCLE CITY",
+      "PAIR": true,
+      "PAIR_TEXT": "Isn't Big Baghdady broadcasting soon? Can't miss that...",
+      "PAIR_SOURCE": "ST. GEORGE"
+    },
+    "21": {
+      "TEXT": "This is Rocket, checking in from the base of the Sierras",
+      "SOURCE": "INDEPENDENCE",
+      "PAIR": true,
+      "PAIR_TEXT": "howdy howdy",
+      "PAIR_SOURCE": "IDAHO FALLS"
+    },
+    "22": {
+      "TEXT": "how do these stormchasers even survive out there? seems dangerous",
+      "SOURCE": "MYRTLE BEACH",
+      "PAIR": false,
+      "PAIR_TEXT": null,
+      "PAIR_SOURCE": null
+    },
+    "23": {
+      "TEXT": "Hell yeah, STORMRUN-R! Picked a good night to take off work",
+      "SOURCE": "ORLANDO",
+      "PAIR": false,
+      "PAIR_TEXT": null,
+      "PAIR_SOURCE": null
+    },
+    "24": {
+      "TEXT": "Whoa! Anyone in the NE see the sky light up just now?",
+      "SOURCE": "PORTSMOUTH",
+      "PAIR": true,
+      "PAIR_TEXT": "YUP! All my equipment just went WILD!",
+      "PAIR_SOURCE": "NASHUA"
+    },
+    "25": {
+      "TEXT": "Canada, annex me yesterday",
+      "SOURCE": "BLAINE",
+      "PAIR": false,
+      "PAIR_TEXT": null,
+      "PAIR_SOURCE": null
+    },
+    "26": {
+      "TEXT": "These storm jams are sick, hitting the right frequency! Props.",
+      "SOURCE": "LOS ANGELES",
+      "PAIR": false,
+      "PAIR_TEXT": null,
+      "PAIR_SOURCE": null
+    },
+    "27": {
+      "TEXT": "Please, gentle callers, turn down your radios...",
+      "SOURCE": "PAHRUMP",
+      "PAIR": true,
+      "PAIR_TEXT": "amateur hour, BB",
+      "PAIR_SOURCE": "ANCHORAGE"
     }
   },
   "Halves_Import": {
@@ -466,7 +606,7 @@
       "ATTRIBUTE_TYPE": "WIND",
       "VALUE": 1,
       "DESCRIPTION_HEADING": "Wind 1",
-      "DESCRIPTION_SUBHEADING": "Pushes Van 1 Grid Space in Wind Direction",
+      "DESCRIPTION_SUBHEADING": "Adds a little Wind",
       "STORM_EFFECT": "wind",
       "CARD_ICON": "att_w1.png"
     },
@@ -475,7 +615,7 @@
       "ATTRIBUTE_TYPE": "WIND",
       "VALUE": 2,
       "DESCRIPTION_HEADING": "Wind 2",
-      "DESCRIPTION_SUBHEADING": "Pushes Van 2 Grid Spaces in Wind Direction",
+      "DESCRIPTION_SUBHEADING": "Adds some Wind",
       "STORM_EFFECT": "wind",
       "CARD_ICON": "att_w2.png"
     },
@@ -484,7 +624,7 @@
       "ATTRIBUTE_TYPE": "WIND",
       "VALUE": 3,
       "DESCRIPTION_HEADING": "Wind 3",
-      "DESCRIPTION_SUBHEADING": "Pushes Van 3 Grid Spaces in Wind Direction",
+      "DESCRIPTION_SUBHEADING": "Adds a lot of Wind",
       "STORM_EFFECT": "wind",
       "CARD_ICON": "att_w3.png"
     },
