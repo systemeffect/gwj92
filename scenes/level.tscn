@@ -282,7 +282,7 @@ transform = Transform3D(0.99122477, 0, -0.13218716, 0, 1, 0, 0.13218716, 0, 0.99
 script = ExtResource("4_fpun6")
 
 [node name="Van Model" parent="Van" unique_id=1104021085 instance=ExtResource("4_mx8sn")]
-transform = Transform3D(-1.09278474e-07, 0, 2.5000002, 0, 2.5, 0, -2.5, 0, -1.0927848e-07, 0.003497839, 0.008047938, 1.690309)
+transform = Transform3D(-1.0931198e-07, 0, 2.500767, 0, 2.5007668, 0, -2.5007668, 0, -1.09312e-07, 0.003497839, 0.008047938, 1.690309)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Van/Van Model" unique_id=925046479]
 libraries/ = SubResource("AnimationLibrary_b121j")
@@ -494,6 +494,19 @@ texture = ExtResource("21_h6wmr")
 material = SubResource("ShaderMaterial_pqd0y")
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="Console" type="CSGPolygon3D" parent="Van/Van Model" unique_id=626731110]
+transform = Transform3D(-2.0059904e-08, 0, -0.8690133, 0, 0.5136867, 0, 0.45891705, 0, -3.7985775e-08, -0.08974243, 0.101632886, 0.86929536)
+polygon = PackedVector2Array(-0.823, 0.008, 0, 1, 1, 1, 1, 0)
+depth = 0.2
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Van/Van Model" unique_id=1801808133]
+transform = Transform3D(0.9999999, 0, -1.2789769e-13, 0, 0.9999999, 0, 3.5527137e-15, 0, 1, 0, 0.6733963, 0.9018138)
+size = Vector3(1, 0.12506104, 0.20117188)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Van/Van Model" unique_id=1652082226]
+transform = Transform3D(0.9999999, 0, -1.0516032e-12, 0, 0.9999999, 0, 3.5527137e-15, 0, 1, 0.29114863, 0.75173134, 0.9018138)
+size = Vector3(0.44555664, 0.096221924, 0.20117188)
 
 [editable path="Van/Van Model/RedButton"]
 [editable path="Van/Van Model/Dummy_Base2"]
