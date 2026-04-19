@@ -2,6 +2,20 @@
 
 [ext_resource type="Script" uid="uid://1syu4bnxfm0o" path="res://scripts/chat_screen.gd" id="1_41o0n"]
 [ext_resource type="Theme" uid="uid://c2wc4jnemooda" path="res://themes/twc_chat.tres" id="1_e0sqn"]
+[ext_resource type="Shader" uid="uid://36rw4b0v4k5g" path="res://shaders/vhs.gdshader" id="3_x4qe8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_23hr1"]
+shader = ExtResource("3_x4qe8")
+shader_parameter/smearing = 0.5
+shader_parameter/color_offset = 0.005
+shader_parameter/sharpening = 0.4
+shader_parameter/static_noise = 0.08
+shader_parameter/crack_center = Vector2(-10, 0.85)
+shader_parameter/crack_intensity = 0.4
+shader_parameter/crack_size = 0.35
+shader_parameter/vertical_jitter = 0.002
+shader_parameter/scanline_opacity = 0.1
+shader_parameter/vignette_intensity = 0.3
 
 [node name="ChatScreen" type="Control" unique_id=1157306203]
 layout_mode = 3
@@ -31,7 +45,6 @@ theme_override_constants/margin_bottom = 24
 [node name="ChatScroll" type="RichTextLabel" parent="Panel/Margin" unique_id=1166162937]
 layout_mode = 2
 bbcode_enabled = true
-text = "Test"
 scroll_active = false
 scroll_following = true
 vertical_alignment = 2
@@ -42,5 +55,14 @@ vertical_alignment = 2
 layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=840476898]
+material = SubResource("ShaderMaterial_23hr1")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

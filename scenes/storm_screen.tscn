@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://5aasxsm5pgfa"]
+
+[ext_resource type="Script" uid="uid://bufka8hhv46mf" path="res://scripts/storm_screen.gd" id="1_dqwyh"]
+[ext_resource type="Texture2D" uid="uid://d1ojwwvlbqasd" path="res://assets/storm.png" id="2_0rd71"]
+
+[node name="StormScreen" type="Control" unique_id=3269823]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dqwyh")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=474172156]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.10980392, 0.20392157, 0.27450982, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="ColorRect" unique_id=117249046]
+position = Vector2(317, 219)
+scale = Vector2(10.425781, 10.425781)
+texture = ExtResource("2_0rd71")
