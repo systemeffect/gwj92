@@ -66,10 +66,20 @@ func check_end_of_path():
 		print("end this MF turn")
 		turn_ended = true
 		action_ui.process_turn()
+		
+func can_exit_to_city_grid() -> bool:
+	var status_grid = city_grid.status_effects
+	var current_grid_loc: Vector2i = status_grid.local_to_map(van.position)
+	var end_coords: Vector2i = Vector2i(GlobalLocations.turn_end_coords)
+	return (
+		!van.is_currently_moving
+		and DirectionList.directions.size() <= 0
+		and current_grid_loc == end_coords
+	)
 	
 func _on_grid_screen_pressed() -> void:
-	check_end_of_path()
-	if turn_ended:
+
+	if can_exit_to_city_grid():
 		get_van_loc()
 		var cur_storm_locs = get_storm_locs()
 		GlobalLocations.storm_locs = cur_storm_locs
