@@ -88,6 +88,9 @@ func _ready() -> void:
 	if GlobalLocations.van_global_loc != Vector2(0, 0):
 		van.global_position = GlobalLocations.van_global_loc
 	
+	if GlobalLocations.van_global_dir != "":
+		animated_sprite_2d.animation = GlobalLocations.van_global_dir
+	
 	# Now cache the scene-entry position for preview resets
 	van_position = van.global_position
 	van_start_pos = van.global_position
