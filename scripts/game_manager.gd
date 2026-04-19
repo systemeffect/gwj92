@@ -499,7 +499,12 @@ func reset_preview_van() -> void:
 	end_of_turn = false
 
 func _on_round_end():
+	AudioManager.music_planning.stop()
+	AudioManager.music_execute_1.stop()
+	AudioManager.music_execute_2.stop()
+	AudioManager.music_execute_3.stop()
+	if AudioManager.music_menu.playing == false:
+		AudioManager.music_menu.play()
 	end_of_round.show()
 	end_of_turn_prompt_2d.hide()
 	end_of_round.set_final_score()
-	pass

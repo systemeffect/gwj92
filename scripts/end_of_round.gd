@@ -36,4 +36,4 @@ func set_final_score():
 	show()
 
 func _on_end_of_round_button_pressed() -> void:
-	set_final_score()
+	get_tree().change_scene_to_file("res://scenes/main.tscn")

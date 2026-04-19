@@ -485,6 +485,15 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("5_lgsi3")
 text = "MAIN MENU"
 
+[node name="Label" type="Label" parent="EndOfRound/Margin/VBox" unique_id=1633741692]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Thank you for playing!
+Made for GWj92 - Brewing
+by zakari games, system_effect,
+frequency.data, voyd & crocsle"
+horizontal_alignment = 1
+
 [node name="EndOfTurnPrompt2D" type="PanelContainer" parent="." unique_id=1913877453]
 process_mode = 3
 visible = false

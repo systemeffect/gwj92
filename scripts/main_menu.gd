@@ -22,12 +22,13 @@ func _ready() -> void:
 	#settings_button.connect("mouse_entered", _on_mouse_button_entered)
 	#quit_button.connect("mouse_entered", _on_mouse_button_entered)
 	start_button.grab_focus()
-	if AudioManager.music_menu.playing == false:
-		AudioManager.music_menu.play()
 	AudioManager.music_planning.stop()
 	AudioManager.music_execute_1.stop()
 	AudioManager.music_execute_2.stop()
 	AudioManager.music_execute_3.stop()
+	if AudioManager.music_menu.playing == false:
+		AudioManager.music_menu.play()
+
 	AudioManager.music_menu.finished.connect(_on_menu_music_finished)
 	pass
 
