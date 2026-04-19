@@ -46,6 +46,9 @@ signal extraction
 @onready var move_1: Control = $MovementQueue/GridContainer/Move_1
 @onready var move_2: Control = $MovementQueue/GridContainer/Move_2
 @onready var move_3: Control = $MovementQueue/GridContainer/Move_3
+
+@onready var settings_menu: CenterContainer = $SettingsMenu
+
 var moves_selected : int = 0
 var max_move_queue_size : int = 3
 var current_movement_queue : Array
@@ -92,6 +95,7 @@ func _ready() -> void:
 	if GlobalLocations.van_global_dir != "":
 		current_van_direction = GlobalLocations.van_global_dir
 	load_card_data()
+	GlobalSignals.escape_key.connect(_on_escape_key_pressed)
 	current_deck = ["0","1","2","3","4","5","6","7","8","9","10","11"]
 	current_queue = GlobalLocations.current_queue
 	print(current_deck)
@@ -574,3 +578,18 @@ func collect_sensor():
 
 func _on_extraction_button_pressed() -> void:
 	extraction.emit()
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("Escape"):
+		GlobalSignals.escape_key.emit()
+
+func _on_escape_key_pressed() -> void:
+	print("Escape pressed")
+	var parent_node = find_parent("Level")
+	if parent_node == null:
+		if settings_menu.visible == false:
+			settings_menu.show()
+		else:
+			settings_menu.hide()
+	else:
+		pass

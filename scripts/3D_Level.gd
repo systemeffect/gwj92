@@ -7,6 +7,7 @@ extends Node3D
 @export var target_rotation: Vector3
 @onready var grid_screen: Node3D = $"Van/Van Model/GridScreen"
 @onready var camera_pivot: Node3D = player.find_child("CameraPivot")
+@onready var settings_menu: CenterContainer = $UI/SettingsMenu
 
 var van_grid_loc: Vector2
 var van_global_loc: Vector2
@@ -29,6 +30,7 @@ func _ready() -> void:
 	turn_ended = false
 	get_tree().paused = false
 	GlobalSignals.grid_screen_pressed.connect(_on_grid_screen_pressed)
+	GlobalSignals.escape_key.connect(_on_escape_key_pressed)
 	city_grid = grid_screen.find_child("City_Grid")
 	van = city_grid.find_child("Van")
 	van.route_finished.connect(_on_van_route_finished)
@@ -173,3 +175,9 @@ func get_sensors():
 func _on_van_route_finished() -> void:
 	turn_ended = true
 	action_ui.process_turn()
+
+func _on_escape_key_pressed() -> void:
+	if settings_menu.visible == false:
+		settings_menu.show()
+	else:
+		settings_menu.hide()

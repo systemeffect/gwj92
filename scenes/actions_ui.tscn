@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://0f8h6vxa42id" path="res://scripts/end_of_round.gd" id="10_m6jc7"]
 [ext_resource type="FontFile" uid="uid://dslguyf3bsoql" path="res://assets/fonts/twc/Star3000 Large Heavy.ttf" id="12_y6as1"]
 [ext_resource type="FontFile" uid="uid://c2yt8a2rijife" path="res://assets/fonts/twc/Star3000 Extended.ttf" id="13_u8lnf"]
+[ext_resource type="PackedScene" uid="uid://bq0h2lblalaia" path="res://scenes/settings_menu.tscn" id="14_u8lnf"]
 
 [node name="ActionsUI" type="Control" unique_id=24908026]
 layout_mode = 3
@@ -577,6 +578,10 @@ theme_override_fonts/font = ExtResource("5_lgsi3")
 theme_override_font_sizes/font_size = 40
 text = "TOUCH SCREEN
 TO UPDATE MAP"
+
+[node name="SettingsMenu" parent="." unique_id=2061315302 instance=ExtResource("14_u8lnf")]
+layout_mode = 0
+anchors_preset = 0
 
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Forward1" to="." method="_on_forward_1_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Forward2" to="." method="_on_forward_2_pressed"]

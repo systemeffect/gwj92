@@ -22,6 +22,7 @@
 [ext_resource type="VideoStream" uid="uid://nvbtj685r28k" path="res://assets/radar_vid.ogv" id="20_pqd0y"]
 [ext_resource type="Texture2D" uid="uid://dgok0w8rt832o" path="res://assets/radar1.png" id="21_h6wmr"]
 [ext_resource type="Texture2D" uid="uid://dtrpksbkdo4q3" path="res://assets/radar3.jpg" id="21_pqd0y"]
+[ext_resource type="PackedScene" uid="uid://bq0h2lblalaia" path="res://scenes/settings_menu.tscn" id="23_5k0ak"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w7c3h"]
 shader = ExtResource("1_2q6dc")
@@ -264,9 +265,9 @@ player = NodePath("Player")
 van_model = NodePath("Van/Van Model")
 target_position = Vector3(-0.53, 2.2, 1)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=27209454]
+[node name="UI" type="CanvasLayer" parent="." unique_id=27209454]
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=780138220]
+[node name="ColorRect" type="ColorRect" parent="UI" unique_id=780138220]
 visible = false
 material = SubResource("ShaderMaterial_w7c3h")
 anchors_preset = 15
@@ -274,6 +275,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="SettingsMenu" parent="UI" unique_id=2061315302 instance=ExtResource("23_5k0ak")]
+visible = false
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [node name="Player" parent="." unique_id=63880466 instance=ExtResource("2_w8frs")]
 transform = Transform3D(0.99122477, 0, -0.13218716, 0, 1, 0, 0.13218716, 0, 0.99122477, -0.80212635, 2.176927, 1.3804743)

@@ -30,6 +30,9 @@ func _input(event: InputEvent) -> void:
 		else:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			is_mouse_visible = false
+			
+	if event.is_action_pressed("ui_close_dialog"):
+		GlobalSignals.escape_key.emit()
 	
 	if event is InputEventMouseButton:
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
