@@ -50,6 +50,8 @@ scroll_following = true
 vertical_alignment = 2
 
 [node name="ChatTimer" type="Timer" parent="." unique_id=1553331835]
+wait_time = 7.973
+autostart = true
 
 [node name="Button" type="Button" parent="." unique_id=739808343]
 layout_mode = 0
@@ -65,4 +67,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="ShortChatTimer" type="Timer" parent="." unique_id=193435790]
+wait_time = 3.3
+
+[connection signal="timeout" from="ChatTimer" to="." method="_on_chat_timer_timeout"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="timeout" from="ShortChatTimer" to="." method="_on_short_chat_timer_timeout"]
