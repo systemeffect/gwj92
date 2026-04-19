@@ -353,6 +353,7 @@ func _on_reset_queue_pressed() -> void:
 
 func _on_pressed(card_id: String):
 	if current_queue.has(card_id):
+		AudioManager.ui_cancel.play()
 		#remove from queue
 		if card_id != "":
 			current_queue.erase(card_id)
@@ -365,6 +366,7 @@ func _on_pressed(card_id: String):
 			clear_queue_window()
 			update_queue()
 	else:
+		AudioManager.ui_storm.play()
 		if card_id != "":
 			print(str(card_id))
 			if queue_size < max_queue_size:
@@ -404,6 +406,7 @@ func _on_move_pressed() -> void:
 	if parent == null:
 		status_log_label.update_text("[SETTING AUTODRIVE PATH]")
 	if moves_selected > 0:
+		AudioManager.ui_preview.play()
 		build_preview_directions()
 		for d in DirectionList.previewer_directions:
 			status_log_label.update_text("Direction: " + str(d.move_direction) + " | Amount: " + str(d.move_amount))
@@ -420,6 +423,7 @@ func build_preview_directions():
 		#current_van_direction = result["final_facing"]
 
 func _on_van_button_pressed() -> void:
+	AudioManager.ui_rollout.play()
 	var result = MovementPlanner.build_directions(current_movement_queue, current_van_direction, Util.all_cards)
 	DirectionList.directions.clear()
 	DirectionList.directions.append_array(result["directions"])
@@ -434,6 +438,7 @@ func _on_van_button_pressed() -> void:
 
 
 func _on_reset_moves_pressed() -> void:
+	AudioManager.ui_reset.play()
 	current_movement_queue.clear()
 	moves_selected = 0
 	clear_movement_queue_window()
@@ -443,6 +448,7 @@ func _on_reset_moves_pressed() -> void:
 
 func _on_forward_1_pressed() -> void:
 	if moves_selected < max_move_queue_size:
+		AudioManager.ui_click.play()
 		current_movement_queue.append("12")
 		build_preview_directions()
 		
@@ -453,6 +459,7 @@ func _on_forward_1_pressed() -> void:
 
 func _on_forward_2_pressed() -> void:
 	if moves_selected < max_move_queue_size:
+		AudioManager.ui_click.play()
 		current_movement_queue.append("13")
 		build_preview_directions()
 		
@@ -463,6 +470,7 @@ func _on_forward_2_pressed() -> void:
 
 func _on_reverse_1_pressed() -> void:
 	if moves_selected < max_move_queue_size:
+		AudioManager.ui_click.play()
 		current_movement_queue.append("14")
 		build_preview_directions()
 		
@@ -473,6 +481,7 @@ func _on_reverse_1_pressed() -> void:
 
 func _on_turn_left_pressed() -> void:
 	if moves_selected < max_move_queue_size:
+		AudioManager.ui_click.play()
 		current_movement_queue.append("15")
 		build_preview_directions()
 		
@@ -483,6 +492,7 @@ func _on_turn_left_pressed() -> void:
 
 func _on_turn_around_pressed() -> void:
 	if moves_selected < max_move_queue_size:
+		AudioManager.ui_click.play()
 		current_movement_queue.append("17")
 		build_preview_directions()
 		
@@ -493,6 +503,7 @@ func _on_turn_around_pressed() -> void:
 
 func _on_turn_right_pressed() -> void:
 	if moves_selected < max_move_queue_size:
+		AudioManager.ui_click.play()
 		current_movement_queue.append("16")
 		build_preview_directions()
 		
@@ -537,6 +548,7 @@ func set_integrity(new_int : int):
 
 func collect_sensor():
 	cur_sensors = GlobalLocations.sensors_collected
+	AudioManager.sfx_sensor_pickup.play()
 	sensors_num.text = str(cur_sensors)
 
 
