@@ -6,6 +6,7 @@ extends Node3D
 @export var target_position: Vector3
 @export var target_rotation: Vector3
 @onready var grid_screen: Node3D = $"Van/Van Model/GridScreen"
+@onready var camera_pivot: Node3D = player.find_child("CameraPivot")
 
 var van_grid_loc: Vector2
 var van_global_loc: Vector2
@@ -20,6 +21,7 @@ var lerp_rotation: bool = false
 var last_van_body_transform: Transform3D
 var default_target_position: Vector3
 var default_target_rotation: Vector3
+var pivot_last_x_rotation: float = 0.0
 
 var turn_ended : bool = false
 
@@ -43,6 +45,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if is_camera_lerping:
 		player.position = player.position.lerp(target_position, camera_lerp_speed * delta)
+		camera_pivot.rotation.x = lerp_angle(camera_pivot.rotation.x, 0.0, camera_lerp_speed * delta)
 		if lerp_rotation:
 			player.rotation = player.rotation.lerp(target_rotation, camera_lerp_speed * delta)
 		
@@ -109,9 +112,11 @@ func _on_grid_screen_pressed() -> void:
 	else:
 		if !screen_view_active:
 			player_last_pos = player.global_transform
+			pivot_last_x_rotation = camera_pivot.rotation.x
 			target_position = default_target_position
 			target_rotation = default_target_rotation
 			lerp_rotation = true
+			camera_pivot.rotation.x = 0.0
 			player.find_child("CenterContainer").find_child("Crosshair").visible = false
 			player.set_physics_process(false)
 			screen_view_active = true
