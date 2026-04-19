@@ -1,11 +1,18 @@
 [gd_scene format=3 uid="uid://c7rr0yoh715lw"]
 
 [ext_resource type="Script" uid="uid://bb4wrtl377805" path="res://scripts/audio_manager.gd" id="1_8qd8g"]
+[ext_resource type="AudioStream" uid="uid://cibu3gp1cja1v" path="res://assets/audio/SFX/ui_cancel.wav" id="2_if78k"]
 [ext_resource type="AudioStream" uid="uid://dj7cn2xqt4587" path="res://assets/audio/SFX/sfx_button.wav" id="2_njtn3"]
+[ext_resource type="AudioStream" uid="uid://yw1du03i0ye6" path="res://assets/audio/SFX/ui_click.wav" id="3_8igv3"]
 [ext_resource type="AudioStream" uid="uid://6jv4d4j5ylav" path="res://assets/audio/SFX/sfx_engine_idle.wav" id="3_kq7b2"]
 [ext_resource type="AudioStream" uid="uid://bmf47vwfu5wep" path="res://assets/audio/SFX/sfx_engine_rev_down.wav" id="4_02gw7"]
+[ext_resource type="AudioStream" uid="uid://67tc7g503vu3" path="res://assets/audio/SFX/ui_preview.wav" id="4_2y2jw"]
+[ext_resource type="AudioStream" uid="uid://dnltxd7yn0tq4" path="res://assets/audio/SFX/ui_reset.wav" id="5_2y5yn"]
 [ext_resource type="AudioStream" uid="uid://0weulyyowuyl" path="res://assets/audio/SFX/sfx_engine_rev_up.wav" id="5_ujhup"]
 [ext_resource type="AudioStream" uid="uid://q27egilxmjih" path="res://assets/audio/SFX/sfx_engine_running.wav" id="6_064dn"]
+[ext_resource type="AudioStream" uid="uid://doeelwt6wrris" path="res://assets/audio/SFX/ui_rollout.wav" id="6_oucy0"]
+[ext_resource type="AudioStream" uid="uid://dhw7kf7ssus0s" path="res://assets/audio/SFX/sfx_sensor_pickup.wav" id="7_8igv3"]
+[ext_resource type="AudioStream" uid="uid://bjomfod3ymu6c" path="res://assets/audio/SFX/ui_storm.wav" id="7_cuol6"]
 
 [node name="AudioManager" type="Node" unique_id=889789333]
 script = ExtResource("1_8qd8g")
@@ -29,3 +36,24 @@ bus = &"SFX"
 [node name="SfxEngineRunning" type="AudioStreamPlayer" parent="." unique_id=442807427]
 stream = ExtResource("6_064dn")
 bus = &"SFX"
+
+[node name="SfxSensorPickup" type="AudioStreamPlayer" parent="." unique_id=66231532]
+stream = ExtResource("7_8igv3")
+
+[node name="UiCancel" type="AudioStreamPlayer" parent="." unique_id=1401027510]
+stream = ExtResource("2_if78k")
+
+[node name="UiClick" type="AudioStreamPlayer" parent="." unique_id=1297325578]
+stream = ExtResource("3_8igv3")
+
+[node name="UiPreview" type="AudioStreamPlayer" parent="." unique_id=1866327541]
+stream = ExtResource("4_2y2jw")
+
+[node name="UiReset" type="AudioStreamPlayer" parent="." unique_id=1396904644]
+stream = ExtResource("5_2y5yn")
+
+[node name="UiRollout" type="AudioStreamPlayer" parent="." unique_id=1977101953]
+stream = ExtResource("6_oucy0")
+
+[node name="UiStorm" type="AudioStreamPlayer" parent="." unique_id=415040778]
+stream = ExtResource("7_cuol6")
