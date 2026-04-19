@@ -139,4 +139,3 @@ func get_sensors():
 	var level_sensors = city_grid.sensors_total
 	var sens_col = level_sensors - sensor_array.size()
 	GlobalLocations.sensors_collected = sens_col
-	

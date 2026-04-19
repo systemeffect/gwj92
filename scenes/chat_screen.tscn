@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://1bhogfxyyo1c"]
+
+[ext_resource type="Script" uid="uid://1syu4bnxfm0o" path="res://scripts/chat_screen.gd" id="1_41o0n"]
+[ext_resource type="Theme" uid="uid://c2wc4jnemooda" path="res://themes/twc_chat.tres" id="1_e0sqn"]
+
+[node name="ChatScreen" type="Control" unique_id=1157306203]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_41o0n")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=427049100]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_e0sqn")
+
+[node name="Margin" type="MarginContainer" parent="Panel" unique_id=2089528778]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="ChatScroll" type="RichTextLabel" parent="Panel/Margin" unique_id=1166162937]
+layout_mode = 2
+text = "Test"
+scroll_active = false
+scroll_following = true
+vertical_alignment = 2
+
+[node name="ChatTimer" type="Timer" parent="." unique_id=1553331835]

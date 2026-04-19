@@ -34,6 +34,5 @@ func set_final_score():
 	total_score_num.text = str(final_score)
 
 
-func _on_end_of_turn_button_pressed() -> void:
+func _on_end_of_round_button_pressed() -> void:
 	set_final_score()
-	pass # Replace with function body.

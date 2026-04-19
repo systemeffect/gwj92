@@ -1,0 +1,11 @@
+[gd_resource type="Theme" format=3 uid="uid://c2wc4jnemooda"]
+
+[ext_resource type="FontFile" uid="uid://cp4r603o5ybwm" path="res://assets/fonts/twc/Star4000.ttf" id="1_aw4ob"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_okdew"]
+bg_color = Color(0.08861036, 0, 0.6471302, 1)
+
+[resource]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_okdew")
+RichTextLabel/font_sizes/normal_font_size = 18
+RichTextLabel/fonts/normal_font = ExtResource("1_aw4ob")

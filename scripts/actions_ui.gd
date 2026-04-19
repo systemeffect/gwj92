@@ -532,5 +532,5 @@ func set_integrity(new_int : int):
 			integrity_num.text = "100%"
 
 func collect_sensor():
-	cur_sensors += 1
+	cur_sensors = GlobalLocations.sensors_collected
 	sensors_num.text = str(cur_sensors)
