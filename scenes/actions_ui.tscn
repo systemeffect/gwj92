@@ -192,15 +192,18 @@ columns = 3
 [node name="Move_1" parent="MovementQueue/GridContainer" unique_id=1543295380 instance=ExtResource("3_cou15")]
 layout_mode = 2
 is_in_action_queue = true
+is_movement_queue = true
 
 [node name="Move_2" parent="MovementQueue/GridContainer" unique_id=475728304 instance=ExtResource("3_cou15")]
 layout_mode = 2
 is_in_action_queue = true
+is_movement_queue = true
 queue_number = 2
 
 [node name="Move_3" parent="MovementQueue/GridContainer" unique_id=357935629 instance=ExtResource("3_cou15")]
 layout_mode = 2
 is_in_action_queue = true
+is_movement_queue = true
 queue_number = 3
 
 [node name="QueueLabel" type="Label" parent="." unique_id=1055778044]

@@ -30,9 +30,17 @@ theme_override_constants/margin_bottom = 24
 
 [node name="ChatScroll" type="RichTextLabel" parent="Panel/Margin" unique_id=1166162937]
 layout_mode = 2
+bbcode_enabled = true
 text = "Test"
 scroll_active = false
 scroll_following = true
 vertical_alignment = 2
 
 [node name="ChatTimer" type="Timer" parent="." unique_id=1553331835]
+
+[node name="Button" type="Button" parent="." unique_id=739808343]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

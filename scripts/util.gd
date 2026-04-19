@@ -2,7 +2,7 @@ extends Node
 
 @onready var card_slot = preload("res://scenes/card_slot.tscn")
 var all_chats = {}
-var available_chats = {}
+var available_chats = []
 
 # All Card data
 var all_cards = {}

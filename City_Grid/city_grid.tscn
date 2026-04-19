@@ -454,7 +454,6 @@ libraries/ = SubResource("AnimationLibrary_vex6x")
 
 [node name="StormsContainer" type="Node2D" parent="." unique_id=84711386]
 process_mode = 1
-visible = false
 
 [node name="Storm" parent="StormsContainer" unique_id=1617278582 instance=ExtResource("2_yiybu")]
 position = Vector2(280.38242, 241.58496)
