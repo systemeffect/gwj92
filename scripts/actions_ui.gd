@@ -15,7 +15,7 @@ signal extraction
 @onready var van_button: Button = $ActionDebug/VBoxContainer/MovementButtons/VanButton
 
 @onready var end_of_turn_prompt: PanelContainer = $EndOfTurnPrompt
-@onready var end_of_turn_prompt_2d: PanelContainer = $EndOfTurnPrompt2D
+@onready var end_of_turn_prompt_2d: Panel = $EndOfTurnPrompt2D
 @onready var end_of_turn_prompt_2: PanelContainer = $EndOfTurnPrompt2
 @onready var city_grid: Node2D = $"../.."
 

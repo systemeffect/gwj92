@@ -494,34 +494,42 @@ by zakari games, system_effect,
 frequency.data, voyd & crocsle"
 horizontal_alignment = 1
 
-[node name="EndOfTurnPrompt2D" type="PanelContainer" parent="." unique_id=1913877453]
-process_mode = 3
+[node name="EndOfTurnPrompt2D" type="Panel" parent="." unique_id=621219850]
 visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="EndOfTurnPrompt2D" unique_id=1913877453]
+process_mode = 3
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -66.5
-offset_top = -40.5
-offset_right = 66.5
-offset_bottom = 40.5
+offset_left = -129.0
+offset_top = -63.0
+offset_right = 129.0
+offset_bottom = 63.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("4_p22f0")
 
-[node name="MarginContainer" type="MarginContainer" parent="EndOfTurnPrompt2D" unique_id=984949629]
+[node name="MarginContainer" type="MarginContainer" parent="EndOfTurnPrompt2D/Panel" unique_id=984949629]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="EndOfTurnPrompt2D/MarginContainer" unique_id=943191612]
+[node name="VBoxContainer" type="VBoxContainer" parent="EndOfTurnPrompt2D/Panel/MarginContainer" unique_id=943191612]
 layout_mode = 2
 
-[node name="TurnEndLabel" type="Label" parent="EndOfTurnPrompt2D/MarginContainer/VBoxContainer" unique_id=952596432]
+[node name="TurnEndLabel" type="Label" parent="EndOfTurnPrompt2D/Panel/MarginContainer/VBoxContainer" unique_id=952596432]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.79807013, 0.7541255, 0.7181343, 1)
 theme_override_fonts/font = ExtResource("4_bxdbe")
@@ -529,20 +537,20 @@ theme_override_font_sizes/font_size = 16
 text = "AUTO-DRIVE PATH EXECUTED"
 horizontal_alignment = 1
 
-[node name="TurnEndLabel2" type="Label" parent="EndOfTurnPrompt2D/MarginContainer/VBoxContainer" unique_id=1201175016]
+[node name="TurnEndLabel2" type="Label" parent="EndOfTurnPrompt2D/Panel/MarginContainer/VBoxContainer" unique_id=1201175016]
 layout_mode = 2
 text = "Engage Stormbrew Console and Update Radar
 or
 Extract and end round safely"
 horizontal_alignment = 1
 
-[node name="EndOfTurnButton" type="Button" parent="EndOfTurnPrompt2D/MarginContainer/VBoxContainer" unique_id=1107124173]
+[node name="EndOfTurnButton" type="Button" parent="EndOfTurnPrompt2D/Panel/MarginContainer/VBoxContainer" unique_id=1107124173]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.40784314, 0.2509804, 1)
 theme_override_fonts/font = ExtResource("5_lgsi3")
 text = "UPDATE MAP (CONTINUE)"
 
-[node name="ExtractionButton" type="Button" parent="EndOfTurnPrompt2D/MarginContainer/VBoxContainer" unique_id=2073345150]
+[node name="ExtractionButton" type="Button" parent="EndOfTurnPrompt2D/Panel/MarginContainer/VBoxContainer" unique_id=2073345150]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.40784314, 0.2509804, 1)
 theme_override_fonts/font = ExtResource("5_lgsi3")
@@ -591,6 +599,10 @@ TO UPDATE MAP"
 [node name="SettingsMenu" parent="." unique_id=2061315302 instance=ExtResource("14_u8lnf")]
 layout_mode = 0
 anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Forward1" to="." method="_on_forward_1_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Forward2" to="." method="_on_forward_2_pressed"]
@@ -603,7 +615,7 @@ anchors_preset = 0
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/VanButton" to="." method="_on_van_button_pressed"]
 [connection signal="pressed" from="EndOfTurnPrompt/MarginContainer/VBoxContainer/EndOfTurnButton" to="." method="_on_end_of_turn_button_pressed"]
 [connection signal="pressed" from="EndOfRound/Margin/VBox/EndOfRoundButton" to="EndOfRound" method="_on_end_of_round_button_pressed"]
-[connection signal="pressed" from="EndOfTurnPrompt2D/MarginContainer/VBoxContainer/EndOfTurnButton" to="." method="_on_end_of_turn_button_pressed"]
-[connection signal="pressed" from="EndOfTurnPrompt2D/MarginContainer/VBoxContainer/ExtractionButton" to="." method="_on_extraction_button_pressed"]
+[connection signal="pressed" from="EndOfTurnPrompt2D/Panel/MarginContainer/VBoxContainer/EndOfTurnButton" to="." method="_on_end_of_turn_button_pressed"]
+[connection signal="pressed" from="EndOfTurnPrompt2D/Panel/MarginContainer/VBoxContainer/ExtractionButton" to="." method="_on_extraction_button_pressed"]
 
 [editable path="ActionQueue"]

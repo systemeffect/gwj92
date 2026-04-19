@@ -11,7 +11,7 @@ extends Node2D
 @onready var status_log_label: RichTextLabel = $UI/ActionsUI/StatusLogLabel
 @onready var turn_num: Label = $UI/ActionsUI/ResourcesPanel/Margin/TopBar/Turn/TurnNum
 
-@onready var end_of_turn_prompt_2d: PanelContainer = $UI/ActionsUI/EndOfTurnPrompt2D
+@onready var end_of_turn_prompt_2d: Panel = $UI/ActionsUI/EndOfTurnPrompt2D
 @onready var end_of_round: PanelContainer = $UI/ActionsUI/EndOfRound
 
 

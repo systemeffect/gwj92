@@ -179,7 +179,7 @@ script = ExtResource("1_weyc0")
 storm_scene = ExtResource("2_yiybu")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=642432425]
-process_mode = 3
+process_mode = 2
 
 [node name="ActionsUI" parent="UI" unique_id=24908026 instance=ExtResource("2_wkloc")]
 
@@ -223,6 +223,8 @@ offset_left = -120.0
 offset_top = -99.0
 offset_right = 120.0
 offset_bottom = 99.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Debug" type="Control" parent="UI" unique_id=1033361981]
 visible = false
