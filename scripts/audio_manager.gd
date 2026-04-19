@@ -16,15 +16,18 @@ var exe_playlist = []
 var current_track = 0
 
 func _ready() -> void:
+	music_planning.stop()
 	exe_playlist.append(music_execute_3)
 	exe_playlist.append(music_execute_2)
 	exe_playlist.append(music_execute_1)
 	exe_playlist.append(music_planning)
-	music_execute_1.play()
-	if !music_menu.playing:
-		music_planning.stop()
-
-		
+	#music_execute_3.play()
+	
+	
+func switch_to_execute_music():
+	music_planning.stop()
+	music_menu.stop()
+	music_execute_3.play()
 
 func _on_finished() -> void:
 	current_track = (current_track + 1) % exe_playlist.size()

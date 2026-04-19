@@ -433,6 +433,8 @@ func _on_van_button_pressed() -> void:
 	GlobalLocations.cur_wind_attr = wind_attr
 	get_storm_locs()
 	AudioManager.music_planning.stop()
+	if AudioManager.music_execute_1.playing == false and AudioManager.music_execute_2.playing == false and AudioManager.music_execute_3.playing == false:
+		AudioManager.switch_to_execute_music()
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/level.tscn")
 	

@@ -67,14 +67,15 @@ var sensors_collected : int = 0
 var wind_direction : Direction
 
 func _ready() -> void:
+	AudioManager.music_menu.stop()
 	var parent_node = find_parent("Level")
 	if parent_node == null:
-		if AudioManager.music_planning.playing == false:
+		if AudioManager.music_execute_1.playing == false and AudioManager.music_execute_2.playing == false and AudioManager.music_execute_3.playing == false:
 			AudioManager.music_planning.play()
 		AudioManager.music_menu.stop()
-		AudioManager.music_execute_1.stop()
-		AudioManager.music_execute_2.stop()
-		AudioManager.music_execute_3.stop()
+		#AudioManager.music_execute_1.stop()
+		#AudioManager.music_execute_2.stop()
+		#AudioManager.music_execute_3.stop()
 	get_tree().paused = true
 	actions_ui.round_initiated.connect(_on_round_initiated)
 	actions_ui.reset_movement_queue.connect(_on_reset_movement_queue)
