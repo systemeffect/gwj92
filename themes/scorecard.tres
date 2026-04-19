@@ -2,5 +2,17 @@
 
 [ext_resource type="FontFile" uid="uid://dvletebxg66fx" path="res://assets/fonts/twc/Star3000.ttf" id="1_pwh2u"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pwh2u"]
+bg_color = Color(0.120562054, 1.92523e-07, 0.676252, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
 [resource]
 Label/fonts/font = ExtResource("1_pwh2u")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_pwh2u")

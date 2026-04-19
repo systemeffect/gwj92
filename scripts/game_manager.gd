@@ -12,6 +12,7 @@ extends Node2D
 @onready var turn_num: Label = $UI/ActionsUI/ResourcesPanel/Margin/TopBar/Turn/TurnNum
 
 @onready var end_of_turn_prompt_2d: PanelContainer = $UI/ActionsUI/EndOfTurnPrompt2D
+@onready var end_of_round: PanelContainer = $UI/ActionsUI/EndOfRound
 
 
 @onready var current_turn_label: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/CurrentTurnLabel
@@ -23,7 +24,6 @@ extends Node2D
 @onready var grid_overlay: TextureRect = $UI/GridOverlay
 @onready var city_grid: TileMapLayer = $GridArea/Tilemaps/CityGrid
 @onready var status_effects: TileMapLayer = $GridArea/Tilemaps/StatusEffects
-@onready var level_2: TileMapLayer = $GridArea/Tilemaps/level2
 
 # Movement Preview Lines
 @onready var queue_preview: Line2D = $UI/PathPreview/QueuePreview
@@ -72,6 +72,7 @@ func _ready() -> void:
 	actions_ui.reset_movement_queue.connect(_on_reset_movement_queue)
 	actions_ui.movement_queued.connect(_on_movement_queued)
 	actions_ui.end_of_turn.connect(update_map_interface)
+	actions_ui.extraction.connect(_on_round_end)
 	action_queue = actions_ui.current_queue
 	status_effects.update_status_log.connect(_on_update_status_log)
 	movement_queue = actions_ui.current_movement_queue
@@ -112,12 +113,15 @@ func _ready() -> void:
 		if parent == null:
 			end_of_turn_prompt_2d.show()
 		status_log_label.text = GlobalLocations.status_log
+		
 	
 	var cur_sensors = status_effects.get_used_cells_by_id(0, Vector2(4,0))
 	
-	sensors_collected = sensors_total - cur_sensors.size()
+	#sensors_collected = sensors_total - cur_sensors.size()
 	set_sensors()
-	
+	sensors_collected = GlobalLocations.sensors_collected
+	if sensors_collected == sensors_total:
+		_on_round_end()
 	if GlobalLocations.current_turn > 0:
 		status_log_label.text = GlobalLocations.status_log
 		
@@ -139,11 +143,6 @@ func _process(delta: float) -> void:
 	#check_end_of_path()
 	if end_of_turn:
 		check_end_of_movement()
-		
-#func check_end_of_path():
-	#van_grid_coords = status_effects.local_to_map(van.position)
-	#if van_grid_coords == turn_end_coords:
-		#print("we cooking")
 
 func check_end_of_movement():
 	if !van.is_currently_moving:
@@ -152,8 +151,6 @@ func check_end_of_movement():
 		if parent != null:
 			actions_ui.process_turn()
 
-#func process_turn():
-	#action_ui.process_turn()
 
 func update_map_interface(attr_array : Array):
 	_on_change_wind_pressed()
@@ -394,30 +391,6 @@ func _on_spread_pressed(attr_array : Array) -> void:
 	if flood_attr > 0:
 		flood_status.status_amount = flood_attr
 		status_effects.spread_available_cell(flood_status)
-	#var statuses = []
-	#for attr in attr_array:
-		#if attr.spawns_fire:
-			#fire_status.status_amount = attr.attr_value
-			#statuses.append(fire_status)
-		#if attr.spawns_flood:
-			#flood_status.status_amount = attr.attr_value
-			#statuses.append(flood_status)
-		#if attr.spawns_wind:
-			#wind_status.status_amount = attr.attr_value
-			## store/trigger wind
-	#for status in statuses:
-		#var cur_status = statuses.pop_front()
-		#status_effects.spread_available_cell(cur_status)
-		##_on_add_status_pressed()
-		#var storms = storms_container.get_children()
-		#for storm in storms:
-			#var storm_loc = storm.position
-			#storm_loc = city_grid.local_to_map(storm_loc)
-			#
-			##status_type.init_coord = storm_loc
-			#status_effects.add_status_effect(cur_status, storm_loc)
-			#storm.dropped_status(cur_status)
-
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	# Triggers when van hits a status tile (fire, sensor,...)
@@ -447,7 +420,7 @@ func collect_sensor(grid : Vector2):
 	var parent = find_parent("Level")
 	if parent != null:
 		status_effects.set_cell(grid,0,Vector2(1,0))
-	actions_ui.collect_sensor()
+		actions_ui.collect_sensor()
 	sensor_collect.show()
 	collect_animate.play("collect_sensor")
 	await collect_animate.animation_finished
@@ -483,6 +456,7 @@ func _on_preview_cont_area_entered(area: Area2D) -> void:
 
 func set_sensors():
 	if current_turn > 0:
+		sensors_collected = GlobalLocations.sensors_collected
 		var sensor_locs = GlobalLocations.sensor_locs
 		var cur_sensor_locs = status_effects.get_used_cells_by_id(0,Vector2(4,0))
 		for loc in sensor_locs:
@@ -492,6 +466,7 @@ func set_sensors():
 			status_effects.set_cell(loc,0,Vector2(1,0))
 			var parent = find_parent("Level")
 			if parent == null:
+				pass
 			#	GlobalLocations.sensors_collected += 1
 				actions_ui.collect_sensor()
 
@@ -514,5 +489,7 @@ func reset_preview_van() -> void:
 	end_of_turn = false
 
 func _on_round_end():
-	# responds to signal signalling the end of the game (death or extraction)
+	end_of_round.show()
+	end_of_turn_prompt_2d.hide()
+	end_of_round.set_final_score()
 	pass

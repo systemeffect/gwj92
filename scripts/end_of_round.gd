@@ -14,6 +14,7 @@ var end_sensor_tiles
 var storms_created
 var van_integrity
 
+
 func set_score_variables():
 	end_fire_tiles = GlobalLocations.fire_locs
 	end_flood_tiles = GlobalLocations.flood_locs
@@ -32,8 +33,7 @@ func set_final_score():
 	var final_score = end_fire_tiles.size() + end_flood_tiles.size() + end_sensor_tiles.size() + storms_created
 	final_score = final_score * van_integrity
 	total_score_num.text = str(final_score)
+	show()
 
-
-func _on_end_of_turn_button_pressed() -> void:
+func _on_end_of_round_button_pressed() -> void:
 	set_final_score()
-	pass # Replace with function body.

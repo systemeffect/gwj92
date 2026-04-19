@@ -11,6 +11,8 @@
 [ext_resource type="Script" uid="uid://c7o1kqxleq5v" path="res://scripts/status_log.gd" id="8_bxdbe"]
 [ext_resource type="Theme" uid="uid://cc6604hpojlmr" path="res://themes/scorecard.tres" id="10_kchie"]
 [ext_resource type="Script" uid="uid://0f8h6vxa42id" path="res://scripts/end_of_round.gd" id="10_m6jc7"]
+[ext_resource type="FontFile" uid="uid://dslguyf3bsoql" path="res://assets/fonts/twc/Star3000 Large Heavy.ttf" id="12_y6as1"]
+[ext_resource type="FontFile" uid="uid://c2yt8a2rijife" path="res://assets/fonts/twc/Star3000 Extended.ttf" id="13_u8lnf"]
 
 [node name="ActionsUI" type="Control" unique_id=24908026]
 layout_mode = 3
@@ -190,15 +192,18 @@ columns = 3
 [node name="Move_1" parent="MovementQueue/GridContainer" unique_id=1543295380 instance=ExtResource("3_cou15")]
 layout_mode = 2
 is_in_action_queue = true
+is_movement_queue = true
 
 [node name="Move_2" parent="MovementQueue/GridContainer" unique_id=475728304 instance=ExtResource("3_cou15")]
 layout_mode = 2
 is_in_action_queue = true
+is_movement_queue = true
 queue_number = 2
 
 [node name="Move_3" parent="MovementQueue/GridContainer" unique_id=357935629 instance=ExtResource("3_cou15")]
 layout_mode = 2
 is_in_action_queue = true
+is_movement_queue = true
 queue_number = 3
 
 [node name="QueueLabel" type="Label" parent="." unique_id=1055778044]
@@ -377,6 +382,7 @@ text = "UPDATE MAP"
 
 [node name="EndOfRound" type="PanelContainer" parent="." unique_id=848322876]
 process_mode = 3
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -404,11 +410,13 @@ layout_mode = 2
 
 [node name="TurnRoundLabel" type="Label" parent="EndOfRound/Margin/VBox" unique_id=165070182]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("12_y6as1")
 text = "END OF ROUND"
 horizontal_alignment = 1
 
 [node name="EndCauseLabel" type="Label" parent="EndOfRound/Margin/VBox" unique_id=943244529]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("13_u8lnf")
 text = "Cause: Extraction or Death"
 horizontal_alignment = 1
 
@@ -471,9 +479,8 @@ layout_mode = 2
 text = "0"
 horizontal_alignment = 1
 
-[node name="EndOfTurnButton" type="Button" parent="EndOfRound/Margin/VBox" unique_id=2138152164]
+[node name="EndOfRoundButton" type="Button" parent="EndOfRound/Margin/VBox" unique_id=2138152164]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9098039, 0.40784314, 0.2509804, 1)
 theme_override_fonts/font = ExtResource("5_lgsi3")
 text = "MAIN MENU"
 
@@ -506,19 +513,30 @@ layout_mode = 2
 
 [node name="TurnEndLabel" type="Label" parent="EndOfTurnPrompt2D/MarginContainer/VBoxContainer" unique_id=952596432]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.79807013, 0.7541255, 0.7181343, 1)
+theme_override_fonts/font = ExtResource("4_bxdbe")
+theme_override_font_sizes/font_size = 16
 text = "AUTO-DRIVE PATH EXECUTED"
+horizontal_alignment = 1
 
 [node name="TurnEndLabel2" type="Label" parent="EndOfTurnPrompt2D/MarginContainer/VBoxContainer" unique_id=1201175016]
 layout_mode = 2
-text = "Engage Tempest Drive
-and Update Radar"
+text = "Engage Stormbrew Console and Update Radar
+or
+Extract and end round safely"
 horizontal_alignment = 1
 
 [node name="EndOfTurnButton" type="Button" parent="EndOfTurnPrompt2D/MarginContainer/VBoxContainer" unique_id=1107124173]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.40784314, 0.2509804, 1)
 theme_override_fonts/font = ExtResource("5_lgsi3")
-text = "UPDATE MAP"
+text = "UPDATE MAP (CONTINUE)"
+
+[node name="ExtractionButton" type="Button" parent="EndOfTurnPrompt2D/MarginContainer/VBoxContainer" unique_id=2073345150]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9098039, 0.40784314, 0.2509804, 1)
+theme_override_fonts/font = ExtResource("5_lgsi3")
+text = "EXTRACT (END)"
 
 [node name="EndOfTurnPrompt2" type="PanelContainer" parent="." unique_id=5587342]
 process_mode = 3
@@ -570,7 +588,8 @@ TO UPDATE MAP"
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Move" to="." method="_on_move_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/VanButton" to="." method="_on_van_button_pressed"]
 [connection signal="pressed" from="EndOfTurnPrompt/MarginContainer/VBoxContainer/EndOfTurnButton" to="." method="_on_end_of_turn_button_pressed"]
-[connection signal="pressed" from="EndOfRound/Margin/VBox/EndOfTurnButton" to="EndOfRound" method="_on_end_of_turn_button_pressed"]
+[connection signal="pressed" from="EndOfRound/Margin/VBox/EndOfRoundButton" to="EndOfRound" method="_on_end_of_round_button_pressed"]
 [connection signal="pressed" from="EndOfTurnPrompt2D/MarginContainer/VBoxContainer/EndOfTurnButton" to="." method="_on_end_of_turn_button_pressed"]
+[connection signal="pressed" from="EndOfTurnPrompt2D/MarginContainer/VBoxContainer/ExtractionButton" to="." method="_on_extraction_button_pressed"]
 
 [editable path="ActionQueue"]

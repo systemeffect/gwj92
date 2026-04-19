@@ -7,6 +7,7 @@ signal action_queued
 signal action_removed
 signal reset_queue
 signal end_of_turn
+signal extraction
 
 @export_enum("NORTH", "EAST", "SOUTH", "WEST") var current_van_direction : String
 
@@ -532,5 +533,9 @@ func set_integrity(new_int : int):
 			integrity_num.text = "100%"
 
 func collect_sensor():
-	cur_sensors += 1
+	cur_sensors = GlobalLocations.sensors_collected
 	sensors_num.text = str(cur_sensors)
+
+
+func _on_extraction_button_pressed() -> void:
+	extraction.emit()

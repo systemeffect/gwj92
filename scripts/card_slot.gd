@@ -7,6 +7,7 @@ signal pressed
 @export_range(0.0, 5.0) var move_amount : int
 @export var card_image: Texture
 @export var is_in_action_queue : bool = false
+@export var is_movement_queue : bool = false
 @export_range(1,3) var queue_number : int
 
 @onready var card_icon: TextureRect = $InnerBorder/CardIcon
@@ -29,6 +30,8 @@ var card : Dictionary
 var is_empty : bool = true
 
 func _ready() -> void:
+	if is_movement_queue:
+		card_button.disabled = true
 	#if is_in_action_queue:
 		#action_queue_num.show()
 		#action_queue_num.text = "Action " + str(queue_number)

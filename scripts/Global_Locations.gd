@@ -7,7 +7,7 @@ var van_integrity : int = 3
 
 var storm_locs : Array
 var sensor_locs : Array
-var sensors_collected : int
+var sensors_collected : int = 0
 var current_turn = 0
 var current_queue : Array
 var turn_end_coords : Vector2
