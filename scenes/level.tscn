@@ -19,7 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://in4feywdsadp" path="res://assets/3D/keyboard.glb" id="16_ux5qa"]
 [ext_resource type="PackedScene" uid="uid://cpnplr37fs5yv" path="res://assets/3D/crt_monitor.blend" id="18_gunhw"]
 [ext_resource type="PackedScene" uid="uid://1bhogfxyyo1c" path="res://scenes/chat_screen.tscn" id="19_8gofh"]
-[ext_resource type="PackedScene" uid="uid://5aasxsm5pgfa" path="res://scenes/storm_screen.tscn" id="20_8gofh"]
+[ext_resource type="VideoStream" uid="uid://nvbtj685r28k" path="res://assets/radar_vid.ogv" id="20_pqd0y"]
 [ext_resource type="Texture2D" uid="uid://dgok0w8rt832o" path="res://assets/radar1.png" id="21_h6wmr"]
 [ext_resource type="Texture2D" uid="uid://dtrpksbkdo4q3" path="res://assets/radar3.jpg" id="21_pqd0y"]
 
@@ -218,12 +218,12 @@ albedo_texture = SubResource("ViewportTexture_8gofh")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_8gofh"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_h6wmr"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_5k0ak"]
 viewport_path = NodePath("crt_monitor2/Cube/MeshInstance3D/SubViewport2")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pqd0y"]
 resource_local_to_scene = true
-albedo_texture = SubResource("ViewportTexture_h6wmr")
+albedo_texture = SubResource("ViewportTexture_5k0ak")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_5k0ak"]
 
@@ -450,9 +450,13 @@ mesh = SubResource("PlaneMesh_8gofh")
 surface_material_override/0 = SubResource("StandardMaterial3D_pqd0y")
 
 [node name="SubViewport2" type="SubViewport" parent="crt_monitor2/Cube/MeshInstance3D" unique_id=1304175057]
-size = Vector2i(640, 480)
+size = Vector2i(1022, 690)
 
-[node name="StormScreen" parent="crt_monitor2/Cube/MeshInstance3D/SubViewport2" unique_id=3269823 instance=ExtResource("20_8gofh")]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="crt_monitor2/Cube/MeshInstance3D/SubViewport2" unique_id=1812402678]
+offset_right = 40.0
+offset_bottom = 40.0
+stream = ExtResource("20_pqd0y")
+autoplay = true
 
 [node name="main_display" parent="." unique_id=1471348135 instance=ExtResource("15_arp2o")]
 transform = Transform3D(-0.74513006, 0, 0.5754359, 0, 0.9999998, 0, -0.56323045, 0, -0.907086, -2.0634656, 1.5406451, 0.9189787)
