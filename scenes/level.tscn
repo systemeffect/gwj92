@@ -210,7 +210,7 @@ albedo_texture = ExtResource("13_fpun6")
 [sub_resource type="PlaneMesh" id="PlaneMesh_gunhw"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_8gofh"]
-viewport_path = NodePath("crt_monitor/Cube/MeshInstance3D/SubViewport")
+viewport_path = NodePath("Van/Van Model/crt_monitor/Cube/MeshInstance3D/SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h6wmr"]
 resource_local_to_scene = true
@@ -219,7 +219,7 @@ albedo_texture = SubResource("ViewportTexture_8gofh")
 [sub_resource type="PlaneMesh" id="PlaneMesh_8gofh"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_5k0ak"]
-viewport_path = NodePath("crt_monitor2/Cube/MeshInstance3D/SubViewport2")
+viewport_path = NodePath("Van/Van Model/crt_monitor2/Cube/MeshInstance3D/SubViewport2")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pqd0y"]
 resource_local_to_scene = true
@@ -228,7 +228,7 @@ albedo_texture = SubResource("ViewportTexture_5k0ak")
 [sub_resource type="PlaneMesh" id="PlaneMesh_5k0ak"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_wu01b"]
-viewport_path = NodePath("main_display/Cube/MeshInstance3D/SubViewport4")
+viewport_path = NodePath("Van/Van Model/main_display3/Cube/MeshInstance3D/SubViewport4")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3ies3"]
 resource_local_to_scene = true
@@ -239,7 +239,7 @@ emission = Color(0.04303915, 0.043039158, 0.04303913, 1)
 emission_energy_multiplier = 1.15
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_pqd0y"]
-viewport_path = NodePath("crt_monitor3/Cube/MeshInstance3D/SubViewport")
+viewport_path = NodePath("Van/Van Model/crt_monitor3/Cube/MeshInstance3D/SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8gofh"]
 resource_local_to_scene = true
@@ -315,7 +315,7 @@ transform = Transform3D(-7.86805e-09, 0, -0.18, 0, 0.18, 0, 0.18, 0, -7.868048e-
 [node name="RedButton" parent="Van/Van Model" unique_id=165692526 instance=ExtResource("6_2r41h")]
 transform = Transform3D(-6.9938237e-09, 0, -0.16000001, 0, 0.16000001, 0, 0.16000001, 0, -6.9938224e-09, 0.33327642, 0.69267815, -0.3771515)
 
-[node name="Button" parent="Van/Van Model/RedButton" index="1" unique_id=863461826]
+[node name="Button" parent="Van/Van Model/RedButton" index="1" unique_id=240862583]
 surface_material_override/0 = SubResource("StandardMaterial3D_2r41h")
 
 [node name="ButtonArea" type="Area3D" parent="Van/Van Model/RedButton" unique_id=904083176]
@@ -386,23 +386,23 @@ transform = Transform3D(-0.049999844, -8.726857e-05, 8.726642e-05, 8.72687e-05, 
 [node name="Dummy_Base2" parent="Van/Van Model" unique_id=944066257 instance=ExtResource("12_64w2a")]
 transform = Transform3D(0.32000002, 0, -8.881784e-16, 0, 0.32000002, 0, -8.881784e-16, 0, 0.32000002, 0.35029626, 0.34403557, 0.46559176)
 
-[node name="Dummy_Base" parent="Van/Van Model/Dummy_Base2" index="0" unique_id=133655090]
+[node name="Dummy_Base" parent="Van/Van Model/Dummy_Base2" index="0" unique_id=1553684100]
 material_override = SubResource("StandardMaterial3D_wc255")
 
-[node name="Dummy_Body" parent="Van/Van Model/Dummy_Base2/Dummy_Base" index="0" unique_id=406572567]
+[node name="Dummy_Body" parent="Van/Van Model/Dummy_Base2/Dummy_Base" index="0" unique_id=1800009593]
 material_override = SubResource("StandardMaterial3D_arp2o")
 
-[node name="Dummy_ArmLeft" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="0" unique_id=716579644]
+[node name="Dummy_ArmLeft" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="0" unique_id=1783820677]
 transform = Transform3D(0.41769266, 0, -0.9085884, 0, 1, 0, 0.9085884, 0, 0.41769266, 0.2000122, 0.6999999, 0)
 visible = false
 material_override = SubResource("StandardMaterial3D_ux5qa")
 
-[node name="Dummy_ArmRight" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="1" unique_id=510399513]
+[node name="Dummy_ArmRight" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="1" unique_id=1791929823]
 transform = Transform3D(0.413756, 0, 0.91038775, 0, 1, 0, -0.91038775, 0, 0.413756, -0.2000122, 0.6999999, -1.1920929e-07)
 visible = false
 material_override = SubResource("StandardMaterial3D_82cfe")
 
-[node name="Dummy_Head" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="2" unique_id=332982140]
+[node name="Dummy_Head" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="2" unique_id=1056717580]
 material_override = SubResource("StandardMaterial3D_gunhw")
 
 [node name="main_display" parent="Van/Van Model" unique_id=451486922 instance=ExtResource("15_arp2o")]
@@ -417,87 +417,87 @@ transform = Transform3D(-1.7484556e-08, 0, -0.4, 0, 0.4, 0, 0.39999998, 0, -1.74
 [node name="keyboard" parent="Van/Van Model" unique_id=729527796 instance=ExtResource("16_ux5qa")]
 transform = Transform3D(-1.7484556e-08, 0, -0.4, 0, 0.4, 0, 0.39999998, 0, -1.748455e-08, 0.3189893, 0.6911699, -0.20979099)
 
-[node name="crt_monitor" parent="." unique_id=260883724 instance=ExtResource("18_gunhw")]
-transform = Transform3D(-0.14488891, -0.038822882, -0.25980762, -0.1927206, 0.21733335, 0.074999996, 0.17851046, 0.20312314, -0.12990385, -0.03545654, 2.7810895, 0.92361784)
+[node name="crt_monitor" parent="Van/Van Model" unique_id=260883724 instance=ExtResource("18_gunhw")]
+transform = Transform3D(-0.07140418, -0.08124926, 0.051961545, -0.077088244, 0.08693334, 0.03, -0.057955563, -0.015529156, -0.10392304, 0.30667648, 1.1092167, -0.015581736)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="crt_monitor/Cube" parent_id_path=PackedInt32Array(260883724, 625283636) index="0" unique_id=712408113]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Van/Van Model/crt_monitor/Cube" parent_id_path=PackedInt32Array(260883724, 1792993416) index="0" unique_id=712408113]
 transform = Transform3D(-1.3420415e-08, 0.99999994, 8.531333e-16, 0.8295341, 1.6178252e-08, 6.197137e-08, 7.252017e-08, 2.6178593e-15, -0.7088698, 0.9456005, 0, 0.06861496)
 mesh = SubResource("PlaneMesh_gunhw")
 surface_material_override/0 = SubResource("StandardMaterial3D_h6wmr")
 
-[node name="SubViewport" type="SubViewport" parent="crt_monitor/Cube/MeshInstance3D" unique_id=77503664]
+[node name="SubViewport" type="SubViewport" parent="Van/Van Model/crt_monitor/Cube/MeshInstance3D" unique_id=77503664]
 canvas_item_default_texture_filter = 0
 size = Vector2i(640, 480)
 
-[node name="ChatScreen" parent="crt_monitor/Cube/MeshInstance3D/SubViewport" unique_id=1157306203 instance=ExtResource("19_8gofh")]
+[node name="ChatScreen" parent="Van/Van Model/crt_monitor/Cube/MeshInstance3D/SubViewport" unique_id=1157306203 instance=ExtResource("19_8gofh")]
 
-[node name="weather_gear" parent="." unique_id=1258529870 instance=ExtResource("11_t1rx8")]
-transform = Transform3D(0.11360937, 0, -0.13961704, 0, 0.18000011, 0, 0.13961704, 0, 0.11360937, -1.8945944, 1.5827119, 0.7150035)
+[node name="weather_gear10" parent="Van/Van Model" unique_id=1258529870 instance=ExtResource("11_t1rx8")]
+transform = Transform3D(-0.05584682, 0, -0.045443747, 0, 0.07200005, 0, 0.045443743, 0, -0.055846818, 0.39012223, 0.6298656, -0.7592368)
 
-[node name="crt_monitor2" parent="." unique_id=1705689481 instance=ExtResource("18_gunhw")]
-transform = Transform3D(0.13985069, 0, -0.11332161, 0, 0.18, 0, 0.11332161, 0, 0.13985069, -1.7484806, 1.5317466, 0.4923488)
+[node name="crt_monitor2" parent="Van/Van Model" unique_id=1705689481 instance=ExtResource("18_gunhw")]
+transform = Transform3D(-0.045328647, 0, -0.055940274, 0, 0.072000004, 0, 0.05594027, 0, -0.045328643, 0.47918415, 0.6094795, -0.7007913)
 
-[node name="Cube" parent="crt_monitor2" index="0" unique_id=625283636]
+[node name="Cube" parent="Van/Van Model/crt_monitor2" index="0" unique_id=1792993416]
 transform = Transform3D(1, 0, 0, 0, 0, 1.0000001, 0, -1.154441, 0, -0.12839079, 2.5702171, 0.57388973)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="crt_monitor2/Cube" index="0" unique_id=524562670]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Van/Van Model/crt_monitor2/Cube" index="0" unique_id=524562670]
 transform = Transform3D(-5.9604645e-08, 1.2953846, 0, -0.7849162, -1.1920929e-07, 0, 0, 0, 0.7348175, 0.969162, 0.000623703, 0.0673399)
 mesh = SubResource("PlaneMesh_8gofh")
 surface_material_override/0 = SubResource("StandardMaterial3D_pqd0y")
 
-[node name="SubViewport2" type="SubViewport" parent="crt_monitor2/Cube/MeshInstance3D" unique_id=1304175057]
+[node name="SubViewport2" type="SubViewport" parent="Van/Van Model/crt_monitor2/Cube/MeshInstance3D" unique_id=1304175057]
 size = Vector2i(1022, 690)
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="crt_monitor2/Cube/MeshInstance3D/SubViewport2" unique_id=1812402678]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Van/Van Model/crt_monitor2/Cube/MeshInstance3D/SubViewport2" unique_id=1812402678]
 offset_right = 40.0
 offset_bottom = 40.0
 stream = ExtResource("20_pqd0y")
 autoplay = true
 
-[node name="main_display" parent="." unique_id=1471348135 instance=ExtResource("15_arp2o")]
-transform = Transform3D(-0.74513006, 0, 0.5754359, 0, 0.9999998, 0, -0.56323045, 0, -0.907086, -2.0634656, 1.5406451, 0.9189787)
+[node name="main_display3" parent="Van/Van Model" unique_id=1471348135 instance=ExtResource("15_arp2o")]
+transform = Transform3D(0.2252922, 0, 0.36283442, 0, 0.39999995, 0, -0.298052, 0, 0.23017435, 0.30853218, 0.6130389, -0.82678527)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="main_display/Cube" parent_id_path=PackedInt32Array(1471348135, 1862130958) index="0" unique_id=1378869065]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Van/Van Model/main_display3/Cube" parent_id_path=PackedInt32Array(1471348135, 1290778475) index="0" unique_id=1378869065]
 transform = Transform3D(-5.2154064e-08, -1.5913105, 4.440892e-16, -8.500016e-09, 3.0404915e-15, -0.14521135, 0.19445777, -4.172325e-07, -6.347394e-09, -0.08182907, 0.021323204, 0.017420769)
 mesh = SubResource("PlaneMesh_5k0ak")
 surface_material_override/0 = SubResource("StandardMaterial3D_3ies3")
 
-[node name="SubViewport4" type="SubViewport" parent="main_display/Cube/MeshInstance3D" unique_id=1743752071]
+[node name="SubViewport4" type="SubViewport" parent="Van/Van Model/main_display3/Cube/MeshInstance3D" unique_id=1743752071]
 size = Vector2i(800, 760)
 
-[node name="TextureRect" type="TextureRect" parent="main_display/Cube/MeshInstance3D/SubViewport4" unique_id=264787486]
+[node name="TextureRect" type="TextureRect" parent="Van/Van Model/main_display3/Cube/MeshInstance3D/SubViewport4" unique_id=264787486]
 offset_top = -60.0
 offset_right = 732.0
 offset_bottom = 964.0
 texture = ExtResource("21_pqd0y")
 
-[node name="crt_monitor3" parent="." unique_id=1913544688 instance=ExtResource("18_gunhw")]
-transform = Transform3D(0.12240314, 0, -0.13197528, 0, 0.18000002, 0, 0.13197528, 0, 0.12240314, -1.7484806, 1.886596, 0.4923488)
+[node name="crt_monitor3" parent="Van/Van Model" unique_id=1913544688 instance=ExtResource("18_gunhw")]
+transform = Transform3D(-0.052790117, 0, -0.048961252, 0, 0.07200001, 0, 0.04896125, 0, -0.052790113, 0.47918415, 0.7514192, -0.7007913)
 
-[node name="Cube" parent="crt_monitor3" index="0" unique_id=625283636]
+[node name="Cube" parent="Van/Van Model/crt_monitor3" index="0" unique_id=1792993416]
 transform = Transform3D(1, 0, 0, 0, 0, 1.0000001, 0, -1.154441, 0, -0.12839079, 2.5702171, 0.57388973)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="crt_monitor3/Cube" index="0" unique_id=1224922363]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Van/Van Model/crt_monitor3/Cube" index="0" unique_id=1224922363]
 transform = Transform3D(-3.4309778e-08, 1.2953846, 0, 0.7849162, 5.6623062e-08, 6.4239785e-08, 6.8619556e-08, 4.9501452e-15, -0.7348175, 0.969162, 0.000623703, 0.0673399)
 mesh = SubResource("PlaneMesh_8gofh")
 surface_material_override/0 = SubResource("StandardMaterial3D_8gofh")
 
-[node name="SubViewport" type="SubViewport" parent="crt_monitor3/Cube/MeshInstance3D" unique_id=1766975895]
+[node name="SubViewport" type="SubViewport" parent="Van/Van Model/crt_monitor3/Cube/MeshInstance3D" unique_id=1766975895]
 size = Vector2i(933, 675)
 
-[node name="TextureRect" type="TextureRect" parent="crt_monitor3/Cube/MeshInstance3D/SubViewport" unique_id=1345280778]
+[node name="TextureRect" type="TextureRect" parent="Van/Van Model/crt_monitor3/Cube/MeshInstance3D/SubViewport" unique_id=1345280778]
 offset_right = 933.0
 offset_bottom = 675.0
 texture = ExtResource("21_h6wmr")
 
-[node name="ColorRect" type="ColorRect" parent="crt_monitor3/Cube/MeshInstance3D/SubViewport" unique_id=475136015]
+[node name="ColorRect" type="ColorRect" parent="Van/Van Model/crt_monitor3/Cube/MeshInstance3D/SubViewport" unique_id=475136015]
 material = SubResource("ShaderMaterial_pqd0y")
 offset_right = 40.0
 offset_bottom = 40.0
 
 [editable path="Van/Van Model/RedButton"]
 [editable path="Van/Van Model/Dummy_Base2"]
-[editable path="crt_monitor"]
-[editable path="crt_monitor2"]
-[editable path="main_display"]
-[editable path="crt_monitor3"]
+[editable path="Van/Van Model/crt_monitor"]
+[editable path="Van/Van Model/crt_monitor2"]
+[editable path="Van/Van Model/main_display3"]
+[editable path="Van/Van Model/crt_monitor3"]

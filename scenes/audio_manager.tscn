@@ -10,14 +10,14 @@
 [ext_resource type="AudioStream" uid="uid://dnltxd7yn0tq4" path="res://assets/audio/SFX/ui_reset.wav" id="5_2y5yn"]
 [ext_resource type="AudioStream" uid="uid://0weulyyowuyl" path="res://assets/audio/SFX/sfx_engine_rev_up.wav" id="5_ujhup"]
 [ext_resource type="AudioStream" uid="uid://q27egilxmjih" path="res://assets/audio/SFX/sfx_engine_running.wav" id="6_064dn"]
+[ext_resource type="AudioStream" uid="uid://doeelwt6wrris" path="res://assets/audio/SFX/ui_rollout.wav" id="6_oucy0"]
+[ext_resource type="AudioStream" uid="uid://dhw7kf7ssus0s" path="res://assets/audio/SFX/sfx_sensor_pickup.wav" id="7_8igv3"]
+[ext_resource type="AudioStream" uid="uid://bjomfod3ymu6c" path="res://assets/audio/SFX/ui_storm.wav" id="7_cuol6"]
 [ext_resource type="AudioStream" uid="uid://t1qnrms0q1u8" path="res://assets/audio/music/title - the trees are watching.wav" id="7_ic5jq"]
 [ext_resource type="AudioStream" uid="uid://gt6bftome1km" path="res://assets/audio/music/planning - the water's outside.wav" id="8_if78k"]
 [ext_resource type="AudioStream" uid="uid://cmdemhvpfr2g7" path="res://assets/audio/music/execute - the fire can crawl.wav" id="9_8igv3"]
 [ext_resource type="AudioStream" uid="uid://br15a62jitpky" path="res://assets/audio/music/execute - the sky will fall.wav" id="10_2y2jw"]
 [ext_resource type="AudioStream" uid="uid://cyh48pajesu3f" path="res://assets/audio/music/execute - the wind is listening.wav" id="11_2y5yn"]
-[ext_resource type="AudioStream" uid="uid://doeelwt6wrris" path="res://assets/audio/SFX/ui_rollout.wav" id="6_oucy0"]
-[ext_resource type="AudioStream" uid="uid://dhw7kf7ssus0s" path="res://assets/audio/SFX/sfx_sensor_pickup.wav" id="7_8igv3"]
-[ext_resource type="AudioStream" uid="uid://bjomfod3ymu6c" path="res://assets/audio/SFX/ui_storm.wav" id="7_cuol6"]
 
 [node name="AudioManager" type="Node" unique_id=889789333]
 process_mode = 3
@@ -67,27 +67,34 @@ stream = ExtResource("11_2y5yn")
 volume_db = -10.0
 bus = &"Music"
 
-[connection signal="finished" from="MusicExecute1" to="." method="_on_finished"]
-[connection signal="finished" from="MusicExecute2" to="." method="_on_finished"]
-[connection signal="finished" from="MusicExecute3" to="." method="_on_finished"]
-
 [node name="SfxSensorPickup" type="AudioStreamPlayer" parent="." unique_id=66231532]
 stream = ExtResource("7_8igv3")
+bus = &"SFX"
 
 [node name="UiCancel" type="AudioStreamPlayer" parent="." unique_id=1401027510]
 stream = ExtResource("2_if78k")
+bus = &"SFX"
 
 [node name="UiClick" type="AudioStreamPlayer" parent="." unique_id=1297325578]
 stream = ExtResource("3_8igv3")
+bus = &"SFX"
 
 [node name="UiPreview" type="AudioStreamPlayer" parent="." unique_id=1866327541]
 stream = ExtResource("4_2y2jw")
+bus = &"SFX"
 
 [node name="UiReset" type="AudioStreamPlayer" parent="." unique_id=1396904644]
 stream = ExtResource("5_2y5yn")
+bus = &"SFX"
 
 [node name="UiRollout" type="AudioStreamPlayer" parent="." unique_id=1977101953]
 stream = ExtResource("6_oucy0")
+bus = &"SFX"
 
 [node name="UiStorm" type="AudioStreamPlayer" parent="." unique_id=415040778]
 stream = ExtResource("7_cuol6")
+bus = &"SFX"
+
+[connection signal="finished" from="MusicExecute1" to="." method="_on_finished"]
+[connection signal="finished" from="MusicExecute2" to="." method="_on_finished"]
+[connection signal="finished" from="MusicExecute3" to="." method="_on_finished"]
