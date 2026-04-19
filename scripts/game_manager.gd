@@ -12,6 +12,7 @@ extends Node2D
 @onready var turn_num: Label = $UI/ActionsUI/ResourcesPanel/Margin/TopBar/Turn/TurnNum
 
 @onready var end_of_turn_prompt_2d: PanelContainer = $UI/ActionsUI/EndOfTurnPrompt2D
+@onready var end_of_round: PanelContainer = $UI/ActionsUI/EndOfRound
 
 
 @onready var current_turn_label: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/CurrentTurnLabel
@@ -71,6 +72,7 @@ func _ready() -> void:
 	actions_ui.reset_movement_queue.connect(_on_reset_movement_queue)
 	actions_ui.movement_queued.connect(_on_movement_queued)
 	actions_ui.end_of_turn.connect(update_map_interface)
+	actions_ui.extraction.connect(_on_round_end)
 	action_queue = actions_ui.current_queue
 	status_effects.update_status_log.connect(_on_update_status_log)
 	movement_queue = actions_ui.current_movement_queue
@@ -115,6 +117,8 @@ func _ready() -> void:
 	#sensors_collected = sensors_total - cur_sensors.size()
 	set_sensors()
 	sensors_collected = GlobalLocations.sensors_collected
+	if sensors_collected == sensors_total:
+		_on_round_end()
 	if GlobalLocations.current_turn > 0:
 		status_log_label.text = GlobalLocations.status_log
 		
@@ -136,11 +140,6 @@ func _process(delta: float) -> void:
 	#check_end_of_path()
 	if end_of_turn:
 		check_end_of_movement()
-		
-#func check_end_of_path():
-	#van_grid_coords = status_effects.local_to_map(van.position)
-	#if van_grid_coords == turn_end_coords:
-		#print("we cooking")
 
 func check_end_of_movement():
 	if van.is_not_moving:
@@ -149,8 +148,6 @@ func check_end_of_movement():
 		if parent != null:
 			actions_ui.process_turn()
 
-#func process_turn():
-	#action_ui.process_turn()
 
 func update_map_interface(attr_array : Array):
 	_on_change_wind_pressed()
@@ -489,5 +486,7 @@ func reset_preview_van() -> void:
 	end_of_turn = false
 
 func _on_round_end():
-	# responds to signal signalling the end of the game (death or extraction)
+	end_of_round.show()
+	end_of_turn_prompt_2d.hide()
+	end_of_round.set_final_score()
 	pass

@@ -513,19 +513,30 @@ layout_mode = 2
 
 [node name="TurnEndLabel" type="Label" parent="EndOfTurnPrompt2D/MarginContainer/VBoxContainer" unique_id=952596432]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.79807013, 0.7541255, 0.7181343, 1)
+theme_override_fonts/font = ExtResource("4_bxdbe")
+theme_override_font_sizes/font_size = 16
 text = "AUTO-DRIVE PATH EXECUTED"
+horizontal_alignment = 1
 
 [node name="TurnEndLabel2" type="Label" parent="EndOfTurnPrompt2D/MarginContainer/VBoxContainer" unique_id=1201175016]
 layout_mode = 2
-text = "Engage Tempest Drive
-and Update Radar"
+text = "Engage Stormbrew Console and Update Radar
+or
+Extract and end round safely"
 horizontal_alignment = 1
 
 [node name="EndOfTurnButton" type="Button" parent="EndOfTurnPrompt2D/MarginContainer/VBoxContainer" unique_id=1107124173]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.40784314, 0.2509804, 1)
 theme_override_fonts/font = ExtResource("5_lgsi3")
-text = "UPDATE MAP"
+text = "UPDATE MAP (CONTINUE)"
+
+[node name="ExtractionButton" type="Button" parent="EndOfTurnPrompt2D/MarginContainer/VBoxContainer" unique_id=2073345150]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9098039, 0.40784314, 0.2509804, 1)
+theme_override_fonts/font = ExtResource("5_lgsi3")
+text = "EXTRACT (END)"
 
 [node name="EndOfTurnPrompt2" type="PanelContainer" parent="." unique_id=5587342]
 process_mode = 3
@@ -579,5 +590,6 @@ TO UPDATE MAP"
 [connection signal="pressed" from="EndOfTurnPrompt/MarginContainer/VBoxContainer/EndOfTurnButton" to="." method="_on_end_of_turn_button_pressed"]
 [connection signal="pressed" from="EndOfRound/Margin/VBox/EndOfRoundButton" to="EndOfRound" method="_on_end_of_round_button_pressed"]
 [connection signal="pressed" from="EndOfTurnPrompt2D/MarginContainer/VBoxContainer/EndOfTurnButton" to="." method="_on_end_of_turn_button_pressed"]
+[connection signal="pressed" from="EndOfTurnPrompt2D/MarginContainer/VBoxContainer/ExtractionButton" to="." method="_on_extraction_button_pressed"]
 
 [editable path="ActionQueue"]
