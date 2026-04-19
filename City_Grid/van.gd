@@ -65,7 +65,7 @@ func _physics_process(delta: float) -> void:
 		
 	else:
 		#Internal Van
-		VAN_SPEED = 4.0
+		VAN_SPEED = 8.0
 		
 		if current_axis == "x":
 			is_currently_moving = true
