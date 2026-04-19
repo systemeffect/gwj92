@@ -29,7 +29,7 @@ func _ready() -> void:
 	GlobalSignals.grid_screen_pressed.connect(_on_grid_screen_pressed)
 	city_grid = grid_screen.find_child("City_Grid")
 	van = city_grid.find_child("Van")
-	van.is_not_moving.connect(check_end_of_path)
+	van.route_finished.connect(_on_van_route_finished)
 	var ui = city_grid.find_child("UI")
 	action_ui = ui.find_child("ActionsUI")
 	last_van_body_transform = van_model.global_transform
@@ -59,27 +59,36 @@ func _process(delta: float) -> void:
 	else:
 		last_van_body_transform = van_model.global_transform
 		
-func check_end_of_path():
-	var status_grid = city_grid.status_effects
-	GlobalLocations.van_grid_loc = status_grid.local_to_map(van.position)
-	if GlobalLocations.van_grid_loc == GlobalLocations.turn_end_coords:
-		print("end this MF turn")
+func check_end_of_path() -> void:
+	call_deferred("_check_end_of_path_deferred")
+
+func _check_end_of_path_deferred() -> void:
+	var current_cell: Vector2i = get_van_grid_cell()
+	var end_cell: Vector2i = Vector2i(GlobalLocations.turn_end_coords)
+	GlobalLocations.van_grid_loc = current_cell
+	print("current:", current_cell, " end:", end_cell, " directions:", DirectionList.directions.size(), " moving:", van.is_currently_moving)
+	if current_cell == end_cell and !van.is_currently_moving:
 		turn_ended = true
 		action_ui.process_turn()
+	else:
+		turn_ended = false
 		
 func can_exit_to_city_grid() -> bool:
-	var status_grid = city_grid.status_effects
-	var current_grid_loc: Vector2i = status_grid.local_to_map(van.position)
-	var end_coords: Vector2i = Vector2i(GlobalLocations.turn_end_coords)
+	var current_cell: Vector2i = get_van_grid_cell()
+	var end_cell: Vector2i = Vector2i(GlobalLocations.turn_end_coords)
 	return (
 		!van.is_currently_moving
 		and DirectionList.directions.size() <= 0
-		and current_grid_loc == end_coords
+		and current_cell == end_cell
 	)
-	
-func _on_grid_screen_pressed() -> void:
 
-	if can_exit_to_city_grid():
+func get_van_grid_cell() -> Vector2i:
+	var movement_grid: TileMapLayer = city_grid.city_grid
+	var local_pos := movement_grid.to_local(van.global_position)
+	return movement_grid.local_to_map(local_pos)
+
+func _on_grid_screen_pressed() -> void:
+	if turn_ended:
 		get_van_loc()
 		var cur_storm_locs = get_storm_locs()
 		GlobalLocations.storm_locs = cur_storm_locs
@@ -150,3 +159,6 @@ func get_sensors():
 	var sens_col = level_sensors - sensor_array.size()
 	GlobalLocations.sensors_collected = sens_col
 	
+func _on_van_route_finished() -> void:
+	turn_ended = true
+	action_ui.process_turn()

@@ -146,7 +146,7 @@ func _process(delta: float) -> void:
 		#print("we cooking")
 
 func check_end_of_movement():
-	if van.is_not_moving:
+	if !van.is_currently_moving:
 		get_tree().paused = true
 		var parent = find_parent("Level")
 		if parent != null:

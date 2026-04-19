@@ -2,6 +2,7 @@ extends Node2D
 
 signal is_moving
 signal is_not_moving
+signal route_finished
 
 @export var VAN_SPEED: float = 4
 
@@ -178,28 +179,24 @@ func do_turn(direction: String) -> void:
 func _on_red_button_pressed() -> void:
 	internal_map_van_enabled = true
 	
-	#Need this for copy of direction, gets cleared when switching to 2D scene in "3D_Level.gd"
+	# Need this for copy of direction, gets cleared when switching to 2D scene in "3D_Level.gd"
 	direction_copy = DirectionList.directions.duplicate()
 	
 	while DirectionList.directions.size() > 0:
-
 		var step = DirectionList.directions[0]
 		var current_dir = step.move_direction
-
 		is_turning = false
 		turn_direction = "none"
-
 		move(current_dir, step.move_amount)
 		await is_not_moving
-
 		DirectionList.directions.pop_front()
 			
 		if DirectionList.directions.size() > 0:
 			var next_dir = DirectionList.directions[0].move_direction
 			var next_turn = get_turn_type(current_dir, next_dir)
-
 			if next_turn != "straight" and next_turn != "none":
 				await do_turn(next_turn)
+	route_finished.emit()
 				
 func take_damage() -> int:
 	integrity -= 1
