@@ -1,5 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://cc6604hpojlmr"]
 
+[ext_resource type="FontFile" uid="uid://bcnh28sntx3b2" path="res://assets/fonts/twc/Star4000 Large.ttf" id="1_ot1pr"]
 [ext_resource type="FontFile" uid="uid://dvletebxg66fx" path="res://assets/fonts/twc/Star3000.ttf" id="1_pwh2u"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pwh2u"]
@@ -14,5 +15,7 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
 [resource]
+Button/font_sizes/font_size = 29
+Button/fonts/font = ExtResource("1_ot1pr")
 Label/fonts/font = ExtResource("1_pwh2u")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_pwh2u")

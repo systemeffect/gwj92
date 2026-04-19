@@ -76,6 +76,7 @@ func _on_grid_screen_pressed() -> void:
 		GlobalLocations.current_queue.clear()
 		get_sensors()
 		get_fires_floods()
+		GlobalLocations.van_integrity = van.integrity
 		DirectionList.directions.clear()
 		player.make_mouse_visible()
 		if AudioManager.sfx_engine_idle.playing:

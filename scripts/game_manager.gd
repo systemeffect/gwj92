@@ -67,6 +67,12 @@ var sensors_collected : int = 0
 var wind_direction : Direction
 
 func _ready() -> void:
+	if AudioManager.music_planning.playing == false:
+		AudioManager.music_planning.play()
+	AudioManager.music_menu.stop()
+	AudioManager.music_execute_1.stop()
+	AudioManager.music_execute_2.stop()
+	AudioManager.music_execute_3.stop()
 	get_tree().paused = true
 	actions_ui.round_initiated.connect(_on_round_initiated)
 	actions_ui.reset_movement_queue.connect(_on_reset_movement_queue)
@@ -111,7 +117,7 @@ func _ready() -> void:
 			end_of_turn_prompt_2d.show()
 		status_log_label.text = GlobalLocations.status_log
 		
-	
+	van.integrity = GlobalLocations.van_integrity
 	var cur_sensors = status_effects.get_used_cells_by_id(0, Vector2(4,0))
 	
 	#sensors_collected = sensors_total - cur_sensors.size()

@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://bq0h2lblalaia"]
 
 [ext_resource type="Script" uid="uid://baecquldtrbd" path="res://scripts/settings_menu.gd" id="1_05p07"]
+[ext_resource type="Theme" uid="uid://bb5mbau8xj21x" path="res://themes/action_panels.tres" id="2_wswnh"]
+[ext_resource type="FontFile" uid="uid://cfy0j5l2630ix" path="res://assets/fonts/SAIBA-45.ttf" id="3_labj1"]
 
 [node name="SettingsMenu" type="CenterContainer" unique_id=2061315302]
 anchors_preset = 15
@@ -13,22 +15,28 @@ script = ExtResource("1_05p07")
 [node name="Panel" type="PanelContainer" parent="." unique_id=762262608]
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
+theme = ExtResource("2_wswnh")
 
 [node name="Margin" type="MarginContainer" parent="Panel" unique_id=1871955024]
 layout_mode = 2
 theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 12
+theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 12
+theme_override_constants/margin_bottom = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/Margin" unique_id=417324062]
 layout_mode = 2
-theme_override_constants/separation = 23
+theme_override_constants/separation = 18
 
 [node name="SettingsLabel" type="Label" parent="Panel/Margin/VBoxContainer" unique_id=107501575]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_labj1")
+theme_override_font_sizes/font_size = 30
 text = "Settings"
 horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Panel/Margin/VBoxContainer" unique_id=782428636]
+layout_mode = 2
 
 [node name="MasterVolSlider" type="HSlider" parent="Panel/Margin/VBoxContainer" unique_id=1382697964]
 layout_mode = 2
@@ -48,6 +56,7 @@ offset_right = 59.0
 offset_bottom = -13.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0.9529412, 0, 1)
 text = "Master Volume"
 horizontal_alignment = 1
 
@@ -69,6 +78,7 @@ offset_right = 54.5
 offset_bottom = -13.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.7529412, 0.03137255, 1)
 text = "Music Volume"
 horizontal_alignment = 1
 
@@ -90,6 +100,7 @@ offset_right = 45.5
 offset_bottom = -13.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "SFX Volume"
 horizontal_alignment = 1
 

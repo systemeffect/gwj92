@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://bafxd61yjp26x"]
+
+[ext_resource type="Script" uid="uid://dr1fkkxrcaqlt" path="res://scripts/tutorial.gd" id="1_6yjpi"]
+[ext_resource type="Texture2D" uid="uid://bm0s3qrnefwtv" path="res://assets/tutorial.png" id="1_8ho6b"]
+[ext_resource type="Shader" uid="uid://36rw4b0v4k5g" path="res://shaders/vhs.gdshader" id="2_ph3nu"]
+[ext_resource type="Texture2D" uid="uid://mtp1o3vtxagh" path="res://assets/tutorial2.png" id="3_gbqnl"]
+[ext_resource type="Texture2D" uid="uid://b8g5hw6w2upqm" path="res://assets/tutorial3.png" id="4_ckvwl"]
+[ext_resource type="Texture2D" uid="uid://mi4qfh1v65ea" path="res://assets/tutorial4.png" id="5_nlqja"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4kmhl"]
+shader = ExtResource("2_ph3nu")
+shader_parameter/smearing = 0.5330000253175
+shader_parameter/color_offset = -0.022999999462560004
+shader_parameter/sharpening = 0.6310000299725
+shader_parameter/static_noise = 0.08
+shader_parameter/crack_center = Vector2(-10, -10)
+shader_parameter/crack_intensity = 0.4
+shader_parameter/crack_size = 0.35
+shader_parameter/vertical_jitter = 0.0010000000475
+shader_parameter/scanline_opacity = 0.1
+shader_parameter/vignette_intensity = 0.38800001843
+
+[node name="Tutorial" type="Control" unique_id=937788669]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6yjpi")
+
+[node name="Tut1" type="TextureRect" parent="." unique_id=1338078198]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_8ho6b")
+expand_mode = 5
+
+[node name="Tut2" type="TextureRect" parent="." unique_id=173833353]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_gbqnl")
+expand_mode = 5
+
+[node name="Tut3" type="TextureRect" parent="." unique_id=1400857246]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_ckvwl")
+expand_mode = 5
+
+[node name="Tut4" type="TextureRect" parent="." unique_id=961708299]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_nlqja")
+expand_mode = 5
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=469251810]
+material = SubResource("ShaderMaterial_4kmhl")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Continue" type="Button" parent="." unique_id=1177974250]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+
+[connection signal="pressed" from="Continue" to="." method="_on_continue_pressed"]

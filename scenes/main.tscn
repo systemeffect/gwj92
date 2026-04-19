@@ -2,13 +2,17 @@
 
 [ext_resource type="Shader" uid="uid://36rw4b0v4k5g" path="res://shaders/vhs.gdshader" id="1_jyhfs"]
 [ext_resource type="Script" uid="uid://nk1lc0xe1yne" path="res://scripts/main_menu.gd" id="1_o5qli"]
-[ext_resource type="Texture2D" uid="uid://b4bd1ae7x47et" path="res://assets/station.jpg" id="1_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://bafxd61yjp26x" path="res://scenes/tutorial.tscn" id="1_trceg"]
+[ext_resource type="Texture2D" uid="uid://r2katefcncgb" path="res://assets/bg1.png" id="1_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://bq0h2lblalaia" path="res://scenes/settings_menu.tscn" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://qa0jokklwoos" path="res://City_Grid/city_grid.tscn" id="3_tipki"]
 [ext_resource type="PackedScene" uid="uid://bof25ilvy00bq" path="res://City_Grid/level_2.tscn" id="4_ya4ey"]
+[ext_resource type="Theme" uid="uid://cc6604hpojlmr" path="res://themes/scorecard.tres" id="5_eb6dy"]
 [ext_resource type="Texture2D" uid="uid://myaknspuu7av" path="res://assets/radar2.jpg" id="6_tipki"]
 [ext_resource type="Texture2D" uid="uid://kvi4w6fgja61" path="res://assets/radar.jpg" id="7_85g3d"]
 [ext_resource type="Texture2D" uid="uid://b8k41qv03q5gq" path="res://assets/equipment.jpg" id="8_choun"]
+[ext_resource type="FontFile" uid="uid://cp4r603o5ybwm" path="res://assets/fonts/twc/Star4000.ttf" id="8_eb6dy"]
+[ext_resource type="Texture2D" uid="uid://dbhxfvxgmvbql" path="res://assets/trn.png" id="8_ya4ey"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tipki"]
 bg_color = Color(0.029506553, 0.029506562, 0.029506536, 1)
@@ -18,10 +22,10 @@ PanelContainer/styles/panel = SubResource("StyleBoxFlat_tipki")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tbgi4"]
 shader = ExtResource("1_jyhfs")
-shader_parameter/smearing = 0.2800000133
+shader_parameter/smearing = 0.0
 shader_parameter/color_offset = 0.00500000186743999
-shader_parameter/sharpening = 0.4
-shader_parameter/static_noise = 0.2670000126825
+shader_parameter/sharpening = 0.62000002945
+shader_parameter/static_noise = 0.16800000798
 shader_parameter/crack_center = Vector2(-100, -100)
 shader_parameter/crack_intensity = 0.0
 shader_parameter/crack_size = 0.0
@@ -32,16 +36,13 @@ shader_parameter/vignette_intensity = 0.2010000095475
 [sub_resource type="SpriteFrames" id="SpriteFrames_ya4ey"]
 animations = [{
 "frames": [{
-"duration": 1.0,
+"duration": 2.0,
 "texture": ExtResource("6_tipki")
 }, {
-"duration": 1.0,
-"texture": ExtResource("1_tbgi4")
-}, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": ExtResource("7_85g3d")
 }, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": ExtResource("8_choun")
 }],
 "loop": true,
@@ -60,19 +61,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_lock_ = true
 
 [node name="TextureRect" type="TextureRect" parent="Menus/Control" unique_id=1186302834]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -24.0
-offset_right = 24.0
-offset_bottom = 952.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_tbgi4")
+texture = ExtResource("1_ya4ey")
+expand_mode = 5
 
 [node name="Margin" type="MarginContainer" parent="Menus/Control" unique_id=26397259]
 layout_mode = 1
@@ -90,28 +89,38 @@ second_level = ExtResource("4_ya4ey")
 
 [node name="Panel" type="PanelContainer" parent="Menus/Control/Margin/MainMenu" unique_id=1890262896]
 layout_mode = 2
+theme = ExtResource("5_eb6dy")
 
-[node name="Menu" type="VBoxContainer" parent="Menus/Control/Margin/MainMenu/Panel" unique_id=1214402149]
+[node name="Margin" type="MarginContainer" parent="Menus/Control/Margin/MainMenu/Panel" unique_id=779853789]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
+
+[node name="Menu" type="VBoxContainer" parent="Menus/Control/Margin/MainMenu/Panel/Margin" unique_id=1214402149]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="Menus/Control/Margin/MainMenu/Panel/Menu" unique_id=777629739]
+[node name="Title" type="Label" parent="Menus/Control/Margin/MainMenu/Panel/Margin/Menu" unique_id=777629739]
+visible = false
 layout_mode = 2
-text = "TEMPEST BREWING"
+text = "STORMRUN-R"
 horizontal_alignment = 1
 
-[node name="StartButton" type="Button" parent="Menus/Control/Margin/MainMenu/Panel/Menu" unique_id=441924467]
+[node name="StartButton" type="Button" parent="Menus/Control/Margin/MainMenu/Panel/Margin/Menu" unique_id=441924467]
 layout_mode = 2
 text = "START"
 
-[node name="SettingsButton" type="Button" parent="Menus/Control/Margin/MainMenu/Panel/Menu" unique_id=1963921958]
+[node name="SettingsButton" type="Button" parent="Menus/Control/Margin/MainMenu/Panel/Margin/Menu" unique_id=1963921958]
 layout_mode = 2
 text = "SETTINGS"
 
-[node name="QuitButton" type="Button" parent="Menus/Control/Margin/MainMenu/Panel/Menu" unique_id=1721969528]
+[node name="QuitButton" type="Button" parent="Menus/Control/Margin/MainMenu/Panel/Margin/Menu" unique_id=1721969528]
 layout_mode = 2
 text = "QUIT"
 
 [node name="LevelSelect" type="PanelContainer" parent="Menus/Control/Margin/MainMenu" unique_id=5264775]
+visible = false
 layout_mode = 2
 theme = SubResource("Theme_tipki")
 
@@ -158,6 +167,33 @@ text = "Coming soon"
 visible = false
 layout_mode = 2
 
+[node name="Roughnight" type="TextureRect" parent="Menus/Control" unique_id=293994328]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 445.0
+offset_right = 558.0
+offset_bottom = 496.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("8_ya4ey")
+
+[node name="Label" type="Label" parent="Menus/Control" unique_id=1846454872]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 384.0
+offset_right = 257.0
+offset_bottom = 443.0
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("8_eb6dy")
+theme_override_font_sizes/font_size = 24
+text = "Brewed for the
+Godot Wild Jam 92"
+horizontal_alignment = 1
+
+[node name="Tutorial" parent="Menus/Control" unique_id=937788669 instance=ExtResource("1_trceg")]
+visible = false
+layout_mode = 1
+first_level = ExtResource("3_tipki")
+
 [node name="ColorRect" type="ColorRect" parent="Menus/Control" unique_id=774928820]
 material = SubResource("ShaderMaterial_tbgi4")
 layout_mode = 1
@@ -175,9 +211,9 @@ sprite_frames = SubResource("SpriteFrames_ya4ey")
 autoplay = "default"
 frame = 1
 
-[connection signal="pressed" from="Menus/Control/Margin/MainMenu/Panel/Menu/StartButton" to="Menus/Control/Margin/MainMenu" method="_on_start_button_pressed"]
-[connection signal="pressed" from="Menus/Control/Margin/MainMenu/Panel/Menu/SettingsButton" to="Menus/Control/Margin/MainMenu" method="_on_settings_button_pressed"]
-[connection signal="pressed" from="Menus/Control/Margin/MainMenu/Panel/Menu/QuitButton" to="Menus/Control/Margin/MainMenu" method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Menus/Control/Margin/MainMenu/Panel/Margin/Menu/StartButton" to="Menus/Control/Margin/MainMenu" method="_on_start_button_pressed"]
+[connection signal="pressed" from="Menus/Control/Margin/MainMenu/Panel/Margin/Menu/SettingsButton" to="Menus/Control/Margin/MainMenu" method="_on_settings_button_pressed"]
+[connection signal="pressed" from="Menus/Control/Margin/MainMenu/Panel/Margin/Menu/QuitButton" to="Menus/Control/Margin/MainMenu" method="_on_quit_button_pressed"]
 [connection signal="pressed" from="Menus/Control/Margin/MainMenu/LevelSelect/Margin/VBoxContainer/LevelContainer/CityGridButton" to="Menus/Control/Margin/MainMenu" method="_on_level_1_button_pressed"]
 [connection signal="pressed" from="Menus/Control/Margin/MainMenu/LevelSelect/Margin/VBoxContainer/LevelContainer/StormLayersButton" to="Menus/Control/Margin/MainMenu" method="_on_level_2_button_pressed"]
 [connection signal="pressed" from="Menus/Control/Margin/MainMenu/LevelSelect/Margin/VBoxContainer/LevelContainer/LittleFiresButton" to="Menus/Control/Margin/MainMenu" method="_on_level_3_button_pressed"]

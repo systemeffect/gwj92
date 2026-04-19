@@ -6,8 +6,14 @@
 [ext_resource type="AudioStream" uid="uid://bmf47vwfu5wep" path="res://assets/audio/SFX/sfx_engine_rev_down.wav" id="4_02gw7"]
 [ext_resource type="AudioStream" uid="uid://0weulyyowuyl" path="res://assets/audio/SFX/sfx_engine_rev_up.wav" id="5_ujhup"]
 [ext_resource type="AudioStream" uid="uid://q27egilxmjih" path="res://assets/audio/SFX/sfx_engine_running.wav" id="6_064dn"]
+[ext_resource type="AudioStream" uid="uid://t1qnrms0q1u8" path="res://assets/audio/music/title - the trees are watching.wav" id="7_ic5jq"]
+[ext_resource type="AudioStream" uid="uid://gt6bftome1km" path="res://assets/audio/music/planning - the water's outside.wav" id="8_if78k"]
+[ext_resource type="AudioStream" uid="uid://cmdemhvpfr2g7" path="res://assets/audio/music/execute - the fire can crawl.wav" id="9_8igv3"]
+[ext_resource type="AudioStream" uid="uid://br15a62jitpky" path="res://assets/audio/music/execute - the sky will fall.wav" id="10_2y2jw"]
+[ext_resource type="AudioStream" uid="uid://cyh48pajesu3f" path="res://assets/audio/music/execute - the wind is listening.wav" id="11_2y5yn"]
 
 [node name="AudioManager" type="Node" unique_id=889789333]
+process_mode = 3
 script = ExtResource("1_8qd8g")
 
 [node name="SfxButton" type="AudioStreamPlayer" parent="." unique_id=2021324655]
@@ -29,3 +35,31 @@ bus = &"SFX"
 [node name="SfxEngineRunning" type="AudioStreamPlayer" parent="." unique_id=442807427]
 stream = ExtResource("6_064dn")
 bus = &"SFX"
+
+[node name="MusicMenu" type="AudioStreamPlayer" parent="." unique_id=308993465]
+stream = ExtResource("7_ic5jq")
+volume_db = -9.122
+bus = &"Music"
+
+[node name="MusicPlanning" type="AudioStreamPlayer" parent="." unique_id=1359968642]
+stream = ExtResource("8_if78k")
+bus = &"Music"
+
+[node name="MusicExecute1" type="AudioStreamPlayer" parent="." unique_id=2130567166]
+stream = ExtResource("9_8igv3")
+volume_db = -10.0
+bus = &"Music"
+
+[node name="MusicExecute2" type="AudioStreamPlayer" parent="." unique_id=480735980]
+stream = ExtResource("10_2y2jw")
+volume_db = -10.0
+bus = &"Music"
+
+[node name="MusicExecute3" type="AudioStreamPlayer" parent="." unique_id=43055862]
+stream = ExtResource("11_2y5yn")
+volume_db = -10.0
+bus = &"Music"
+
+[connection signal="finished" from="MusicExecute1" to="." method="_on_finished"]
+[connection signal="finished" from="MusicExecute2" to="." method="_on_finished"]
+[connection signal="finished" from="MusicExecute3" to="." method="_on_finished"]
