@@ -211,9 +211,6 @@ theme_override_font_sizes/font_size = 40
 text = "TOUCH SCREEN
 TO UPDATE MAP"
 
-[node name="EndOfTurnPrompt2D" parent="UI/ActionsUI" index="11" unique_id=1913877453]
-visible = true
-
 [node name="SettingsMenu" parent="UI/ActionsUI" index="13" unique_id=2061315302]
 visible = false
 layout_mode = 1
