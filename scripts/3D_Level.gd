@@ -32,6 +32,10 @@ func _ready() -> void:
 	van.route_finished.connect(_on_van_route_finished)
 	var ui = city_grid.find_child("UI")
 	action_ui = ui.find_child("ActionsUI")
+	print("DirectionList Movement Queue: ", DirectionList.movement_queue)
+	action_ui.current_movement_queue.append_array(DirectionList.movement_queue)
+	print("Action UI Movement Queue: ", action_ui.current_movement_queue)
+	action_ui.update_movement_queue()
 	last_van_body_transform = van_model.global_transform
 	default_target_position = target_position
 	default_target_rotation = target_rotation
@@ -97,6 +101,7 @@ func _on_grid_screen_pressed() -> void:
 		get_fires_floods()
 		GlobalLocations.van_integrity = van.integrity
 		DirectionList.directions.clear()
+		DirectionList.movement_queue.clear()
 		player.make_mouse_visible()
 		if AudioManager.sfx_engine_idle.playing:
 			AudioManager.sfx_engine_idle.stop()

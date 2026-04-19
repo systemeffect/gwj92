@@ -426,17 +426,20 @@ func build_preview_directions():
 func _on_van_button_pressed() -> void:
 	AudioManager.ui_rollout.play()
 	var result = MovementPlanner.build_directions(current_movement_queue, current_van_direction, Util.all_cards)
+	
 	DirectionList.directions.clear()
 	DirectionList.directions.append_array(result["directions"])
+	DirectionList.movement_queue.append_array(current_movement_queue)
+	
 	GlobalLocations.van_global_dir = result["final_facing"]
 	GlobalLocations.current_queue = current_queue
 	GlobalLocations.status_log = status_log_label.text
 	GlobalLocations.cur_fire_attr = fire_attr
 	GlobalLocations.cur_flood_attr = flood_attr
 	GlobalLocations.cur_wind_attr = wind_attr
+	
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/level.tscn")
-
 
 func _on_reset_moves_pressed() -> void:
 	AudioManager.ui_reset.play()
