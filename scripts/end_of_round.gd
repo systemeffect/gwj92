@@ -1,9 +1,5 @@
 extends PanelContainer
 
-@onready var status_effects: TileMapLayer = $GridArea/Tilemaps/StatusEffects
-@onready var storms_container: Node2D = $StormsContainer
-@onready var van: Node2D = $Van
-
 @onready var storms_created_num: Label = $Margin/VBox/Scorecard/StormsCreatedNum
 @onready var sensors_collected_num: Label = $Margin/VBox/Scorecard/SensorsCollectedNum
 @onready var fire_tiles_num: Label = $Margin/VBox/Scorecard/FireTilesNum

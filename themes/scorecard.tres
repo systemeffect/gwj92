@@ -1,0 +1,6 @@
+[gd_resource type="Theme" format=3 uid="uid://cc6604hpojlmr"]
+
+[ext_resource type="FontFile" uid="uid://dvletebxg66fx" path="res://assets/fonts/twc/Star3000.ttf" id="1_pwh2u"]
+
+[resource]
+Label/fonts/font = ExtResource("1_pwh2u")

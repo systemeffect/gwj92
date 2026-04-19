@@ -441,7 +441,9 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	print("STATUS TILE CROSSED")
 
 func collect_sensor(grid : Vector2):
-	status_effects.set_cell(grid,0,Vector2(1,0))
+	var parent = find_parent("Level")
+	if parent != null:
+		status_effects.set_cell(grid,0,Vector2(1,0))
 	actions_ui.collect_sensor()
 	sensor_collect.show()
 	collect_animate.play("collect_sensor")

@@ -9,6 +9,7 @@
 [ext_resource type="FontFile" uid="uid://bc7s77r5opgfm" path="res://assets/fonts/easvhs.ttf" id="5_lgsi3"]
 [ext_resource type="FontFile" uid="uid://cajq783h3yufy" path="res://assets/fonts/Blue Screen Personal Use.ttf" id="8_4fi4j"]
 [ext_resource type="Script" uid="uid://c7o1kqxleq5v" path="res://scripts/status_log.gd" id="8_bxdbe"]
+[ext_resource type="Theme" uid="uid://cc6604hpojlmr" path="res://themes/scorecard.tres" id="10_kchie"]
 [ext_resource type="Script" uid="uid://0f8h6vxa42id" path="res://scripts/end_of_round.gd" id="10_m6jc7"]
 
 [node name="ActionsUI" type="Control" unique_id=24908026]
@@ -388,7 +389,7 @@ offset_right = 66.5
 offset_bottom = 40.5
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("4_p22f0")
+theme = ExtResource("10_kchie")
 script = ExtResource("10_m6jc7")
 
 [node name="Margin" type="MarginContainer" parent="EndOfRound" unique_id=1092342204]
