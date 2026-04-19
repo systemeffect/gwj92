@@ -19,12 +19,11 @@ func _ready() -> void:
 	exe_playlist.append(music_execute_3)
 	exe_playlist.append(music_execute_2)
 	exe_playlist.append(music_execute_1)
+	exe_playlist.append(music_planning)
 	music_execute_1.play()
+	if !music_menu.playing:
+		music_planning.stop()
 
-#func _play_music(music: AudioStreamPlayer):
-	#var parent = find_parent("Level")
-	#if parent != null:
-		#playlist()
 		
 
 func _on_finished() -> void:

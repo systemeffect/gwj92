@@ -17,6 +17,8 @@ signal extraction
 @onready var end_of_turn_prompt: PanelContainer = $EndOfTurnPrompt
 @onready var end_of_turn_prompt_2d: PanelContainer = $EndOfTurnPrompt2D
 @onready var end_of_turn_prompt_2: PanelContainer = $EndOfTurnPrompt2
+@onready var city_grid: Node2D = $"../.."
+
 
 # Resource panel labels
 @onready var turn_num: Label = $ResourcesPanel/Margin/TopBar/Turn/TurnNum
@@ -429,9 +431,20 @@ func _on_van_button_pressed() -> void:
 	GlobalLocations.cur_fire_attr = fire_attr
 	GlobalLocations.cur_flood_attr = flood_attr
 	GlobalLocations.cur_wind_attr = wind_attr
+	get_storm_locs()
+	AudioManager.music_planning.stop()
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/level.tscn")
-
+	
+func get_storm_locs():
+	var storms_array = []
+	var container = city_grid.storms_container
+	var storms = container.get_children()
+	for storm in storms:
+		var loc = storm.global_position
+		storms_array.append(loc)
+	GlobalLocations.cur_storm_count = storms_array.size()
+	GlobalLocations.storm_locs = storms_array
 
 func _on_reset_moves_pressed() -> void:
 	current_movement_queue.clear()
