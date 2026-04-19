@@ -97,6 +97,7 @@ func _ready() -> void:
 	set_van_direction_index()
 	set_integrity(GlobalLocations.van_integrity)
 	cur_sensors = GlobalLocations.sensors_collected
+	sensors_num.text = str(cur_sensors)
 	
 	
 func _process(delta: float) -> void:
@@ -547,6 +548,7 @@ func set_integrity(new_int : int):
 			integrity_num.text = "100%"
 
 func collect_sensor():
+	GlobalLocations.sensors_collected += 1
 	cur_sensors = GlobalLocations.sensors_collected
 	AudioManager.sfx_sensor_pickup.play()
 	sensors_num.text = str(cur_sensors)

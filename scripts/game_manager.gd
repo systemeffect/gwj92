@@ -473,8 +473,7 @@ func set_sensors():
 			var parent = find_parent("Level")
 			if parent == null:
 				pass
-			#	GlobalLocations.sensors_collected += 1
-				actions_ui.collect_sensor()
+				#actions_ui.collect_sensor()
 
 func _on_signal_events_area_entered(area: Area2D) -> void:
 	print("TRIGGER SIGNAL")
