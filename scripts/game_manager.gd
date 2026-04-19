@@ -67,12 +67,15 @@ var sensors_collected : int = 0
 var wind_direction : Direction
 
 func _ready() -> void:
-	if AudioManager.music_planning.playing == false:
-		AudioManager.music_planning.play()
 	AudioManager.music_menu.stop()
-	AudioManager.music_execute_1.stop()
-	AudioManager.music_execute_2.stop()
-	AudioManager.music_execute_3.stop()
+	var parent_node = find_parent("Level")
+	if parent_node == null:
+		if AudioManager.music_execute_1.playing == false and AudioManager.music_execute_2.playing == false and AudioManager.music_execute_3.playing == false:
+			AudioManager.music_planning.play()
+		AudioManager.music_menu.stop()
+		#AudioManager.music_execute_1.stop()
+		#AudioManager.music_execute_2.stop()
+		#AudioManager.music_execute_3.stop()
 	get_tree().paused = true
 	actions_ui.round_initiated.connect(_on_round_initiated)
 	actions_ui.reset_movement_queue.connect(_on_reset_movement_queue)
@@ -291,6 +294,8 @@ func clear_storms():
 		var child = storms_container.get_child(0)
 		storms_container.remove_child(child)
 		child.queue_free()
+		
+
 
 func _on_show_grid_pressed() -> void:
 	if grid_overlay.visible:

@@ -5,6 +5,7 @@ extends Control
 @onready var tut_2: TextureRect = $Tut2
 @onready var tut_3: TextureRect = $Tut3
 @onready var tut_4: TextureRect = $Tut4
+@onready var tut_5: TextureRect = $Tut5
 
 var slide = 1
 
@@ -13,6 +14,7 @@ func _ready() -> void:
 	tut_2.hide()
 	tut_3.hide()
 	tut_4.hide()
+	tut_5.hide()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("confirm"):
@@ -30,4 +32,7 @@ func _on_continue_pressed() -> void:
 			tut_4.show()
 			slide += 1
 		4:
+			tut_5.show()
+			slide += 1
+		5:
 			get_tree().change_scene_to_packed(first_level)

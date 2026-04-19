@@ -52,6 +52,7 @@ func _on_quit_button_pressed() -> void:
 
 
 func _on_level_1_button_pressed() -> void:
+	AudioManager.music_menu.stop()
 	get_tree().change_scene_to_packed(first_level)
 
 func _on_level_2_button_pressed() -> void:

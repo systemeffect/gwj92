@@ -10,8 +10,8 @@ extends Node2D
 var direction : Vector2
 var variance = randf_range(-0.1, 0.1)
 var wind_change_var = randf_range(-1.0, 1.0)
-var storm_speed : float = 8.0
-var speed_incr : float = 4.0
+var storm_speed : float = 3.0
+var speed_incr : float = 3.0
 
 # Storm will spawn on origin_pos and will generate a random vector
 # which it will drift toward. Add a small range it will deviate from
@@ -27,7 +27,7 @@ func _ready() -> void:
 	self.position = origin_pos
 	direction = Vector2.from_angle((randf_range(0, TAU)))
 	var rand_rot = randf_range(0.0, 359.9)
-	rotation = rand_rot
+	sprite.rotation = rand_rot
 	
 func _process(delta: float) -> void:
 	var parent = find_parent("Level")
