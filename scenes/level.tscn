@@ -220,7 +220,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Player" parent="." unique_id=63880466 instance=ExtResource("2_w8frs")]
-transform = Transform3D(0.23668557, 0, -0.9715863, 0, 1, 0, 0.9715863, 0, 0.23668557, -0.80212635, 2.176927, 1.3804743)
+transform = Transform3D(0.99122477, 0, -0.13218716, 0, 1, 0, 0.13218716, 0, 0.99122477, -0.80212635, 2.176927, 1.3804743)
 
 [node name="Van" type="Node3D" parent="." unique_id=81167758]
 script = ExtResource("4_fpun6")
@@ -256,11 +256,6 @@ transform = Transform3D(-7.86805e-09, 0, -0.18, 0, 0.18, 0, 0.18, 0, -7.868048e-
 [node name="Passenger Seat" parent="Van/Van Model" unique_id=782303671 instance=ExtResource("6_8c41q")]
 transform = Transform3D(-7.86805e-09, 0, -0.18, 0, 0.18, 0, 0.18, 0, -7.868048e-09, -0.35320938, 0.3139679, 0.47385862)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Van/Van Model" unique_id=648616691]
-transform = Transform3D(-1.7484556e-08, 0, -0.4, 0, 0.4, 0, 0.40000007, 0, -1.7484556e-08, 0.451039, 0.76921296, -0.21779297)
-visible = false
-size = Vector3(0.48083496, 0.9135132, 0.2901001)
-
 [node name="RedButton" parent="Van/Van Model" unique_id=165692526 instance=ExtResource("6_2r41h")]
 transform = Transform3D(-6.9938237e-09, 0, -0.16000001, 0, 0.16000001, 0, 0.16000001, 0, -6.9938224e-09, 0.33327642, 0.69267815, -0.3771515)
 
@@ -268,6 +263,7 @@ transform = Transform3D(-6.9938237e-09, 0, -0.16000001, 0, 0.16000001, 0, 0.1600
 surface_material_override/0 = SubResource("StandardMaterial3D_2r41h")
 
 [node name="ButtonArea" type="Area3D" parent="Van/Van Model/RedButton" unique_id=904083176]
+input_ray_pickable = false
 
 [node name="ButtonCollision" type="CollisionShape3D" parent="Van/Van Model/RedButton/ButtonArea" unique_id=566961876]
 transform = Transform3D(1.0000002, 0, 0, 0, 1, 0, 1.6940659e-21, 0, 1, 0.0140686035, 0.023925781, -0.0056152344)

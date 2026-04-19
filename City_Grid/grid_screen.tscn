@@ -20,16 +20,3 @@ transform = Transform3D(1, 4.5102815e-15, -1.1110615e-09, 1.0495077e-14, 1, 0, -
 texture = SubResource("ViewportTexture_5vh4w")
 region_enabled = true
 region_rect = Rect2(0, 0, 384, 384)
-
-[node name="SubViewport2" type="SubViewport" parent="." unique_id=2101608866]
-handle_input_locally = false
-size = Vector2i(640, 480)
-render_target_update_mode = 4
-
-[node name="City_Grid" parent="SubViewport2" unique_id=2124253133 instance=ExtResource("1_yuxdq")]
-
-[node name="Sprite3D2" type="Sprite3D" parent="." unique_id=373931470]
-transform = Transform3D(1.1499999, -1.2069339e-14, 1.2325074e-09, 1.2069338e-14, 1.1499999, 6.3837803e-15, -1.2325074e-09, -6.3837794e-15, 1.1499999, -5.340625, 1.5670078, -8.0641195e-07)
-texture = SubResource("ViewportTexture_5vh4w")
-region_enabled = true
-region_rect = Rect2(385, 0, 253, 198)

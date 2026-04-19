@@ -17,7 +17,9 @@ script = ExtResource("1_oul6g")
 
 [node name="RayCast3D" type="RayCast3D" parent="CameraPivot" unique_id=853627566]
 target_position = Vector3(0, 0, -1)
+hit_back_faces = false
 collide_with_areas = true
+collide_with_bodies = false
 debug_shape_custom_color = Color(0.9137255, 0.36078432, 0, 1)
 debug_shape_thickness = 3
 

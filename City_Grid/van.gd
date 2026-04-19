@@ -196,6 +196,7 @@ func _on_red_button_pressed() -> void:
 			var next_turn = get_turn_type(current_dir, next_dir)
 			if next_turn != "straight" and next_turn != "none":
 				await do_turn(next_turn)
+				
 	route_finished.emit()
 				
 func take_damage() -> int:
