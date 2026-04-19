@@ -1,6 +1,5 @@
 extends Node2D
 
-
 @export var origin_pos : Vector2
 
 @onready var sprite: Sprite2D = $Sprite
@@ -12,6 +11,7 @@ var direction : Vector2
 var variance = randf_range(-0.1, 0.1)
 var wind_change_var = randf_range(-1.0, 1.0)
 var storm_speed : float = 8.0
+var speed_incr : float = 4.0
 
 # Storm will spawn on origin_pos and will generate a random vector
 # which it will drift toward. Add a small range it will deviate from
@@ -34,7 +34,11 @@ func _process(delta: float) -> void:
 	pass
 	# Write function to determine storm direction with drift
 	# Move the storm in new direction at set speed
-	
+
+func set_storm_speed(wind : int):
+	storm_speed = (speed_incr * wind) + speed_incr
+	print("changing speed: " + str(storm_speed))
+
 func set_storm_direction(dir : Direction):
 	var new_direction = dir.move_direction
 	match new_direction:

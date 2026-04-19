@@ -129,10 +129,14 @@ func get_storm_locs() -> Array:
 	for storm in storms:
 		var loc = storm.global_position
 		storms_array.append(loc)
+	GlobalLocations.cur_storm_count = storms_array.size()
 	return storms_array
 	
 func get_sensors():
 	var tilemap = city_grid.status_effects
 	var sensor_array = tilemap.get_used_cells_by_id(0,Vector2(4,0))
 	GlobalLocations.sensor_locs = sensor_array
+	var level_sensors = city_grid.sensors_total
+	var sens_col = level_sensors - sensor_array.size()
+	GlobalLocations.sensors_collected = sens_col
 	

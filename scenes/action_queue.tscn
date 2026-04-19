@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://34hboxtiso3n"]
 
+[ext_resource type="Theme" uid="uid://bb5mbau8xj21x" path="res://themes/action_panels.tres" id="1_2nx45"]
 [ext_resource type="PackedScene" uid="uid://kd3dcv0ib57v" path="res://scenes/card_slot.tscn" id="1_l5j14"]
 
 [node name="ActionQueue" type="Control" unique_id=509091489]
@@ -15,37 +16,53 @@ offset_bottom = -84.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="GridContainer" type="GridContainer" parent="." unique_id=1955789638]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -251.0
-offset_top = -80.0
-grow_horizontal = 0
-grow_vertical = 0
+[node name="VBox" type="VBoxContainer" parent="." unique_id=1059247839]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBox" type="HBoxContainer" parent="VBox" unique_id=1087696826]
+layout_mode = 2
+theme_override_constants/separation = 29
+alignment = 1
+
+[node name="CurFireAttr" type="Label" parent="VBox/HBox" unique_id=462033445]
+layout_mode = 2
+theme = ExtResource("1_2nx45")
+theme_override_font_sizes/font_size = 16
+text = "Fire: 0"
+horizontal_alignment = 1
+
+[node name="CurFloodAttr" type="Label" parent="VBox/HBox" unique_id=844112188]
+layout_mode = 2
+theme = ExtResource("1_2nx45")
+theme_override_font_sizes/font_size = 16
+text = "Flood: 0"
+horizontal_alignment = 1
+
+[node name="CurWindAttr" type="Label" parent="VBox/HBox" unique_id=1415679961]
+layout_mode = 2
+theme = ExtResource("1_2nx45")
+theme_override_font_sizes/font_size = 16
+text = "Wind: 0"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="VBox" unique_id=1955789638]
+layout_mode = 2
 theme_override_constants/h_separation = 84
 theme_override_constants/v_separation = 84
 columns = 3
 
-[node name="Action_1" parent="GridContainer" unique_id=1543295380 instance=ExtResource("1_l5j14")]
+[node name="Action_1" parent="VBox/GridContainer" unique_id=1543295380 instance=ExtResource("1_l5j14")]
 layout_mode = 2
 is_in_action_queue = true
 
-[node name="Action_2" parent="GridContainer" unique_id=475728304 instance=ExtResource("1_l5j14")]
+[node name="Action_2" parent="VBox/GridContainer" unique_id=475728304 instance=ExtResource("1_l5j14")]
 layout_mode = 2
 is_in_action_queue = true
 queue_number = 2
 
-[node name="Action_3" parent="GridContainer" unique_id=357935629 instance=ExtResource("1_l5j14")]
+[node name="Action_3" parent="VBox/GridContainer" unique_id=357935629 instance=ExtResource("1_l5j14")]
 layout_mode = 2
 is_in_action_queue = true
 queue_number = 3
-
-[node name="Action_4" parent="GridContainer" unique_id=1751382977 instance=ExtResource("1_l5j14")]
-visible = false
-layout_mode = 2
-is_in_action_queue = true
-queue_number = 4

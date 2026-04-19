@@ -5,7 +5,6 @@ extends Node2D
 
 @onready var actions_ui: Control = $UI/ActionsUI
 @onready var van: Node2D = $Van
-@onready var animated_sprite_2d: AnimatedSprite2D = $Van/AnimatedSprite2D
 @onready var sensor_collect: Sprite2D = $Van/SensorCollect
 @onready var collect_animate: AnimationPlayer = $Van/CollectAnimate
 @onready var status_log_label: RichTextLabel = $UI/ActionsUI/StatusLogLabel
@@ -34,6 +33,7 @@ var turn_end_coords : Vector2
 # Storm
 @onready var storms_container: Node2D = $StormsContainer
 @onready var wind_timer: Timer = $WindTimer
+var wind_speed : int
 var change_wind : bool = true
 var storm_locs
 
@@ -57,7 +57,6 @@ var grid_size = Vector2(12,12)
 var van_position : Vector2
 var van_grid_coords : Vector2
 var van_start_pos: Vector2
-var van_starting_anim: String
 
 var sensors_total : int = 5
 var sensors_collected : int = 0
@@ -74,31 +73,27 @@ func _ready() -> void:
 	action_queue = actions_ui.current_queue
 	status_effects.update_status_log.connect(_on_update_status_log)
 	movement_queue = actions_ui.current_movement_queue
+	#turn_num.text = str(current_turn)
 	current_turn = GlobalLocations.current_turn
 	turn_num.text = str(current_turn)
 	
 	van.is_moving.connect(_on_van_is_moving)
 	van.is_not_moving.connect(_on_van_is_not_moving)
 	
-	# Restore saved van state first
-	if GlobalLocations.van_grid_loc != Vector2(0, 0):
-		van_grid_coords = GlobalLocations.van_grid_loc
-	
-	if GlobalLocations.van_global_loc != Vector2(0, 0):
-		van.global_position = GlobalLocations.van_global_loc
-	
-	# Now cache the scene-entry position for preview resets
 	van_position = van.global_position
 	van_start_pos = van.global_position
 	van_grid_coords = city_grid.local_to_map(van_position)
-	van_starting_anim = animated_sprite_2d.animation
-	
 	print(van_grid_coords)
-	
 	current_preview_coords = van_grid_coords
 	current_preview_position = van_position
 	
+	if GlobalLocations.van_grid_loc != Vector2(0, 0):
+		van_grid_coords = GlobalLocations.van_grid_loc
+	
+	if GlobalLocations.van_global_loc != Vector2(0,0):
+		van.global_position = GlobalLocations.van_global_loc
 	if GlobalLocations.current_turn > 0:
+		#clear_storms()
 		var storms_array = GlobalLocations.storm_locs
 		load_storms(storms_array)
 		var fires_array = GlobalLocations.fire_locs
@@ -109,29 +104,25 @@ func _ready() -> void:
 			end_of_turn_prompt_2d.show()
 		status_log_label.text = GlobalLocations.status_log
 	
-	var cur_sensors = status_effects.get_used_cells_by_id(0, Vector2(4,0))
+	var cur_sensors = status_effects.get_used_cells_by_id(0,Vector2(4,0))
 	
 	sensors_collected = sensors_total - cur_sensors.size()
 	set_sensors()
 	
 	if GlobalLocations.current_turn > 0:
 		status_log_label.text = GlobalLocations.status_log
-	
 	fire_status = Status.new()
 	fire_status.status_name = "fire"
 	fire_status.status_type = 1
-	fire_status.status_amount = 3
-	
+	fire_status.status_amount = 0
 	flood_status = Status.new()
 	flood_status.status_name = "flood"
 	flood_status.status_type = 2
-	flood_status.status_amount = 3
-	
+	flood_status.status_amount = 0
 	wind_status = Status.new()
 	wind_status.status_name = "wind"
 	wind_status.status_type = 3
-	wind_status.status_amount = 3
-	
+	wind_status.status_amount = 0
 	sensor_collect.hide()
 
 func _process(delta: float) -> void:
@@ -143,7 +134,6 @@ func _process(delta: float) -> void:
 	#van_grid_coords = status_effects.local_to_map(van.position)
 	#if van_grid_coords == turn_end_coords:
 		#print("we cooking")
-
 
 func check_end_of_movement():
 	if van.is_not_moving:
@@ -178,8 +168,7 @@ func _on_reset_movement_queue():
 	queue_preview.clear_points()
 	queue_preview.add_point(van_position)
 	clear_collider_container()
-	if DirectionList.previewer_directions.size() <= 0 or DirectionList.previewer_directions.size() > 0:
-		reset_preview_van()
+	reset_preview_van()
 
 func find_path():
 	var last_point: Vector2 = city_grid.local_to_map(van.global_position)
@@ -340,6 +329,11 @@ func _on_change_wind_pressed() -> void:
 	for storm in storms:
 		storm.set_storm_direction(wind_direction)
 	change_wind = false
+	var wind = GlobalLocations.cur_wind_attr
+	status_log_label.update_text("Detecting change in Wind Speed!")
+	var speed : float = snapped(wind * randf_range(24.6,36.2), 0.1)
+	await get_tree().create_timer(0.6).timeout
+	status_log_label.update_text("Gusts up to " + str(speed) + " MPH...")
 		
 func get_van_grid_coords() -> Vector2:
 	return van_grid_coords
@@ -360,29 +354,58 @@ func _on_update_status_log(status : Status):
 
 
 func _on_spread_pressed(attr_array : Array) -> void:
-	var statuses = []
-	for attr in attr_array:
-		if attr.spawns_fire:
-			fire_status.status_amount = attr.attr_value
-			statuses.append(fire_status)
-		if attr.spawns_flood:
-			flood_status.status_amount = attr.attr_value
-			statuses.append(flood_status)
-		if attr.spawns_wind:
-			wind_status.status_amount = attr.attr_value
-			# store/trigger wind
-	for status in statuses:
-		var cur_status = statuses.pop_front()
-		status_effects.spread_available_cell(cur_status)
-		#_on_add_status_pressed()
-		var storms = storms_container.get_children()
-		for storm in storms:
-			var storm_loc = storm.position
-			storm_loc = city_grid.local_to_map(storm_loc)
-			
+	var fire_attr = GlobalLocations.cur_fire_attr
+	var flood_attr = GlobalLocations.cur_flood_attr
+	var wind_attr = GlobalLocations.cur_wind_attr
+	wind_speed = wind_attr
+	var top_attr_flood : bool
+	if flood_attr >= fire_attr:
+		top_attr_flood = true
+	else:
+		top_attr_flood = false
+	var storms = storms_container.get_children()
+	for storm in storms:
+		var storm_loc = storm.position
+		storm_loc = city_grid.local_to_map(storm_loc)
+		var cur_status : Status
+		if top_attr_flood:
+			cur_status = flood_status
+		else:
+			cur_status = fire_status
 			#status_type.init_coord = storm_loc
-			status_effects.add_status_effect(cur_status, storm_loc)
-			storm.dropped_status(cur_status)
+		status_effects.add_status_effect(cur_status, storm_loc)
+		storm.set_storm_speed(wind_attr)
+		storm.dropped_status(cur_status)
+	
+	if fire_attr > 0:
+		fire_status.status_amount = fire_attr
+		status_effects.spread_available_cell(fire_status)
+	if flood_attr > 0:
+		flood_status.status_amount = flood_attr
+		status_effects.spread_available_cell(flood_status)
+	#var statuses = []
+	#for attr in attr_array:
+		#if attr.spawns_fire:
+			#fire_status.status_amount = attr.attr_value
+			#statuses.append(fire_status)
+		#if attr.spawns_flood:
+			#flood_status.status_amount = attr.attr_value
+			#statuses.append(flood_status)
+		#if attr.spawns_wind:
+			#wind_status.status_amount = attr.attr_value
+			## store/trigger wind
+	#for status in statuses:
+		#var cur_status = statuses.pop_front()
+		#status_effects.spread_available_cell(cur_status)
+		##_on_add_status_pressed()
+		#var storms = storms_container.get_children()
+		#for storm in storms:
+			#var storm_loc = storm.position
+			#storm_loc = city_grid.local_to_map(storm_loc)
+			#
+			##status_type.init_coord = storm_loc
+			#status_effects.add_status_effect(cur_status, storm_loc)
+			#storm.dropped_status(cur_status)
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
@@ -423,12 +446,27 @@ func take_damage():
 	actions_ui.set_integrity(new_integrity)
 	print("taking damage here!")
 	if new_integrity < 1:
-		# queue death/round end
+		GlobalLocations.fire_locs = status_effects.get_used_cells_by_id(0, Vector2(2,0))
+		GlobalLocations.flood_locs = status_effects.get_used_cells_by_id(0, Vector2(3,0))
+		GlobalLocations.sensor_locs = status_effects.get_used_cells_by_id(0, Vector2(4,0))
+		var sensors_left = GlobalLocations.sensor_locs
+		var sens_col = sensors_total - sensors_left.size()
+		GlobalLocations.sensors_collected = sens_col
+		var storm_num = storms_container.get_child_count()
+		GlobalLocations.cur_storm_count = storm_num
+		GlobalLocations.van_integrity = 0
+		_on_round_end()
 		print("You dead. This is where the game/round would end")
 	
 func _on_preview_cont_area_entered(area: Area2D) -> void:
 	if area.name == "Boundaries":
 		status_log_label.update_text("Path Out of Bounds, resetting autodrive...")
+
+#func _on_update_wind_speed(wind: int):
+	#status_log_label.update_text("Detecting change in Wind Speed!")
+	#var speed : float = wind * 31.8
+	#await get_tree().create_timer(0.6).timeout
+	#status_log_label.update_text("Gusts up to " + str(speed) + " MPH...")
 
 func set_sensors():
 	if current_turn > 0:
@@ -456,8 +494,11 @@ func reset_preview_van() -> void:
 	van.is_turning = false
 	van.turn_direction = "none"
 	van.is_currently_moving = false
-	animated_sprite_2d.animation = van_starting_anim
 	
 	current_turn = 0
 	turn_in_progress = false
 	end_of_turn = false
+
+func _on_round_end():
+	# responds to signal signalling the end of the game (death or extraction)
+	pass

@@ -57,6 +57,7 @@ shape = SubResource("CircleShape2D_i2rct")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1380361334]
 modulate = Color(1, 1, 1, 0.3529412)
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_dl58t")
 flip_h = true
 region_rect = Rect2(35, 68.5, 32, 32)
@@ -64,9 +65,9 @@ region_rect = Rect2(35, 68.5, 32, 32)
 [node name="ZoneLabel" type="Label" parent="." unique_id=777418759]
 visible = false
 offset_left = -45.0
-offset_top = -46.0
+offset_top = -14.0
 offset_right = 45.0
-offset_bottom = -23.0
+offset_bottom = 9.0
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("3_2jbef")
 theme_override_font_sizes/font_size = 10
