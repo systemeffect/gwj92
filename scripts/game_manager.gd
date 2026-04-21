@@ -89,10 +89,7 @@ func _ready() -> void:
 	
 	van.is_moving.connect(_on_van_is_moving)
 	van.is_not_moving.connect(_on_van_is_not_moving)
-	
-	# Restore saved van state first
-	if GlobalLocations.van_grid_loc != Vector2(0, 0):
-		van_grid_coords = GlobalLocations.van_grid_loc
+
 	
 	if GlobalLocations.van_global_loc != Vector2(0, 0):
 		van.global_position = GlobalLocations.van_global_loc
@@ -105,8 +102,6 @@ func _ready() -> void:
 	van_start_pos = van.global_position
 	van_grid_coords = city_grid.local_to_map(van_position)
 	van_starting_anim = animated_sprite_2d.animation
-	
-	print(van_grid_coords)
 	
 	current_preview_coords = van_grid_coords
 	current_preview_position = van_position
@@ -122,7 +117,7 @@ func _ready() -> void:
 		status_log_label.text = GlobalLocations.status_log
 		
 	van.integrity = GlobalLocations.van_integrity
-	var cur_sensors = status_effects.get_used_cells_by_id(0, Vector2(4,0))
+	#var cur_sensors = status_effects.get_used_cells_by_id(0, Vector2(4,0))
 	
 	#sensors_collected = sensors_total - cur_sensors.size()
 	set_sensors()
@@ -165,9 +160,9 @@ func check_end_of_movement():
 			actions_ui.process_turn()
 
 
-func update_map_interface(attr_array : Array):
+func update_map_interface():
 	_on_change_wind_pressed()
-	_on_spread_pressed(attr_array)
+	_on_spread_pressed()
 	var fire_array = status_effects.get_used_cells_by_id(0,Vector2(2,0))
 	var flood_array = status_effects.get_used_cells_by_id(0, Vector2(3,0))
 	GlobalLocations.fire_locs = fire_array
@@ -362,7 +357,7 @@ func get_van_grid_coords() -> Vector2:
 	return van_grid_coords
 
 
-func _on_area_2d_area_entered(area: Area2D) -> void:
+func _on_van_storm_overlap(area: Area2D) -> void:
 	# triggered when van and storm colliders meet
 	# signal to trigger van shake+sound/storm fx
 	if area.name == "StormArea":
@@ -376,7 +371,7 @@ func _on_update_status_log(status : Status):
 	status_log_label.update_text(str(amt) + " " + str(status_name) + " brew-charges expended...")
 
 
-func _on_spread_pressed(attr_array : Array) -> void:
+func _on_spread_pressed() -> void:
 	var fire_attr = GlobalLocations.cur_fire_attr
 	var flood_attr = GlobalLocations.cur_flood_attr
 	var wind_attr = GlobalLocations.cur_wind_attr
@@ -395,7 +390,6 @@ func _on_spread_pressed(attr_array : Array) -> void:
 			cur_status = flood_status
 		else:
 			cur_status = fire_status
-			#status_type.init_coord = storm_loc
 		status_effects.add_status_effect(cur_status, storm_loc)
 		storm.set_storm_speed(wind_attr)
 		storm.dropped_status(cur_status)
@@ -407,7 +401,7 @@ func _on_spread_pressed(attr_array : Array) -> void:
 		flood_status.status_amount = flood_attr
 		status_effects.spread_available_cell(flood_status)
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
+func _on_van_status_tile_entered(_body: Node2D) -> void:
 	# Triggers when van hits a status tile (fire, sensor,...)
 	var pos = van.position
 	var grid = status_effects.local_to_map(pos)
@@ -479,7 +473,7 @@ func set_sensors():
 		for loc in cur_sensor_locs:
 			status_effects.set_cell(loc,0,Vector2(1,0))
 
-func _on_signal_events_area_entered(area: Area2D) -> void:
+func _on_signal_events_area_entered(_area: Area2D) -> void:
 	# This was intended for areas to trigger radio events or other random stuff in 3d
 	print("TRIGGER SIGNAL")
 

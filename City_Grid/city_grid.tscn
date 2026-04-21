@@ -188,30 +188,7 @@ theme_override_fonts/normal_font = ExtResource("4_vex6x")
 theme_override_font_sizes/normal_font_size = 10
 bbcode_enabled = true
 
-[node name="EndOfTurnPrompt" parent="UI/ActionsUI" index="9" unique_id=256923231]
-anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
-
-[node name="TurnEndLabel" parent="UI/ActionsUI/EndOfTurnPrompt/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(24908026, 565115545) index="0" unique_id=391455598]
-theme_override_font_sizes/font_size = 38
-horizontal_alignment = 1
-
-[node name="TurnEndLabel2" parent="UI/ActionsUI/EndOfTurnPrompt/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(24908026, 565115545) index="1" unique_id=81119086]
-theme_override_font_sizes/font_size = 38
-
-[node name="EndOfTurnButton" parent="UI/ActionsUI/EndOfTurnPrompt/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(24908026, 565115545) index="2" unique_id=1293705903]
-theme_override_font_sizes/font_size = 40
-text = "TOUCH SCREEN
-TO UPDATE MAP"
-
-[node name="SettingsMenu" parent="UI/ActionsUI" index="13" unique_id=2061315302]
+[node name="SettingsMenu" parent="UI/ActionsUI" index="12" unique_id=2061315302]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -460,8 +437,8 @@ autostart = true
 [connection signal="area_entered" from="UI/PathPreview/PreviewCont" to="." method="_on_preview_cont_area_entered"]
 [connection signal="area_shape_entered" from="UI/PathPreview/PreviewCont" to="." method="_on_preview_cont_area_shape_entered"]
 [connection signal="body_entered" from="UI/PathPreview/PreviewCont" to="." method="_on_preview_cont_body_entered"]
-[connection signal="area_entered" from="Van/Area2D" to="." method="_on_area_2d_area_entered"]
-[connection signal="body_entered" from="Van/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="area_entered" from="Van/Area2D" to="." method="_on_van_storm_overlap"]
+[connection signal="body_entered" from="Van/Area2D" to="." method="_on_van_status_tile_entered"]
 [connection signal="timeout" from="WindTimer" to="." method="_on_wind_timer_timeout"]
 
 [editable path="UI/ActionsUI"]

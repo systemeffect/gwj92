@@ -114,6 +114,13 @@ func _process(delta: float) -> void:
 		move_button.disabled = true
 		van_button.disabled = true
 
+func check_if_3d() -> bool:
+	var parent = find_parent("Level")
+	if parent != null:
+		return true
+	else:
+		return false
+
 func process_turn():
 	#get_tree().paused = true
 	end_of_turn_prompt_2.show()
@@ -337,16 +344,16 @@ func update_movement_queue():
 			slot += 1
 
 func highlight_active_slot(slot : int):
-	action_1.set_default_border_color()
-	action_2.set_default_border_color()
-	action_3.set_default_border_color()
+	move_1.set_default_border_color()
+	move_2.set_default_border_color()
+	move_3.set_default_border_color()
 	match slot:
 		0:
-			action_1.set_active_border_color()
+			move_1.set_active_border_color()
 		1:
-			action_2.set_active_border_color()
+			move_2.set_active_border_color()
 		2:
-			action_3.set_active_border_color()
+			move_3.set_active_border_color()
 
 
 func _on_reset_queue_pressed() -> void:
@@ -366,9 +373,8 @@ func _on_pressed(card_id: String):
 			current_queue.erase(card_id)
 			available_cards.append(card_id)
 			selected_action = ""
-			print(current_queue.size())
 			queue_size -= 1
-			action_removed.emit(current_queue)
+			#action_removed.emit(current_queue)
 			_on_deck_updated()
 			clear_queue_window()
 			update_queue()
@@ -409,17 +415,14 @@ func _on_pressed(card_id: String):
 			selected_card = ""
 
 func _on_move_pressed() -> void:
-	var parent = find_parent("Level")
-	if parent == null:
-		status_log_label.update_text("[SETTING AUTODRIVE PATH]")
+	if !check_if_3d():
+		status_log_label.update_text("[PREVIEWING AUTODRIVE PATH]")
 	if moves_selected > 0:
 		AudioManager.ui_preview.play()
 		build_preview_directions()
 		for d in DirectionList.previewer_directions:
 			status_log_label.update_text("Direction: " + str(d.move_direction) + " | Amount: " + str(d.move_amount))
 		round_initiated.emit()
-	else:
-		print("max moves reached")
 		
 func build_preview_directions():
 	var result = MovementPlanner.build_preview_directions(current_movement_queue, current_van_direction, Util.all_cards)
@@ -427,7 +430,6 @@ func build_preview_directions():
 	DirectionList.previewer_directions.append_array(result["directions"])
 	for d in DirectionList.previewer_directions:
 		print("Direction:", d.move_direction, "| Amount:", d.move_amount)
-		#current_van_direction = result["final_facing"]
 
 func _on_van_button_pressed() -> void:
 	AudioManager.ui_rollout.play()
@@ -470,93 +472,43 @@ func _on_reset_moves_pressed() -> void:
 	set_van_direction_string()
 
 func _on_forward_1_pressed() -> void:
-	if moves_selected < max_move_queue_size:
-		AudioManager.ui_click.play()
-		current_movement_queue.append("12")
-		build_preview_directions()
-		
-		moves_selected += 1
-		clear_movement_queue_window()
-		update_movement_queue()
-		movement_queued.emit()
+	add_movement("12")
 
 func _on_forward_2_pressed() -> void:
-	if moves_selected < max_move_queue_size:
-		AudioManager.ui_click.play()
-		current_movement_queue.append("13")
-		build_preview_directions()
-		
-		moves_selected += 1
-		clear_movement_queue_window()
-		update_movement_queue()
-		movement_queued.emit()
+	add_movement("13")
 
 func _on_reverse_1_pressed() -> void:
-	if moves_selected < max_move_queue_size:
-		AudioManager.ui_click.play()
-		current_movement_queue.append("14")
-		build_preview_directions()
-		
-		moves_selected += 1
-		clear_movement_queue_window()
-		update_movement_queue()
-		movement_queued.emit()
+	add_movement("14")
 
 func _on_turn_left_pressed() -> void:
-	if moves_selected < max_move_queue_size:
-		AudioManager.ui_click.play()
-		current_movement_queue.append("15")
-		build_preview_directions()
-		
-		moves_selected += 1
-		clear_movement_queue_window()
-		update_movement_queue()
-		movement_queued.emit()
+	add_movement("15")
 
 func _on_turn_around_pressed() -> void:
-	if moves_selected < max_move_queue_size:
-		AudioManager.ui_click.play()
-		current_movement_queue.append("17")
-		build_preview_directions()
-		
-		moves_selected += 1
-		clear_movement_queue_window()
-		update_movement_queue()
-		movement_queued.emit()
+	add_movement("17")
 
 func _on_turn_right_pressed() -> void:
+	add_movement("16")
+
+func add_movement(card_id : String):
 	if moves_selected < max_move_queue_size:
 		AudioManager.ui_click.play()
-		current_movement_queue.append("16")
+		current_movement_queue.append(card_id)
 		build_preview_directions()
-		
 		moves_selected += 1
 		clear_movement_queue_window()
 		update_movement_queue()
 		movement_queued.emit()
-
 
 func _on_end_of_turn_button_pressed() -> void:
 	available_cards = []
 	clear_grid_container()
 	set_turn_hand()
-	var attr_array = set_attribute_status_array()
-	end_of_turn.emit(attr_array)
+	end_of_turn.emit()
 	reset_movement_queue.emit()
 	_on_reset_queue_pressed()
 	_on_reset_moves_pressed()
 
 	end_of_turn_prompt_2d.hide()
-
-func set_attribute_status_array() -> Array:
-	var attribute_array = []
-	for card in current_queue:
-		var attr_type = all_cards[card].get("ATTRIBUTE_TYPE")
-		var attr_value = all_cards[card].get("VALUE")
-		var new_attribute = Attribute.new()
-		new_attribute.set_attribute(attr_type, attr_value)
-		attribute_array.append(new_attribute)
-	return attribute_array
 
 func set_integrity(new_int : int):
 	match new_int:
@@ -575,7 +527,6 @@ func collect_sensor():
 	AudioManager.sfx_sensor_pickup.play()
 	sensors_num.text = str(cur_sensors)
 
-
 func _on_extraction_button_pressed() -> void:
 	extraction.emit()
 
@@ -585,8 +536,7 @@ func _input(event: InputEvent) -> void:
 
 func _on_escape_key_pressed() -> void:
 	print("Escape pressed")
-	var parent_node = find_parent("Level")
-	if parent_node == null:
+	if !check_if_3d():
 		if settings_menu.visible == false:
 			settings_menu.show()
 		else:

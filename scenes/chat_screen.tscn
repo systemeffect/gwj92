@@ -59,6 +59,7 @@ offset_right = 8.0
 offset_bottom = 8.0
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=840476898]
+visible = false
 material = SubResource("ShaderMaterial_23hr1")
 layout_mode = 1
 anchors_preset = 15
