@@ -36,6 +36,10 @@ shader_parameter/vignette_intensity = 0.4430000210425
 shader = ExtResource("5_yiybu")
 shader_parameter/speed = 1.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ss1pu"]
+shader = ExtResource("5_yiybu")
+shader_parameter/speed = 1.0
+
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_yiybu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pvxsy"]
@@ -230,8 +234,7 @@ texture = ExtResource("6_2f6ys")
 texture_mode = 1
 
 [node name="WindPreview" type="Line2D" parent="UI/PathPreview" unique_id=1891200362]
-material = SubResource("ShaderMaterial_pvxsy")
-scale = Vector2(1.0022026, 0.9975787)
+material = SubResource("ShaderMaterial_ss1pu")
 default_color = Color(0.30839303, 0.9391192, 0.5870954, 1)
 texture = ExtResource("8_giv51")
 texture_mode = 1

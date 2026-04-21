@@ -53,6 +53,8 @@ var sensors_collected : int = 0
 # Storm variables
 var wind_direction : Direction
 var wind_push : Direction
+var wind_preview_start : Vector2
+var wind_preview_end : Vector2
 
 func _ready() -> void:
 	AudioManager.music_menu.stop()
@@ -209,14 +211,16 @@ func find_path():
 			clear_collider_container()
 	turn_end_coords = last_point
 	GlobalLocations.turn_end_coords = turn_end_coords
-	wind_preview.clear_points()
-	wind_preview.hide()
+	reset_wind_preview()
 	preview_wind_push()
 		
 func preview_wind_push():
 	if wind_push != null:
 		wind_preview.show()
-		wind_preview.add_point(city_grid.map_to_local(turn_end_coords))
+		var wind_point : Vector2
+		wind_point = city_grid.map_to_local(turn_end_coords)
+		wind_preview.add_point(wind_point)
+		wind_preview_start = wind_point
 		var move_vector : Vector2
 		match wind_push.move_direction:
 			"NORTH":
@@ -228,9 +232,16 @@ func preview_wind_push():
 			"WEST":
 				move_vector = Vector2(-wind_push.move_amount, 0)
 		var new_point = turn_end_coords + move_vector
-		wind_preview.add_point(city_grid.map_to_local(new_point))
+		new_point = city_grid.map_to_local(new_point)
+		wind_preview.add_point(new_point)
+		wind_preview_end = new_point
 	else:
 		wind_preview.hide()
+
+func reset_wind_preview():
+	wind_preview.clear_points()
+	wind_preview_start = Vector2(0,0)
+	wind_preview_end = Vector2(0,0)
 
 func clear_collider_container():
 	while preview_cont.get_child_count() > 0:
