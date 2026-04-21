@@ -35,4 +35,13 @@ func _on_continue_pressed() -> void:
 			tut_5.show()
 			slide += 1
 		5:
+			tut_1.hide()
+			tut_2.hide()
+			tut_3.hide()
+			tut_4.hide()
+			tut_5.hide()
+			mouse_filter = Control.MOUSE_FILTER_IGNORE
+			hide()
+			slide = 1
 			get_tree().change_scene_to_packed(first_level)
+			

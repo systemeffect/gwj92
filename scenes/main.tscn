@@ -55,6 +55,7 @@ animations = [{
 [node name="Menus" type="CanvasLayer" parent="." unique_id=1111475584]
 
 [node name="Control" type="Control" parent="Menus" unique_id=1197766366]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

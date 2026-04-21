@@ -68,8 +68,7 @@ var wind_direction : Direction
 
 func _ready() -> void:
 	AudioManager.music_menu.stop()
-	var parent_node = find_parent("Level")
-	if parent_node == null:
+	if !check_if_3d():
 		if AudioManager.music_execute_1.playing == false and AudioManager.music_execute_2.playing == false and AudioManager.music_execute_3.playing == false:
 			AudioManager.music_planning.play()
 		AudioManager.music_menu.stop()
@@ -118,8 +117,7 @@ func _ready() -> void:
 		var fires_array = GlobalLocations.fire_locs
 		var floods_array = GlobalLocations.flood_locs
 		load_fires_floods(fires_array, floods_array)
-		var parent = find_parent("Level")
-		if parent == null:
+		if !check_if_3d():
 			end_of_turn_prompt_2d.show()
 		status_log_label.text = GlobalLocations.status_log
 		
@@ -153,11 +151,17 @@ func _process(delta: float) -> void:
 	if end_of_turn:
 		check_end_of_movement()
 
+func check_if_3d() -> bool:
+	var parent = find_parent("Level")
+	if parent != null:
+		return true
+	else:
+		return false
+
 func check_end_of_movement():
 	if !van.is_currently_moving:
 		get_tree().paused = true
-		var parent = find_parent("Level")
-		if parent != null:
+		if check_if_3d():
 			actions_ui.process_turn()
 
 
@@ -417,9 +421,9 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		Vector2(3,0):
 			# trigger flood effect
 			#take_damage()
-			status_log_label.update_text("Flooded area, new storm brewed by the TEMPEST Drive!")
-			create_storms(pos, 1)
-			pass
+			if check_if_3d():
+				status_log_label.update_text("Flooded area, new storm brewed by the TEMPEST Drive!")
+				create_storms(pos, 1)
 		Vector2(4,0):
 			#increment sensor collected
 			var ran = randi_range(189, 69420)
@@ -428,8 +432,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	print("STATUS TILE CROSSED")
 
 func collect_sensor(grid : Vector2):
-	var parent = find_parent("Level")
-	if parent != null:
+	if check_if_3d():
 		status_effects.set_cell(grid,0,Vector2(1,0))
 		actions_ui.collect_sensor()
 	sensor_collect.show()
@@ -475,14 +478,10 @@ func set_sensors():
 				cur_sensor_locs.erase(loc)
 		for loc in cur_sensor_locs:
 			status_effects.set_cell(loc,0,Vector2(1,0))
-			var parent = find_parent("Level")
-			if parent == null:
-				pass
-				#actions_ui.collect_sensor()
 
 func _on_signal_events_area_entered(area: Area2D) -> void:
+	# This was intended for areas to trigger radio events or other random stuff in 3d
 	print("TRIGGER SIGNAL")
-	pass # Replace with function body.
 
 func reset_preview_van() -> void:
 	van.global_position = van_start_pos

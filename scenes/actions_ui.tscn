@@ -338,49 +338,6 @@ theme_override_colors/font_color = Color(0, 0.9529412, 0, 1)
 text = "0"
 horizontal_alignment = 1
 
-[node name="EndOfTurnPrompt" type="PanelContainer" parent="." unique_id=256923231]
-process_mode = 3
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -66.5
-offset_top = -40.5
-offset_right = 66.5
-offset_bottom = 40.5
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("4_p22f0")
-
-[node name="MarginContainer" type="MarginContainer" parent="EndOfTurnPrompt" unique_id=443817379]
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-
-[node name="VBoxContainer" type="VBoxContainer" parent="EndOfTurnPrompt/MarginContainer" unique_id=565115545]
-layout_mode = 2
-
-[node name="TurnEndLabel" type="Label" parent="EndOfTurnPrompt/MarginContainer/VBoxContainer" unique_id=391455598]
-layout_mode = 2
-text = "AUTO-DRIVE PATH EXECUTED"
-
-[node name="TurnEndLabel2" type="Label" parent="EndOfTurnPrompt/MarginContainer/VBoxContainer" unique_id=81119086]
-layout_mode = 2
-text = "Engage Tempest Drive
-and Update Radar"
-horizontal_alignment = 1
-
-[node name="EndOfTurnButton" type="Button" parent="EndOfTurnPrompt/MarginContainer/VBoxContainer" unique_id=1293705903]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.9098039, 0.40784314, 0.2509804, 1)
-theme_override_fonts/font = ExtResource("5_lgsi3")
-text = "UPDATE MAP"
-
 [node name="EndOfRound" type="PanelContainer" parent="." unique_id=848322876]
 process_mode = 3
 visible = false
@@ -613,7 +570,6 @@ grow_vertical = 1
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/ResetMoves" to="." method="_on_reset_moves_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Move" to="." method="_on_move_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/VanButton" to="." method="_on_van_button_pressed"]
-[connection signal="pressed" from="EndOfTurnPrompt/MarginContainer/VBoxContainer/EndOfTurnButton" to="." method="_on_end_of_turn_button_pressed"]
 [connection signal="pressed" from="EndOfRound/Margin/VBox/EndOfRoundButton" to="EndOfRound" method="_on_end_of_round_button_pressed"]
 [connection signal="pressed" from="EndOfTurnPrompt2D/Panel/MarginContainer/VBoxContainer/EndOfTurnButton" to="." method="_on_end_of_turn_button_pressed"]
 [connection signal="pressed" from="EndOfTurnPrompt2D/Panel/MarginContainer/VBoxContainer/ExtractionButton" to="." method="_on_extraction_button_pressed"]

@@ -15,13 +15,14 @@ extends CenterContainer
 
 @onready var level_select: PanelContainer = $LevelSelect
 
+var has_tutorial_played : bool = false
 
 func _ready() -> void:
 	# for audio/sfx triggers when hovering over menu buttons
 	#start_button.connect("mouse_entered", _on_mouse_button_entered)
 	#settings_button.connect("mouse_entered", _on_mouse_button_entered)
 	#quit_button.connect("mouse_entered", _on_mouse_button_entered)
-	start_button.grab_focus()
+	#start_button.grab_focus()
 	AudioManager.music_planning.stop()
 	AudioManager.music_execute_1.stop()
 	AudioManager.music_execute_2.stop()
@@ -40,7 +41,11 @@ func _on_mouse_button_entered() -> void:
 	pass
 
 func _on_start_button_pressed() -> void:
-	tutorial.show()
+	if !has_tutorial_played:
+		tutorial.show()
+		has_tutorial_played = true
+	else:
+		get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
 
 
 func _on_settings_button_pressed() -> void:
