@@ -13,7 +13,7 @@ func _ready() -> void:
 	#var instance = scene.instantiate()
 	#sub_viewport.add_child(instance)
 	
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	
 	# Handle camera rotation.
 	handle_camera_rotation()

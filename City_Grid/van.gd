@@ -2,6 +2,7 @@ extends Node2D
 
 signal is_moving
 signal is_not_moving
+signal move_initiated
 signal route_finished
 
 @export var VAN_SPEED: float = 4
@@ -181,8 +182,10 @@ func _on_red_button_pressed() -> void:
 	
 	# Need this for copy of direction, gets cleared when switching to 2D scene in "3D_Level.gd"
 	direction_copy = DirectionList.directions.duplicate()
-	
+	var index = 0
 	while DirectionList.directions.size() > 0:
+		move_initiated.emit(index)
+		index += 1
 		var step = DirectionList.directions[0]
 		var current_dir = step.move_direction
 		is_turning = false

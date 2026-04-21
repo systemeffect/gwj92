@@ -34,6 +34,7 @@ color = Color(0.035213683, 0.0035148873, 3.3579472e-05, 1)
 layout_mode = 0
 offset_right = 76.0
 offset_bottom = 76.0
+expand_mode = 4
 
 [node name="CardNullify" type="TextureRect" parent="InnerBorder" unique_id=352957853]
 visible = false

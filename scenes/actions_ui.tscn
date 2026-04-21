@@ -513,7 +513,7 @@ theme_override_colors/font_color = Color(0.9098039, 0.40784314, 0.2509804, 1)
 theme_override_fonts/font = ExtResource("5_lgsi3")
 text = "EXTRACT (END)"
 
-[node name="EndOfTurnPrompt2" type="PanelContainer" parent="." unique_id=5587342]
+[node name="EndOfTurnPrompt" type="PanelContainer" parent="." unique_id=5587342]
 process_mode = 3
 visible = false
 layout_mode = 1
@@ -521,31 +521,31 @@ offset_right = 386.0
 offset_bottom = 392.0
 theme = ExtResource("4_p22f0")
 
-[node name="MarginContainer" type="MarginContainer" parent="EndOfTurnPrompt2" unique_id=99884923]
+[node name="MarginContainer" type="MarginContainer" parent="EndOfTurnPrompt" unique_id=99884923]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 48
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="EndOfTurnPrompt2/MarginContainer" unique_id=1050547636]
+[node name="VBoxContainer" type="VBoxContainer" parent="EndOfTurnPrompt/MarginContainer" unique_id=1050547636]
 layout_mode = 2
 
-[node name="TurnEndLabel" type="Label" parent="EndOfTurnPrompt2/MarginContainer/VBoxContainer" unique_id=1242985753]
+[node name="TurnEndLabel" type="Label" parent="EndOfTurnPrompt/MarginContainer/VBoxContainer" unique_id=1242985753]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "AUTO-DRIVE
 PATH EXECUTED"
 horizontal_alignment = 1
 
-[node name="TurnEndLabel2" type="Label" parent="EndOfTurnPrompt2/MarginContainer/VBoxContainer" unique_id=382892182]
+[node name="TurnEndLabel2" type="Label" parent="EndOfTurnPrompt/MarginContainer/VBoxContainer" unique_id=382892182]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Engage Tempest Drive
 and Update Radar"
 horizontal_alignment = 1
 
-[node name="EndOfTurnButton" type="Button" parent="EndOfTurnPrompt2/MarginContainer/VBoxContainer" unique_id=1864715992]
+[node name="EndOfTurnButton" type="Button" parent="EndOfTurnPrompt/MarginContainer/VBoxContainer" unique_id=1864715992]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.40784314, 0.2509804, 1)
 theme_override_fonts/font = ExtResource("5_lgsi3")

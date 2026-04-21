@@ -44,7 +44,6 @@ var wind_status = Status
 
 var current_turn : int = 0
 var end_of_turn : bool = false
-var turn_in_progress : bool = false
 var movement_in_progress : bool = false
 var moves_queued : int = 0
 var movement_queue : Array
@@ -72,9 +71,6 @@ func _ready() -> void:
 		if AudioManager.music_execute_1.playing == false and AudioManager.music_execute_2.playing == false and AudioManager.music_execute_3.playing == false:
 			AudioManager.music_planning.play()
 		AudioManager.music_menu.stop()
-		#AudioManager.music_execute_1.stop()
-		#AudioManager.music_execute_2.stop()
-		#AudioManager.music_execute_3.stop()
 	get_tree().paused = true
 	actions_ui.round_initiated.connect(_on_round_initiated)
 	actions_ui.reset_movement_queue.connect(_on_reset_movement_queue)
@@ -89,7 +85,7 @@ func _ready() -> void:
 	
 	van.is_moving.connect(_on_van_is_moving)
 	van.is_not_moving.connect(_on_van_is_not_moving)
-
+	van.move_initiated.connect(_on_move_initiated)
 	
 	if GlobalLocations.van_global_loc != Vector2(0, 0):
 		van.global_position = GlobalLocations.van_global_loc
@@ -141,7 +137,7 @@ func _ready() -> void:
 	wind_status.status_amount = 0
 	sensor_collect.hide()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	#check_end_of_path()
 	if end_of_turn:
 		check_end_of_movement()
@@ -248,35 +244,34 @@ func _on_round_initiated():
 	get_tree().paused = false
 	reset_preview_van()
 	var dir_array = DirectionList.previewer_directions.duplicate()
+	var index = 0
 	while dir_array.size() > 0:
 		var current_move = dir_array.pop_front()
 		if current_move != null:
+			actions_ui.highlight_active_slot(index)
 			var move_dir = current_move.move_direction
 			var move_amt = current_move.move_amount
 			van.move(move_dir, move_amt)
+			index += 1
 			await van.is_not_moving
 		else:
 			print("card is null")
 	end_of_turn = true
 	turn_num.text = str(current_turn)
-	turn_in_progress = true
 
 func set_wind_direction(dir : Direction):
 	wind_direction = dir
 	var direction = wind_direction.move_direction
 	direction = direction.to_upper()
 	wind_label.text = "WIND: " + direction
-	# emit signal if needed?
 
 func load_storms(locs : Array):
 	if locs.size() > 0:
-		print("loadin storms")
 		var all_locs = locs
 		var storms = storms_container.get_children()
 		for storm in storms:
 			var loc = all_locs.pop_front()
 			storm.set_origin(loc)
-			#
 	else:
 		print('no storms to load')
 
@@ -293,8 +288,6 @@ func clear_storms():
 		var child = storms_container.get_child(0)
 		storms_container.remove_child(child)
 		child.queue_free()
-		
-
 
 func _on_show_grid_pressed() -> void:
 	if grid_overlay.visible:
@@ -319,8 +312,6 @@ func _on_add_status_pressed() -> void:
 	for storm in storms:
 		var storm_loc = storm.position
 		storm_loc = city_grid.local_to_map(storm_loc)
-		
-		#status_type.init_coord = storm_loc
 		status_effects.add_status_effect(random, storm_loc)
 
 func _on_change_wind_pressed() -> void:
@@ -410,16 +401,15 @@ func _on_van_status_tile_entered(_body: Node2D) -> void:
 		Vector2(2,0):
 			take_damage()
 			status_log_label.update_text("Fire damage - van integrity weakened...")
-			# trigger fire damage?
+			# Signal to 3D scene to trigger fire lighting/sound
 			pass
 		Vector2(3,0):
-			# trigger flood effect
-			#take_damage()
+			# Signal to 3D scene to trigger flood lighting/sound
+			# Slow van?
 			if check_if_3d():
 				status_log_label.update_text("Flooded area, new storm brewed by the TEMPEST Drive!")
 				create_storms(pos, 1)
 		Vector2(4,0):
-			#increment sensor collected
 			var ran = randi_range(189, 69420)
 			status_log_label.update_text("Sensor data gathered! " + str(ran) + " anomalies detected!")
 			collect_sensor(grid)
@@ -433,12 +423,10 @@ func collect_sensor(grid : Vector2):
 	collect_animate.play("collect_sensor")
 	await collect_animate.animation_finished
 	sensor_collect.hide()
-	print("SENSOR COLLECTED")
 	
 func take_damage():
 	var new_integrity = van.take_damage()
 	actions_ui.set_integrity(new_integrity)
-	print("taking damage here!")
 	if new_integrity < 1:
 		GlobalLocations.fire_locs = status_effects.get_used_cells_by_id(0, Vector2(2,0))
 		GlobalLocations.flood_locs = status_effects.get_used_cells_by_id(0, Vector2(3,0))
@@ -450,17 +438,10 @@ func take_damage():
 		GlobalLocations.cur_storm_count = storm_num
 		GlobalLocations.van_integrity = 0
 		_on_round_end()
-		print("You dead. This is where the game/round would end")
 	
 func _on_preview_cont_area_entered(area: Area2D) -> void:
 	if area.name == "Boundaries":
 		status_log_label.update_text("Path Out of Bounds, resetting autodrive...")
-
-#func _on_update_wind_speed(wind: int):
-	#status_log_label.update_text("Detecting change in Wind Speed!")
-	#var speed : float = wind * 31.8
-	#await get_tree().create_timer(0.6).timeout
-	#status_log_label.update_text("Gusts up to " + str(speed) + " MPH...")
 
 func set_sensors():
 	if current_turn > 0:
@@ -488,7 +469,6 @@ func reset_preview_van() -> void:
 	animated_sprite_2d.animation = van_starting_anim
 	
 	current_turn = 0
-	turn_in_progress = false
 	end_of_turn = false
 
 func _on_round_end():
@@ -501,3 +481,6 @@ func _on_round_end():
 	end_of_round.show()
 	end_of_turn_prompt_2d.hide()
 	end_of_round.set_final_score()
+
+func _on_move_initiated(index : int):
+	actions_ui.highlight_active_slot(index)

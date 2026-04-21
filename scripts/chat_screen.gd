@@ -18,7 +18,7 @@ func _ready() -> void:
 	#available_chats = Util.available_chats
 	push_chat()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if delay_done:
 		push_chat()
 		#set_timer()
@@ -71,10 +71,7 @@ func get_chat_by_id(chat_id: String) -> Dictionary:
 func update_text(input_text:String)->void:
 	#visible_characters = 0
 	chat_scroll.text += "\n" + input_text
-	
-	#for i in get_parsed_text():
-		#visible_characters += 1
-		#await get_tree().create_timer(0.1).timeout
+
 		
 func push_chat():
 	var chat = available_chats.pick_random()
@@ -84,7 +81,6 @@ func push_chat():
 		var chat_data = get_chat_by_id(chat)
 		var text = chat_data.get("TEXT")
 		var source = chat_data.get("SOURCE") + ": "
-		var pair = chat_data.get("PAIR")
 		var pair_text = chat_data.get("PAIR_TEXT")
 		var pair_source = chat_data.get("PAIR_SOURCE")
 		update_text(source + text)
@@ -99,26 +95,6 @@ func push_chat():
 			available_chats = all_chats_array
 		delay_done = false
 		chat_timer.start()
-
-#
-#func _on_button_pressed() -> void:
-	#var chat = available_chats.pick_random()
-	#print(chat)
-	#available_chats.erase(chat)
-	#var chat_data = get_chat_by_id(chat)
-	#var text = chat_data.get("TEXT")
-	#var source = chat_data.get("SOURCE") + ": "
-	#var pair = chat_data.get("PAIR")
-	#var pair_text = chat_data.get("PAIR_TEXT")
-	#var pair_source = chat_data.get("PAIR_SOURCE")
-	#update_text(source + text)
-	##if pair == true:
-	#if pair_text != null:
-		#pair_text = chat_data.get("PAIR_TEXT") + "[/indent]"
-		#pair_source = "[indent]" + chat_data.get("PAIR_SOURCE") + ": "
-		#var rand_pause = randf_range(1.0, 2.5)
-		#await get_tree().create_timer(rand_pause).timeout
-		#update_text(pair_source + pair_text)
 
 
 func _on_chat_timer_timeout() -> void:

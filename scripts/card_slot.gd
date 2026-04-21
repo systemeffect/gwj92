@@ -32,18 +32,12 @@ var is_empty : bool = true
 func _ready() -> void:
 	if is_movement_queue:
 		card_button.disabled = true
-	#if is_in_action_queue:
-		#action_queue_num.show()
-		#action_queue_num.text = "Action " + str(queue_number)
-	#else:
-		#action_queue_num.hide()
 	card_nullify.hide()
 	selected.hide()
 	outer_border.color = Color(0.06,0.06,0.06,1.0)
 	card_button.mouse_entered.connect(_on_card_icon_mouse_entered)
 	card_button.mouse_exited.connect(_on_card_icon_mouse_exited)
 	card_icon.texture = card_image
-	#set_card()
 	
 func _on_card_icon_mouse_entered():
 	if !is_in_action_queue:
@@ -78,27 +72,6 @@ func set_card(new_card : Dictionary):
 		heading.text = card["DESCRIPTION_HEADING"]
 		subheading.text = str(card["DESCRIPTION_SUBHEADING"])
 		card_id.text = "Card ID: " + str(card["ID"])
-		#set_storm_color()
-	
-func set_storm_color():
-	if !is_in_action_queue:
-		var storm_type = card.get("STORM_TYPE")
-		match storm_type:
-			"DEBRIS":
-				outer_border_default_color = Color(0.488, 0.468, 0.079, 1.0)
-				outer_border.color = outer_border_default_color
-			"FIRE":
-				outer_border_default_color = Color(1.0, 0.176, 0.255, 1.0)
-				outer_border.color = outer_border_default_color
-			"FLOOD":
-				outer_border_default_color = Color(0.196, 0.079, 0.928, 1.0)
-				outer_border.color = outer_border_default_color
-			"WIND":
-				outer_border_default_color = Color(0.129, 0.471, 0.361, 1.0)
-				outer_border.color = outer_border_default_color
-			"CALM":
-				outer_border_default_color = Color(0.807, 0.869, 0.974, 1.0)
-				outer_border.color = outer_border_default_color
 
 func set_active_border_color():
 	outer_border.color = Color(0.938, 0.425, 0.0, 1.0)
@@ -107,10 +80,4 @@ func set_default_border_color():
 	outer_border.color = outer_border_default_color
 
 func _on_card_button_pressed() -> void:
-	if !selected.visible:
-		for slot in get_parent().get_children():
-			slot.deselect()
-		selected.show()
-		pressed.emit()
-	else:
-		selected.hide()
+	pressed.emit()

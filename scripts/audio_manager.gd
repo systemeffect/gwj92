@@ -5,6 +5,11 @@ extends Node
 @onready var sfx_engine_rev_down: AudioStreamPlayer = $SfxEngineRevDown
 @onready var sfx_engine_rev_up: AudioStreamPlayer = $SfxEngineRevUp
 @onready var sfx_engine_running: AudioStreamPlayer = $SfxEngineRunning
+
+#Ambient sound effect
+@onready var sfx_sensor_collected: AudioStreamPlayer = $SfxSensorCollected
+
+
 @onready var music_menu: AudioStreamPlayer = $MusicMenu
 @onready var music_planning: AudioStreamPlayer = $MusicPlanning
 @onready var music_execute_1: AudioStreamPlayer = $MusicExecute1

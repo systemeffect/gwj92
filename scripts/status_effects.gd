@@ -38,14 +38,11 @@ func add_status_effect(status : Status, pos : Vector2):
 			4:
 				# Debris/Obstacle
 				set_cell(pos, 0, Vector2(5,0))
-		#if available_neighbors.has(pos):
-			#available_neighbors.erase(pos)
 		status_affected_tiles.append(pos)
 
 func get_sensor_zones() -> Array:
 	var cells_in_use = get_used_cells_by_id(0,Vector2(4,0))
 	return cells_in_use
-	
 
 func get_available_cells(status_type : Status) -> Array:
 	var type = status_type.status_name
@@ -56,17 +53,10 @@ func get_available_cells(status_type : Status) -> Array:
 		var cell_type = cell_data.get_custom_data(type)
 		if cell_type:
 			var neighbors = get_surrounding_cells(status)
-			#print("printing neighbors: " + str(neighbors))
 			for neighbor in neighbors:
-				#print("looking at " + str(neighbor))
 				var neighbor_data = get_cell_tile_data(neighbor)
 				if neighbor_data == null:
-					#var n_type = neighbor_data.get_custom_data("status")
-					#if !n_type:
 					available_cells.append(neighbor)
-				else:
-					#print("neighbor data null")
-					pass
 	return available_cells
 
 func spread_available_cell(status : Status):
@@ -78,35 +68,7 @@ func spread_available_cell(status : Status):
 			if spread != null:
 				add_status_effect(status, spread)
 				update_status_log.emit(status)
-				print("spread " + status.status_name)
 				available.erase(spread)
 			else:
 				break
 			count -= 1
-		
-		#
-		#
-		#var spread = available.pick_random()
-		#if spread != null:
-			#add_status_effect(status, spread)
-			#update_status_log.emit(status)
-			#print("spread " + status.status_name)
-			#available.erase(spread)
-	#if count > 1:
-		#print('triggering count 2!')
-		#if available != null and available.size() > 0:
-			#var spread = available.pick_random()
-			#if spread != null:
-				#add_status_effect(status, spread)
-				#update_status_log.emit(status)
-				#print("spread " + status.status_name)
-				#available.erase(spread)
-	#if count > 2:
-		#print('triggering count 3!')
-		#if available != null and available.size() > 0:
-			#var spread = available.pick_random()
-			#if spread != null:
-				#add_status_effect(status, spread)
-				#update_status_log.emit(status)
-				#print("spread " + status.status_name)
-				#available.erase(spread)

@@ -3,9 +3,6 @@ extends Control
 signal round_initiated
 signal movement_queued
 signal reset_movement_queue
-signal action_queued
-signal action_removed
-signal reset_queue
 signal end_of_turn
 signal extraction
 
@@ -14,9 +11,8 @@ signal extraction
 @onready var move_button: Button = $ActionDebug/VBoxContainer/MovementButtons/Move
 @onready var van_button: Button = $ActionDebug/VBoxContainer/MovementButtons/VanButton
 
-@onready var end_of_turn_prompt: PanelContainer = $EndOfTurnPrompt
 @onready var end_of_turn_prompt_2d: Panel = $EndOfTurnPrompt2D
-@onready var end_of_turn_prompt_2: PanelContainer = $EndOfTurnPrompt2
+@onready var end_of_turn_prompt: PanelContainer = $EndOfTurnPrompt
 @onready var city_grid: Node2D = $"../.."
 
 
@@ -71,8 +67,6 @@ var queue_item_3 : Attribute
 var nullify_set : bool = false
 
 var cur_deck_size : int = 0
-var selected_card : String
-var selected_action : String
 
 var cur_sensors : int = 0
 
@@ -83,7 +77,6 @@ var all_cards = {}
 var current_deck : Array[String] = ["0","1","2","3","4","5","6","7","8","9","10","11"]
 # Card IDs for all cards currently available to use as actions
 var available_cards : Array[String]
-var test_hand : Array[String]= ["3", "7","11","4", "9", "0"]
 
 var van : Node2D
 var van_grid_coords : Vector2
@@ -98,15 +91,13 @@ func _ready() -> void:
 	GlobalSignals.escape_key.connect(_on_escape_key_pressed)
 	current_deck = ["0","1","2","3","4","5","6","7","8","9","10","11"]
 	current_queue = GlobalLocations.current_queue
-	print(current_deck)
 	load_cards()
 	set_van_direction_index()
 	set_integrity(GlobalLocations.van_integrity)
 	cur_sensors = GlobalLocations.sensors_collected
 	sensors_num.text = str(cur_sensors)
 	
-	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if queue_size == 3 and moves_selected == 3:
 		move_button.disabled = false
 		van_button.disabled = false
@@ -122,9 +113,7 @@ func check_if_3d() -> bool:
 		return false
 
 func process_turn():
-	#get_tree().paused = true
-	end_of_turn_prompt_2.show()
-	
+	end_of_turn_prompt.show()
 
 func set_van_direction_index():
 	match current_van_direction:
@@ -199,12 +188,10 @@ func load_cards():
 		if available_cards.size() > 6:
 			available_cards.resize(6)
 		for card_id in available_cards:
-			print("Checking if card_id exists in available_cards")
 			var slot = Util.card_slot.instantiate()
 			grid_container.add_child(slot)
 			if all_cards.has(card_id):
 				slot.set_card(all_cards[card_id])
-				print("Slot created for " + str(card_id))
 				cur_deck_size += 1
 				slot.pressed.connect(_on_pressed.bind(card_id))
 				if queue_size == max_queue_size and !nullify_set:
@@ -220,7 +207,6 @@ func set_turn_hand():
 	available_cards.clear()
 	if current_deck != null:
 		cur_deck_size = 0
-		print("cur deck size " + str(cur_deck_size))
 		while cur_deck_size < 6:
 			var draw_card = current_deck.pick_random()
 			if !available_cards.has(draw_card):
@@ -229,20 +215,8 @@ func set_turn_hand():
 		print(available_cards)
 	available_cards.resize(6)
 
-# Deselect functions for each gridcontainer
-func deselect_avail():
-	var avail_grid = grid_container.get_children()
-	for slot in avail_grid:
-		slot.deselect()
-		
-func deselect_queue():
-	var queue_grid = queue_grid_container.get_children()
-	for slot in queue_grid:
-		slot.deselect()
-
 # Available cards - ActionUI
 func clear_grid_container():
-	print("clearing Deck grid")
 	while grid_container.get_child_count() > 0:
 		var child = grid_container.get_child(0)
 		grid_container.remove_child(child)
@@ -363,7 +337,6 @@ func _on_reset_queue_pressed() -> void:
 	current_queue.clear()
 	queue_size = 0
 	clear_queue_window()
-	reset_queue.emit()
 
 func _on_pressed(card_id: String):
 	if current_queue.has(card_id):
@@ -372,9 +345,7 @@ func _on_pressed(card_id: String):
 		if card_id != "":
 			current_queue.erase(card_id)
 			available_cards.append(card_id)
-			selected_action = ""
 			queue_size -= 1
-			#action_removed.emit(current_queue)
 			_on_deck_updated()
 			clear_queue_window()
 			update_queue()
@@ -384,7 +355,6 @@ func _on_pressed(card_id: String):
 			print(str(card_id))
 			if queue_size < max_queue_size:
 				current_queue.append(card_id)
-				action_queued.emit(card_id)
 				queue_size += 1
 				var card_index = available_cards.find(card_id, 0)
 				available_cards.remove_at(card_index)
@@ -392,27 +362,8 @@ func _on_pressed(card_id: String):
 				_on_deck_updated()
 				clear_queue_window()
 				update_queue()
-				selected_card = ""
 			else:
 				print("Action Queue Full")
-	
-	# Checks to see if the selected card is in the action queue
-	if current_queue.has(card_id):
-		# If so, deselect available cards
-		if selected_action != card_id:
-			selected_action = card_id
-			selected_card = ""
-			deselect_avail()
-		else:
-			selected_action = ""
-	else:
-		if selected_card != card_id:
-			#if the selected card is in the available grid, deselect action queue
-			selected_card = card_id
-			selected_action = ""
-			deselect_queue()
-		else:
-			selected_card = ""
 
 func _on_move_pressed() -> void:
 	if !check_if_3d():
@@ -524,8 +475,12 @@ func set_integrity(new_int : int):
 func collect_sensor():
 	GlobalLocations.sensors_collected += 1
 	cur_sensors = GlobalLocations.sensors_collected
-	AudioManager.sfx_sensor_pickup.play()
 	sensors_num.text = str(cur_sensors)
+	AudioManager.sfx_sensor_pickup.play()
+	await AudioManager.sfx_sensor_pickup.finished
+	AudioManager.sfx_sensor_collected.play()
+	await get_tree().create_timer(5.0).timeout
+	AudioManager.sfx_sensor_collected.stop()
 
 func _on_extraction_button_pressed() -> void:
 	extraction.emit()
@@ -541,5 +496,3 @@ func _on_escape_key_pressed() -> void:
 			settings_menu.show()
 		else:
 			settings_menu.hide()
-	else:
-		pass

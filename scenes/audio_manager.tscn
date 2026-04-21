@@ -18,6 +18,7 @@
 [ext_resource type="AudioStream" uid="uid://cmdemhvpfr2g7" path="res://assets/audio/music/execute - the fire can crawl.wav" id="9_8igv3"]
 [ext_resource type="AudioStream" uid="uid://br15a62jitpky" path="res://assets/audio/music/execute - the sky will fall.wav" id="10_2y2jw"]
 [ext_resource type="AudioStream" uid="uid://cyh48pajesu3f" path="res://assets/audio/music/execute - the wind is listening.wav" id="11_2y5yn"]
+[ext_resource type="AudioStream" uid="uid://6hyswuus88bh" path="res://assets/audio/SFX/sfx_radio_noise_beeps.wav" id="19_oummu"]
 
 [node name="AudioManager" type="Node" unique_id=889789333]
 process_mode = 3
@@ -94,6 +95,9 @@ bus = &"SFX"
 [node name="UiStorm" type="AudioStreamPlayer" parent="." unique_id=415040778]
 stream = ExtResource("7_cuol6")
 bus = &"SFX"
+
+[node name="SfxSensorCollected" type="AudioStreamPlayer" parent="." unique_id=1985810775]
+stream = ExtResource("19_oummu")
 
 [connection signal="finished" from="MusicPlanning" to="." method="_on_finished"]
 [connection signal="finished" from="MusicExecute1" to="." method="_on_finished"]
