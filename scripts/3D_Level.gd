@@ -174,6 +174,7 @@ func get_sensors():
 	
 func _on_van_route_finished() -> void:
 	turn_ended = true
+	Util.end_of_turn = true
 	action_ui.process_turn()
 
 func _on_escape_key_pressed() -> void:

@@ -2,6 +2,8 @@ extends Control
 
 signal round_initiated
 signal movement_queued
+signal attribute_queued
+signal attribute_unqueued
 signal reset_movement_queue
 signal end_of_turn
 signal extraction
@@ -15,7 +17,6 @@ signal extraction
 @onready var end_of_turn_prompt: PanelContainer = $EndOfTurnPrompt
 @onready var city_grid: Node2D = $"../.."
 
-
 # Resource panel labels
 @onready var turn_num: Label = $ResourcesPanel/Margin/TopBar/Turn/TurnNum
 @onready var integrity_num: Label = $ResourcesPanel/Margin/TopBar/Resources/Column2/IntegrityNum
@@ -26,11 +27,8 @@ signal extraction
 @onready var cur_flood_attr: Label = $ActionQueue/VBox/HBox/CurFloodAttr
 @onready var cur_wind_attr: Label = $ActionQueue/VBox/HBox/CurWindAttr
 
-
 # Stormbrew/Action Queue
 @onready var grid_container: GridContainer = $PanelContainer/GridContainer
-@onready var queue_grid_container: GridContainer = $ActionQueue/VBox/GridContainer
-
 
 # Action Queue Slots
 @onready var action_1: Control = $ActionQueue/VBox/GridContainer/Action_1
@@ -114,6 +112,7 @@ func check_if_3d() -> bool:
 
 func process_turn():
 	end_of_turn_prompt.show()
+	Util.end_of_turn = false
 
 func set_van_direction_index():
 	match current_van_direction:
@@ -346,6 +345,7 @@ func _on_pressed(card_id: String):
 			current_queue.erase(card_id)
 			available_cards.append(card_id)
 			queue_size -= 1
+			attribute_unqueued.emit(card_id)
 			_on_deck_updated()
 			clear_queue_window()
 			update_queue()
@@ -362,6 +362,7 @@ func _on_pressed(card_id: String):
 				_on_deck_updated()
 				clear_queue_window()
 				update_queue()
+				attribute_queued.emit(card_id)
 			else:
 				print("Action Queue Full")
 

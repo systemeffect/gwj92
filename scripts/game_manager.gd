@@ -14,19 +14,14 @@ extends Node2D
 @onready var end_of_turn_prompt_2d: Panel = $UI/ActionsUI/EndOfTurnPrompt2D
 @onready var end_of_round: PanelContainer = $UI/ActionsUI/EndOfRound
 
-
-@onready var current_turn_label: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/CurrentTurnLabel
-@onready var move_in_progress: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/MoveInProgress
-@onready var actions_queued_label: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/ActionsQueued
-@onready var wind_dir: Label = $UI/Debug/Margin/PanelContainer/DebugMenu/WindDir
 @onready var wind_label: Label = $UI/ActionsUI/ResourcesPanel/Margin/TopBar/Turn/WindLabel
 
-@onready var grid_overlay: TextureRect = $UI/GridOverlay
 @onready var city_grid: TileMapLayer = $GridArea/Tilemaps/CityGrid
 @onready var status_effects: TileMapLayer = $GridArea/Tilemaps/StatusEffects
 
 # Movement Preview Lines
 @onready var queue_preview: Line2D = $UI/PathPreview/QueuePreview
+@onready var wind_preview: Line2D = $UI/PathPreview/WindPreview
 @onready var preview_collider: CollisionShape2D = $UI/PathPreview/PreviewCollider
 @onready var preview_cont: Area2D = $UI/PathPreview/PreviewCont
 var turn_end_coords : Vector2
@@ -35,8 +30,6 @@ var turn_end_coords : Vector2
 @onready var storms_container: Node2D = $StormsContainer
 @onready var wind_timer: Timer = $WindTimer
 var wind_speed : int
-var change_wind : bool = true
-var storm_locs
 
 var fire_status = Status
 var flood_status = Status
@@ -44,11 +37,6 @@ var wind_status = Status
 
 var current_turn : int = 0
 var end_of_turn : bool = false
-var movement_in_progress : bool = false
-var moves_queued : int = 0
-var movement_queue : Array
-var actions_queued : int = 0
-var action_queue : Array
 var current_preview_coords : Vector2
 var current_preview_position : Vector2
 
@@ -64,6 +52,7 @@ var sensors_collected : int = 0
 
 # Storm variables
 var wind_direction : Direction
+var wind_push : Direction
 
 func _ready() -> void:
 	AudioManager.music_menu.stop()
@@ -77,13 +66,13 @@ func _ready() -> void:
 	actions_ui.movement_queued.connect(_on_movement_queued)
 	actions_ui.end_of_turn.connect(update_map_interface)
 	actions_ui.extraction.connect(_on_round_end)
-	action_queue = actions_ui.current_queue
+	actions_ui.attribute_queued.connect(_on_attribute_queued)
+	actions_ui.attribute_unqueued.connect(_on_attribute_unqueued)
 	status_effects.update_status_log.connect(_on_update_status_log)
-	movement_queue = actions_ui.current_movement_queue
 	current_turn = GlobalLocations.current_turn
 	turn_num.text = str(current_turn)
 	
-	van.is_moving.connect(_on_van_is_moving)
+	#van.is_moving.connect(_on_van_is_moving)
 	van.is_not_moving.connect(_on_van_is_not_moving)
 	van.move_initiated.connect(_on_move_initiated)
 	
@@ -98,6 +87,7 @@ func _ready() -> void:
 	van_start_pos = van.global_position
 	van_grid_coords = city_grid.local_to_map(van_position)
 	van_starting_anim = animated_sprite_2d.animation
+	turn_end_coords = van_grid_coords
 	
 	current_preview_coords = van_grid_coords
 	current_preview_position = van_position
@@ -113,9 +103,6 @@ func _ready() -> void:
 		status_log_label.text = GlobalLocations.status_log
 		
 	van.integrity = GlobalLocations.van_integrity
-	#var cur_sensors = status_effects.get_used_cells_by_id(0, Vector2(4,0))
-	
-	#sensors_collected = sensors_total - cur_sensors.size()
 	set_sensors()
 	sensors_collected = GlobalLocations.sensors_collected
 	if sensors_collected == sensors_total:
@@ -138,8 +125,7 @@ func _ready() -> void:
 	sensor_collect.hide()
 
 func _process(_delta: float) -> void:
-	#check_end_of_path()
-	if end_of_turn:
+	if Util.end_of_turn:
 		check_end_of_movement()
 
 func check_if_3d() -> bool:
@@ -154,7 +140,6 @@ func check_end_of_movement():
 		get_tree().paused = true
 		if check_if_3d():
 			actions_ui.process_turn()
-
 
 func update_map_interface():
 	_on_change_wind_pressed()
@@ -176,6 +161,9 @@ func _on_movement_queued():
 	find_path()
 	
 func _on_reset_movement_queue():
+	turn_end_coords = van_grid_coords
+	wind_preview.clear_points()
+	preview_wind_push()
 	queue_preview.clear_points()
 	queue_preview.add_point(van_position)
 	clear_collider_container()
@@ -187,10 +175,9 @@ func find_path():
 	var new_point = last_point
 	queue_preview.clear_points()
 	queue_preview.add_point(van.global_position)
+	wind_preview.clear_points()
 	clear_collider_container()
 	var dir_array = DirectionList.previewer_directions
-	print('finding path')
-	print("moves in queue: " + str(dir_array.size()))
 	for move in dir_array:
 		var move_amt = move.move_amount
 		var move_dir = move.move_direction
@@ -222,21 +209,36 @@ func find_path():
 			clear_collider_container()
 	turn_end_coords = last_point
 	GlobalLocations.turn_end_coords = turn_end_coords
+	wind_preview.clear_points()
+	wind_preview.hide()
+	preview_wind_push()
 		
+func preview_wind_push():
+	if wind_push != null:
+		wind_preview.show()
+		wind_preview.add_point(city_grid.map_to_local(turn_end_coords))
+		var move_vector : Vector2
+		match wind_push.move_direction:
+			"NORTH":
+				move_vector = Vector2(0, -wind_push.move_amount)
+			"EAST":
+				move_vector = Vector2(wind_push.move_amount, 0)
+			"SOUTH":
+				move_vector = Vector2(0, wind_push.move_amount)
+			"WEST":
+				move_vector = Vector2(-wind_push.move_amount, 0)
+		var new_point = turn_end_coords + move_vector
+		wind_preview.add_point(city_grid.map_to_local(new_point))
+	else:
+		wind_preview.hide()
+
 func clear_collider_container():
 	while preview_cont.get_child_count() > 0:
 		var child = preview_cont.get_child(0)
 		preview_cont.remove_child(child)
 		child.queue_free()
-
-func _on_van_is_moving():
-	movement_in_progress = true
-	move_in_progress.text = "Move in Progress: true"
 	
 func _on_van_is_not_moving():
-	movement_in_progress = false
-	move_in_progress.text = "Move in Progress: false"
-	
 	van_grid_coords = city_grid.local_to_map(van.global_position)
 	
 # Needs to be rebuilt
@@ -289,12 +291,6 @@ func clear_storms():
 		storms_container.remove_child(child)
 		child.queue_free()
 
-func _on_show_grid_pressed() -> void:
-	if grid_overlay.visible:
-		grid_overlay.hide()
-	else:
-		grid_overlay.show()
-
 func _on_brew_storm_pressed() -> void:
 	var current_pos = van.position
 	var storm = storm_scene.instantiate()
@@ -320,24 +316,18 @@ func _on_change_wind_pressed() -> void:
 	match ran:
 		0:
 			wind_direction.move_direction = "NORTH"
-			wind_dir.text = "WindDir: ^N^"
 		1:
 			wind_direction.move_direction = "EAST"
-			wind_dir.text = "WindDir: >E>" 
 		2:
-			wind_direction.move_direction = "SOUTH"
-			wind_dir.text = "WindDir: vSv" 
+			wind_direction.move_direction = "SOUTH" 
 		3:
 			wind_direction.move_direction = "WEST"
-			wind_dir.text = "WindDir: <W<"
 		4:
 			wind_direction.move_direction = "CALM"
-			wind_dir.text = "WindDir: calm"
 	wind_label.text = "WIND: " + wind_direction.move_direction
 	var storms = storms_container.get_children()
 	for storm in storms:
 		storm.set_storm_direction(wind_direction)
-	change_wind = false
 	var wind = GlobalLocations.cur_wind_attr
 	status_log_label.update_text("Detecting change in Wind Speed!")
 	var speed : float = snapped(wind * randf_range(24.6,36.2), 0.1)
@@ -484,3 +474,27 @@ func _on_round_end():
 
 func _on_move_initiated(index : int):
 	actions_ui.highlight_active_slot(index)
+
+func _on_attribute_queued(card_id : String):
+	var card = Util.all_cards[card_id]
+	var attribute = card.get("ATTRIBUTE_TYPE")
+	if attribute == "WIND":
+		var amt = card.get("VALUE")
+		if wind_direction == null:
+			wind_direction = Direction.new()
+			wind_direction.move_direction = "EAST"
+		wind_push = wind_direction
+		wind_push.move_amount += amt
+		Util.wind_push = wind_push
+		wind_preview.clear_points()
+		preview_wind_push()
+		
+func _on_attribute_unqueued(card_id : String):
+	var card = Util.all_cards[card_id]
+	var attribute = card.get("ATTRIBUTE_TYPE")
+	if attribute == "WIND":
+		var amt = card.get("VALUE")
+		wind_push.move_amount -= amt
+		Util.wind_push = wind_push
+		wind_preview.clear_points()
+		preview_wind_push()

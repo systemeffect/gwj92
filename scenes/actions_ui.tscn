@@ -554,6 +554,7 @@ text = "TOUCH SCREEN
 TO UPDATE MAP"
 
 [node name="SettingsMenu" parent="." unique_id=2061315302 instance=ExtResource("14_u8lnf")]
+visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
