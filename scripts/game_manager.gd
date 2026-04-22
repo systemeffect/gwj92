@@ -329,27 +329,6 @@ func clear_storms():
 		var child = storms_container.get_child(0)
 		storms_container.remove_child(child)
 		child.queue_free()
-		
-
-
-func _on_brew_storm_pressed() -> void:
-	var current_pos = van.position
-	var storm = storm_scene.instantiate()
-	storm.origin_pos = current_pos
-	storms_container.add_child(storm)
-
-func _on_add_status_pressed() -> void:
-	var statuses = []
-	statuses.append(fire_status)
-	statuses.append(flood_status)
-	var random = statuses.pick_random()
-	status_effects.spread_available_cell(random)
-	#_on_add_status_pressed()
-	var storms = storms_container.get_children()
-	for storm in storms:
-		var storm_loc = storm.position
-		storm_loc = city_grid.local_to_map(storm_loc)
-		status_effects.add_status_effect(random, storm_loc)
 
 func _on_change_wind_pressed() -> void:
 	wind_direction = Direction.new()
