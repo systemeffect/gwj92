@@ -35,6 +35,7 @@ var fire_status = Status
 var flood_status = Status
 var wind_status = Status
 var current_level_obstacles : Array
+var current_level_index : int = 1
 
 var current_turn : int = 0
 var end_of_turn : bool = false
@@ -65,6 +66,8 @@ func _ready() -> void:
 			AudioManager.music_planning.play()
 		AudioManager.music_menu.stop()
 	get_tree().paused = true
+	
+	# Connecting all the signals
 	actions_ui.round_initiated.connect(_on_round_initiated)
 	actions_ui.reset_movement_queue.connect(_on_reset_movement_queue)
 	actions_ui.movement_queued.connect(_on_movement_queued)
@@ -73,33 +76,37 @@ func _ready() -> void:
 	actions_ui.attribute_queued.connect(_on_attribute_queued)
 	actions_ui.attribute_unqueued.connect(_on_attribute_unqueued)
 	status_effects.update_status_log.connect(_on_update_status_log)
-	current_turn = GlobalLocations.current_turn
-	turn_num.text = str(current_turn)
-	
 	#van.is_moving.connect(_on_van_is_moving)
 	van.is_not_moving.connect(_on_van_is_not_moving)
 	van.move_initiated.connect(_on_move_initiated)
 	
+	# Set current turn and current level
+	current_turn = GlobalLocations.current_turn
+	turn_num.text = str(current_turn)
+	# for level loading testing
+	
+	
+	# Setting Van properties/positions
 	if GlobalLocations.van_global_loc != Vector2(0, 0):
 		van.global_position = GlobalLocations.van_global_loc
-	
 	if GlobalLocations.van_global_dir != "":
 		animated_sprite_2d.animation = GlobalLocations.van_global_dir
-	
 	# Now cache the scene-entry position for preview resets
 	van_position = van.global_position
 	van_start_pos = van.global_position
 	van_grid_coords = city_grid.local_to_map(van_position)
 	van_starting_anim = animated_sprite_2d.animation
+	van.integrity = GlobalLocations.van_integrity
 	turn_end_coords = van_grid_coords
 	
+	# Preview line settings
 	current_preview_coords = van_grid_coords
 	current_preview_position = van_position
 	
+	# Run after the first turn
 	if GlobalLocations.current_turn > 0:
 		# This line added to try to fix the stuck-between-tiles issue
 		van.position = city_grid.map_to_local(van_grid_coords)
-		
 		var storms_array = GlobalLocations.storm_locs
 		load_storms(storms_array)
 		var fires_array = GlobalLocations.fire_locs
@@ -108,16 +115,17 @@ func _ready() -> void:
 		if !check_if_3d():
 			end_of_turn_prompt_2d.show()
 		status_log_label.text = GlobalLocations.status_log
-		
-	van.integrity = GlobalLocations.van_integrity
+	else:
+		Util.current_level_index = 10
+		var index = Util.current_level_index
+		status_effects.set_level(index)
 	get_obstacle_coords()
 	set_sensors()
 	sensors_collected = GlobalLocations.sensors_collected
 	if sensors_collected == sensors_total:
 		_on_round_end()
-	if GlobalLocations.current_turn > 0:
-		status_log_label.text = GlobalLocations.status_log
-		
+
+	# Set default statuses
 	fire_status = Status.new()
 	fire_status.status_name = "fire"
 	fire_status.status_type = 1

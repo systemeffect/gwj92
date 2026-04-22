@@ -1,6 +1,15 @@
 extends Node
 
 @onready var card_slot = preload("res://scenes/card_slot.tscn")
+
+enum TILE_TYPE { FIRE, FLOOD, SENSOR, OBSTACLE}
+var fire_atlas = Vector2(2,0)
+var flood_atlas = Vector2(3,0)
+var sensor_atlas = Vector2(4,0)
+var obstacle_atlas = Vector2(5,0)
+
+var current_level_index : int = 1
+
 var all_chats = {}
 var available_chats = []
 
