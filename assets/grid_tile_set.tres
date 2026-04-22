@@ -1,0 +1,38 @@
+[gd_resource type="TileSet" format=3 uid="uid://3et6odqu7ftl"]
+
+[ext_resource type="Texture2D" uid="uid://duif07oj47yoo" path="res://assets/map_tileset.png" id="1_u4ujl"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_m87nk"]
+texture = ExtResource("1_u4ujl")
+texture_region_size = Vector2i(32, 32)
+1:0/0 = 0
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-3.186308, -2.5490456, -3.5049381, 2.5490456, 4.1422005, 2.5490456, 3.186306, -3.5049381)
+2:0/0/custom_data_0 = true
+2:0/0/custom_data_1 = true
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-3.186308, -2.5490456, -3.5049381, 2.5490456, 4.1422005, 2.5490456, 3.186306, -3.5049381)
+3:0/0/custom_data_0 = true
+3:0/0/custom_data_2 = true
+4:0/0 = 0
+4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-3.186308, -2.5490456, -3.5049381, 2.5490456, 4.1422005, 2.5490456, 3.186306, -3.5049381)
+4:0/0/custom_data_0 = true
+4:0/0/custom_data_3 = true
+5:0/0 = 0
+5:0/0/custom_data_0 = true
+5:0/0/custom_data_4 = true
+
+[resource]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 4
+custom_data_layer_0/name = "status"
+custom_data_layer_0/type = 1
+custom_data_layer_1/name = "fire"
+custom_data_layer_1/type = 1
+custom_data_layer_2/name = "flood"
+custom_data_layer_2/type = 1
+custom_data_layer_3/name = "sensor"
+custom_data_layer_3/type = 1
+custom_data_layer_4/name = "obstacle"
+custom_data_layer_4/type = 1
+sources/0 = SubResource("TileSetAtlasSource_m87nk")
