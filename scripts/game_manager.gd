@@ -34,11 +34,13 @@ var wind_speed : int
 var fire_status = Status
 var flood_status = Status
 var wind_status = Status
+var current_level_obstacles : Array
 
 var current_turn : int = 0
 var end_of_turn : bool = false
 var current_preview_coords : Vector2
 var current_preview_position : Vector2
+var movement_path_points : Array
 
 var grid_size = Vector2(12,12)
 # Van positions
@@ -95,6 +97,9 @@ func _ready() -> void:
 	current_preview_position = van_position
 	
 	if GlobalLocations.current_turn > 0:
+		# This line added to try to fix the stuck-between-tiles issue
+		van.position = city_grid.map_to_local(van_grid_coords)
+		
 		var storms_array = GlobalLocations.storm_locs
 		load_storms(storms_array)
 		var fires_array = GlobalLocations.fire_locs
@@ -105,6 +110,7 @@ func _ready() -> void:
 		status_log_label.text = GlobalLocations.status_log
 		
 	van.integrity = GlobalLocations.van_integrity
+	get_obstacle_coords()
 	set_sensors()
 	sensors_collected = GlobalLocations.sensors_collected
 	if sensors_collected == sensors_total:
@@ -173,8 +179,10 @@ func _on_reset_movement_queue():
 		reset_preview_van()
 
 func find_path():
+	movement_path_points.clear()
 	var last_point: Vector2 = city_grid.local_to_map(van.global_position)
 	var new_point = last_point
+	movement_path_points.append(last_point)
 	queue_preview.clear_points()
 	queue_preview.add_point(van.global_position)
 	wind_preview.clear_points()
@@ -184,31 +192,46 @@ func find_path():
 		var move_amt = move.move_amount
 		var move_dir = move.move_direction
 		var move_vector : Vector2
-		match move_dir:
-			"NORTH":
-				move_vector = Vector2(0, -move_amt)
-			"EAST":
-				move_vector = Vector2(move_amt, 0)
-			"SOUTH":
-				move_vector = Vector2(0, move_amt)
-			"WEST":
-				move_vector = Vector2(-move_amt, 0)
-		new_point = last_point + move_vector
-		queue_preview.add_point(city_grid.map_to_local(new_point))
-		var new_collider = preview_collider.duplicate()
-		var new_shape = preview_collider.shape.duplicate()
-		new_collider.shape = new_shape
-		new_collider.shape.a = city_grid.map_to_local(last_point)
-		new_collider.shape.b = city_grid.map_to_local(new_point)
-		preview_cont.add_child(new_collider, true)
-		last_point = new_point
-		# checks to make sure point is in bounds, resets movement if not
-		if last_point.x < 0 or last_point.x > 11 or last_point.y < 0 or last_point.y > 11:
-			status_log_label.update_text("Path Out of Bounds, resetting autodrive...")
-			actions_ui._on_reset_moves_pressed()
-			queue_preview.clear_points()
-			queue_preview.add_point(van.position)
-			clear_collider_container()
+		var amt = move_amt
+		while amt > 0:
+			match move_dir:
+				"NORTH":
+					move_vector = Vector2(0, -1)
+					#move_vector = Vector2(0, -move_amt)
+				"EAST":
+					move_vector = Vector2(1, 0)
+					#move_vector = Vector2(move_amt, 0)
+				"SOUTH":
+					move_vector = Vector2(0, 1)
+					#move_vector = Vector2(0, move_amt)
+				"WEST":
+					move_vector = Vector2(-1, 0)
+					#move_vector = Vector2(-move_amt, 0)
+			new_point = last_point + move_vector
+			queue_preview.add_point(city_grid.map_to_local(new_point))
+			movement_path_points.append(new_point)
+			var new_collider = preview_collider.duplicate()
+			var new_shape = preview_collider.shape.duplicate()
+			new_collider.shape = new_shape
+			new_collider.shape.a = city_grid.map_to_local(last_point)
+			new_collider.shape.b = city_grid.map_to_local(new_point)
+			preview_cont.add_child(new_collider, true)
+			last_point = new_point
+			# checks to make sure point is in bounds, resets movement if not
+			if last_point.x < 0 or last_point.x > 11 or last_point.y < 0 or last_point.y > 11:
+				status_log_label.update_text("Path Out of Bounds, resetting autodrive...")
+				actions_ui._on_reset_moves_pressed()
+				queue_preview.clear_points()
+				queue_preview.add_point(van.position)
+				clear_collider_container()
+			elif current_level_obstacles.has(new_point):
+				status_log_label.update_text("Obstruction detected, resetting autodrive...")
+				actions_ui._on_reset_moves_pressed()
+				queue_preview.clear_points()
+				queue_preview.add_point(van.position)
+				clear_collider_container()
+				break
+			amt -= 1
 	turn_end_coords = last_point
 	GlobalLocations.turn_end_coords = turn_end_coords
 	reset_wind_preview()
@@ -248,6 +271,11 @@ func clear_collider_container():
 		var child = preview_cont.get_child(0)
 		preview_cont.remove_child(child)
 		child.queue_free()
+	
+func get_obstacle_coords():
+	var obst_array : Array
+	obst_array = status_effects.get_used_cells_by_id(0, Vector2(5,0))
+	current_level_obstacles = obst_array
 	
 func _on_van_is_not_moving():
 	van_grid_coords = city_grid.local_to_map(van.global_position)
@@ -301,6 +329,8 @@ func clear_storms():
 		var child = storms_container.get_child(0)
 		storms_container.remove_child(child)
 		child.queue_free()
+		
+
 
 func _on_brew_storm_pressed() -> void:
 	var current_pos = van.position
