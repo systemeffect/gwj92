@@ -49,6 +49,7 @@ func _process(_delta: float) -> void:
 		play_anim("stop")
 		play_engine_sfx("rev_down")
 		return
+		
 	# Default idle
 	play_anim("idle")
 	play_engine_sfx("idle")
