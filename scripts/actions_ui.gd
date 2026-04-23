@@ -425,6 +425,7 @@ func _on_reset_moves_pressed() -> void:
 
 func _on_forward_1_pressed() -> void:
 	add_movement("12")
+	print("Forward 1 clicked")
 
 func _on_forward_2_pressed() -> void:
 	add_movement("13")

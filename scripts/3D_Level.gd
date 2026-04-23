@@ -97,46 +97,42 @@ func get_van_grid_cell() -> Vector2i:
 	return movement_grid.local_to_map(local_pos)
 
 func _on_grid_screen_pressed() -> void:
-	if turn_ended:
-		get_van_loc()
-		var cur_storm_locs = get_storm_locs()
-		GlobalLocations.storm_locs = cur_storm_locs
-		GlobalLocations.current_queue.clear()
-		get_sensors()
-		get_fires_floods()
-		GlobalLocations.van_integrity = van.integrity
-		DirectionList.directions.clear()
-		DirectionList.movement_queue.clear()
-		player.make_mouse_visible()
-		if AudioManager.sfx_engine_idle.playing:
-			AudioManager.sfx_engine_idle.stop()
-		get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
-	else:
-		if !screen_view_active:
-			player_last_pos = player.global_transform
-			pivot_last_x_rotation = camera_pivot.rotation.x
-			target_position = default_target_position
-			target_rotation = default_target_rotation
-			lerp_rotation = true
-			camera_pivot.rotation.x = 0.0
-			player.find_child("CenterContainer").find_child("Crosshair").visible = false
-			player.set_physics_process(false)
-			screen_view_active = true
-			is_camera_lerping = true
-			last_van_body_transform = van_model.global_transform
-		else:
-			target_position = player_last_pos.origin
-			lerp_rotation = false
-			player.find_child("CenterContainer").find_child("Crosshair").visible = true
-			player.set_physics_process(true)
-			screen_view_active = false
-			is_camera_lerping = true
+	#if turn_ended:
+		#get_van_loc()
+		#var cur_storm_locs = get_storm_locs()
+		#GlobalLocations.storm_locs = cur_storm_locs
+		#GlobalLocations.current_queue.clear()
+		#get_sensors()
+		#get_fires_floods()
+		#GlobalLocations.van_integrity = van.integrity
+		#DirectionList.directions.clear()
+		#DirectionList.movement_queue.clear()
+		#player.make_mouse_visible()
+		#if AudioManager.sfx_engine_idle.playing:
+			#AudioManager.sfx_engine_idle.stop()
+		#get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
+	#else:
+	if !screen_view_active:
+		player_last_pos = player.global_transform
+		pivot_last_x_rotation = camera_pivot.rotation.x
+		target_position = default_target_position
+		target_rotation = default_target_rotation
+		lerp_rotation = true
+		camera_pivot.rotation.x = 0.0
+		player.find_child("CenterContainer").find_child("Crosshair").visible = false
+		#player.set_physics_process(false)
+		screen_view_active = true
+		is_camera_lerping = true
+		last_van_body_transform = van_model.global_transform
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	#else:
+		#player_leave_screen()
 
 func get_van_loc():
 	#Grabbing Van Location and shit
 	van_grid_loc = city_grid.get_van_grid_coords()
 	van_global_loc = van.global_position
-	if van.direction_copy.back() == null:
+	if van.direction_copy.is_empty():
 		van_dir = city_grid.find_child("ActionsUI").current_van_direction
 	else:
 		van_dir = van.direction_copy.back().move_direction
@@ -179,6 +175,15 @@ func _on_van_route_finished() -> void:
 
 func _on_escape_key_pressed() -> void:
 	if settings_menu.visible == false:
-		settings_menu.show()
+		if !screen_view_active and !is_camera_lerping:
+			settings_menu.show()
 	else:
 		settings_menu.hide()
+
+func player_leave_screen() -> void:
+	target_position = player_last_pos.origin
+	lerp_rotation = false
+	player.find_child("CenterContainer").find_child("Crosshair").visible = true
+	player.set_physics_process(true)
+	screen_view_active = false
+	is_camera_lerping = true

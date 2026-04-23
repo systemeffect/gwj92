@@ -211,7 +211,7 @@ albedo_texture = ExtResource("13_fpun6")
 [sub_resource type="PlaneMesh" id="PlaneMesh_gunhw"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_8gofh"]
-viewport_path = NodePath("Van/Van Model/crt_monitor/Cube/MeshInstance3D/SubViewport")
+viewport_path = NodePath("Van/Van Model/Props/crt_monitor/Cube/MeshInstance3D/SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h6wmr"]
 resource_local_to_scene = true
@@ -220,7 +220,7 @@ albedo_texture = SubResource("ViewportTexture_8gofh")
 [sub_resource type="PlaneMesh" id="PlaneMesh_8gofh"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_5k0ak"]
-viewport_path = NodePath("Van/Van Model/crt_monitor2/Cube/MeshInstance3D/SubViewport2")
+viewport_path = NodePath("Van/Van Model/Props/crt_monitor2/Cube/MeshInstance3D/SubViewport2")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pqd0y"]
 resource_local_to_scene = true
@@ -229,7 +229,7 @@ albedo_texture = SubResource("ViewportTexture_5k0ak")
 [sub_resource type="PlaneMesh" id="PlaneMesh_5k0ak"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_wu01b"]
-viewport_path = NodePath("Van/Van Model/main_display3/Cube/MeshInstance3D/SubViewport4")
+viewport_path = NodePath("Van/Van Model/Props/main_display3/Cube/MeshInstance3D/SubViewport4")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3ies3"]
 resource_local_to_scene = true
@@ -240,7 +240,7 @@ emission = Color(0.04303915, 0.043039158, 0.04303913, 1)
 emission_energy_multiplier = 1.15
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_pqd0y"]
-viewport_path = NodePath("Van/Van Model/crt_monitor3/Cube/MeshInstance3D/SubViewport")
+viewport_path = NodePath("Van/Van Model/Props/crt_monitor3/Cube/MeshInstance3D/SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8gofh"]
 resource_local_to_scene = true
@@ -283,6 +283,9 @@ size_flags_vertical = 4
 
 [node name="Player" parent="." unique_id=63880466 instance=ExtResource("2_w8frs")]
 transform = Transform3D(0.99122477, 0, -0.13218716, 0, 1, 0, 0.13218716, 0, 0.99122477, -0.80212635, 2.176927, 1.3804743)
+screen_width_multiplier = 0.9
+screen_height_multiplier = 0.9
+screen_y_offset = -0.5
 
 [node name="Van" type="Node3D" parent="." unique_id=81167758]
 script = ExtResource("4_fpun6")
@@ -308,20 +311,10 @@ transform = Transform3D(-1.7484556e-08, 0, -0.4, 0, 0.4, 0, 0.4, 0, -1.7484556e-
 light_color = Color(0.5111072, 0.9249332, 0.99999994, 1)
 shadow_enabled = true
 
-[node name="Table" type="CSGBox3D" parent="Van/Van Model" unique_id=1050278442]
-transform = Transform3D(-3.874135e-08, 0, -0.4, 0, 0.4, 0, 0.8862989, 0, -1.7484556e-08, 0.47394556, 0.6409741, -0.5780801)
-size = Vector3(1.7392578, 0.21081543, 1)
-
-[node name="Drivers Seat" parent="Van/Van Model" unique_id=1847014984 instance=ExtResource("6_8c41q")]
-transform = Transform3D(-7.86805e-09, 0, -0.18, 0, 0.18, 0, 0.18, 0, -7.868048e-09, 0.35388267, 0.3139679, 0.47385868)
-
-[node name="Passenger Seat" parent="Van/Van Model" unique_id=782303671 instance=ExtResource("6_8c41q")]
-transform = Transform3D(-7.86805e-09, 0, -0.18, 0, 0.18, 0, 0.18, 0, -7.868048e-09, -0.35320938, 0.3139679, 0.47385862)
-
 [node name="RedButton" parent="Van/Van Model" unique_id=165692526 instance=ExtResource("6_2r41h")]
 transform = Transform3D(-6.9938237e-09, 0, -0.16000001, 0, 0.16000001, 0, 0.16000001, 0, -6.9938224e-09, 0.33327642, 0.69267815, -0.3771515)
 
-[node name="Button" parent="Van/Van Model/RedButton" index="1" unique_id=240862583]
+[node name="Button" parent="Van/Van Model/RedButton" index="1" unique_id=952676345]
 surface_material_override/0 = SubResource("StandardMaterial3D_2r41h")
 
 [node name="ButtonArea" type="Area3D" parent="Van/Van Model/RedButton" unique_id=904083176]
@@ -331,192 +324,204 @@ input_ray_pickable = false
 transform = Transform3D(1.0000002, 0, 0, 0, 1, 0, 1.6940659e-21, 0, 1, 0.0140686035, 0.023925781, -0.0056152344)
 shape = SubResource("BoxShape3D_2r41h")
 
-[node name="stool" parent="Van/Van Model" unique_id=207635027 instance=ExtResource("8_olg7q")]
-transform = Transform3D(-6.556709e-09, 0, -0.14999999, -8.951444e-18, 0.14999999, 0, 0.15000002, 2.7755576e-17, -6.556708e-09, 0.115686715, 0.18155916, -0.31778818)
-
 [node name="steering_wheel" parent="Van/Van Model" unique_id=711148209 node_paths=PackedStringArray("van_body") instance=ExtResource("7_klq6b")]
 transform = Transform3D(0.15998717, -0.0005445555, -0.0019518904, -0.00054454687, 0.13689284, -0.0828255, 0.0019518926, 0.082825504, 0.13687998, 0.32308397, 0.7102584, 0.71555954)
 script = ExtResource("11_wc255")
 van_body = NodePath("..")
 
-[node name="Steering_column" type="CSGCylinder3D" parent="Van/Van Model" unique_id=362756844]
-transform = Transform3D(-9.778887e-09, 1.3504177e-08, -0.39999995, 0.31666446, 0.24438427, 0, 0.24438427, -0.31666443, -1.7484549e-08, 0.3172913, 0.47562394, 1.0271926)
+[node name="Props" type="Node3D" parent="Van/Van Model" unique_id=282136593]
+
+[node name="Steering_column" type="CSGCylinder3D" parent="Van/Van Model/Props" unique_id=362756844]
+transform = Transform3D(-9.778887e-09, 1.3504177e-08, -0.39999995, 0.31666446, 0.24438426, 0, 0.24438426, -0.31666443, -1.7484549e-08, 0.3172913, 0.47562394, 1.0271926)
 radius = 0.064
 height = 1.8908691
 
-[node name="Lamp" type="CSGSphere3D" parent="Van/Van Model" unique_id=1292451607]
-transform = Transform3D(-1.7484556e-08, 0, -0.4, 0, 0.4, 0, 0.39999998, 0, -1.7484554e-08, 0.48801178, 0.6178431, -0.5943706)
+[node name="Lamp" type="CSGSphere3D" parent="Van/Van Model/Props" unique_id=1292451607]
+transform = Transform3D(-1.7484556e-08, 0, -0.4, 0, 0.4, 0, 0.39999998, 0, -1.7484556e-08, 0.48801178, 0.6178431, -0.59437054)
 radius = 0.2
 radial_segments = 10
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Van/Van Model/Lamp" unique_id=1317754908]
+[node name="CSGBox3D" type="CSGBox3D" parent="Van/Van Model/Props/Lamp" unique_id=1317754908]
 transform = Transform3D(0.9800394, -0.19880351, 0, 0.19880351, 0.9800394, 0, 0, 0, 1, -0.030185819, 0.38571393, 0)
 size = Vector3(0.0146484375, 0.39208984, 0.043945313)
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="Van/Van Model/Lamp" unique_id=1096383982]
+[node name="CSGBox3D2" type="CSGBox3D" parent="Van/Van Model/Props/Lamp" unique_id=1096383982]
 transform = Transform3D(0.50543433, 0.7592153, -0.41003448, -0.83240896, 0.5541618, 0, 0.22722544, 0.34131637, 0.91207004, 0.07813358, 0.68188834, 0.06476885)
 size = Vector3(0.0146484375, 0.39208984, 0.043945313)
 
-[node name="Glow" type="CSGBox3D" parent="Van/Van Model/Lamp" unique_id=1321897780]
+[node name="Glow" type="CSGBox3D" parent="Van/Van Model/Props/Lamp" unique_id=1321897780]
 transform = Transform3D(0.50543433, 0.7592153, -0.41003448, -0.83240896, 0.5541618, 0, 0.22722544, 0.34131637, 0.91207004, 0.08983135, 0.6797497, 0.07002759)
 size = Vector3(0.0046749115, 0.35772705, 0.030273438)
 material = SubResource("StandardMaterial3D_t1rx8")
 
-[node name="weather_gear" parent="Van/Van Model" unique_id=922803348 instance=ExtResource("11_t1rx8")]
-transform = Transform3D(-0.049999814, -0.00012545346, 5.0572984e-05, -0.00012545312, 0.049999844, 3.8965405e-07, -5.057385e-05, 2.6276533e-07, -0.049999975, 0.43262988, 0.75547683, -0.39764842)
+[node name="weather_gear" parent="Van/Van Model/Props" unique_id=922803348 instance=ExtResource("11_t1rx8")]
+transform = Transform3D(-0.049999814, -0.00012545346, 5.057298e-05, -0.00012545311, 0.049999844, 3.8965402e-07, -5.0573846e-05, 2.6276533e-07, -0.04999997, 0.4326299, 0.75547683, -0.39764842)
 
-[node name="weather_gear9" parent="Van/Van Model" unique_id=1127685821 instance=ExtResource("11_t1rx8")]
-transform = Transform3D(-0.04998812, -0.00013596377, 0.00035862083, -0.00012542696, 0.054189082, 3.8965436e-07, -0.0003585456, -5.5289837e-07, -0.049998753, 0.43262988, 0.7805664, -0.4071413)
+[node name="weather_gear9" parent="Van/Van Model/Props" unique_id=1127685821 instance=ExtResource("11_t1rx8")]
+transform = Transform3D(-0.049988117, -0.00013596377, 0.00035862083, -0.00012542694, 0.054189082, 3.8965433e-07, -0.0003585456, -5.5289837e-07, -0.04999875, 0.4326299, 0.78056633, -0.40714124)
 
-[node name="weather_gear7" parent="Van/Van Model" unique_id=903856794 instance=ExtResource("11_t1rx8")]
-transform = Transform3D(-0.04997692, -0.00012540742, 0.0015138005, -0.00012545312, 0.049999848, 3.8965413e-07, -0.001513797, -3.4087423e-06, -0.04997709, 0.4429969, 0.67402846, -0.4190031)
+[node name="weather_gear7" parent="Van/Van Model/Props" unique_id=903856794 instance=ExtResource("11_t1rx8")]
+transform = Transform3D(-0.049976915, -0.00012540742, 0.0015138005, -0.00012545311, 0.049999844, 3.896541e-07, -0.001513797, -3.4087423e-06, -0.04997709, 0.4429969, 0.67402846, -0.41900307)
 
-[node name="weather_gear2" parent="Van/Van Model" unique_id=571250462 instance=ExtResource("11_t1rx8")]
-transform = Transform3D(-0.049999814, 0.0001254517, -5.0576185e-05, -0.00012545135, -0.049999844, -3.8965732e-07, -5.057701e-05, -2.62759e-07, 0.049999975, 0.44728085, 0.8300585, -0.4035194)
+[node name="weather_gear2" parent="Van/Van Model/Props" unique_id=571250462 instance=ExtResource("11_t1rx8")]
+transform = Transform3D(-0.049999814, 0.0001254517, -5.057618e-05, -0.00012545135, -0.049999844, -3.896573e-07, -5.0577008e-05, -2.62759e-07, 0.04999997, 0.44728088, 0.8300586, -0.40351936)
 
-[node name="weather_gear8" parent="Van/Van Model" unique_id=1299774154 instance=ExtResource("11_t1rx8")]
-transform = Transform3D(-0.049999814, 0.0001254517, -5.0576185e-05, -0.00012545135, -0.049999844, -3.8965732e-07, -5.0577026e-05, -2.62759e-07, 0.049999975, 0.45365793, 0.74620944, -0.412575)
+[node name="weather_gear8" parent="Van/Van Model/Props" unique_id=1299774154 instance=ExtResource("11_t1rx8")]
+transform = Transform3D(-0.049999814, 0.0001254517, -5.057618e-05, -0.00012545135, -0.049999844, -3.896573e-07, -5.0577026e-05, -2.62759e-07, 0.04999997, 0.45365793, 0.74620944, -0.412575)
 
-[node name="weather_gear5" parent="Van/Van Model" unique_id=1495190254 instance=ExtResource("11_t1rx8")]
-transform = Transform3D(-0.049999814, 0.0001254517, -5.0576182e-05, -0.00012545135, -0.049999844, -3.8965732e-07, -5.0577004e-05, -2.62759e-07, 0.049999975, 0.42254618, 0.77374244, -0.21840726)
+[node name="weather_gear5" parent="Van/Van Model/Props" unique_id=1495190254 instance=ExtResource("11_t1rx8")]
+transform = Transform3D(-0.049999814, 0.0001254517, -5.057618e-05, -0.00012545135, -0.049999844, -3.896573e-07, -5.0577e-05, -2.62759e-07, 0.04999997, 0.42254618, 0.77374244, -0.21840727)
 
-[node name="weather_gear3" parent="Van/Van Model" unique_id=1705468126 instance=ExtResource("11_t1rx8")]
-transform = Transform3D(-0.049999844, -8.726857e-05, 8.726642e-05, 8.72687e-05, -0.049999923, 1.5115641e-15, -8.7266286e-05, -1.5231254e-07, -0.04999993, 0.43339473, 0.80146337, -0.41257858)
+[node name="weather_gear3" parent="Van/Van Model/Props" unique_id=1705468126 instance=ExtResource("11_t1rx8")]
+transform = Transform3D(-0.049999844, -8.726857e-05, 8.72664e-05, 8.7268694e-05, -0.049999923, 1.511564e-15, -8.726628e-05, -1.5231252e-07, -0.04999993, 0.43339476, 0.80146337, -0.41257858)
 
-[node name="weather_gear4" parent="Van/Van Model" unique_id=339565513 instance=ExtResource("11_t1rx8")]
-transform = Transform3D(-0.049999844, -8.726857e-05, 8.726642e-05, 8.72687e-05, -0.049999923, 1.5115641e-15, -8.7266286e-05, -1.5231254e-07, -0.04999993, 0.42262906, 0.7462976, -0.20760967)
+[node name="weather_gear4" parent="Van/Van Model/Props" unique_id=339565513 instance=ExtResource("11_t1rx8")]
+transform = Transform3D(-0.049999844, -8.726857e-05, 8.72664e-05, 8.7268694e-05, -0.049999923, 1.511564e-15, -8.726628e-05, -1.5231252e-07, -0.04999993, 0.42262906, 0.7462976, -0.20760967)
 
-[node name="weather_gear6" parent="Van/Van Model" unique_id=19656387 instance=ExtResource("11_t1rx8")]
-transform = Transform3D(-0.049999844, -8.726857e-05, 8.726642e-05, 8.72687e-05, -0.049999923, 1.5115641e-15, -8.7266286e-05, -1.5231254e-07, -0.04999993, 0.42262906, 0.7996031, -0.20760967)
+[node name="weather_gear6" parent="Van/Van Model/Props" unique_id=19656387 instance=ExtResource("11_t1rx8")]
+transform = Transform3D(-0.049999844, -8.726857e-05, 8.72664e-05, 8.7268694e-05, -0.049999923, 1.511564e-15, -8.726628e-05, -1.5231252e-07, -0.04999993, 0.42262906, 0.79960316, -0.20760967)
 
-[node name="Dummy_Base2" parent="Van/Van Model" unique_id=944066257 instance=ExtResource("12_64w2a")]
-transform = Transform3D(0.32000002, 0, -8.881784e-16, 0, 0.32000002, 0, -8.881784e-16, 0, 0.32000002, 0.35029626, 0.34403557, 0.46559176)
+[node name="Dummy_Base2" parent="Van/Van Model/Props" unique_id=944066257 instance=ExtResource("12_64w2a")]
+transform = Transform3D(0.32, 0, -2.6645353e-15, 0, 0.32, 0, -8.881784e-16, 0, 0.32000002, 0.35029626, 0.34403557, 0.46559176)
 
-[node name="Dummy_Base" parent="Van/Van Model/Dummy_Base2" index="0" unique_id=1553684100]
+[node name="Dummy_Base" parent="Van/Van Model/Props/Dummy_Base2" index="0" unique_id=1452400888]
 material_override = SubResource("StandardMaterial3D_wc255")
 
-[node name="Dummy_Body" parent="Van/Van Model/Dummy_Base2/Dummy_Base" index="0" unique_id=1800009593]
+[node name="Dummy_Body" parent="Van/Van Model/Props/Dummy_Base2/Dummy_Base" index="0" unique_id=1603879996]
 material_override = SubResource("StandardMaterial3D_arp2o")
 
-[node name="Dummy_ArmLeft" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="0" unique_id=1783820677]
+[node name="Dummy_ArmLeft" parent="Van/Van Model/Props/Dummy_Base2/Dummy_Base/Dummy_Body" index="0" unique_id=704782902]
 transform = Transform3D(0.41769266, 0, -0.9085884, 0, 1, 0, 0.9085884, 0, 0.41769266, 0.2000122, 0.6999999, 0)
 visible = false
 material_override = SubResource("StandardMaterial3D_ux5qa")
 
-[node name="Dummy_ArmRight" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="1" unique_id=1791929823]
+[node name="Dummy_ArmRight" parent="Van/Van Model/Props/Dummy_Base2/Dummy_Base/Dummy_Body" index="1" unique_id=1725492094]
 transform = Transform3D(0.413756, 0, 0.91038775, 0, 1, 0, -0.91038775, 0, 0.413756, -0.2000122, 0.6999999, -1.1920929e-07)
 visible = false
 material_override = SubResource("StandardMaterial3D_82cfe")
 
-[node name="Dummy_Head" parent="Van/Van Model/Dummy_Base2/Dummy_Base/Dummy_Body" index="2" unique_id=1056717580]
+[node name="Dummy_Head" parent="Van/Van Model/Props/Dummy_Base2/Dummy_Base/Dummy_Body" index="2" unique_id=986494178]
 material_override = SubResource("StandardMaterial3D_gunhw")
 
-[node name="main_display" parent="Van/Van Model" unique_id=451486922 instance=ExtResource("15_arp2o")]
-transform = Transform3D(0.44000003, 0, 0, 0, 0.44000003, 0, 0, 0, 0.44, 0.4226957, 0.6421033, -0.21813644)
+[node name="main_display" parent="Van/Van Model/Props" unique_id=451486922 instance=ExtResource("15_arp2o")]
+transform = Transform3D(0.44, 0, -1.7763568e-15, 0, 0.44, 0, 0, 0, 0.44, 0.4226957, 0.6421033, -0.21813646)
 
-[node name="main_display2" parent="Van/Van Model" unique_id=992780757 instance=ExtResource("15_arp2o")]
-transform = Transform3D(0.29093847, 0, -1.7763568e-15, 0, 0.29093847, 0, 0, 0, 0.29093847, 0.411468, 0.769089, -0.3875766)
+[node name="main_display2" parent="Van/Van Model/Props" unique_id=992780757 instance=ExtResource("15_arp2o")]
+transform = Transform3D(0.29093844, 0, -3.5527137e-15, 0, 0.29093844, 0, 8.881784e-16, 0, 0.29093847, 0.41146803, 0.769089, -0.3875766)
 
-[node name="coffee_cup" parent="Van/Van Model" unique_id=1693292606 instance=ExtResource("16_82cfe")]
-transform = Transform3D(-1.7484556e-08, 0, -0.4, 0, 0.4, 0, 0.39999998, 0, -1.7484554e-08, 0.35381737, 0.69688916, -0.07788029)
+[node name="coffee_cup" parent="Van/Van Model/Props" unique_id=1693292606 instance=ExtResource("16_82cfe")]
+transform = Transform3D(-1.7484556e-08, 0, -0.4, 0, 0.4, 0, 0.39999998, 0, -1.7484556e-08, 0.3538174, 0.6968891, -0.07788029)
 
-[node name="keyboard" parent="Van/Van Model" unique_id=729527796 instance=ExtResource("16_ux5qa")]
-transform = Transform3D(-1.7484556e-08, 0, -0.4, 0, 0.4, 0, 0.39999998, 0, -1.748455e-08, 0.3189893, 0.6911699, -0.20979099)
+[node name="keyboard" parent="Van/Van Model/Props" unique_id=729527796 instance=ExtResource("16_ux5qa")]
+transform = Transform3D(-1.7484556e-08, 0, -0.4, 0, 0.4, 0, 0.39999998, 0, -1.748455e-08, 0.31898934, 0.69116986, -0.20979099)
 
-[node name="crt_monitor" parent="Van/Van Model" unique_id=260883724 instance=ExtResource("18_gunhw")]
-transform = Transform3D(-0.07140418, -0.08124926, 0.051961545, -0.077088244, 0.08693334, 0.03, -0.057955563, -0.015529156, -0.10392304, 0.30667648, 1.1092167, -0.015581736)
+[node name="crt_monitor" parent="Van/Van Model/Props" unique_id=260883724 instance=ExtResource("18_gunhw")]
+transform = Transform3D(-0.07140418, -0.08124926, 0.051961537, -0.077088244, 0.08693334, 0.03, -0.05795556, -0.015529156, -0.10392304, 0.3066765, 1.1092166, -0.015581735)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Van/Van Model/crt_monitor/Cube" parent_id_path=PackedInt32Array(260883724, 1792993416) index="0" unique_id=712408113]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Van/Van Model/Props/crt_monitor/Cube" parent_id_path=PackedInt32Array(260883724, 227430153) index="0" unique_id=712408113]
 transform = Transform3D(-1.3420415e-08, 0.99999994, 8.531333e-16, 0.8295341, 1.6178252e-08, 6.197137e-08, 7.252017e-08, 2.6178593e-15, -0.7088698, 0.9456005, 0, 0.06861496)
 mesh = SubResource("PlaneMesh_gunhw")
 surface_material_override/0 = SubResource("StandardMaterial3D_h6wmr")
 
-[node name="SubViewport" type="SubViewport" parent="Van/Van Model/crt_monitor/Cube/MeshInstance3D" unique_id=77503664]
+[node name="SubViewport" type="SubViewport" parent="Van/Van Model/Props/crt_monitor/Cube/MeshInstance3D" unique_id=77503664]
 canvas_item_default_texture_filter = 0
 size = Vector2i(640, 480)
 
-[node name="ChatScreen" parent="Van/Van Model/crt_monitor/Cube/MeshInstance3D/SubViewport" unique_id=1157306203 instance=ExtResource("19_8gofh")]
+[node name="ChatScreen" parent="Van/Van Model/Props/crt_monitor/Cube/MeshInstance3D/SubViewport" unique_id=1157306203 instance=ExtResource("19_8gofh")]
 
-[node name="weather_gear10" parent="Van/Van Model" unique_id=1258529870 instance=ExtResource("11_t1rx8")]
-transform = Transform3D(-0.05584682, 0, -0.045443747, 0, 0.07200005, 0, 0.045443743, 0, -0.055846818, 0.39012223, 0.6298656, -0.7592368)
+[node name="weather_gear10" parent="Van/Van Model/Props" unique_id=1258529870 instance=ExtResource("11_t1rx8")]
+transform = Transform3D(-0.055846825, 0, -0.045443743, 0, 0.07200005, 0, 0.04544374, 0, -0.05584682, 0.39012226, 0.6298656, -0.75923675)
 
-[node name="crt_monitor2" parent="Van/Van Model" unique_id=1705689481 instance=ExtResource("18_gunhw")]
-transform = Transform3D(-0.045328647, 0, -0.055940274, 0, 0.072000004, 0, 0.05594027, 0, -0.045328643, 0.47918415, 0.6094795, -0.7007913)
+[node name="crt_monitor2" parent="Van/Van Model/Props" unique_id=1705689481 instance=ExtResource("18_gunhw")]
+transform = Transform3D(-0.045328647, 0, -0.055940267, 0, 0.072000004, 0, 0.055940263, 0, -0.045328643, 0.47918415, 0.6094794, -0.7007913)
 
-[node name="Cube" parent="Van/Van Model/crt_monitor2" index="0" unique_id=1792993416]
+[node name="Cube" parent="Van/Van Model/Props/crt_monitor2" index="0" unique_id=227430153]
 transform = Transform3D(1, 0, 0, 0, 0, 1.0000001, 0, -1.154441, 0, -0.12839079, 2.5702171, 0.57388973)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Van/Van Model/crt_monitor2/Cube" index="0" unique_id=524562670]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Van/Van Model/Props/crt_monitor2/Cube" index="0" unique_id=524562670]
 transform = Transform3D(-5.9604645e-08, 1.2953846, 0, -0.7849162, -1.1920929e-07, 0, 0, 0, 0.7348175, 0.969162, 0.000623703, 0.0673399)
 mesh = SubResource("PlaneMesh_8gofh")
 surface_material_override/0 = SubResource("StandardMaterial3D_pqd0y")
 
-[node name="SubViewport2" type="SubViewport" parent="Van/Van Model/crt_monitor2/Cube/MeshInstance3D" unique_id=1304175057]
+[node name="SubViewport2" type="SubViewport" parent="Van/Van Model/Props/crt_monitor2/Cube/MeshInstance3D" unique_id=1304175057]
 size = Vector2i(1022, 690)
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Van/Van Model/crt_monitor2/Cube/MeshInstance3D/SubViewport2" unique_id=1812402678]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Van/Van Model/Props/crt_monitor2/Cube/MeshInstance3D/SubViewport2" unique_id=1812402678]
 offset_right = 40.0
 offset_bottom = 40.0
 stream = ExtResource("20_pqd0y")
 autoplay = true
 
-[node name="main_display3" parent="Van/Van Model" unique_id=1471348135 instance=ExtResource("15_arp2o")]
-transform = Transform3D(0.2252922, 0, 0.36283442, 0, 0.39999995, 0, -0.298052, 0, 0.23017435, 0.30853218, 0.6130389, -0.82678527)
+[node name="main_display3" parent="Van/Van Model/Props" unique_id=1471348135 instance=ExtResource("15_arp2o")]
+transform = Transform3D(0.22529218, 0, 0.3628344, 0, 0.39999995, 0, -0.298052, 0, 0.23017433, 0.30853218, 0.6130389, -0.82678527)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Van/Van Model/main_display3/Cube" parent_id_path=PackedInt32Array(1471348135, 1290778475) index="0" unique_id=1378869065]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Van/Van Model/Props/main_display3/Cube" parent_id_path=PackedInt32Array(1471348135, 281797463) index="0" unique_id=1378869065]
 transform = Transform3D(-5.2154064e-08, -1.5913105, 4.440892e-16, -8.500016e-09, 3.0404915e-15, -0.14521135, 0.19445777, -4.172325e-07, -6.347394e-09, -0.08182907, 0.021323204, 0.017420769)
 mesh = SubResource("PlaneMesh_5k0ak")
 surface_material_override/0 = SubResource("StandardMaterial3D_3ies3")
 
-[node name="SubViewport4" type="SubViewport" parent="Van/Van Model/main_display3/Cube/MeshInstance3D" unique_id=1743752071]
+[node name="SubViewport4" type="SubViewport" parent="Van/Van Model/Props/main_display3/Cube/MeshInstance3D" unique_id=1743752071]
 size = Vector2i(800, 760)
 
-[node name="TextureRect" type="TextureRect" parent="Van/Van Model/main_display3/Cube/MeshInstance3D/SubViewport4" unique_id=264787486]
+[node name="TextureRect" type="TextureRect" parent="Van/Van Model/Props/main_display3/Cube/MeshInstance3D/SubViewport4" unique_id=264787486]
 offset_top = -60.0
 offset_right = 732.0
 offset_bottom = 964.0
 texture = ExtResource("21_pqd0y")
 
-[node name="crt_monitor3" parent="Van/Van Model" unique_id=1913544688 instance=ExtResource("18_gunhw")]
-transform = Transform3D(-0.052790117, 0, -0.048961252, 0, 0.07200001, 0, 0.04896125, 0, -0.052790113, 0.47918415, 0.7514192, -0.7007913)
+[node name="crt_monitor3" parent="Van/Van Model/Props" unique_id=1913544688 instance=ExtResource("18_gunhw")]
+transform = Transform3D(-0.052790117, 0, -0.04896125, 0, 0.072000004, 0, 0.048961245, 0, -0.052790113, 0.47918415, 0.7514192, -0.7007913)
 
-[node name="Cube" parent="Van/Van Model/crt_monitor3" index="0" unique_id=1792993416]
+[node name="Cube" parent="Van/Van Model/Props/crt_monitor3" index="0" unique_id=227430153]
 transform = Transform3D(1, 0, 0, 0, 0, 1.0000001, 0, -1.154441, 0, -0.12839079, 2.5702171, 0.57388973)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Van/Van Model/crt_monitor3/Cube" index="0" unique_id=1224922363]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Van/Van Model/Props/crt_monitor3/Cube" index="0" unique_id=1224922363]
 transform = Transform3D(-3.4309778e-08, 1.2953846, 0, 0.7849162, 5.6623062e-08, 6.4239785e-08, 6.8619556e-08, 4.9501452e-15, -0.7348175, 0.969162, 0.000623703, 0.0673399)
 mesh = SubResource("PlaneMesh_8gofh")
 surface_material_override/0 = SubResource("StandardMaterial3D_8gofh")
 
-[node name="SubViewport" type="SubViewport" parent="Van/Van Model/crt_monitor3/Cube/MeshInstance3D" unique_id=1766975895]
+[node name="SubViewport" type="SubViewport" parent="Van/Van Model/Props/crt_monitor3/Cube/MeshInstance3D" unique_id=1766975895]
 size = Vector2i(933, 675)
 
-[node name="TextureRect" type="TextureRect" parent="Van/Van Model/crt_monitor3/Cube/MeshInstance3D/SubViewport" unique_id=1345280778]
+[node name="TextureRect" type="TextureRect" parent="Van/Van Model/Props/crt_monitor3/Cube/MeshInstance3D/SubViewport" unique_id=1345280778]
 offset_right = 933.0
 offset_bottom = 675.0
 texture = ExtResource("21_h6wmr")
 
-[node name="ColorRect" type="ColorRect" parent="Van/Van Model/crt_monitor3/Cube/MeshInstance3D/SubViewport" unique_id=475136015]
+[node name="ColorRect" type="ColorRect" parent="Van/Van Model/Props/crt_monitor3/Cube/MeshInstance3D/SubViewport" unique_id=475136015]
 material = SubResource("ShaderMaterial_pqd0y")
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Console" type="CSGPolygon3D" parent="Van/Van Model" unique_id=626731110]
-transform = Transform3D(-2.0059904e-08, 0, -0.8690133, 0, 0.5136867, 0, 0.45891705, 0, -3.7985775e-08, -0.08974243, 0.101632886, 0.86929536)
+[node name="Console" type="CSGPolygon3D" parent="Van/Van Model/Props" unique_id=626731110]
+transform = Transform3D(-2.0059904e-08, 0, -0.8690133, 0, 0.51368666, 0, 0.45891705, 0, -3.798578e-08, -0.08974242, 0.10163288, 0.8692953)
 polygon = PackedVector2Array(-0.823, 0.008, 0, 1, 1, 1, 1, 0)
 depth = 0.2
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Van/Van Model" unique_id=1801808133]
-transform = Transform3D(0.9999999, 0, -1.2789769e-13, 0, 0.9999999, 0, 3.5527137e-15, 0, 1, 0, 0.6733963, 0.9018138)
+[node name="CSGBox3D" type="CSGBox3D" parent="Van/Van Model/Props" unique_id=1801808133]
+transform = Transform3D(0.9999999, 0, -1.314504e-13, 0, 0.9999999, 0, 7.1054274e-15, 0, 1, 0, 0.6733963, 0.9018138)
 size = Vector3(1, 0.12506104, 0.20117188)
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="Van/Van Model" unique_id=1652082226]
-transform = Transform3D(0.9999999, 0, -1.0516032e-12, 0, 0.9999999, 0, 3.5527137e-15, 0, 1, 0.29114863, 0.75173134, 0.9018138)
+[node name="CSGBox3D2" type="CSGBox3D" parent="Van/Van Model/Props" unique_id=1652082226]
+transform = Transform3D(0.9999999, 0, -1.055156e-12, 0, 0.9999999, 0, 7.1054274e-15, 0, 1, 0.29114866, 0.75173134, 0.9018138)
 size = Vector3(0.44555664, 0.096221924, 0.20117188)
 
+[node name="stool" parent="Van/Van Model/Props" unique_id=207635027 instance=ExtResource("8_olg7q")]
+transform = Transform3D(-6.556709e-09, -9.8607613e-32, -0.14999998, -8.951444e-18, 0.14999998, 0, 0.15000002, 2.7755576e-17, -6.556708e-09, 0.115686715, 0.18155915, -0.31778818)
+
+[node name="Table" type="CSGBox3D" parent="Van/Van Model/Props" unique_id=1050278442]
+transform = Transform3D(-3.8741355e-08, 0, -0.4, 0, 0.4, 0, 0.8862989, 0, -1.7484558e-08, 0.47394556, 0.6409741, -0.57808006)
+size = Vector3(1.7392578, 0.21081543, 1)
+
+[node name="Drivers Seat" parent="Van/Van Model/Props" unique_id=1847014984 instance=ExtResource("6_8c41q")]
+transform = Transform3D(-7.868049e-09, 0, -0.17999999, 0, 0.17999999, 0, 0.17999999, 0, -7.868048e-09, 0.35388267, 0.3139679, 0.4738587)
+
+[node name="Passenger Seat" parent="Van/Van Model/Props" unique_id=782303671 instance=ExtResource("6_8c41q")]
+transform = Transform3D(-7.868049e-09, 0, -0.17999999, 0, 0.17999999, 0, 0.17999999, 0, -7.868048e-09, -0.35320926, 0.3139679, 0.47385857)
+
 [editable path="Van/Van Model/RedButton"]
-[editable path="Van/Van Model/Dummy_Base2"]
-[editable path="Van/Van Model/crt_monitor"]
-[editable path="Van/Van Model/crt_monitor2"]
-[editable path="Van/Van Model/main_display3"]
-[editable path="Van/Van Model/crt_monitor3"]
+[editable path="Van/Van Model/Props/Dummy_Base2"]
+[editable path="Van/Van Model/Props/crt_monitor"]
+[editable path="Van/Van Model/Props/crt_monitor2"]
+[editable path="Van/Van Model/Props/main_display3"]
+[editable path="Van/Van Model/Props/crt_monitor3"]
