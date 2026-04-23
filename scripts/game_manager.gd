@@ -35,6 +35,7 @@ var fire_status = Status
 var flood_status = Status
 var wind_status = Status
 var current_level_obstacles : Array
+var current_level_index : int = 1
 
 var current_turn : int = 0
 var end_of_turn : bool = false
@@ -60,11 +61,14 @@ var wind_preview_end : Vector2
 
 func _ready() -> void:
 	AudioManager.music_menu.stop()
+
 	if !check_if_3d():
 		if AudioManager.music_execute_1.playing == false and AudioManager.music_execute_2.playing == false and AudioManager.music_execute_3.playing == false:
 			AudioManager.music_planning.play()
 		AudioManager.music_menu.stop()
 	get_tree().paused = true
+	
+	# Connecting all the signals
 	actions_ui.round_initiated.connect(_on_round_initiated)
 	actions_ui.reset_movement_queue.connect(_on_reset_movement_queue)
 	actions_ui.movement_queued.connect(_on_movement_queued)
@@ -73,33 +77,42 @@ func _ready() -> void:
 	actions_ui.attribute_queued.connect(_on_attribute_queued)
 	actions_ui.attribute_unqueued.connect(_on_attribute_unqueued)
 	status_effects.update_status_log.connect(_on_update_status_log)
-	current_turn = GlobalLocations.current_turn
-	turn_num.text = str(current_turn)
-	
+	status_effects.load_storms.connect(set_level_storms)
 	#van.is_moving.connect(_on_van_is_moving)
 	van.is_not_moving.connect(_on_van_is_not_moving)
 	van.move_initiated.connect(_on_move_initiated)
 	
+	var index = Util.current_level_index
+	status_effects.set_level(index)
+	
+	# Set current turn and current level
+	current_turn = GlobalLocations.current_turn
+	turn_num.text = str(current_turn)
+	# for level loading testing
+	
+	
+	# Setting Van properties/positions
 	if GlobalLocations.van_global_loc != Vector2(0, 0):
 		van.global_position = GlobalLocations.van_global_loc
-	
 	if GlobalLocations.van_global_dir != "":
 		animated_sprite_2d.animation = GlobalLocations.van_global_dir
-	
 	# Now cache the scene-entry position for preview resets
 	van_position = van.global_position
 	van_start_pos = van.global_position
 	van_grid_coords = city_grid.local_to_map(van_position)
 	van_starting_anim = animated_sprite_2d.animation
+	van.integrity = GlobalLocations.van_integrity
 	turn_end_coords = van_grid_coords
 	
+	# Preview line settings
 	current_preview_coords = van_grid_coords
 	current_preview_position = van_position
 	
+
+	# Run after the first turn
 	if GlobalLocations.current_turn > 0:
 		# This line added to try to fix the stuck-between-tiles issue
-		van.position = city_grid.map_to_local(van_grid_coords)
-		
+		#van.position = city_grid.map_to_local(van_grid_coords)
 		var storms_array = GlobalLocations.storm_locs
 		load_storms(storms_array)
 		var fires_array = GlobalLocations.fire_locs
@@ -108,16 +121,16 @@ func _ready() -> void:
 		if !check_if_3d():
 			end_of_turn_prompt_2d.show()
 		status_log_label.text = GlobalLocations.status_log
-		
-	van.integrity = GlobalLocations.van_integrity
+	#else:
+		#var index = Util.current_level_index
+		#status_effects.set_level(index)
 	get_obstacle_coords()
 	set_sensors()
 	sensors_collected = GlobalLocations.sensors_collected
 	if sensors_collected == sensors_total:
 		_on_round_end()
-	if GlobalLocations.current_turn > 0:
-		status_log_label.text = GlobalLocations.status_log
-		
+
+	# Set default statuses
 	fire_status = Status.new()
 	fire_status.status_name = "fire"
 	fire_status.status_type = 1
@@ -306,10 +319,12 @@ func set_wind_direction(dir : Direction):
 	direction = direction.to_upper()
 	wind_label.text = "WIND: " + direction
 
+# This function loads the storms saved from the 3D scene back into 2d, can be re-done/cut after merge
 func load_storms(locs : Array):
 	if locs.size() > 0:
 		var all_locs = locs
 		var storms = storms_container.get_children()
+		storms.resize(locs.size())
 		for storm in storms:
 			var loc = all_locs.pop_front()
 			storm.set_origin(loc)
@@ -329,6 +344,17 @@ func clear_storms():
 		var child = storms_container.get_child(0)
 		storms_container.remove_child(child)
 		child.queue_free()
+
+func set_level_storms(storms : Array):
+	clear_storms()
+	if storms != null:
+		for storm in storms:
+			var grid : Vector2 = str_to_var("Vector2" + storm)
+			print(storm)
+			create_storms(grid, 1)
+	var all_storms = storms_container.get_children()
+	for strm in all_storms:
+		strm.position = status_effects.map_to_local(strm.origin_pos)
 
 func _on_change_wind_pressed() -> void:
 	wind_direction = Direction.new()

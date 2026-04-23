@@ -15,6 +15,7 @@ var van_dir: String
 var city_grid: Node2D
 var van: Node2D
 var action_ui : Control
+var status_effects : TileMapLayer
 var player_last_pos: Transform3D
 var screen_view_active: bool = false
 var is_camera_lerping: bool = false
@@ -34,6 +35,9 @@ func _ready() -> void:
 	city_grid = grid_screen.find_child("City_Grid")
 	van = city_grid.find_child("Van")
 	van.route_finished.connect(_on_van_route_finished)
+	var gridarea = city_grid.find_child("GridArea")
+	var tilemaps = gridarea.find_child("Tilemaps")
+	status_effects = tilemaps.find_child("StatusEffects")
 	var ui = city_grid.find_child("UI")
 	action_ui = ui.find_child("ActionsUI")
 	print("DirectionList Movement Queue: ", DirectionList.movement_queue)
@@ -130,7 +134,7 @@ func _on_grid_screen_pressed() -> void:
 
 func get_van_loc():
 	#Grabbing Van Location and shit
-	van_grid_loc = city_grid.get_van_grid_coords()
+	van_grid_loc = status_effects.local_to_map(van.global_position)
 	van_global_loc = van.global_position
 	if van.direction_copy.is_empty():
 		van_dir = city_grid.find_child("ActionsUI").current_van_direction
