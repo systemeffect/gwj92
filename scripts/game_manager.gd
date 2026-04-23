@@ -61,6 +61,7 @@ var wind_preview_end : Vector2
 
 func _ready() -> void:
 	AudioManager.music_menu.stop()
+
 	if !check_if_3d():
 		if AudioManager.music_execute_1.playing == false and AudioManager.music_execute_2.playing == false and AudioManager.music_execute_3.playing == false:
 			AudioManager.music_planning.play()
@@ -76,9 +77,13 @@ func _ready() -> void:
 	actions_ui.attribute_queued.connect(_on_attribute_queued)
 	actions_ui.attribute_unqueued.connect(_on_attribute_unqueued)
 	status_effects.update_status_log.connect(_on_update_status_log)
+	status_effects.load_storms.connect(set_level_storms)
 	#van.is_moving.connect(_on_van_is_moving)
 	van.is_not_moving.connect(_on_van_is_not_moving)
 	van.move_initiated.connect(_on_move_initiated)
+	
+	var index = Util.current_level_index
+	status_effects.set_level(index)
 	
 	# Set current turn and current level
 	current_turn = GlobalLocations.current_turn
@@ -103,10 +108,11 @@ func _ready() -> void:
 	current_preview_coords = van_grid_coords
 	current_preview_position = van_position
 	
+
 	# Run after the first turn
 	if GlobalLocations.current_turn > 0:
 		# This line added to try to fix the stuck-between-tiles issue
-		van.position = city_grid.map_to_local(van_grid_coords)
+		#van.position = city_grid.map_to_local(van_grid_coords)
 		var storms_array = GlobalLocations.storm_locs
 		load_storms(storms_array)
 		var fires_array = GlobalLocations.fire_locs
@@ -115,10 +121,9 @@ func _ready() -> void:
 		if !check_if_3d():
 			end_of_turn_prompt_2d.show()
 		status_log_label.text = GlobalLocations.status_log
-	else:
-		Util.current_level_index = 10
-		var index = Util.current_level_index
-		status_effects.set_level(index)
+	#else:
+		#var index = Util.current_level_index
+		#status_effects.set_level(index)
 	get_obstacle_coords()
 	set_sensors()
 	sensors_collected = GlobalLocations.sensors_collected
@@ -314,10 +319,12 @@ func set_wind_direction(dir : Direction):
 	direction = direction.to_upper()
 	wind_label.text = "WIND: " + direction
 
+# This function loads the storms saved from the 3D scene back into 2d, can be re-done/cut after merge
 func load_storms(locs : Array):
 	if locs.size() > 0:
 		var all_locs = locs
 		var storms = storms_container.get_children()
+		storms.resize(locs.size())
 		for storm in storms:
 			var loc = all_locs.pop_front()
 			storm.set_origin(loc)
@@ -337,6 +344,17 @@ func clear_storms():
 		var child = storms_container.get_child(0)
 		storms_container.remove_child(child)
 		child.queue_free()
+
+func set_level_storms(storms : Array):
+	clear_storms()
+	if storms != null:
+		for storm in storms:
+			var grid : Vector2 = str_to_var("Vector2" + storm)
+			print(storm)
+			create_storms(grid, 1)
+	var all_storms = storms_container.get_children()
+	for strm in all_storms:
+		strm.position = status_effects.map_to_local(strm.origin_pos)
 
 func _on_change_wind_pressed() -> void:
 	wind_direction = Direction.new()

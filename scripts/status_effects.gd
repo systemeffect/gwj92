@@ -1,6 +1,7 @@
 extends TileMapLayer
 
 signal update_status_log
+signal load_storms
 
 # Level Tilemaps
 @onready var onboarding: TileMapLayer = $"../Onboarding"
@@ -17,8 +18,10 @@ signal update_status_log
 
 
 var current_level : TileMapLayer
+var current_level_index : int
 var current_level_data : Dictionary
 var levels_import ={}
+var cur_storms : int
 var cur_fires : int
 var cur_floods : int
 # Arrays containing the affected tile info
@@ -91,7 +94,10 @@ func spread_available_cell(status : Status):
 			else:
 				break
 			count -= 1
+			
 func set_level(level_index : int):
+	current_level_index = level_index
+	current_level_data = get_level_by_id(str(level_index))
 	match level_index:
 		0:
 			current_level = onboarding
@@ -115,6 +121,7 @@ func set_level(level_index : int):
 			current_level = solar
 		10:
 			current_level = starburst
+	set_van_start_pos()
 	load_level_tiles()
 
 func load_level_tiles():
@@ -124,18 +131,37 @@ func load_level_tiles():
 	build_level(flood_affected_tiles, Util.flood_atlas)
 	build_level(sensor_tiles, Util.sensor_atlas)
 	build_level(obstacle_affected_tiles, Util.obstacle_atlas)
-	
+	var storm_array = load_level_storms()
+	load_storms.emit(storm_array)
 	
 func build_level(tiles : Array, atlas : Vector2):
 	for tile in tiles:
 		set_cell(tile, 0, atlas)
 
+func load_level_storms() -> Array:
+	var level_data = get_level_by_id(str(current_level_index))
+	var storm_amt = level_data.get("STORMS_TOTAL")
+	cur_storms = storm_amt
+	var storm_origins = []
+	storm_origins.resize(storm_amt)
+	var storm_index = 1
+	for storm in storm_origins:
+		var origin_string = "STORM_" + str(storm_index) + "_ORIGIN"
+		storm_origins.set(int(storm_index - 1),level_data.get(origin_string))
+		storm_index += 1
+	return storm_origins
 	
 func get_new_level_tiles():
 	fire_affected_tiles = current_level.get_used_cells_by_id(0, Util.fire_atlas)
 	flood_affected_tiles = current_level.get_used_cells_by_id(0, Util.flood_atlas)
 	sensor_tiles = current_level.get_used_cells_by_id(0, Util.sensor_atlas)
 	obstacle_affected_tiles = current_level.get_used_cells_by_id(0, Util.obstacle_atlas)
+	
+func set_van_start_pos():
+	var start_loc = current_level_data.get("VAN_START")
+	start_loc = str_to_var("Vector2" + start_loc)
+	GlobalLocations.van_grid_loc = start_loc
+	GlobalLocations.van_global_loc = map_to_local(start_loc)
 	
 #JSON funcs
 func load_storm_data():
@@ -155,13 +181,19 @@ func parse_level_data_from_json(id, json_data : Dictionary):
 	# Extract all attribute data from json
 	level_attributes["ID"] = id
 	
-	level_attributes["CARD_TYPE"] = json_data.get("CARD_TYPE")
-	level_attributes["ATTRIBUTE_TYPE"] = json_data.get("ATTRIBUTE_TYPE")
-	level_attributes["VALUE"] = json_data.get("VALUE")
-	level_attributes["DESCRIPTION_HEADING"] = json_data.get("DESCRIPTION_HEADING")
-	level_attributes["DESCRIPTION_SUBHEADING"] = json_data.get("DESCRIPTION_SUBHEADING")
-	level_attributes["STORM_EFFECT"] = json_data.get("STORM_EFFECT")
-	level_attributes["CARD_ICON"] = json_data.get("CARD_ICON")
+	level_attributes["LEVEL"] = json_data.get("LEVEL")
+	level_attributes["VAN_START"] = json_data.get("VAN_START")
+	level_attributes["SENSORS_TOTAL"] = json_data.get("SENSORS_TOTAL")
+	level_attributes["STORMS_TOTAL"] = json_data.get("STORMS_TOTAL")
+	level_attributes["STORM_1_ORIGIN"] = json_data.get("STORM_1_ORIGIN")
+	level_attributes["STORM_2_ORIGIN"] = json_data.get("STORM_2_ORIGIN")
+	level_attributes["STORM_3_ORIGIN"] = json_data.get("STORM_3_ORIGIN")
+	level_attributes["STORM_4_ORIGIN"] = json_data.get("STORM_4_ORIGIN")
+	level_attributes["STORM_5_ORIGIN"] = json_data.get("STORM_5_ORIGIN")
+	level_attributes["STORM_6_ORIGIN"] = json_data.get("STORM_6_ORIGIN")
+	level_attributes["STORM_7_ORIGIN"] = json_data.get("STORM_7_ORIGIN")
+	level_attributes["STORM_8_ORIGIN"] = json_data.get("STORM_8_ORIGIN")
+	level_attributes["STORM_9_ORIGIN"] = json_data.get("STORM_9_ORIGIN")
 	
 	return level_attributes
 
