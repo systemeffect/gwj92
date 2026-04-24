@@ -62,10 +62,9 @@ var wind_preview_end : Vector2
 func _ready() -> void:
 	AudioManager.music_menu.stop()
 
-	if !check_if_3d():
-		if AudioManager.music_execute_1.playing == false and AudioManager.music_execute_2.playing == false and AudioManager.music_execute_3.playing == false:
-			AudioManager.music_planning.play()
-		AudioManager.music_menu.stop()
+	if AudioManager.music_execute_1.playing == false and AudioManager.music_execute_2.playing == false and AudioManager.music_execute_3.playing == false:
+		AudioManager.music_planning.play()
+	AudioManager.music_menu.stop()
 	get_tree().paused = true
 	
 	# Connecting all the signals
@@ -82,8 +81,10 @@ func _ready() -> void:
 	van.is_not_moving.connect(_on_van_is_not_moving)
 	van.move_initiated.connect(_on_move_initiated)
 	
-	var index = Util.current_level_index
-	status_effects.set_level(index)
+	if GlobalLocations.current_turn < 1:
+		var index = Util.current_level_index
+		status_effects.set_level(index)
+		GlobalLocations.current_turn += 1
 	
 	# Set current turn and current level
 	current_turn = GlobalLocations.current_turn
@@ -110,25 +111,24 @@ func _ready() -> void:
 	
 
 	# Run after the first turn
-	if GlobalLocations.current_turn > 0:
-		# This line added to try to fix the stuck-between-tiles issue
-		#van.position = city_grid.map_to_local(van_grid_coords)
-		var storms_array = GlobalLocations.storm_locs
-		load_storms(storms_array)
-		var fires_array = GlobalLocations.fire_locs
-		var floods_array = GlobalLocations.flood_locs
-		load_fires_floods(fires_array, floods_array)
-		if !check_if_3d():
-			end_of_turn_prompt_2d.show()
-		status_log_label.text = GlobalLocations.status_log
-	#else:
-		#var index = Util.current_level_index
-		#status_effects.set_level(index)
-	get_obstacle_coords()
-	set_sensors()
-	sensors_collected = GlobalLocations.sensors_collected
-	if sensors_collected == sensors_total:
-		_on_round_end()
+	#if GlobalLocations.current_turn > 1:
+		## This line added to try to fix the stuck-between-tiles issue
+		##van.position = city_grid.map_to_local(van_grid_coords)
+		#var storms_array = GlobalLocations.storm_locs
+		#load_storms(storms_array)
+		#var fires_array = GlobalLocations.fire_locs
+		#var floods_array = GlobalLocations.flood_locs
+		#load_fires_floods(fires_array, floods_array)
+		##end_of_turn_prompt_2d.show()
+		#status_log_label.text = GlobalLocations.status_log
+	##else:
+		##var index = Util.current_level_index
+		##status_effects.set_level(index)
+	#get_obstacle_coords()
+	#set_sensors()
+	#sensors_collected = GlobalLocations.sensors_collected
+	#if sensors_collected == sensors_total:
+		#_on_round_end()
 
 	# Set default statuses
 	fire_status = Status.new()
@@ -146,21 +146,26 @@ func _ready() -> void:
 	sensor_collect.hide()
 
 func _process(_delta: float) -> void:
-	if Util.end_of_turn:
+	if sensors_collected == sensors_total:
+		_on_round_end()
+	elif Util.end_of_turn:
 		check_end_of_movement()
 
-func check_if_3d() -> bool:
-	var parent = find_parent("Level")
-	if parent != null:
-		return true
-	else:
-		return false
+func set_turn():
+	var storms_array = GlobalLocations.storm_locs
+	load_storms(storms_array)
+	var fires_array = GlobalLocations.fire_locs
+	var floods_array = GlobalLocations.flood_locs
+	load_fires_floods(fires_array, floods_array)
+	status_log_label.text = GlobalLocations.status_log
+	get_obstacle_coords()
+	set_sensors()
+	sensors_collected = GlobalLocations.sensors_collected
 
 func check_end_of_movement():
 	if !van.is_currently_moving:
 		get_tree().paused = true
-		if check_if_3d():
-			actions_ui.process_turn()
+		actions_ui.process_turn()
 
 func update_map_interface():
 	_on_change_wind_pressed()
@@ -170,6 +175,9 @@ func update_map_interface():
 	GlobalLocations.fire_locs = fire_array
 	GlobalLocations.flood_locs = flood_array
 	end_of_turn = false
+	GlobalLocations.current_turn += 1
+	current_turn = GlobalLocations.current_turn
+	set_turn()
 
 func load_fires_floods(fires : Array, floods : Array):
 	for fire in fires:
@@ -188,8 +196,8 @@ func _on_reset_movement_queue():
 	queue_preview.clear_points()
 	queue_preview.add_point(van_position)
 	clear_collider_container()
-	if DirectionList.previewer_directions.size() <= 0 or DirectionList.previewer_directions.size() > 0:
-		reset_preview_van()
+	#if DirectionList.previewer_directions.size() <= 0 or DirectionList.previewer_directions.size() > 0:
+		#reset_preview_van()
 
 func find_path():
 	movement_path_points.clear()
@@ -296,22 +304,23 @@ func _on_van_is_not_moving():
 # Needs to be rebuilt
 func _on_round_initiated():
 	get_tree().paused = false
-	reset_preview_van()
-	var dir_array = DirectionList.previewer_directions.duplicate()
-	var index = 0
-	while dir_array.size() > 0:
-		var current_move = dir_array.pop_front()
-		if current_move != null:
-			actions_ui.highlight_active_slot(index)
-			var move_dir = current_move.move_direction
-			var move_amt = current_move.move_amount
-			van.move(move_dir, move_amt)
-			index += 1
-			await van.is_not_moving
-		else:
-			print("card is null")
+	#reset_preview_van()
+	#var dir_array = DirectionList.previewer_directions.duplicate()
+	#var index = 0
+	#while dir_array.size() > 0:
+		#var current_move = dir_array.pop_front()
+		#if current_move != null:
+			#actions_ui.highlight_active_slot(index)
+			#var move_dir = current_move.move_direction
+			#var move_amt = current_move.move_amount
+			#van.move(move_dir, move_amt)
+			#index += 1
+			#await van.is_not_moving
+		#else:
+			#print("card is null")
 	end_of_turn = true
 	turn_num.text = str(current_turn)
+	van.rollout_initiated()
 
 func set_wind_direction(dir : Direction):
 	wind_direction = dir
@@ -442,9 +451,8 @@ func _on_van_status_tile_entered(_body: Node2D) -> void:
 		Vector2(3,0):
 			# Signal to 3D scene to trigger flood lighting/sound
 			# Slow van?
-			if check_if_3d():
-				status_log_label.update_text("Flooded area, new storm brewed by the TEMPEST Drive!")
-				create_storms(pos, 1)
+			status_log_label.update_text("Flooded area, new storm brewed by the TEMPEST Drive!")
+			create_storms(pos, 1)
 		Vector2(4,0):
 			var ran = randi_range(189, 69420)
 			status_log_label.update_text("Sensor data gathered! " + str(ran) + " anomalies detected!")
@@ -452,9 +460,8 @@ func _on_van_status_tile_entered(_body: Node2D) -> void:
 	print("STATUS TILE CROSSED")
 
 func collect_sensor(grid : Vector2):
-	if check_if_3d():
-		status_effects.set_cell(grid,0,Vector2(1,0))
-		actions_ui.collect_sensor()
+	status_effects.set_cell(grid,0,Vector2(1,0))
+	actions_ui.collect_sensor()
 	sensor_collect.show()
 	collect_animate.play("collect_sensor")
 	await collect_animate.animation_finished
@@ -480,7 +487,7 @@ func _on_preview_cont_area_entered(area: Area2D) -> void:
 		status_log_label.update_text("Path Out of Bounds, resetting autodrive...")
 
 func set_sensors():
-	if current_turn > 0:
+	if current_turn > 1:
 		sensors_collected = GlobalLocations.sensors_collected
 		var sensor_locs = GlobalLocations.sensor_locs
 		var cur_sensor_locs = status_effects.get_used_cells_by_id(0,Vector2(4,0))
@@ -489,10 +496,6 @@ func set_sensors():
 				cur_sensor_locs.erase(loc)
 		for loc in cur_sensor_locs:
 			status_effects.set_cell(loc,0,Vector2(1,0))
-
-func _on_signal_events_area_entered(_area: Area2D) -> void:
-	# This was intended for areas to trigger radio events or other random stuff in 3d
-	print("TRIGGER SIGNAL")
 
 func reset_preview_van() -> void:
 	van.global_position = van_start_pos
@@ -521,6 +524,7 @@ func _on_round_end():
 func _on_move_initiated(index : int):
 	actions_ui.highlight_active_slot(index)
 
+# Attribute menu interaction
 func _on_attribute_queued(card_id : String):
 	var card = Util.all_cards[card_id]
 	var attribute = card.get("ATTRIBUTE_TYPE")

@@ -105,17 +105,16 @@ theme_override_colors/font_color = Color(1, 0.7529412, 0.03137255, 1)
 text = "Turn Right"
 icon_alignment = 1
 
-[node name="ResetMoves" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=1540435869]
+[node name="HBoxContainer" type="HBoxContainer" parent="ActionDebug/VBoxContainer" unique_id=1640247786]
+layout_mode = 2
+alignment = 1
+
+[node name="ResetMoves" type="Button" parent="ActionDebug/VBoxContainer/HBoxContainer" unique_id=1540435869]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "Reset RUN"
 
-[node name="Move" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=170235260]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.7529412, 0.03137255, 1)
-text = "Preview Run"
-
-[node name="VanButton" type="Button" parent="ActionDebug/VBoxContainer/MovementButtons" unique_id=202436281]
+[node name="RolloutButton" type="Button" parent="ActionDebug/VBoxContainer/HBoxContainer" unique_id=202436281]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.9529412, 0, 1)
 theme_override_font_sizes/font_size = 19
@@ -568,9 +567,8 @@ grow_vertical = 1
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/TurnLeft" to="." method="_on_turn_left_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/TurnAround" to="." method="_on_turn_around_pressed"]
 [connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/TurnRight" to="." method="_on_turn_right_pressed"]
-[connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/ResetMoves" to="." method="_on_reset_moves_pressed"]
-[connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/Move" to="." method="_on_move_pressed"]
-[connection signal="pressed" from="ActionDebug/VBoxContainer/MovementButtons/VanButton" to="." method="_on_van_button_pressed"]
+[connection signal="pressed" from="ActionDebug/VBoxContainer/HBoxContainer/ResetMoves" to="." method="_on_reset_moves_pressed"]
+[connection signal="pressed" from="ActionDebug/VBoxContainer/HBoxContainer/RolloutButton" to="." method="_on_rollout_button_pressed"]
 [connection signal="pressed" from="EndOfRound/Margin/VBox/EndOfRoundButton" to="EndOfRound" method="_on_end_of_round_button_pressed"]
 [connection signal="pressed" from="EndOfTurnPrompt2D/Panel/MarginContainer/VBoxContainer/EndOfTurnButton" to="." method="_on_end_of_turn_button_pressed"]
 [connection signal="pressed" from="EndOfTurnPrompt2D/Panel/MarginContainer/VBoxContainer/ExtractionButton" to="." method="_on_extraction_button_pressed"]

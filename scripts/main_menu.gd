@@ -43,7 +43,7 @@ func _on_start_button_pressed() -> void:
 		tutorial.show()
 		has_tutorial_played = true
 	else:
-		get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
+		get_tree().change_scene_to_packed(first_level)
 
 
 func _on_settings_button_pressed() -> void:
@@ -58,43 +58,43 @@ func _on_quit_button_pressed() -> void:
 
 func _on_jam_level_pressed() -> void:
 	Util.current_level_index = 1
-	get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
+	get_tree().change_scene_to_packed(first_level)
 
 func _on_four_corners_pressed() -> void:
 	Util.current_level_index = 2
-	get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
+	get_tree().change_scene_to_packed(first_level)
 
 func _on_urban_sprawl_pressed() -> void:
 	Util.current_level_index = 3
-	get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
+	get_tree().change_scene_to_packed(first_level)
 
 func _on_choppy_pressed() -> void:
 	Util.current_level_index = 4
-	get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
+	get_tree().change_scene_to_packed(first_level)
 
 func _on_commute_pressed() -> void:
 	Util.current_level_index = 5
-	get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
+	get_tree().change_scene_to_packed(first_level)
 
 func _on_maze_pressed() -> void:
 	Util.current_level_index = 6
-	get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
+	get_tree().change_scene_to_packed(first_level)
 
 func _on_bonus_pressed() -> void:
 	Util.current_level_index = 7
-	get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
+	get_tree().change_scene_to_packed(first_level)
 
 func _on_timorous_pressed() -> void:
 	Util.current_level_index = 8
-	get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
+	get_tree().change_scene_to_packed(first_level)
 
 func _on_solar_pressed() -> void:
 	Util.current_level_index = 9
-	get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
+	get_tree().change_scene_to_packed(first_level)
 
 func _on_starburst_pressed() -> void:
 	Util.current_level_index = 10
-	get_tree().change_scene_to_file("res://City_Grid/city_grid.tscn")
+	get_tree().change_scene_to_packed(first_level)
 
 
 func _on_level_select_button_pressed() -> void:

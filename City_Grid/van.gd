@@ -36,63 +36,64 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var pos = global_position
 
-	if internal_map_van_enabled == false:
-		# CityGrid Van
-		if current_axis == "x":
-			is_currently_moving = true
-			pos.x = lerp(pos.x, target_loc_x, VAN_SPEED * delta)
-			is_moving.emit()
-
-			if abs(pos.x - target_loc_x) < 0.5:
-				pos.x = target_loc_x
-				current_axis = ""
-				is_currently_moving = false
-				is_not_moving.emit()
-
-		elif current_axis == "y":
-			is_currently_moving = true
-			pos.y = lerp(pos.y, target_loc_y, VAN_SPEED * delta)
-			is_moving.emit()
-
-			if abs(pos.y - target_loc_y) < 0.5:
-				pos.y = target_loc_y
-				current_axis = ""
-				is_currently_moving = false
-				is_not_moving.emit()
-		else:
-			is_currently_moving = false
-
-		global_position = pos
-		
-	else:
+	#if internal_map_van_enabled == false:
+		## CityGrid Van
+		#if current_axis == "x":
+			#is_currently_moving = true
+			#pos.x = lerp(pos.x, target_loc_x, VAN_SPEED * delta)
+			#is_moving.emit()
+#
+			#if abs(pos.x - target_loc_x) < 0.5:
+				#pos.x = target_loc_x
+				#current_axis = ""
+				#is_currently_moving = false
+				#is_not_moving.emit()
+#
+		#elif current_axis == "y":
+			#is_currently_moving = true
+			#pos.y = lerp(pos.y, target_loc_y, VAN_SPEED * delta)
+			#is_moving.emit()
+#
+			#if abs(pos.y - target_loc_y) < 0.5:
+				#pos.y = target_loc_y
+				#current_axis = ""
+				#is_currently_moving = false
+				#is_not_moving.emit()
+		#else:
+			#is_currently_moving = false
+#
+		#global_position = pos
+		#
+	#else:
 		#Internal Van
-		VAN_SPEED = 8.0
+	VAN_SPEED = 8.0
+	
+	if current_axis == "x":
+		is_currently_moving = true
+		pos.x = move_toward(pos.x, target_loc_x, VAN_SPEED * delta)
+		is_moving.emit()
 		
-		if current_axis == "x":
-			is_currently_moving = true
-			pos.x = move_toward(pos.x, target_loc_x, VAN_SPEED * delta)
-			is_moving.emit()
-			
-			if abs(pos.x - target_loc_x) < 0.5:
-				pos.x = target_loc_x
-				current_axis = ""
-				is_currently_moving = false
-				is_not_moving.emit()
-				
-		elif current_axis == "y":
-			is_currently_moving = true
-			pos.y = move_toward(pos.y, target_loc_y, VAN_SPEED * delta)
-			is_moving.emit()
-			
-			if abs(pos.y - target_loc_y) < 0.5:
-				pos.y = target_loc_y
-				current_axis = ""
-				is_currently_moving = false
-				is_not_moving.emit()
-		else:
+		if abs(pos.x - target_loc_x) < 0.5:
+			pos.x = target_loc_x
+			current_axis = ""
 			is_currently_moving = false
+			is_not_moving.emit()
 			
-		global_position = pos
+	elif current_axis == "y":
+		is_currently_moving = true
+		pos.y = move_toward(pos.y, target_loc_y, VAN_SPEED * delta)
+		is_moving.emit()
+		
+		if abs(pos.y - target_loc_y) < 0.5:
+			pos.y = target_loc_y
+			current_axis = ""
+			is_currently_moving = false
+			is_not_moving.emit()
+	else:
+		is_currently_moving = false
+		
+	global_position = pos
+	GlobalLocations.van_global_loc = pos
 
 func move(dir: String, amt: int) -> void:
 	animated_sprite_2d.animation = dir
@@ -180,6 +181,29 @@ func do_turn(direction: String) -> void:
 func _on_red_button_pressed() -> void:
 	internal_map_van_enabled = true
 	
+	# Need this for copy of direction, gets cleared when switching to 2D scene in "3D_Level.gd"
+	direction_copy = DirectionList.directions.duplicate()
+	var index = 0
+	while DirectionList.directions.size() > 0:
+		move_initiated.emit(index)
+		index += 1
+		var step = DirectionList.directions[0]
+		var current_dir = step.move_direction
+		is_turning = false
+		turn_direction = "none"
+		move(current_dir, step.move_amount)
+		await is_not_moving
+		DirectionList.directions.pop_front()
+			
+		if DirectionList.directions.size() > 0:
+			var next_dir = DirectionList.directions[0].move_direction
+			var next_turn = get_turn_type(current_dir, next_dir)
+			if next_turn != "straight" and next_turn != "none":
+				await do_turn(next_turn)
+				
+	route_finished.emit()
+	
+func rollout_initiated() -> void:
 	# Need this for copy of direction, gets cleared when switching to 2D scene in "3D_Level.gd"
 	direction_copy = DirectionList.directions.duplicate()
 	var index = 0

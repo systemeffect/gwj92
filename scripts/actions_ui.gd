@@ -10,8 +10,7 @@ signal extraction
 
 @export_enum("NORTH", "EAST", "SOUTH", "WEST") var current_van_direction : String
 
-@onready var move_button: Button = $ActionDebug/VBoxContainer/MovementButtons/Move
-@onready var van_button: Button = $ActionDebug/VBoxContainer/MovementButtons/VanButton
+@onready var rollout_button: Button = $ActionDebug/VBoxContainer/HBoxContainer/RolloutButton
 
 @onready var end_of_turn_prompt_2d: Panel = $EndOfTurnPrompt2D
 @onready var end_of_turn_prompt: PanelContainer = $EndOfTurnPrompt
@@ -97,23 +96,26 @@ func _ready() -> void:
 	
 func _process(_delta: float) -> void:
 	if queue_size == 3 and moves_selected == 3:
-		move_button.disabled = false
-		van_button.disabled = false
+		rollout_button.disabled = false
 	else:
-		move_button.disabled = true
-		van_button.disabled = true
+		rollout_button.disabled = true
 
-func check_if_3d() -> bool:
-	var parent = find_parent("Level")
-	if parent != null:
-		return true
+# Input Functions
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("Escape"):
+		GlobalSignals.escape_key.emit()
+		
+func _on_escape_key_pressed() -> void:
+	if settings_menu.visible == false:
+		settings_menu.show()
 	else:
-		return false
+		settings_menu.hide()
 
 func process_turn():
-	end_of_turn_prompt.show()
+	end_of_turn_prompt_2d.show()
 	Util.end_of_turn = false
 
+#Van Direction Functions
 func set_van_direction_index():
 	match current_van_direction:
 		"NORTH":
@@ -139,69 +141,7 @@ func set_van_direction_string():
 		3:
 			current_van_direction = "WEST"
 
-# JSON functions
-func load_card_data():
-	var json_data = Util.load_json_data_from_path()
-	if json_data != null:
-		var cards = json_data.get("Att_Cards_Import")
-		if cards != null:
-			for i in range(0, cards.size()):
-				var card_id = str(i)
-				if cards.has(card_id):
-					all_cards[card_id] = parse_card_data_from_json(i, cards[card_id])
-	Util.all_cards = all_cards
-
-func parse_card_data_from_json(id, json_data : Dictionary):
-	#Creates dictionary to hold at card attributes
-	var card_attributes = {}
-	# Extract all attribute data from json
-	card_attributes["ID"] = id
-	
-	card_attributes["CARD_TYPE"] = json_data.get("CARD_TYPE")
-	card_attributes["ATTRIBUTE_TYPE"] = json_data.get("ATTRIBUTE_TYPE")
-	card_attributes["VALUE"] = json_data.get("VALUE")
-	card_attributes["DESCRIPTION_HEADING"] = json_data.get("DESCRIPTION_HEADING")
-	card_attributes["DESCRIPTION_SUBHEADING"] = json_data.get("DESCRIPTION_SUBHEADING")
-	card_attributes["STORM_EFFECT"] = json_data.get("STORM_EFFECT")
-	card_attributes["CARD_ICON"] = json_data.get("CARD_ICON")
-	
-	return card_attributes
-
-func get_attr_by_id(card_id: String) -> Attribute:
-	var card = get_card_by_id(card_id)
-	var type = card.get("ATTRIBUTE_TYPE")
-	var value = card.get("VALUE")
-	var new_attr = Attribute.new()
-	new_attr.set_attribute(type, value)
-	return new_attr
-	
-func get_card_by_id(card_id: String) -> Dictionary:
-	if all_cards.has(card_id):
-		return all_cards[card_id]
-	else:
-		print("CARD ID NOT FOUND")
-		return {}
-
-# Load cards available_cards version
-func load_cards():
-		if available_cards.size() > 6:
-			available_cards.resize(6)
-		for card_id in available_cards:
-			var slot = Util.card_slot.instantiate()
-			grid_container.add_child(slot)
-			if all_cards.has(card_id):
-				slot.set_card(all_cards[card_id])
-				cur_deck_size += 1
-				slot.pressed.connect(_on_pressed.bind(card_id))
-				if queue_size == max_queue_size and !nullify_set:
-					nullify_set = true
-					slot.toggle_nullify(nullify_set)
-				elif queue_size < max_queue_size and nullify_set:
-					nullify_set = false
-					slot.toggle_nullify(nullify_set)
-			else:
-				slot.set_empty()
-
+# Attribute/Action deck/hand functions
 func set_turn_hand():
 	available_cards.clear()
 	if current_deck != null:
@@ -296,6 +236,7 @@ func reset_attr_labels():
 	cur_flood_attr.text = "flood: " + str(flood_attr)
 	cur_wind_attr.text = "wind: " + str(wind_attr)
 
+# Movement and Action Queue/UI Functions
 func update_movement_queue():
 	var slot = 0
 	for card_id in current_movement_queue:
@@ -316,6 +257,16 @@ func update_movement_queue():
 					movement_queue_item_3 = card_data
 			slot += 1
 
+func add_movement(card_id : String):
+	if moves_selected < max_move_queue_size:
+		AudioManager.ui_click.play()
+		current_movement_queue.append(card_id)
+		build_preview_directions()
+		moves_selected += 1
+		clear_movement_queue_window()
+		update_movement_queue()
+		movement_queued.emit()
+
 func highlight_active_slot(slot : int):
 	move_1.set_default_border_color()
 	move_2.set_default_border_color()
@@ -328,7 +279,6 @@ func highlight_active_slot(slot : int):
 		2:
 			move_3.set_active_border_color()
 
-
 func _on_reset_queue_pressed() -> void:
 	available_cards.append_array(current_queue)
 	clear_grid_container()
@@ -338,6 +288,7 @@ func _on_reset_queue_pressed() -> void:
 	clear_queue_window()
 
 func _on_pressed(card_id: String):
+	# Activated when any icons (movement/attribute) are clicked
 	if current_queue.has(card_id):
 		AudioManager.ui_cancel.play()
 		#remove from queue
@@ -366,16 +317,7 @@ func _on_pressed(card_id: String):
 			else:
 				print("Action Queue Full")
 
-func _on_move_pressed() -> void:
-	if !check_if_3d():
-		status_log_label.update_text("[PREVIEWING AUTODRIVE PATH]")
-	if moves_selected > 0:
-		AudioManager.ui_preview.play()
-		build_preview_directions()
-		for d in DirectionList.previewer_directions:
-			status_log_label.update_text("Direction: " + str(d.move_direction) + " | Amount: " + str(d.move_amount))
-		round_initiated.emit()
-		
+# Preview Path button functions - remove/relocate code
 func build_preview_directions():
 	var result = MovementPlanner.build_preview_directions(current_movement_queue, current_van_direction, Util.all_cards)
 	DirectionList.previewer_directions.clear()
@@ -383,7 +325,8 @@ func build_preview_directions():
 	for d in DirectionList.previewer_directions:
 		print("Direction:", d.move_direction, "| Amount:", d.move_amount)
 
-func _on_van_button_pressed() -> void:
+# Rollout Button
+func _on_rollout_button_pressed() -> void:
 	AudioManager.ui_rollout.play()
 	var result = MovementPlanner.build_directions(current_movement_queue, current_van_direction, Util.all_cards)
 	
@@ -402,8 +345,10 @@ func _on_van_button_pressed() -> void:
 	if AudioManager.music_execute_1.playing == false and AudioManager.music_execute_2.playing == false and AudioManager.music_execute_3.playing == false:
 		AudioManager.switch_to_execute_music()
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://scenes/level.tscn")
+	#get_tree().change_scene_to_file("res://scenes/level.tscn")
+	round_initiated.emit()
 	
+# Map/grid Interaction Functions
 func get_storm_locs():
 	var storms_array = []
 	var container = city_grid.storms_container
@@ -413,7 +358,29 @@ func get_storm_locs():
 		storms_array.append(loc)
 	GlobalLocations.cur_storm_count = storms_array.size()
 	GlobalLocations.storm_locs = storms_array
+	
+func set_integrity(new_int : int):
+	match new_int:
+		0:
+			integrity_num.text = "0%"
+		1:
+			integrity_num.text = "33%"
+		2:
+			integrity_num.text = "66%"
+		3:
+			integrity_num.text = "100%"
 
+func collect_sensor():
+	GlobalLocations.sensors_collected += 1
+	cur_sensors = GlobalLocations.sensors_collected
+	sensors_num.text = str(cur_sensors)
+	AudioManager.sfx_sensor_pickup.play()
+	await AudioManager.sfx_sensor_pickup.finished
+	AudioManager.sfx_sensor_collected.play()
+	await get_tree().create_timer(5.0).timeout
+	AudioManager.sfx_sensor_collected.stop()
+
+# Button/UI Click Functions
 func _on_reset_moves_pressed() -> void:
 	AudioManager.ui_reset.play()
 	current_movement_queue.clear()
@@ -442,16 +409,7 @@ func _on_turn_around_pressed() -> void:
 func _on_turn_right_pressed() -> void:
 	add_movement("16")
 
-func add_movement(card_id : String):
-	if moves_selected < max_move_queue_size:
-		AudioManager.ui_click.play()
-		current_movement_queue.append(card_id)
-		build_preview_directions()
-		moves_selected += 1
-		clear_movement_queue_window()
-		update_movement_queue()
-		movement_queued.emit()
-
+# End of Turn button functions
 func _on_end_of_turn_button_pressed() -> void:
 	available_cards = []
 	clear_grid_container()
@@ -460,41 +418,71 @@ func _on_end_of_turn_button_pressed() -> void:
 	reset_movement_queue.emit()
 	_on_reset_queue_pressed()
 	_on_reset_moves_pressed()
-
 	end_of_turn_prompt_2d.hide()
-
-func set_integrity(new_int : int):
-	match new_int:
-		0:
-			integrity_num.text = "0%"
-		1:
-			integrity_num.text = "33%"
-		2:
-			integrity_num.text = "66%"
-		3:
-			integrity_num.text = "100%"
-
-func collect_sensor():
-	GlobalLocations.sensors_collected += 1
-	cur_sensors = GlobalLocations.sensors_collected
-	sensors_num.text = str(cur_sensors)
-	AudioManager.sfx_sensor_pickup.play()
-	await AudioManager.sfx_sensor_pickup.finished
-	AudioManager.sfx_sensor_collected.play()
-	await get_tree().create_timer(5.0).timeout
-	AudioManager.sfx_sensor_collected.stop()
 
 func _on_extraction_button_pressed() -> void:
 	extraction.emit()
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("Escape"):
-		GlobalSignals.escape_key.emit()
+# JSON STUFF
+# JSON functions
+func load_card_data():
+	var json_data = Util.load_json_data_from_path()
+	if json_data != null:
+		var cards = json_data.get("Att_Cards_Import")
+		if cards != null:
+			for i in range(0, cards.size()):
+				var card_id = str(i)
+				if cards.has(card_id):
+					all_cards[card_id] = parse_card_data_from_json(i, cards[card_id])
+	Util.all_cards = all_cards
 
-func _on_escape_key_pressed() -> void:
-	print("Escape pressed")
-	if !check_if_3d():
-		if settings_menu.visible == false:
-			settings_menu.show()
-		else:
-			settings_menu.hide()
+func parse_card_data_from_json(id, json_data : Dictionary):
+	#Creates dictionary to hold at card attributes
+	var card_attributes = {}
+	# Extract all attribute data from json
+	card_attributes["ID"] = id
+	
+	card_attributes["CARD_TYPE"] = json_data.get("CARD_TYPE")
+	card_attributes["ATTRIBUTE_TYPE"] = json_data.get("ATTRIBUTE_TYPE")
+	card_attributes["VALUE"] = json_data.get("VALUE")
+	card_attributes["DESCRIPTION_HEADING"] = json_data.get("DESCRIPTION_HEADING")
+	card_attributes["DESCRIPTION_SUBHEADING"] = json_data.get("DESCRIPTION_SUBHEADING")
+	card_attributes["STORM_EFFECT"] = json_data.get("STORM_EFFECT")
+	card_attributes["CARD_ICON"] = json_data.get("CARD_ICON")
+	
+	return card_attributes
+
+func get_attr_by_id(card_id: String) -> Attribute:
+	var card = get_card_by_id(card_id)
+	var type = card.get("ATTRIBUTE_TYPE")
+	var value = card.get("VALUE")
+	var new_attr = Attribute.new()
+	new_attr.set_attribute(type, value)
+	return new_attr
+	
+func get_card_by_id(card_id: String) -> Dictionary:
+	if all_cards.has(card_id):
+		return all_cards[card_id]
+	else:
+		print("CARD ID NOT FOUND")
+		return {}
+
+# Load cards available_cards version
+func load_cards():
+		if available_cards.size() > 6:
+			available_cards.resize(6)
+		for card_id in available_cards:
+			var slot = Util.card_slot.instantiate()
+			grid_container.add_child(slot)
+			if all_cards.has(card_id):
+				slot.set_card(all_cards[card_id])
+				cur_deck_size += 1
+				slot.pressed.connect(_on_pressed.bind(card_id))
+				if queue_size == max_queue_size and !nullify_set:
+					nullify_set = true
+					slot.toggle_nullify(nullify_set)
+				elif queue_size < max_queue_size and nullify_set:
+					nullify_set = false
+					slot.toggle_nullify(nullify_set)
+			else:
+				slot.set_empty()

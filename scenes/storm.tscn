@@ -44,6 +44,45 @@ _data = {
 &"zone_dropped": SubResource("Animation_e674d")
 }
 
+[sub_resource type="Animation" id="Animation_qgu8t"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.3529412)]
+}
+
+[sub_resource type="Animation" id="Animation_qbh0h"]
+resource_name = "storm_blink"
+length = 2.0
+loop_mode = 1
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.3529412), Color(1, 1, 1, 0.03529412), Color(1, 1, 1, 0.3529412)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fgntl"]
+_data = {
+&"RESET": SubResource("Animation_qgu8t"),
+&"storm_blink": SubResource("Animation_qbh0h")
+}
+
 [node name="Storm" type="Node2D" unique_id=1617278582]
 process_mode = 1
 script = ExtResource("1_dl58t")
@@ -76,3 +115,8 @@ horizontal_alignment = 1
 
 [node name="LabelAnim" type="AnimationPlayer" parent="." unique_id=1443111841]
 libraries/ = SubResource("AnimationLibrary_qgu8t")
+
+[node name="Stormflash" type="AnimationPlayer" parent="." unique_id=1947944955]
+process_mode = 3
+libraries/ = SubResource("AnimationLibrary_fgntl")
+autoplay = &"storm_blink"
