@@ -115,6 +115,12 @@ func process_turn():
 	end_of_turn_prompt_2d.show()
 	Util.end_of_turn = false
 
+func set_turn():
+	if GlobalLocations.van_global_dir != "":
+		current_van_direction = GlobalLocations.van_global_dir
+	set_van_direction_index()
+	set_van_direction_string()
+
 #Van Direction Functions
 func set_van_direction_index():
 	match current_van_direction:
@@ -222,6 +228,12 @@ func update_queue():
 					update_cur_attr(queue_item_3)
 			slot += 1
 
+func check_required_moves_attrs():
+	if queue_size == 3 and moves_selected == 3:
+		rollout_button.disabled = false
+	else:
+		rollout_button.disabled = true
+
 func update_cur_attr(attr : Attribute):
 	if attr.spawns_fire:
 		fire_attr += attr.attr_value
@@ -266,6 +278,7 @@ func add_movement(card_id : String):
 		clear_movement_queue_window()
 		update_movement_queue()
 		movement_queued.emit()
+		check_required_moves_attrs()
 
 func highlight_active_slot(slot : int):
 	move_1.set_default_border_color()
@@ -300,6 +313,7 @@ func _on_pressed(card_id: String):
 			_on_deck_updated()
 			clear_queue_window()
 			update_queue()
+			check_required_moves_attrs()
 	else:
 		AudioManager.ui_storm.play()
 		if card_id != "":
@@ -314,6 +328,7 @@ func _on_pressed(card_id: String):
 				clear_queue_window()
 				update_queue()
 				attribute_queued.emit(card_id)
+				check_required_moves_attrs()
 			else:
 				print("Action Queue Full")
 

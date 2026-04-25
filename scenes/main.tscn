@@ -186,7 +186,7 @@ text = "Solar"
 
 [node name="Starburst" type="Button" parent="Menus/Control/Margin/MainMenu/LevelSelect/Margin/VBoxContainer/LevelContainer" unique_id=406968967]
 layout_mode = 2
-text = "Maze"
+text = "Starburst"
 
 [node name="SettingsMenu" parent="Menus/Control/Margin" unique_id=2061315302 instance=ExtResource("2_0wfyh")]
 visible = false

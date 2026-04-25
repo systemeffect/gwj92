@@ -160,7 +160,8 @@ func set_turn():
 	status_log_label.text = GlobalLocations.status_log
 	get_obstacle_coords()
 	set_sensors()
-	sensors_collected = GlobalLocations.sensors_collected
+	if GlobalLocations.van_global_dir != "":
+		animated_sprite_2d.animation = GlobalLocations.van_global_dir
 
 func check_end_of_movement():
 	if !van.is_currently_moving:
@@ -178,6 +179,7 @@ func update_map_interface():
 	GlobalLocations.current_turn += 1
 	current_turn = GlobalLocations.current_turn
 	set_turn()
+	actions_ui.set_turn()
 
 func load_fires_floods(fires : Array, floods : Array):
 	for fire in fires:
@@ -488,7 +490,7 @@ func _on_preview_cont_area_entered(area: Area2D) -> void:
 
 func set_sensors():
 	if current_turn > 1:
-		sensors_collected = GlobalLocations.sensors_collected
+		get_sensors()
 		var sensor_locs = GlobalLocations.sensor_locs
 		var cur_sensor_locs = status_effects.get_used_cells_by_id(0,Vector2(4,0))
 		for loc in sensor_locs:
@@ -497,13 +499,20 @@ func set_sensors():
 		for loc in cur_sensor_locs:
 			status_effects.set_cell(loc,0,Vector2(1,0))
 
+func get_sensors():
+	var sensor_array = status_effects.get_used_cells_by_id(0,Vector2(4,0))
+	GlobalLocations.sensor_locs = sensor_array
+	var level_sensors = sensors_total
+	var sens_col = level_sensors - sensor_array.size()
+	GlobalLocations.sensors_collected = sens_col
+
 func reset_preview_van() -> void:
 	van.global_position = van_start_pos
 	van.target_loc_x = van.global_position.x
 	van.target_loc_y = van.global_position.y
 	van.current_axis = ""
 	van.is_turning = false
-	van.turn_direction = "none"
+	#van.turn_direction = "none"
 	van.is_currently_moving = false
 	animated_sprite_2d.animation = van_starting_anim
 	
