@@ -26,8 +26,7 @@ func _ready() -> void:
 	sprite.rotation = rand_rot
 	
 func _process(delta: float) -> void:
-	var parent = find_parent("Level")
-	if parent != null:
+	if !Util.planning_stage:
 		self.position += direction * storm_speed * delta
 		variance = randf_range(-0.1, 0.1)
 		direction = direction.rotated(variance)

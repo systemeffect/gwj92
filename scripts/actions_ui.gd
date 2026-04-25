@@ -433,6 +433,7 @@ func _on_end_of_turn_button_pressed() -> void:
 	reset_movement_queue.emit()
 	_on_reset_queue_pressed()
 	_on_reset_moves_pressed()
+	Util.planning_stage = true
 	end_of_turn_prompt_2d.hide()
 
 func _on_extraction_button_pressed() -> void:

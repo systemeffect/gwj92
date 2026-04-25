@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://bojxqgn6egir2" path="res://assets/icons/van_n.png" id="15_sfpv4"]
 [ext_resource type="Texture2D" uid="uid://6mcml5tnpo76" path="res://assets/icons/van_s.png" id="16_yfq0c"]
 [ext_resource type="Texture2D" uid="uid://btva544pi4cs1" path="res://assets/icons/van_w.png" id="17_wxiws"]
+[ext_resource type="FontFile" uid="uid://cajq783h3yufy" path="res://assets/fonts/Blue Screen Personal Use.ttf" id="20_sfpv4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vex6x"]
 shader = ExtResource("3_m87nk")
@@ -136,6 +137,81 @@ tracks/0/keys = {
 _data = {
 &"RESET": SubResource("Animation_fshaw"),
 &"collect_sensor": SubResource("Animation_cfcxg")
+}
+
+[sub_resource type="Animation" id="Animation_yfq0c"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.2617994]
+}
+
+[sub_resource type="Animation" id="Animation_wxiws"]
+resource_name = "shake"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.2617994, 0.0, -0.2617994, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lcfi4"]
+_data = {
+&"RESET": SubResource("Animation_yfq0c"),
+&"shake": SubResource("Animation_wxiws")
+}
+
+[sub_resource type="Animation" id="Animation_ss1pu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../StormsContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_sfpv4"]
+resource_name = "blink"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../StormsContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.039215688), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yfq0c"]
+_data = {
+&"RESET": SubResource("Animation_ss1pu"),
+&"blink": SubResource("Animation_sfpv4")
 }
 
 [node name="City_Grid" type="Node2D" unique_id=81070115]
@@ -309,6 +385,7 @@ visible = false
 texture = SubResource("AtlasTexture_weyc0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Van" unique_id=2043017186]
+rotation = 0.2617994
 scale = Vector2(0.9999998, 0.99999976)
 sprite_frames = SubResource("SpriteFrames_ss1pu")
 animation = &"EAST"
@@ -335,6 +412,21 @@ text = "+1"
 
 [node name="CollectAnimate" type="AnimationPlayer" parent="Van" unique_id=1289461030]
 libraries/ = SubResource("AnimationLibrary_vex6x")
+
+[node name="WindShake" type="AnimationPlayer" parent="Van" unique_id=178297472]
+libraries/ = SubResource("AnimationLibrary_lcfi4")
+
+[node name="WindLabel" type="Label" parent="Van" unique_id=1844401813]
+visible = false
+offset_left = -45.0
+offset_top = -14.0
+offset_right = 45.0
+offset_bottom = 9.0
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("20_sfpv4")
+theme_override_font_sizes/font_size = 10
+text = "Winds Push the STORMRUN-R"
+horizontal_alignment = 1
 
 [node name="StormsContainer" type="Node2D" parent="." unique_id=84711386]
 process_mode = 1
@@ -374,6 +466,11 @@ origin_pos = Vector2(370, 374)
 [node name="Storm9" parent="StormsContainer" unique_id=1117534779 instance=ExtResource("2_yiybu")]
 position = Vector2(35.92093, 37.089844)
 origin_pos = Vector2(36, 36)
+
+[node name="StormBlink" type="AnimationPlayer" parent="." unique_id=510982985]
+root_node = NodePath("../WindTimer")
+libraries/ = SubResource("AnimationLibrary_yfq0c")
+autoplay = &"blink"
 
 [node name="WindTimer" type="Timer" parent="." unique_id=801378152]
 process_callback = 0

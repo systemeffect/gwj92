@@ -11,6 +11,9 @@ signal route_finished
 @onready var area_2d: Area2D = $Area2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
+@onready var wind_shake: AnimationPlayer = $WindShake
+@onready var wind_label: Label = $WindLabel
+
 # Match these to TileMapLayer grid size
 const TILE_SIZE: Vector2 = Vector2(32, 32)
 const MOVE_UNIT: int = 32
@@ -26,6 +29,8 @@ var is_currently_moving: bool = false
 var has_started_run: bool = false
 var direction_copy = DirectionList.directions
 var integrity : int = 3
+
+var is_wind_push : bool = false
 
 @export var TURN_DURATION: float = 2
 
@@ -92,11 +97,40 @@ func _physics_process(delta: float) -> void:
 	else:
 		is_currently_moving = false
 		
+	if is_wind_push:
+		VAN_SPEED = 24.0
+		
+		if current_axis == "x":
+			is_currently_moving = true
+			pos.x = move_toward(pos.x, target_loc_x, VAN_SPEED * delta)
+			is_moving.emit()
+			
+			if abs(pos.x - target_loc_x) < 0.5:
+				pos.x = target_loc_x
+				current_axis = ""
+				is_currently_moving = false
+				is_not_moving.emit()
+				
+		elif current_axis == "y":
+			is_currently_moving = true
+			pos.y = move_toward(pos.y, target_loc_y, VAN_SPEED * delta)
+			is_moving.emit()
+			
+			if abs(pos.y - target_loc_y) < 0.5:
+				pos.y = target_loc_y
+				current_axis = ""
+				is_currently_moving = false
+				is_not_moving.emit()
+		else:
+			is_currently_moving = false
+		
+		
 	global_position = pos
 	GlobalLocations.van_global_loc = pos
 
 func move(dir: String, amt: int) -> void:
-	animated_sprite_2d.animation = dir
+	if !is_wind_push:
+		animated_sprite_2d.animation = dir
 	if dir == "WEST":
 		target_loc_x = global_position.x - (amt * MOVE_UNIT)
 		target_loc_y = global_position.y
@@ -223,9 +257,24 @@ func rollout_initiated() -> void:
 			var next_turn = get_turn_type(current_dir, next_dir)
 			if next_turn != "straight" and next_turn != "none":
 				await do_turn(next_turn)
-				
+	wind_push()
+	
+	target_loc_x = global_position.x
+	target_loc_y = global_position.y
+
+func wind_push():
+	wind_label.show()
+	if Util.wind_push != null:
+		await get_tree().create_timer(1.0).timeout
+		is_wind_push = true
+		var dir = Util.wind_push.move_direction
+		var amt = Util.wind_push.move_amount
+		move(dir, amt)
+		await is_not_moving
+		is_wind_push = false
+	wind_label.hide()
 	route_finished.emit()
-				
+
 func take_damage() -> int:
 	integrity -= 1
 	return integrity

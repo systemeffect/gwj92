@@ -24,6 +24,8 @@ var card_manager_path : String = "res://data/gwj92 - Card Brewing.json"
 var end_of_turn : bool = false
 var wind_push : Direction
 
+var planning_stage : bool
+
 # Load JSON Data
 func load_json_data_from_path():
 	var file_string = FileAccess.get_file_as_string(card_manager_path)

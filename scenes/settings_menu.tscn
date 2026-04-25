@@ -108,7 +108,12 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "Back"
 
+[node name="MainMenuButton" type="Button" parent="Panel/Margin/VBoxContainer" unique_id=2020987317]
+layout_mode = 2
+text = "Main Menu"
+
 [connection signal="value_changed" from="Panel/Margin/VBoxContainer/MasterVolSlider" to="." method="_on_master_vol_slider_value_changed"]
 [connection signal="value_changed" from="Panel/Margin/VBoxContainer/MusicVolSlider" to="." method="_on_music_vol_slider_value_changed"]
 [connection signal="value_changed" from="Panel/Margin/VBoxContainer/SFXVolSlider" to="." method="_on_sfx_vol_slider_value_changed"]
 [connection signal="pressed" from="Panel/Margin/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="Panel/Margin/VBoxContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]

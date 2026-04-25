@@ -77,10 +77,11 @@ func _ready() -> void:
 	actions_ui.attribute_unqueued.connect(_on_attribute_unqueued)
 	status_effects.update_status_log.connect(_on_update_status_log)
 	status_effects.load_storms.connect(set_level_storms)
-	#van.is_moving.connect(_on_van_is_moving)
+	van.route_finished.connect(eot_wind_push)
 	van.is_not_moving.connect(_on_van_is_not_moving)
 	van.move_initiated.connect(_on_move_initiated)
 	
+	Util.planning_stage = true
 	if GlobalLocations.current_turn < 1:
 		var index = Util.current_level_index
 		status_effects.set_level(index)
@@ -179,6 +180,8 @@ func update_map_interface():
 	GlobalLocations.current_turn += 1
 	current_turn = GlobalLocations.current_turn
 	set_turn()
+	reset_wind_preview()
+	preview_wind_push()
 	actions_ui.set_turn()
 
 func load_fires_floods(fires : Array, floods : Array):
@@ -288,6 +291,14 @@ func reset_wind_preview():
 	wind_preview.clear_points()
 	wind_preview_start = Vector2(0,0)
 	wind_preview_end = Vector2(0,0)
+	wind_push = null
+
+func eot_wind_push():
+	_on_van_is_not_moving()
+	van_position = van.global_position
+	GlobalLocations.van_global_loc = van_position
+	GlobalLocations.van_grid_loc = van_grid_coords
+	van.position = status_effects.map_to_local(van_grid_coords)
 
 func clear_collider_container():
 	while preview_cont.get_child_count() > 0:
@@ -322,6 +333,8 @@ func _on_round_initiated():
 			#print("card is null")
 	end_of_turn = true
 	turn_num.text = str(current_turn)
+	Util.planning_stage = false
+	Util.wind_push = wind_push
 	van.rollout_initiated()
 
 func set_wind_direction(dir : Direction):

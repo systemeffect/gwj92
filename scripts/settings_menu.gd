@@ -22,3 +22,8 @@ func _on_music_vol_slider_value_changed(value: float) -> void:
 	
 func _on_sfx_vol_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("SFX"), value)
+
+
+func _on_main_menu_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/main.tscn")
+	pass # Replace with function body.

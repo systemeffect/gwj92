@@ -39,11 +39,13 @@ func _on_mouse_button_entered() -> void:
 	pass
 
 func _on_start_button_pressed() -> void:
-	if !has_tutorial_played:
-		tutorial.show()
-		has_tutorial_played = true
-	else:
-		get_tree().change_scene_to_packed(first_level)
+	#if !has_tutorial_played:
+		#tutorial.show()
+		#has_tutorial_played = true
+	#else:
+		#get_tree().change_scene_to_packed(first_level)
+	Util.current_level_index = 1
+	get_tree().change_scene_to_packed(first_level)
 
 
 func _on_settings_button_pressed() -> void:

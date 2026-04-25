@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dr1fkkxrcaqlt" path="res://scripts/tutorial.gd" id="1_6yjpi"]
 [ext_resource type="Texture2D" uid="uid://bm0s3qrnefwtv" path="res://assets/tutorial.png" id="1_8ho6b"]
+[ext_resource type="PackedScene" uid="uid://eiyf1po3apii" path="res://scenes/level.tscn" id="2_ckvwl"]
 [ext_resource type="Shader" uid="uid://36rw4b0v4k5g" path="res://shaders/vhs.gdshader" id="2_ph3nu"]
 [ext_resource type="Texture2D" uid="uid://cm3oha8nmsuic" path="res://assets/tutorial5.png" id="3_ckvwl"]
 [ext_resource type="Texture2D" uid="uid://mtp1o3vtxagh" path="res://assets/tutorial2.png" id="3_gbqnl"]
@@ -29,6 +30,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6yjpi")
+first_level = ExtResource("2_ckvwl")
 
 [node name="Tut1" type="TextureRect" parent="." unique_id=1338078198]
 layout_mode = 1
